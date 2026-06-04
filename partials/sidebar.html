@@ -1,0 +1,25 @@
+<aside class="sidebar">
+    <div class="sidebar-header" style="justify-content: center;">
+        <img src="img/logo.png" alt="e-Farma SUS Logo" style="max-height: 90px; width: auto; object-fit: contain;">
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="home-screen.html"><i class="fa-solid fa-home"></i> Tela Inicial</a></li>
+            <li><a href="patient.html"><i class="fa-solid fa-user-friends"></i> Pacientes</a></li>
+            <li><a href="dashboard.html"><i class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
+            <li><a href="estoque.html"><i class="fa-solid fa-boxes-stacked"></i> Estoque Geral</a></li>
+            <li><a href="inventory-list.html"><i class="fa-solid fa-file-medical"></i> Inventário Total</a></li>
+            <li id="sidebarFuncLi"><a href="funcionarios.html"><i class="fa-solid fa-user-shield"></i> Funcionários</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="/login.html" class="logout-btn" onclick="localStorage.clear()">
+            <i class="fa-solid fa-sign-out-alt"></i> Sair do Sistema
+        </a>
+    </div>
+</aside>
+
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>

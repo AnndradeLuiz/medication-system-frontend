@@ -1,0 +1,116 @@
+[
+    {
+        "name": "Água Sanitária",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Copo Descartável 180 mL",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Desinfetante",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Desodorizador de Ar",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Desodorizador em Pedra",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Detergente Líquido",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Esponja Dupla Face",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Pano de Chão",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Papel Higiênico",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Sabão em Barra",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Sabão em Pó",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Saco de Lixo 100 Litros",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Saco de Lixo 60 Litros",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Saco de Lixo 40 Litros",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Saco de Lixo 20 Litros",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Soda Cáustica",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Vassoura",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Inseticida",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Rodo",
+        "type": "FACILITY",
+        "unit": "",
+        "lots": []
+    }
+]

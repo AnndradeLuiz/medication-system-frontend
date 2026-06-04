@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDMI - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/global-tokens.css">
+    <link rel="stylesheet" href="css/login-style.css">
+    <link rel="icon" href="img/logo-unica-sem-fundo.png">
+</head>
+
+<body>
+    <div class="split-layout">
+        <!-- Lado esquerdo: Formulário -->
+        <div class="login-left">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header" style="text-align: center; margin-bottom: 10px;">
+                        <img src="img/logo.svg" alt="e-Farma SUS Logo"
+                            style="max-height: 110px; max-width: 100%; object-fit: contain; margin-top: -25px; margin-bottom: 20px;">
+                        <p style="margin-top: -25px; font-size: 0.9em; line-height: 1.2;">Sistema de Gerenciamento e Dispensação
+                            de
+                            Medicamentos e Insumos</p>
+                    </div>
+
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <label for="loginDocument">CPF ou Matrícula</label>
+                            <input type="text" id="loginDocument" placeholder="Digite seu acesso..." required
+                                autocomplete="off">
+                            <small id="loginHint">Apenas números para CPF, ou letras/números para Matrícula.</small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="password">Senha</label>
+                            <input type="password" id="password" placeholder="Sua senha secreta" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Entrar no Sistema</button>
+                    </form>
+
+                    <div id="errorMessage" class="error-message d-none">
+                        Credenciais inválidas. Tente novamente.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lado direito: Imagem e Informações -->
+        <div class="login-right">
+        </div>
+    </div>
+
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/login-script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+[
+    {
+        "name": "Abaixador de Língua",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Agulha 13 x 4,5",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Agulha 25 x 7",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Agulha 30 x 8",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Agulha 20 x 5,5",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Agulha 25 x 6",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Álcool Etílico 70%",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Algodão Hidrofílico",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Aparelho para Tricotomia",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Atadura de Crepe 10 cm",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Atadura de Crepe 15 cm",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Cateter Intravenoso (Jelco) nº 20",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Cateter Intravenoso (Jelco) nº 22",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Cateter Intravenoso (Jelco) nº 24",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Compressa de Gaze",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Compressa de Gaze tipo Queijo",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Equipo Macrogotas",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Equipo Microgotas",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Esparadrapo",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fio Catigut 3-0",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fio Mononylon 2-0",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fio Mononylon 3-0",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fio Mononylon 4-0",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fio Mononylon 5-0",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fita de Glicemia",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fita Autoclave",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Lancetas",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Lâmina de Bisturi nº 15",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Lâmina de Bisturi nº 23",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Luva Cirúrgica Estéril nº 7,5",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Luva Cirúrgica Estéril nº 8,0",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Luva de Procedimento G",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Luva de Procedimento M",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Luva de Procedimento P",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Máscara Descartável c/ elástico",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Povidine Degermante",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Povidine Tópico",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Ringer com Lactato",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Seringa 20 mL",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Seringa 10 mL",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Seringa 5 mL",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Seringa 3 mL",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Seringa para Insulina",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Soro Fisiológico",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Soro Glicosado",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Scalp nº 21",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Scalp nº 23",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Scalp nº 25",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Fixador de Células 100 mL ou 200 mL",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Kit Papanicolau P",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Kit Papanicolau M",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Kit Papanicolau G",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Lençol Descartável de Papel em Rolo",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Preservativo Feminino - Unidade",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Preservativo Masculino - Unidade",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Gel Condutor",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Teste Rápido de Gravidez",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    },
+    {
+        "name": "Teste Rápido de Proteinúria",
+        "type": "MEDICAL",
+        "unit": "",
+        "lots": []
+    }
+]
