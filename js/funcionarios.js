@@ -77,7 +77,8 @@ function renderEmployeeTable(list) {
             ENF_GERENTE: 'Enf. Gerente',
             TEC_ENFERMAGEM: 'Téc. Enfermagem',
             FARMACEUTICO: 'Farmacêutico',
-            ADMINISTRATIVO: 'Administrativo'
+            ADMINISTRATIVO: 'Administrativo',
+            ACS: 'ACS'
         }[emp.role] || emp.role;
 
         const statusHtml = emp.status
@@ -164,6 +165,15 @@ async function saveNewEmployee() {
     const role         = document.getElementById('newEmpRole').value;
     const status       = true; // Novos funcionários sempre ativos por padrão
 
+    let microarea = null;
+    if (role === 'ACS') {
+        microarea = document.getElementById('newEmpMicroarea').value;
+        if (!microarea) {
+            showToast('Erro: A microárea é obrigatória para o cargo ACS.', 'error');
+            return;
+        }
+    }
+
     if (!rawName || !cpf || !password || !role) {
         showToast('Erro: Todos os campos (exceto Matrícula) são obrigatórios.', 'error');
         return;
@@ -197,7 +207,7 @@ async function saveNewEmployee() {
         return;
     }
 
-    const payload = { name, registration, cpf: normalizedCpf, password, role, status };
+    const payload = { name, registration, cpf: normalizedCpf, password, role, status, microarea: microarea ? parseInt(microarea) : null };
 
     setLoading('btnSaveNewEmployee', true);
     try {
@@ -215,6 +225,8 @@ async function saveNewEmployee() {
             document.getElementById('newEmpCpf').value = '';
             document.getElementById('newEmpPassword').value = '';
             document.getElementById('newEmpRole').value = 'TEC_ENFERMAGEM';
+            document.getElementById('newEmpMicroareaGroup').style.display = 'none';
+            document.getElementById('newEmpMicroarea').value = '';
             loadEmployees();
             switchTab('tab-lista', document.querySelector('.tab'));
         } else {
@@ -250,6 +262,14 @@ function openEditModal(id) {
     document.getElementById('editEmpRole').value = emp.role;
     document.getElementById('editEmpStatus').checked = (emp.status === true);
 
+    if (emp.role === 'ACS') {
+        document.getElementById('editEmpMicroareaGroup').style.display = 'block';
+        document.getElementById('editEmpMicroarea').value = emp.microarea || '';
+    } else {
+        document.getElementById('editEmpMicroareaGroup').style.display = 'none';
+        document.getElementById('editEmpMicroarea').value = '';
+    }
+
     document.getElementById('editEmployeeModal').classList.add('active');
 }
 
@@ -267,6 +287,15 @@ async function saveEmployeeEdit() {
     const password     = document.getElementById('editEmpPassword').value;
     const role         = document.getElementById('editEmpRole').value;
     const status       = document.getElementById('editEmpStatus').checked;
+
+    let microarea = null;
+    if (role === 'ACS') {
+        microarea = document.getElementById('editEmpMicroarea').value;
+        if (!microarea) {
+            showToast('Erro: A microárea é obrigatória para o cargo ACS.', 'error');
+            return;
+        }
+    }
 
     // Ajustado para bater com seu EmployeeRequestDTO (name, cpf, registration, password, role, status)
     if (!rawName || !cpf || !role) {
@@ -303,7 +332,7 @@ async function saveEmployeeEdit() {
         return;
     }
 
-    const payload = { name, cpf: normalizedCpf, registration, role, status };
+    const payload = { name, cpf: normalizedCpf, registration, role, status, microarea: microarea ? parseInt(microarea) : null };
     if (password && password.trim() !== "") {
         payload.password = password;
     }
@@ -392,6 +421,20 @@ document.addEventListener('click', (e) => {
     if (e.target === deleteModal) closeDeleteConfirm();
 });
 
+function toggleMicroareaField(prefix) {
+    const role = document.getElementById(`${prefix}EmpRole`).value;
+    const group = document.getElementById(`${prefix}EmpMicroareaGroup`);
+    if (group) {
+        if (role === 'ACS') {
+            group.style.display = 'block';
+        } else {
+            group.style.display = 'none';
+            const select = document.getElementById(`${prefix}EmpMicroarea`);
+            if (select) select.value = '';
+        }
+    }
+}
+
 // Exportar globais
 window.loadEmployees        = loadEmployees;
 window.filterEmployeeTable  = filterEmployeeTable;
@@ -402,6 +445,7 @@ window.saveEmployeeEdit     = saveEmployeeEdit;
 window.deleteEmployee       = deleteEmployee;
 window.openDeleteConfirm    = openDeleteConfirm;
 window.closeDeleteConfirm   = closeDeleteConfirm;
+window.toggleMicroareaField = toggleMicroareaField;
 
 window.closeDeleteConfirm   = closeDeleteConfirm;
 

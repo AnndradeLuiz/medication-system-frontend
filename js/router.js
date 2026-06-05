@@ -6,6 +6,11 @@
  */
 
 function switchView(viewId, pushState = true) {
+    const userRole = localStorage.getItem('sgdm_userRole');
+    if (userRole && userRole.toUpperCase() === 'ACS' && viewId !== 'acs-restricted') {
+        switchView('acs-restricted', false);
+        return;
+    }
     console.log(`[SPA Router] Mudando para a visão: ${viewId}`);
     
     // 1. Ocultar todas as seções e mostrar apenas a ativa
@@ -117,6 +122,16 @@ function initSpaRouter() {
     
     // Tratamento de segurança para privilégios de Administrador
     const userRole = localStorage.getItem('sgdm_userRole');
+    if (userRole && userRole.toUpperCase() === 'ACS') {
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+        const mainContent = document.querySelector('.main-content');
+        if (sidebar) sidebar.style.display = 'none';
+        if (sidebarPlaceholder) sidebarPlaceholder.style.display = 'none';
+        if (mainContent) mainContent.style.margin = '16px';
+        switchView('acs-restricted', false);
+        return;
+    }
     if ((initialView === 'funcionarios' || initialView === 'audit') && !['ADM_TI', 'ENF_GERENTE'].includes(userRole)) {
         switchView('home-screen', false);
         return;
@@ -167,7 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'ENF_GERENTE': 'Enfermeiro(a) Gerente',
                 'TEC_ENFERMAGEM': 'Técnico(a) de Enfermagem',
                 'FARMACEUTICO': 'Farmacêutico',
-                'ADMINISTRATIVO': 'Administrativo'
+                'ADMINISTRATIVO': 'Administrativo',
+                'ACS': 'ACS'
             };
             displayRole = roleMap[employeeRoleRaw.toUpperCase()] ||
                 roleMap[employeeRoleRaw.toUpperCase()] ||

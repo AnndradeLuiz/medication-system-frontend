@@ -381,7 +381,7 @@ async function loadInventoryAlerts() {
             tbody.innerHTML += `
                 <tr ${rowStyle} style="border-bottom: 1px solid #e2e8f0; height: 50px;">
                     <td style="padding: 12px 8px; font-weight:500; vertical-align: middle;">${item.activeIngredient}</td>
-                    <td style="padding: 12px 8px; vertical-align: middle; color: #64748b;">${item.concentration}</td>
+                    <td style="padding: 12px 8px; text-align: center; vertical-align: middle; color: #64748b;">${item.concentration}</td>
                     <td style="padding: 12px 8px; text-align: center; font-family: monospace; vertical-align: middle; color: #475569;">${item.lotCode || '-'}</td>
                     <td style="padding: 12px 8px; text-align: center; font-weight:600; vertical-align: middle;">${item.quantity}</td>
                     <td style="padding: 12px 8px; text-align: center; vertical-align: middle; color: #475569;">${expDate}</td>
@@ -431,7 +431,7 @@ async function loadConsumptionProjection() {
             tbody.innerHTML += `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
                     <td style="padding: 10px 8px; font-weight:500;">${item.activeIngredient}</td>
-                    <td style="padding: 10px 8px;">${item.concentration}</td>
+                    <td style="padding: 10px 8px; text-align: center;">${item.concentration}</td>
                     <td style="padding: 10px 8px; text-align: center; font-weight:600;">${item.totalStock}</td>
                     <td style="padding: 10px 8px; text-align: center;">${item.cmm}</td>
                     <td style="padding: 10px 8px; text-align: center; font-weight:600;">${item.autonomyDays}</td>

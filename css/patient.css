@@ -647,6 +647,11 @@
     box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
+#newPatientAcsContainer select.form-select,
+#editPatientAcsContainer select.form-select {
+    height: 48px;
+}
+
 @media (max-width: 768px) {
     .filters-row {
         flex-direction: column;

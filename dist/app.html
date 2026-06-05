@@ -190,10 +190,10 @@
             border: 1px solid #e5e7eb;
         }
     </style>
-  <script type="module" crossorigin src="/medication-system-frontend/assets/app-DFI5PA8g.js"></script>
+  <script type="module" crossorigin src="/medication-system-frontend/assets/app-BX4reOQT.js"></script>
   <link rel="modulepreload" crossorigin href="/medication-system-frontend/assets/global-tokens-BrMjRbtd.js">
   <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/global-tokens-PEQnPYH7.css">
-  <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/app-DNfNyERi.css">
+  <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/app-CVvwNsdH.css">
 </head>
 
 <body class="theme-medicamentos ready">
@@ -526,9 +526,20 @@
                             </div>
                             <div class="form-row mt-10">
                                 <div class="form-group flex-1">
-                                    <label><i class="fa-solid fa-phone"></i> Contatos Telefônicos</label>
-                                    <input type="text" id="newPhones" placeholder="Ex: 910000000, 920000000">
-                                    <small class="text-muted fs-11">Separe múltiplos números com uma vírgula.</small>
+                                    <label><i class="fa-solid fa-phone"></i> Telefone 1 (Obrigatório)</label>
+                                    <input type="text" id="newPhone1" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Telefone 2 (Opcional)</label>
+                                    <input type="text" id="newPhone2" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Telefone 3 (Opcional)</label>
+                                    <input type="text" id="newPhone3" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Telefone 4 (Opcional)</label>
+                                    <input type="text" id="newPhone4" placeholder="(00) 00000-0000">
                                 </div>
                             </div>
 
@@ -543,6 +554,20 @@
                                             PACIENTE DE OUTRA UBS (EXTERNO)
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- Campo ACS e Microárea para Novo Paciente -->
+                            <div id="newPatientAcsContainer" class="form-row mt-15 mb-15">
+                                <div class="form-group flex-1">
+                                    <label for="newPatientAcs"><i class="fa-solid fa-user-nurse"></i> ACS Responsável</label>
+                                    <select id="newPatientAcs" class="form-select">
+                                        <option value="">Selecione o ACS...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="newPatientMicroarea"><i class="fa-solid fa-map-location-dot"></i> Microárea</label>
+                                    <input type="text" id="newPatientMicroarea" readonly class="form-control" style="background-color: #f1f5f9; cursor: not-allowed;" placeholder="Selecione um ACS">
                                 </div>
                             </div>
 
@@ -674,6 +699,10 @@
                                     <p>Contatos Telefônicos</p>
                                     <div id="viewPhones" class="info-value">-</div>
                                 </div>
+                                <div class="info-box" id="viewAcsBox">
+                                    <p>ACS Responsável</p>
+                                    <div id="viewAcs" class="info-value">-</div>
+                                </div>
                                 <div class="info-box">
                                     <p>Programas de Saúde</p>
                                     <div id="viewPrograms" class="info-value">-</div>
@@ -709,8 +738,20 @@
 
                             <div class="form-row mt-15">
                                 <div class="form-group flex-1">
-                                    <label><i class="fa-solid fa-phone"></i> Telefones (separados por vírgula)</label>
-                                    <input type="text" id="editPhones">
+                                    <label><i class="fa-solid fa-phone"></i> Telefone 1 (Obrigatório)</label>
+                                    <input type="text" id="editPhone1" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Telefone 2 (Opcional)</label>
+                                    <input type="text" id="editPhone2" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Telefone 3 (Opcional)</label>
+                                    <input type="text" id="editPhone3" placeholder="(00) 00000-0000">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Telefone 4 (Opcional)</label>
+                                    <input type="text" id="editPhone4" placeholder="(00) 00000-0000">
                                 </div>
                             </div>
 
@@ -737,6 +778,20 @@
                                             PACIENTE ATIVO NO SISTEMA
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- Campo ACS e Microárea para Edição -->
+                            <div id="editPatientAcsContainer" class="form-row mt-15 mb-15">
+                                <div class="form-group flex-1">
+                                    <label for="editPatientAcs"><i class="fa-solid fa-user-nurse"></i> ACS Responsável</label>
+                                    <select id="editPatientAcs" class="form-select">
+                                        <option value="">Selecione o ACS...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="editPatientMicroarea"><i class="fa-solid fa-map-location-dot"></i> Microárea</label>
+                                    <input type="text" id="editPatientMicroarea" readonly class="form-control" style="background-color: #f1f5f9; cursor: not-allowed;" placeholder="Selecione um ACS">
                                 </div>
                             </div>
 
@@ -1675,12 +1730,25 @@
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="fs-xs fw-700 text-muted">Cargo</label>
-                                    <select id="newEmpRole">
+                                    <select id="newEmpRole" onchange="toggleMicroareaField('new')">
                                         <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
                                         <option value="FARMACEUTICO">Farmacêutico</option>
                                         <option value="ADMINISTRATIVO">Administrativo</option>
                                         <option value="ENF_GERENTE">Enf. Gerente</option>
                                         <option value="ADM_TI">Administrador TI</option>
+                                        <option value="ACS">ACS</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="newEmpMicroareaGroup" style="margin-bottom: 0; display: none;">
+                                    <label class="fs-xs fw-700 text-muted">Microárea</label>
+                                    <select id="newEmpMicroarea">
+                                        <option value="">Selecione...</option>
+                                        <option value="1">Microárea 1</option>
+                                        <option value="2">Microárea 2</option>
+                                        <option value="3">Microárea 3</option>
+                                        <option value="4">Microárea 4</option>
+                                        <option value="5">Microárea 5</option>
+                                        <option value="6">Microárea 6</option>
                                     </select>
                                 </div>
                             </div>
@@ -1730,12 +1798,25 @@
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="fs-xs fw-700 text-muted mb-8">Cargo</label>
-                                    <select id="editEmpRole" class="h-42">
+                                     <select id="editEmpRole" class="h-42" onchange="toggleMicroareaField('edit')">
                                         <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
                                         <option value="FARMACEUTICO">Farmacêutico</option>
                                         <option value="ADMINISTRATIVO">Administrativo</option>
                                         <option value="ENF_GERENTE">Enf. Gerente</option>
                                         <option value="ADM_TI">Administrador TI</option>
+                                        <option value="ACS">ACS</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="editEmpMicroareaGroup" style="margin-bottom: 0; display: none;">
+                                    <label class="fs-xs fw-700 text-muted mb-8">Microárea</label>
+                                    <select id="editEmpMicroarea" class="h-42">
+                                        <option value="">Selecione...</option>
+                                        <option value="1">Microárea 1</option>
+                                        <option value="2">Microárea 2</option>
+                                        <option value="3">Microárea 3</option>
+                                        <option value="4">Microárea 4</option>
+                                        <option value="5">Microárea 5</option>
+                                        <option value="6">Microárea 6</option>
                                     </select>
                                 </div>
                             </div>
@@ -2138,7 +2219,7 @@
                                         <tr style="background-color: #f1f5f9; text-align: left;">
                                             <th style="padding: 12px 8px; width: 25%; vertical-align: middle;">Princípio
                                                 Ativo</th>
-                                            <th style="padding: 12px 8px; width: 15%; vertical-align: middle;">
+                                            <th style="padding: 12px 8px; width: 15%; text-align: center; vertical-align: middle;">
                                                 Concentração</th>
                                             <th
                                                 style="padding: 12px 8px; width: 15%; text-align: center; vertical-align: middle;">
@@ -2182,7 +2263,7 @@
                                     <thead>
                                         <tr style="background-color: #f1f5f9; text-align: left;">
                                             <th style="padding: 8px;">Medicamento</th>
-                                            <th style="padding: 8px;">Concentração</th>
+                                            <th style="padding: 8px; text-align: center;">Concentração</th>
                                             <th style="padding: 8px; text-align: center;">Saldo Disponível</th>
                                             <th style="padding: 8px; text-align: center;">CMM (6 meses)</th>
                                             <th style="padding: 8px; text-align: center;">Autonomia (Dias)</th>
@@ -2345,6 +2426,24 @@
                 </div>
 
             </section>
+
+            <!-- ================= SEÇÃO DE ACESSO RESTRITO ACS ================= -->
+            <div id="view-acs-restricted" class="view-section" style="display: none;">
+                <div class="card p-40 text-center" style="max-width: 600px; margin: 80px auto;">
+                    <div style="font-size: 64px; color: #f59e0b; margin-bottom: 20px;">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h2 class="fs-2xl fw-700 text-main mb-15">Acesso Restrito ao Painel</h2>
+                    <p class="text-muted fs-base mb-25" style="line-height: 1.6;">
+                        Agentes Comunitários de Saúde (ACS) possuem cadastro ativo no sistema para registro e vinculação, porém <strong>não possuem acesso às funcionalidades do painel administrativo</strong> no momento.
+                    </p>
+                    <div class="d-flex justify-center">
+                        <a href="login.html" class="btn btn-primary" onclick="localStorage.clear()">
+                            <i class="fa-solid fa-sign-out-alt mr-6"></i> Sair do Sistema
+                        </a>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>

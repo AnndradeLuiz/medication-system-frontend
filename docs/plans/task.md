@@ -12,4 +12,7 @@
 - [x] Aplicar layout estrutural Flexbox dinâmico nas seções de Inventário, Pacientes e Funcionários em app.html
 - [x] Limitar a altura da tabela de Auditoria para exibir cerca de 7 linhas (height: 470px) em app.html
 - [x] Ajustar wrapper do scrollbar customizado para suportar flexbox dinamicamente em js/components.js
+- [x] Adicionar cargo ACS em Funcionários com campo obrigatório de Microárea (1-6) e restrição de acesso total no painel
+- [x] Substituir campo único de telefones por 4 campos individuais (1 obrigatório, 3 opcionais) em Pacientes no HTML e JS
+- [x] Centralizar coluna de concentração nas tabelas de relatórios analíticos (Controle de Validade e CMM) no HTML e JS
 - [x] Corrigir comportamento de duplo toggle na sidebar responsiva (mobile) ao remover onclick redundantes ou ajustar JS

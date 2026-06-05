@@ -3,8 +3,49 @@
     let currentPatientPrograms = [];
     let currentEditPatientPrograms = [];
     let medicationList = [];
+    let acsList = []; // Guarda os ACS carregados
     let patientCurrentPage = 0;
     let patientTotalPages = 1;
+
+    // carregar ACS
+    async function loadAcsList() {
+        try {
+            const response = await fetch(`${API_URL}/employees?size=1000`, {
+                headers: getAuthHeaders()
+            });
+            if (response.ok) {
+                const pageData = await response.json();
+                const employees = pageData.content || [];
+                acsList = employees.filter(emp => emp.status && emp.role === 'ACS');
+                populateAcsDropdowns();
+            }
+        } catch (error) {
+            console.error("Erro ao carregar lista de ACS:", error);
+        }
+    }
+
+    function populateAcsDropdowns() {
+        const newSelect = document.getElementById('newPatientAcs');
+        const editSelect = document.getElementById('editPatientAcs');
+        if (newSelect) {
+            newSelect.innerHTML = '<option value="">Selecione o ACS...</option>';
+            acsList.forEach(acs => {
+                const opt = document.createElement('option');
+                opt.value = acs.id;
+                opt.textContent = acs.name;
+                newSelect.appendChild(opt);
+            });
+        }
+        if (editSelect) {
+            editSelect.innerHTML = '<option value="">Selecione o ACS...</option>';
+            acsList.forEach(acs => {
+                const opt = document.createElement('option');
+                opt.value = acs.id;
+                opt.textContent = acs.name;
+                editSelect.appendChild(opt);
+            });
+        }
+    }
 
     // carregar medicamentos
     async function loadMedications() {
@@ -283,8 +324,19 @@
         document.getElementById('newCpf').value = '';
         document.getElementById('newCns').value = '';
         document.getElementById('newBirthDate').value = '';
-        document.getElementById('newPhones').value = '';
+        document.getElementById('newPhone1').value = '';
+        document.getElementById('newPhone2').value = '';
+        document.getElementById('newPhone3').value = '';
+        document.getElementById('newPhone4').value = '';
         document.getElementById('newIsExternal').checked = false;
+
+        const newSelect = document.getElementById('newPatientAcs');
+        if (newSelect) newSelect.value = '';
+        const newMicro = document.getElementById('newPatientMicroarea');
+        if (newMicro) newMicro.value = '';
+
+        const acsContainer = document.getElementById('newPatientAcsContainer');
+        if (acsContainer) acsContainer.style.display = 'flex';
 
         // Limpa os programas selecionados (checkboxes)
         document.querySelectorAll('input[id^="regProg"]').forEach(cb => cb.checked = false);
@@ -303,6 +355,17 @@
     function toggleProgramasCadastro() {
         const isExternal = document.getElementById('newIsExternal').checked;
         const secaoProgramas = document.getElementById('secaoProgramasCadastro');
+        const acsContainer = document.getElementById('newPatientAcsContainer');
+
+        if (acsContainer) {
+            acsContainer.style.display = isExternal ? 'none' : 'flex';
+            if (isExternal) {
+                const selectEl = document.getElementById('newPatientAcs');
+                if (selectEl) selectEl.value = '';
+                const microareaInput = document.getElementById('newPatientMicroarea');
+                if (microareaInput) microareaInput.value = '';
+            }
+        }
 
         if (!secaoProgramas) return;
 
@@ -323,6 +386,17 @@
     function toggleProgramasEdit() {
         const isExternal = document.getElementById('editExternal').checked;
         const secaoProgramas = document.getElementById('secaoProgramasEdit');
+        const acsContainer = document.getElementById('editPatientAcsContainer');
+
+        if (acsContainer) {
+            acsContainer.style.display = isExternal ? 'none' : 'flex';
+            if (isExternal) {
+                const selectEl = document.getElementById('editPatientAcs');
+                if (selectEl) selectEl.value = '';
+                const microareaInput = document.getElementById('editPatientMicroarea');
+                if (microareaInput) microareaInput.value = '';
+            }
+        }
 
         if (!secaoProgramas) return;
 
@@ -389,17 +463,19 @@
             return;
         }
 
-        const phonesRaw = document.getElementById('newPhones').value;
-        const phonesList = phonesRaw
-            ? phonesRaw.split(',')
-                .map(n => n.replace(/\D/g, ''))
-                .filter(n => n.length > 0)
-            : [];
+        const p1 = document.getElementById('newPhone1').value.trim();
+        const p2 = document.getElementById('newPhone2').value.trim();
+        const p3 = document.getElementById('newPhone3').value.trim();
+        const p4 = document.getElementById('newPhone4').value.trim();
 
-        if (phonesList.length > 4) {
-            showToast("Você pode adicionar no máximo 4 números de telefone.");
+        if (!p1) {
+            showToast("O Telefone 1 é obrigatório.", "warning");
             return;
         }
+
+        const phonesList = [p1, p2, p3, p4]
+            .map(n => n.replace(/\D/g, ''))
+            .filter(n => n.length > 0);
 
         const enrollments = [];
         if (!isExternalInput) {
@@ -428,7 +504,8 @@
             birthDate: new Date(birthDateInput + 'T00:00:00').toISOString(),
             external: isExternalInput,
             phones: phonesList,
-            enrollments: enrollments
+            enrollments: enrollments,
+            acsId: isExternalInput ? null : (document.getElementById('newPatientAcs').value || null)
         };
 
         setLoading('btnSaveNewPatient', true);
@@ -480,8 +557,33 @@
     let isPatientModuleInitialized = false;
     window.initPatientModule = function () {
         loadMedications();
+        loadAcsList();
         if (isPatientModuleInitialized) return;
         isPatientModuleInitialized = true;
+
+        // Listeners para atualização de microárea do ACS
+        const newSelect = document.getElementById('newPatientAcs');
+        if (newSelect) {
+            newSelect.addEventListener('change', function() {
+                const selectedAcs = acsList.find(acs => acs.id === this.value);
+                const microareaInput = document.getElementById('newPatientMicroarea');
+                if (microareaInput) {
+                    microareaInput.value = selectedAcs ? `Microárea ${selectedAcs.microarea}` : '';
+                }
+            });
+        }
+
+        const editSelect = document.getElementById('editPatientAcs');
+        if (editSelect) {
+            editSelect.addEventListener('change', function() {
+                const selectedAcs = acsList.find(acs => acs.id === this.value);
+                const microareaInput = document.getElementById('editPatientMicroarea');
+                if (microareaInput) {
+                    microareaInput.value = selectedAcs ? `Microárea ${selectedAcs.microarea}` : '';
+                }
+            });
+        }
+
         setupMedicationAutocomplete('builderMedSearch', 'builderMedSuggestions', 'builderMedId', 'builderMedName', 'builderMedConcentration');
         setupMedicationAutocomplete('editBuilderMedSearch', 'editBuilderMedSuggestions', 'editBuilderMedId', 'editBuilderMedName', 'editBuilderMedConcentration');
 
@@ -510,11 +612,20 @@
         const editCnsEl = document.getElementById('editCns');
         if (editCnsEl) editCnsEl.addEventListener('input', e => e.target.value = applyCnsMask(e.target.value));
 
-        const newPhonesEl = document.getElementById('newPhones');
-        if (newPhonesEl) newPhonesEl.addEventListener('input', e => e.target.value = applyMultiPhoneMask(e.target.value));
-
-        const editPhonesEl = document.getElementById('editPhones');
-        if (editPhonesEl) editPhonesEl.addEventListener('input', e => e.target.value = applyMultiPhoneMask(e.target.value));
+        for (let i = 1; i <= 4; i++) {
+            const newPhoneEl = document.getElementById(`newPhone${i}`);
+            if (newPhoneEl) {
+                newPhoneEl.addEventListener('input', e => {
+                    e.target.value = applySinglePhoneMask(e.target.value);
+                });
+            }
+            const editPhoneEl = document.getElementById(`editPhone${i}`);
+            if (editPhoneEl) {
+                editPhoneEl.addEventListener('input', e => {
+                    e.target.value = applySinglePhoneMask(e.target.value);
+                });
+            }
+        }
 
         // Limitar data de nascimento até o dia atual
         const today = new Date().toISOString().split('T')[0];
@@ -695,6 +806,19 @@
             ? '<span style="color: #ea580c; font-weight: 600;">Externo</span>'
             : '<span style="color: #3b82f6; font-weight: 600;">UBS Local</span>';
 
+        // ACS Responsável
+        const viewAcsBox = document.getElementById('viewAcsBox');
+        if (viewAcsBox) {
+            if (patient.external) {
+                viewAcsBox.style.display = 'none';
+            } else {
+                viewAcsBox.style.display = 'block';
+                document.getElementById('viewAcs').innerHTML = patient.acsName 
+                    ? `${escapeHTML(patient.acsName)}<br><span style="font-size: 13px; color: var(--color-text-muted); font-weight: 500;">Microárea ${patient.microarea}</span>` 
+                    : 'Não associado';
+            }
+        }
+
         // Telefones
         if (patient.phones && patient.phones.length > 0) {
             const formattedPhones = patient.phones.map(tel => formatPhone(tel));
@@ -773,11 +897,23 @@
         document.getElementById('editCns').value = patient.cns ? applyCnsMask(patient.cns) : '';
         document.getElementById('editBirthDate').value = patient.birthDate ? patient.birthDate.split('T')[0] : '';
 
-        const phonesToEdit = patient.phones ? patient.phones.join(', ') : '';
-        document.getElementById('editPhones').value = applyMultiPhoneMask(phonesToEdit);
+        const pList = patient.phones || [];
+        document.getElementById('editPhone1').value = pList[0] ? formatPhone(pList[0]) : '';
+        document.getElementById('editPhone2').value = pList[1] ? formatPhone(pList[1]) : '';
+        document.getElementById('editPhone3').value = pList[2] ? formatPhone(pList[2]) : '';
+        document.getElementById('editPhone4').value = pList[3] ? formatPhone(pList[3]) : '';
 
         document.getElementById('editExternal').checked = !!patient.external;
         document.getElementById('editStatus').checked = !!patient.status;
+
+        const editAcsSelect = document.getElementById('editPatientAcs');
+        if (editAcsSelect) {
+            editAcsSelect.value = patient.acsId || '';
+        }
+        const editMicroareaInput = document.getElementById('editPatientMicroarea');
+        if (editMicroareaInput) {
+            editMicroareaInput.value = patient.microarea ? `Microárea ${patient.microarea}` : '';
+        }
 
         // Reseta e preenche os programas selecionados (checkboxes)
         document.querySelectorAll('input[id^="editProg"]').forEach(cb => cb.checked = false);
@@ -911,15 +1047,19 @@
             });
         }
 
-        const phonesRaw = document.getElementById('editPhones').value;
-        const phonesList = phonesRaw
-            ? phonesRaw.split(',').map(n => n.replace(/\D/g, '')).filter(n => n.length > 0)
-            : [];
+        const p1 = document.getElementById('editPhone1').value.trim();
+        const p2 = document.getElementById('editPhone2').value.trim();
+        const p3 = document.getElementById('editPhone3').value.trim();
+        const p4 = document.getElementById('editPhone4').value.trim();
 
-        if (phonesList.length > 4) {
-            showToast("Você pode adicionar no máximo 4 números de telefone.");
+        if (!p1) {
+            showToast("O Telefone 1 é obrigatório.", "warning");
             return;
         }
+
+        const phonesList = [p1, p2, p3, p4]
+            .map(n => n.replace(/\D/g, ''))
+            .filter(n => n.length > 0);
 
         const payload = {
             name: nomeEdit,
@@ -929,7 +1069,8 @@
             external: isExternal,
             status: document.getElementById('editStatus').checked,
             phones: phonesList,
-            enrollments: enrollments
+            enrollments: enrollments,
+            acsId: isExternal ? null : (document.getElementById('editPatientAcs').value || null)
         };
 
         setLoading('btnUpdatePatient', true);
@@ -1024,6 +1165,16 @@
             .replace(/(\d{4})(\d)/, '$1.$2')
             .replace(/(\d{4})(\d{1,4})/, '$1.$2')
             .replace(/(\.\d{4})\d+?$/, '$1');
+    }
+
+    function applySinglePhoneMask(value) {
+        if (!value) return '';
+        let nums = value.replace(/\D/g, '');
+        if (nums.length === 0) return '';
+        if (nums.length <= 2) return `(${nums}`;
+        if (nums.length <= 6) return `(${nums.substring(0, 2)}) ${nums.substring(2)}`;
+        if (nums.length <= 10) return `(${nums.substring(0, 2)}) ${nums.substring(2, 6)}-${nums.substring(6)}`;
+        return `(${nums.substring(0, 2)}) ${nums.substring(2, 7)}-${nums.substring(7, 11)}`;
     }
 
     var phoneLimitToastActive = false;
@@ -1239,6 +1390,7 @@
 
     window.toggleProgramasCadastro = toggleProgramasCadastro;
     window.toggleProgramasEdit = toggleProgramasEdit;
+    window.loadAcsList = loadAcsList;
 
     // Expor funções globais para o HTML e router
     window.loadMedications = loadMedications;
