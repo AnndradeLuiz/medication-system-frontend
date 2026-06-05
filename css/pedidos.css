@@ -107,21 +107,74 @@
 }
 
 /* Tabela de Pedidos com Grade e Células bem Definidas (Estilo img2) */
-#view-pedidos .table-responsive {
+.table-responsive {
     border: 1.5px solid var(--color-border) !important;
     border-radius: var(--radius-md);
     overflow: auto;
+
+    /* Esconde scrollbar nativo — scroll continua funcionando via mouse wheel/trackpad */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
-#view-pedidos table.table {
+/* Chrome/Edge — esconde scrollbar nativo completamente */
+.table-responsive::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* ---- Scrollbar Customizado Flutuante (sem calha) ---- */
+.table-scroll-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+}
+
+.table-custom-scrollbar {
+    position: absolute;
+    right: 3px;
+    top: 10px;
+    bottom: 25px;
+    width: 4px;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.table-scroll-wrapper:hover .table-custom-scrollbar {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.table-custom-scrollbar-thumb {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    min-height: 24px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.table-custom-scrollbar-thumb:hover,
+.table-custom-scrollbar-thumb.dragging {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+table.table {
     width: 100%;
     border-collapse: collapse !important;
     background-color: var(--color-surface);
 }
 
-#view-pedidos table.table th {
-    background-color: #f8fafc !important; /* cinza clarinho azulado */
-    color: #475569 !important; /* tom escuro neutro */
+table.table th {
+    background-color: #f8fafc !important;
+    /* cinza clarinho azulado */
+    color: #475569 !important;
+    /* tom escuro neutro */
     font-weight: 700;
     font-size: 14px;
     padding: 14px 16px;
@@ -132,18 +185,26 @@
 }
 
 #view-pedidos table.table th:nth-child(2) {
-    text-align: left; /* Descrição alinhada à esquerda */
+    text-align: left;
+    /* Descrição alinhada à esquerda */
 }
 
-#view-pedidos table.table td {
+#view-audit table.table th:nth-child(6),
+#view-audit table.table td:nth-child(6) {
+    text-align: left !important;
+    /* Detalhes do Evento alinhado à esquerda */
+}
+
+table.table td {
     padding: 12px 16px;
     font-size: 14px;
     color: var(--color-text-main);
-    border: 1.5px solid var(--color-border) !important; /* bordas em cada célula! */
+    border: 1.5px solid var(--color-border) !important;
+    /* bordas em cada célula! */
     vertical-align: middle;
 }
 
-#view-pedidos table.table tr:hover {
+table.table tr:hover {
     background-color: var(--color-bg-hover);
 }
 
@@ -155,6 +216,7 @@
 }
 
 @media print {
+
     /* Ocultar absolutamente tudo do sistema original */
     body * {
         visibility: hidden;
@@ -163,7 +225,8 @@
     }
 
     /* Exibir apenas a área de impressão */
-    #print-area, #print-area * {
+    #print-area,
+    #print-area * {
         visibility: visible;
         display: block !important;
         color: #000 !important;
@@ -267,7 +330,8 @@
         font-size: 10px !important;
     }
 
-    .print-table th, .print-table td {
+    .print-table th,
+    .print-table td {
         border: 1px solid #000 !important;
         padding: 4px 6px !important;
         text-align: left;
@@ -288,12 +352,15 @@
         text-align: center !important;
     }
 
-    .col-estoq, .col-solicit, .col-atend {
+    .col-estoq,
+    .col-solicit,
+    .col-atend {
         width: 65px;
         text-align: center !important;
     }
 
-    .col-lote, .col-val {
+    .col-lote,
+    .col-val {
         width: 90px;
         text-align: center !important;
     }

@@ -23,15 +23,16 @@ async function loadEmployees(page = 0) {
         allEmployees = pageData.content || [];
         
         // Update pagination UI
-        employeeTotalPages = pageData.totalPages || 1;
-        document.getElementById('employeeCurrentPage').innerText = `Pág ${pageData.number + 1} de ${employeeTotalPages}`;
+        const pageInfo = pageData.page || pageData;
+        employeeTotalPages = pageInfo.totalPages || 1;
+        document.getElementById('employeeCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${employeeTotalPages}`;
         
-        const startItem = pageData.totalElements === 0 ? 0 : (pageData.number * pageData.size) + 1;
-        const endItem = Math.min((pageData.number + 1) * pageData.size, pageData.totalElements);
-        document.getElementById('employeePageInfo').innerText = `${startItem}-${endItem} de ${pageData.totalElements}`;
+        const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
+        const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
+        document.getElementById('employeePageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
         
-        document.getElementById('btnPrevEmployee').disabled = pageData.first;
-        document.getElementById('btnNextEmployee').disabled = pageData.last;
+        document.getElementById('btnPrevEmployee').disabled = pageInfo.number === 0;
+        document.getElementById('btnNextEmployee').disabled = pageInfo.number >= (employeeTotalPages - 1);
 
         renderEmployeeTable(allEmployees);
     } catch (e) {

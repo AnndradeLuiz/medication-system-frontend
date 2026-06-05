@@ -26,8 +26,14 @@
         queryParams.push(`size=${auditPageSize}`);
         queryParams.push(`sort=momment,desc`); // Garantir ordenação decrescente por padrão
 
-        if (start) queryParams.push(`start=${new Date(start).toISOString()}`);
-        if (end) queryParams.push(`end=${new Date(end).toISOString()}`);
+        if (start) {
+            const startDate = new Date(`${start}T00:00:00`);
+            queryParams.push(`start=${startDate.toISOString()}`);
+        }
+        if (end) {
+            const endDate = new Date(`${end}T23:59:59`);
+            queryParams.push(`end=${endDate.toISOString()}`);
+        }
         if (employeeName) queryParams.push(`employeeName=${encodeURIComponent(employeeName)}`);
         if (action) queryParams.push(`action=${encodeURIComponent(action)}`);
         if (entityType) queryParams.push(`entityType=${encodeURIComponent(entityType)}`);

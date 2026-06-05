@@ -2,8 +2,8 @@
  * config.js — Configurações centralizadas do SGDMI
  * Este arquivo deve ser carregado ANTES de todos os outros scripts.
  */
-// const API_URL = `http://${window.location.hostname}:8080`;
-const API_URL = `https://medication-system-wlmx.onrender.com`;
+const API_URL = `http://${window.location.hostname}:8080`;
+//const API_URL = `https://medication-system-wlmx.onrender.com`;
 /**
  * Função utilitária para prevenir XSS (Cross-Site Scripting)
  * Transforma caracteres especiais em entidades HTML.

@@ -53,7 +53,11 @@ async function fetchPaginatedInventory() {
     if (pageSize === 'all') pageSize = 1000;
 
     try {
-        const url = `${API_URL}/inventory?page=${inventoryCurrentPage}&size=${pageSize}&query=${encodeURIComponent(searchFilter)}&type=${typeFilter}&status=${statusFilter}`;
+        let sortParam = '';
+        if (currentSort.field) {
+            sortParam = `&sort=${currentSort.field},${currentSort.direction}`;
+        }
+        const url = `${API_URL}/inventory?page=${inventoryCurrentPage}&size=${pageSize}&query=${encodeURIComponent(searchFilter)}&type=${typeFilter}&status=${statusFilter}${sortParam}`;
         const response = await fetch(url, { headers: getAuthHeaders() });
         
         if (response.ok) {
@@ -63,15 +67,16 @@ async function fetchPaginatedInventory() {
             renderInventoryPage(pageData.content);
             
             // Update pagination UI
-            inventoryTotalPages = pageData.totalPages;
-            document.getElementById('inventoryCurrentPage').innerText = `Pág ${pageData.number + 1} de ${inventoryTotalPages || 1}`;
+            const pageInfo = pageData.page || pageData;
+            inventoryTotalPages = pageInfo.totalPages || 1;
+            document.getElementById('inventoryCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${inventoryTotalPages}`;
             
-            const startItem = pageData.totalElements === 0 ? 0 : (pageData.number * pageData.size) + 1;
-            const endItem = Math.min((pageData.number + 1) * pageData.size, pageData.totalElements);
-            document.getElementById('inventoryPageInfo').innerText = `${startItem}-${endItem} de ${pageData.totalElements}`;
+            const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
+            const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
+            document.getElementById('inventoryPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
             
-            document.getElementById('btnPrevInventory').disabled = pageData.first;
-            document.getElementById('btnNextInventory').disabled = pageData.last;
+            document.getElementById('btnPrevInventory').disabled = pageInfo.number === 0;
+            document.getElementById('btnNextInventory').disabled = pageInfo.number >= (inventoryTotalPages - 1);
         } else {
             throw new Error('Falha na API');
         }
@@ -127,13 +132,20 @@ function renderInventoryPage(items) {
         const statusLabel = item.currentStock === 0 ? 'Sem Estoque' : (item.currentStock <= 50 ? 'Baixo' : 'Normal');
         const statusHtml = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
         
+        let expDateHtml = 'N/A';
+        if (item.expirationDate) {
+            const expDate = new Date(item.expirationDate);
+            // Corrige timezone (mostra UTC local sem offset bizarro)
+            expDateHtml = expDate.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+        }
+        
         tbody.innerHTML += `
             <tr>
                 <td style="font-weight: 600;">${escapeHTML(item.name || '')}</td>
                 <td style="text-align: center;"><span class="type-badge">${escapeHTML(item.type || '')}</span></td>
                 <td style="text-align: center;">${escapeHTML(categoryLabel)}</td>
                 <td style="text-align: center; font-family: var(--font-data); font-weight: 700;">${item.currentStock}</td>
-                <td style="text-align: center; font-family: var(--font-data);">N/A</td>
+                <td style="text-align: center; font-family: var(--font-data);">${expDateHtml}</td>
                 <td style="text-align: center;">${statusHtml}</td>
             </tr>
         `;
@@ -166,8 +178,7 @@ function handleSort(field) {
 }
 
 function sortData(field, direction) {
-    // Ordenação temporariamente desabilitada devido à paginação no servidor
-    showToast("A ordenação será implementada na próxima versão da API.", "info");
+    loadInventory(0);
 }
 
 // Lógica do Modal de Filtros Avançados

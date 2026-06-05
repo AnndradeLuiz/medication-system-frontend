@@ -764,3 +764,11 @@ function exportAnalyticsExcel(reportId) {
     XLSX.writeFile(workbook, `${fileName}_${new Date().getTime()}.xlsx`);
 }
 
+// Exposições globais para acesso via HTML inline (onclick, onchange, etc)
+window.switchReportTab = switchReportTab;
+window.exportStandardPDF = exportStandardPDF;
+window.exportDynamicCSV = exportDynamicCSV;
+window.exportDynamicExcel = exportDynamicExcel;
+window.loadSelectedAnalyticsReport = loadSelectedAnalyticsReport;
+window.exportAnalyticsExcel = exportAnalyticsExcel;
+window.filterThirdPartyTable = filterThirdPartyTable;

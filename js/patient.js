@@ -555,15 +555,16 @@
                 currentPatients = pageData.content || [];
 
                 // Update pagination UI
-                patientTotalPages = pageData.totalPages || 1;
-                document.getElementById('patientCurrentPage').innerText = `Pág ${pageData.number + 1} de ${patientTotalPages}`;
+                const pageInfo = pageData.page || pageData;
+                patientTotalPages = pageInfo.totalPages || 1;
+                document.getElementById('patientCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${patientTotalPages}`;
 
-                const startItem = pageData.totalElements === 0 ? 0 : (pageData.number * pageData.size) + 1;
-                const endItem = Math.min((pageData.number + 1) * pageData.size, pageData.totalElements);
-                document.getElementById('patientPageInfo').innerText = `${startItem}-${endItem} de ${pageData.totalElements}`;
+                const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
+                const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
+                document.getElementById('patientPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
 
-                document.getElementById('btnPrevPatient').disabled = pageData.first;
-                document.getElementById('btnNextPatient').disabled = pageData.last;
+                document.getElementById('btnPrevPatient').disabled = pageInfo.number === 0;
+                document.getElementById('btnNextPatient').disabled = pageInfo.number >= (patientTotalPages - 1);
 
                 renderPatientTable();
             } else {
@@ -634,10 +635,10 @@
                     <span style="font-weight: 600; color: var(--color-text-main);">${escapeHTML(p.name)}</span>
                 </div>
             </td>
-            <td style="font-family: var(--font-data); font-size: 13px;">${escapeHTML(cpfFormatado)}</td>
-            <td style="font-family: var(--font-data); font-size: 13px;">${escapeHTML(cnsFormatado)}</td>
-            <td>${statusHtml}</td>
-            <td>${vinculoHtml}</td>
+            <td class="text-center" style="font-family: var(--font-data); font-size: 13px;">${escapeHTML(cpfFormatado)}</td>
+            <td class="text-center" style="font-family: var(--font-data); font-size: 13px;">${escapeHTML(cnsFormatado)}</td>
+            <td class="text-center">${statusHtml}</td>
+            <td class="text-center">${vinculoHtml}</td>
         `;
             fragment.appendChild(tr);
         });
