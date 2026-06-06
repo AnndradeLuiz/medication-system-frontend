@@ -502,6 +502,15 @@
     letter-spacing: 0.5px !important;
 }
 
+/* Label dentro do botão Contínuo: precisa ficar inline alinhado com o checkbox */
+.program-builder-container label[for*="IsContinuous"] {
+    display: inline !important;
+    margin-bottom: 0 !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
+    vertical-align: middle !important;
+}
+
 .programs-selection-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, max-content));
@@ -662,4 +671,11 @@
     .filter-group {
         justify-content: space-between;
     }
+}
+
+/* Estilo e cursor para campos desabilitados */
+input:disabled, select:disabled, textarea:disabled {
+    cursor: not-allowed !important;
+    background-color: #f1f5f9 !important;
+    color: #94a3b8 !important;
 }

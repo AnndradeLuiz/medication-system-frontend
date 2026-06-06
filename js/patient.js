@@ -117,6 +117,49 @@
         });
     }
 
+    function toggleBuilderFrequencyInput(isEdit) {
+        const prefix = isEdit ? 'editBuilder' : 'builder';
+        const select = document.getElementById(`${prefix}Frequency`);
+        const customInput = document.getElementById(`${prefix}FrequencyCustom`);
+        const timesInput = document.getElementById(`${prefix}TimesPerDay`);
+
+        if (select && select.value === 'custom') {
+            if (customInput) {
+                customInput.disabled = false;
+                customInput.placeholder = 'Ex: Dia sim, dia não';
+            }
+            if (timesInput) timesInput.value = '';
+        } else {
+            if (customInput) {
+                customInput.disabled = true;
+                customInput.value = '';
+            }
+            const selectedOption = select.options[select.selectedIndex];
+            const times = selectedOption ? selectedOption.getAttribute('data-times') : '1';
+
+            if (select.value === 'Uso sob demanda') {
+                if (timesInput) timesInput.value = '0';
+            } else {
+                if (timesInput) timesInput.value = times;
+            }
+        }
+    }
+
+    function toggleBuilderDuration(isEdit) {
+        const prefix = isEdit ? 'editBuilder' : 'builder';
+        const isContinuousCheckbox = document.getElementById(`${prefix}IsContinuous`);
+        const durationDaysInput = document.getElementById(`${prefix}DurationDays`);
+
+        if (isContinuousCheckbox && isContinuousCheckbox.checked) {
+            if (durationDaysInput) {
+                durationDaysInput.disabled = true;
+                durationDaysInput.value = '';
+            }
+        } else {
+            if (durationDaysInput) durationDaysInput.disabled = false;
+        }
+    }
+
     function addProgramToBuilder() {
         const category = document.getElementById('builderCategory').value;
         const medId = document.getElementById('builderMedId').value;
@@ -139,20 +182,64 @@
             return;
         }
 
+        const rawPrescriptionDate = document.getElementById('builderPrescriptionDate').value;
+        if (!rawPrescriptionDate) {
+            showToast("Informe a data de emissão da receita.");
+            return;
+        }
+
+        const doseQuantity = parseFloat(document.getElementById('builderDoseQty').value) || 1.0;
+        const doseUnit = document.getElementById('builderDoseUnit').value;
+        const freqSelect = document.getElementById('builderFrequency').value;
+        const frequency = freqSelect === 'custom'
+            ? document.getElementById('builderFrequencyCustom').value.trim()
+            : freqSelect;
+        const timesPerDay = parseInt(document.getElementById('builderTimesPerDay').value) || 0;
+        const isContinuous = document.getElementById('builderIsContinuous').checked;
+        const durationDaysVal = document.getElementById('builderDurationDays').value;
+        const treatmentDuration = isContinuous
+            ? "Contínuo"
+            : (durationDaysVal ? `${durationDaysVal} dias` : "");
+        const prescriptionDate = rawPrescriptionDate ? new Date(rawPrescriptionDate + 'T00:00:00').toISOString() : null;
+        const administrationInstructions = document.getElementById('builderInstructions').value.trim();
+
         currentPatientPrograms.push({
             category: category,
             medicationId: medId,
             medicationName: medName,
             concentration: medConcentration,
-            quantity: quantity
+            quantity: quantity,
+            doseQuantity: doseQuantity,
+            doseUnit: doseUnit,
+            frequency: frequency,
+            timesPerDay: timesPerDay,
+            treatmentDuration: treatmentDuration,
+            isContinuous: isContinuous,
+            prescriptionDate: prescriptionDate,
+            administrationInstructions: administrationInstructions
         });
 
+        // Limpar os campos do builder
         document.getElementById('builderCategory').value = '';
         document.getElementById('builderMedSearch').value = '';
         document.getElementById('builderMedId').value = '';
         document.getElementById('builderMedName').value = '';
         document.getElementById('builderMedConcentration').value = '';
         document.getElementById('builderQuantity').value = '';
+
+        // Reset padrão
+        document.getElementById('builderDoseQty').value = '1';
+        document.getElementById('builderDoseUnit').value = 'comprimido(s)';
+        document.getElementById('builderFrequency').value = '1 vez ao dia';
+        document.getElementById('builderFrequencyCustom').value = '';
+        document.getElementById('builderFrequencyCustomGroup').style.display = 'none';
+        document.getElementById('builderTimesPerDayGroup').style.display = 'flex';
+        document.getElementById('builderTimesPerDay').value = '1';
+        document.getElementById('builderIsContinuous').checked = true;
+        document.getElementById('builderDurationDaysGroup').style.display = 'none';
+        document.getElementById('builderDurationDays').value = '';
+        document.getElementById('builderPrescriptionDate').value = '';
+        document.getElementById('builderInstructions').value = '';
 
         renderBuilderPrograms();
     }
@@ -182,6 +269,8 @@
                 "SAUDE_MENTAL": "Saúde Mental"
             };
             const catName = labels[prog.category] || prog.category;
+            const isCont = prog.isContinuous ? "Uso Contínuo" : (prog.treatmentDuration || "Temporário");
+            const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
 
             const div = document.createElement('div');
             div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 8px;';
@@ -189,7 +278,10 @@
             <div>
                 <div style="font-weight: 600; color: #111827; font-size: 14px;">${catName}</div>
                 <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">
-                    <i class="fa-solid fa-pills" style="color: #0f766e; margin-right: 4px;"></i> ${prog.medicationName} (${prog.concentration}) - <b style="color: #ea580c;">${prog.quantity} un</b>
+                    <i class="fa-solid fa-pills" style="color: #0f766e; margin-right: 4px;"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b style="color: #ea580c;">${prog.quantity} un</b>
+                </div>
+                <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
+                    Posologia: ${prog.doseQuantity} ${prog.doseUnit}, ${prog.frequency} (${isCont}). Receita: ${dateStr}.
                 </div>
             </div>
             <button type="button" onclick="removeProgramFromBuilder(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 5px;">
@@ -224,12 +316,41 @@
             return;
         }
 
+        const rawPrescriptionDate = document.getElementById('editBuilderPrescriptionDate').value;
+        if (!rawPrescriptionDate) {
+            showToast("Informe a data de emissão da receita.");
+            return;
+        }
+
+        const doseQuantity = parseFloat(document.getElementById('editBuilderDoseQty').value) || 1.0;
+        const doseUnit = document.getElementById('editBuilderDoseUnit').value;
+        const freqSelect = document.getElementById('editBuilderFrequency').value;
+        const frequency = freqSelect === 'custom'
+            ? document.getElementById('editBuilderFrequencyCustom').value.trim()
+            : freqSelect;
+        const timesPerDay = parseInt(document.getElementById('editBuilderTimesPerDay').value) || 0;
+        const isContinuous = document.getElementById('editBuilderIsContinuous').checked;
+        const durationDaysVal = document.getElementById('editBuilderDurationDays').value;
+        const treatmentDuration = isContinuous
+            ? "Contínuo"
+            : (durationDaysVal ? `${durationDaysVal} dias` : "");
+        const prescriptionDate = rawPrescriptionDate ? new Date(rawPrescriptionDate + 'T00:00:00').toISOString() : null;
+        const administrationInstructions = document.getElementById('editBuilderInstructions').value.trim();
+
         currentEditPatientPrograms.push({
             category: category,
             medicationId: medId,
             medicationName: medName,
             concentration: medConcentration,
-            quantity: quantity
+            quantity: quantity,
+            doseQuantity: doseQuantity,
+            doseUnit: doseUnit,
+            frequency: frequency,
+            timesPerDay: timesPerDay,
+            treatmentDuration: treatmentDuration,
+            isContinuous: isContinuous,
+            prescriptionDate: prescriptionDate,
+            administrationInstructions: administrationInstructions
         });
 
         document.getElementById('editBuilderCategory').value = '';
@@ -238,6 +359,20 @@
         document.getElementById('editBuilderMedName').value = '';
         document.getElementById('editBuilderMedConcentration').value = '';
         document.getElementById('editBuilderQuantity').value = '';
+
+        // Reset padrão
+        document.getElementById('editBuilderDoseQty').value = '1';
+        document.getElementById('editBuilderDoseUnit').value = 'comprimido(s)';
+        document.getElementById('editBuilderFrequency').value = '1 vez ao dia';
+        document.getElementById('editBuilderFrequencyCustom').value = '';
+        document.getElementById('editBuilderFrequencyCustomGroup').style.display = 'none';
+        document.getElementById('editBuilderTimesPerDayGroup').style.display = 'flex';
+        document.getElementById('editBuilderTimesPerDay').value = '1';
+        document.getElementById('editBuilderIsContinuous').checked = true;
+        document.getElementById('editBuilderDurationDaysGroup').style.display = 'none';
+        document.getElementById('editBuilderDurationDays').value = '';
+        document.getElementById('editBuilderPrescriptionDate').value = '';
+        document.getElementById('editBuilderInstructions').value = '';
 
         renderEditBuilderPrograms();
     }
@@ -266,6 +401,8 @@
                 "SAUDE_MENTAL": "Saúde Mental"
             };
             const catName = labels[prog.category] || prog.category;
+            const isCont = prog.isContinuous ? "Uso Contínuo" : (prog.treatmentDuration || "Temporário");
+            const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
 
             const div = document.createElement('div');
             div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 8px;';
@@ -273,7 +410,10 @@
             <div>
                 <div style="font-weight: 600; color: #111827; font-size: 14px;">${catName}</div>
                 <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">
-                    <i class="fa-solid fa-pills" style="color: #0f766e; margin-right: 4px;"></i> ${prog.medicationName} (${prog.concentration}) - <b style="color: #ea580c;">${prog.quantity} un</b>
+                    <i class="fa-solid fa-pills" style="color: #0f766e; margin-right: 4px;"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b style="color: #ea580c;">${prog.quantity} un</b>
+                </div>
+                <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
+                    Posologia: ${prog.doseQuantity} ${prog.doseUnit}, ${prog.frequency} (${isCont}). Receita: ${dateStr}.
                 </div>
             </div>
             <button type="button" onclick="removeProgramFromEditBuilder(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 5px;">
@@ -487,9 +627,17 @@
                         medicationId: p.medicationId,
                         medicationName: p.medicationName,
                         concentration: p.concentration,
-                        quantity: p.quantity
+                        quantity: p.quantity,
+                        doseQuantity: p.doseQuantity,
+                        doseUnit: p.doseUnit,
+                        frequency: p.frequency,
+                        timesPerDay: p.timesPerDay,
+                        treatmentDuration: p.treatmentDuration,
+                        isContinuous: p.isContinuous,
+                        prescriptionDate: p.prescriptionDate,
+                        administrationInstructions: p.administrationInstructions
                     }));
-                
+
                 enrollments.push({
                     category: category,
                     medications: medications
@@ -564,7 +712,7 @@
         // Listeners para atualização de microárea do ACS
         const newSelect = document.getElementById('newPatientAcs');
         if (newSelect) {
-            newSelect.addEventListener('change', function() {
+            newSelect.addEventListener('change', function () {
                 const selectedAcs = acsList.find(acs => acs.id === this.value);
                 const microareaInput = document.getElementById('newPatientMicroarea');
                 if (microareaInput) {
@@ -575,7 +723,7 @@
 
         const editSelect = document.getElementById('editPatientAcs');
         if (editSelect) {
-            editSelect.addEventListener('change', function() {
+            editSelect.addEventListener('change', function () {
                 const selectedAcs = acsList.find(acs => acs.id === this.value);
                 const microareaInput = document.getElementById('editPatientMicroarea');
                 if (microareaInput) {
@@ -773,7 +921,15 @@
                             medicationId: m.medicationId,
                             medicationName: m.medicationName,
                             concentration: m.concentration,
-                            quantity: m.quantity
+                            quantity: m.quantity,
+                            doseQuantity: m.doseQuantity,
+                            doseUnit: m.doseUnit,
+                            frequency: m.frequency,
+                            timesPerDay: m.timesPerDay,
+                            treatmentDuration: m.treatmentDuration,
+                            isContinuous: m.isContinuous !== false,
+                            prescriptionDate: m.prescriptionDate,
+                            administrationInstructions: m.administrationInstructions
                         });
                     });
                 }
@@ -781,7 +937,9 @@
         }
 
         // Preenchimento dos dados básicos
-        document.getElementById('viewName').innerText = patient.name;
+        const patientAge = formatPatientAge(patient.birthDate);
+        document.getElementById('viewPatientNameHeader').innerHTML = `<span style="color: black;">${escapeHTML(patient.name)}</span><br><span style="font-size: 16px; font-weight: 500; color: #64748b;">${patientAge}</span>`;
+        
         document.getElementById('viewCpf').innerText = patient.cpf ? applyCpfMask(patient.cpf) : '-';
 
         // CORREÇÃO 1: Atribuição do CNS que estava solta
@@ -794,9 +952,8 @@
             birthDateFormatted = dateObj.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
         }
         document.getElementById('viewBirthDate').innerText = birthDateFormatted;
-        const patientAge = formatPatientAge(patient.birthDate);
-        document.getElementById('viewAge').innerText = patientAge;
-        document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-id-card"></i> Prontuário do Paciente — ${escapeHTML(patient.name)} (${patientAge})`;
+        
+        document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-id-card"></i> Prontuário do Paciente`;
 
         document.getElementById('viewStatus').innerHTML = patient.status
             ? '<span style="color: #10b981; font-weight: 600;">Ativo</span>'
@@ -813,8 +970,8 @@
                 viewAcsBox.style.display = 'none';
             } else {
                 viewAcsBox.style.display = 'block';
-                document.getElementById('viewAcs').innerHTML = patient.acsName 
-                    ? `${escapeHTML(patient.acsName)}<br><span style="font-size: 13px; color: var(--color-text-muted); font-weight: 500;">Microárea ${patient.microarea}</span>` 
+                document.getElementById('viewAcs').innerHTML = patient.acsName
+                    ? `${escapeHTML(patient.acsName)}<br><span style="font-size: 13px; color: var(--color-text-muted); font-weight: 500;">Microárea ${patient.microarea}</span>`
                     : 'Não associado';
             }
         }
@@ -822,7 +979,7 @@
         // Telefones
         if (patient.phones && patient.phones.length > 0) {
             const formattedPhones = patient.phones.map(tel => formatPhone(tel));
-            document.getElementById('viewPhones').innerText = formattedPhones.join(', ');
+            document.getElementById('viewPhones').innerHTML = formattedPhones.join('<br>');
         } else {
             document.getElementById('viewPhones').innerText = 'Nenhum contato salvo';
         }
@@ -858,11 +1015,58 @@
                 const progKey = prog.category || prog.name || prog;
                 const catName = labels[progKey] || progKey;
 
-                programsHtml += `<div style="margin-bottom: 8px; border-left: 3px solid #e2e8f0; padding-left: 10px;">
+                let posologiaHtml = '';
+                if (prog.doseQuantity || prog.doseUnit || prog.frequency) {
+                    posologiaHtml += `<div style="font-size: 13px; color: #475569; margin-top: 6px; padding-left: 15px; border-left: 2px solid #cbd5e1; margin-left: 5px;">`;
+                    let parts = [];
+                    if (prog.doseQuantity && prog.doseUnit) {
+                        parts.push(`Dose: <b>${prog.doseQuantity} ${prog.doseUnit}</b>`);
+                    }
+                    if (prog.frequency) {
+                        parts.push(`Frequência: <b>${prog.frequency}</b>`);
+                    }
+                    if (prog.treatmentDuration) {
+                        parts.push(`Duração: <b>${prog.treatmentDuration}</b>`);
+                    }
+                    posologiaHtml += parts.join(' | ');
+
+                    if (prog.prescriptionDate) {
+                        const pDate = new Date(prog.prescriptionDate);
+                        let durationDays = 0;
+                        if (prog.treatmentDuration) {
+                            const match = prog.treatmentDuration.match(/\d+/);
+                            if (match) durationDays = parseInt(match[0]);
+                        }
+                        const expiryDate = new Date(pDate.getTime());
+                        const isContinuous = prog.isContinuous !== false;
+                        expiryDate.setDate(pDate.getDate() + (isContinuous ? 180 : durationDays));
+
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const isExpired = today > expiryDate;
+
+                        const pDateStr = pDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        const expiryStr = expiryDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+
+                        const badge = isExpired
+                            ? `<span style="background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-circle-xmark"></i> RECEITA VENCIDA (Venceu em ${expiryStr})</span>`
+                            : `<span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-circle-check"></i> Receita Válida até ${expiryStr}</span>`;
+
+                        posologiaHtml += `<br><span style="font-size: 12px; color: #64748b;">Receita: ${pDateStr}</span> ${badge}`;
+                    }
+
+                    if (prog.administrationInstructions) {
+                        posologiaHtml += `<br><span style="font-size: 12px; color: #64748b; font-style: italic;"><i class="fa-solid fa-info-circle"></i> Instruções: ${escapeHTML(prog.administrationInstructions)}</span>`;
+                    }
+                    posologiaHtml += `</div>`;
+                }
+
+                programsHtml += `<div style="margin-bottom: 12px; border-left: 3px solid #e2e8f0; padding-left: 10px;">
                 <b style="font-size: 13px; color: #64748b;">${catName}</b><br>
                 <span style="font-size: 14px; color: #1e293b;">
-                    <i class="fa-solid fa-pills" style="font-size: 12px; color: #0f766e;"></i> ${prog.medicationName} (${prog.concentration}) - <b style="color:#ea580c;">${prog.quantity} un</b>
+                    <i class="fa-solid fa-pills" style="font-size: 12px; color: #0f766e;"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b style="color:#ea580c;">${prog.quantity} un</b>
                 </span>
+                ${posologiaHtml}
             </div>`;
             });
         }
@@ -950,7 +1154,15 @@
                     medicationId: prog.medicationId,
                     medicationName: prog.medicationName,
                     concentration: prog.concentration,
-                    quantity: prog.quantity
+                    quantity: prog.quantity,
+                    doseQuantity: prog.doseQuantity,
+                    doseUnit: prog.doseUnit,
+                    frequency: prog.frequency,
+                    timesPerDay: prog.timesPerDay,
+                    treatmentDuration: prog.treatmentDuration,
+                    isContinuous: prog.isContinuous !== false,
+                    prescriptionDate: prog.prescriptionDate,
+                    administrationInstructions: prog.administrationInstructions
                 });
             });
         }
@@ -1037,9 +1249,17 @@
                         medicationId: p.medicationId,
                         medicationName: p.medicationName,
                         concentration: p.concentration,
-                        quantity: p.quantity
+                        quantity: p.quantity,
+                        doseQuantity: p.doseQuantity,
+                        doseUnit: p.doseUnit,
+                        frequency: p.frequency,
+                        timesPerDay: p.timesPerDay,
+                        treatmentDuration: p.treatmentDuration,
+                        isContinuous: p.isContinuous,
+                        prescriptionDate: p.prescriptionDate,
+                        administrationInstructions: p.administrationInstructions
                     }));
-                
+
                 enrollments.push({
                     category: category,
                     medications: medications
@@ -1391,6 +1611,8 @@
     window.toggleProgramasCadastro = toggleProgramasCadastro;
     window.toggleProgramasEdit = toggleProgramasEdit;
     window.loadAcsList = loadAcsList;
+    window.toggleBuilderFrequencyInput = toggleBuilderFrequencyInput;
+    window.toggleBuilderDuration = toggleBuilderDuration;
 
     // Expor funções globais para o HTML e router
     window.loadMedications = loadMedications;
@@ -1445,12 +1667,14 @@
             if (response.ok) {
                 showToast(`Paciente "${name}" excluído com sucesso!`);
                 closeModal();
-                loadPatients(); // Recarrega a lista de pacientes
+                window.dispatchEvent(new Event('patientsChanged'));
+                searchPatients(); // Recarrega a lista de pacientes
             } else {
                 const err = await response.json().catch(() => ({}));
                 showToast(err.message || 'Erro ao excluir paciente.', 'error');
             }
         } catch (error) {
+            console.error(error);
             showToast('Erro de conexão ao excluir paciente.', 'error');
         }
     };
