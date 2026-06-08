@@ -37,6 +37,8 @@ async function initComponents() {
                 const roleMap = {
                     'ADM_TI': 'Administrador de TI',
                     'ENF_GERENTE': 'Enfermeiro(a) Gerente',
+                    'ENF': 'Enfermeiro(a)',
+                    'TRIAGEM': 'Triagem',
                     'TEC_ENFERMAGEM': 'Técnico(a) de Enfermagem',
                     'FARMACEUTICO': 'Farmacêutico',
                     'ADMINISTRATIVO': 'Administrativo'
@@ -162,13 +164,16 @@ setTimeout(() => {
 // --- GLOBAL UTILITIES ---
 window.escapeHTML = function(str) {
     if (str === null || str === undefined || str === '') return '';
-    return String(str).replace(/[&<>"']/g, function(m) {
+    return String(str).replace(/[&<>'"`=\/]/g, function(m) {
         return {
             '&': '&amp;',
             '<': '&lt;',
             '>': '&gt;',
+            "'": '&#39;',
             '"': '&quot;',
-            "'": '&#039;'
+            '`': '&#x60;',
+            '=': '&#x3D;',
+            '/': '&#x2F;'
         }[m];
     });
 };

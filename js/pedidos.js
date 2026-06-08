@@ -126,7 +126,7 @@
         if (reportType === 'saude-mulher') {
             // 1. Filtrar medicamentos específicos do programa SAUDE_DA_MULHER
             medicationsList = allMedsRaw.filter(med => 
-                med.programCategories && med.programCategories.includes('SAUDE_DA_MULHER')
+                med.programCategories && (med.programCategories.includes('SAUDE_DA_MULHER') || med.programCategories.includes('WOMENS_HEALTH'))
             );
             
             // 2. Filtrar insumos específicos da Saúde da Mulher / Rede Materna
@@ -146,7 +146,7 @@
         } else if (reportType === 'saude-mental') {
             // 1. Filtrar medicamentos específicos do programa SAUDE_MENTAL
             medicationsList = allMedsRaw.filter(med => 
-                med.programCategories && med.programCategories.includes('SAUDE_MENTAL')
+                med.programCategories && (med.programCategories.includes('SAUDE_MENTAL') || med.programCategories.includes('MENTAL_HEALTH'))
             );
             
             // 2. Não há insumos nem itens de limpeza na Saúde Mental
@@ -162,7 +162,11 @@
         } else if (reportType === 'hiperdia') {
             // 1. Filtrar medicamentos específicos de Hipertensão e Diabetes
             medicationsList = allMedsRaw.filter(med => 
-                med.programCategories && (med.programCategories.includes('HIPERTENSAO') || med.programCategories.includes('DIABETES'))
+                med.programCategories && (
+                    med.programCategories.includes('HIPERTENSAO') || 
+                    med.programCategories.includes('HYPERTENSION') || 
+                    med.programCategories.includes('DIABETES')
+                )
             );
             
             // 2. Não há insumos nem itens de limpeza no Hiperdia
@@ -178,7 +182,7 @@
         } else {
             // Farmácia Básica e Insumos (padrão)
             medicationsList = allMedsRaw.filter(med => 
-                med.programCategories && med.programCategories.includes('FARMACIA_BASICA')
+                med.programCategories && (med.programCategories.includes('FARMACIA_BASICA') || med.programCategories.includes('BASIC_PHARMACY'))
             );
             
             // Exclui os insumos da Saúde da Mulher da lista da Farmácia Básica
@@ -477,9 +481,18 @@
     }
 
     function escapeHTML(str) {
-        if (!str) return '';
-        return str.replace(/[&<>'"]/g, 
-            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+        if (str === null || str === undefined || str === '') return '';
+        return String(str).replace(/[&<>'"`=\/]/g,
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;',
+                '`': '&#x60;',
+                '=': '&#x3D;',
+                '/': '&#x2F;'
+            }[tag] || tag)
         );
     }
 

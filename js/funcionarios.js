@@ -75,6 +75,8 @@ function renderEmployeeTable(list) {
         const roleLabel = {
             ADM_TI: 'Administrador TI',
             ENF_GERENTE: 'Enf. Gerente',
+            ENF: 'Enfermeiro(a)',
+            TRIAGEM: 'Triagem',
             TEC_ENFERMAGEM: 'Téc. Enfermagem',
             FARMACEUTICO: 'Farmacêutico',
             ADMINISTRATIVO: 'Administrativo',

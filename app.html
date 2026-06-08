@@ -456,7 +456,7 @@
                         </div>
 
                         <div class="card" style="margin-bottom: 0;">
-                            <h3 class="mb-20"><i class="fa-solid fa-table-list"></i> Prontuários no Banco</h3>
+                            <h3 class="mb-20"><i class="fa-solid fa-table-list"></i> Prontuários Encontrados</h3>
                             <div class="table-responsive"
                                 style="border: 1px solid var(--color-border); border-radius: var(--radius-md);">
                                 <table class="table">
@@ -519,7 +519,7 @@
                                 </div>
                                 <div class="form-group flex-1">
                                     <label>Data de Nascimento</label>
-                                    <input type="date" id="newBirthDate">
+                                    <input type="date" id="newBirthDate" max="">
                                 </div>
                             </div>
                             <div class="form-row mt-10">
@@ -588,22 +588,22 @@
                                         <label for="regProgDiabetes">Diabetes</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="regProgHipertensao" value="HIPERTENSAO"
+                                        <input type="checkbox" id="regProgHipertensao" value="HYPERTENSION"
                                             onchange="updateBuilderOptions('builderCategory', 'regProg')">
                                         <label for="regProgHipertensao">Hipertensão</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="regProgMulher" value="SAUDE_DA_MULHER"
+                                        <input type="checkbox" id="regProgMulher" value="WOMENS_HEALTH"
                                             onchange="updateBuilderOptions('builderCategory', 'regProg')">
                                         <label for="regProgMulher">Saúde da Mulher</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="regProgMental" value="SAUDE_MENTAL"
+                                        <input type="checkbox" id="regProgMental" value="MENTAL_HEALTH"
                                             onchange="updateBuilderOptions('builderCategory', 'regProg')">
                                         <label for="regProgMental">Saúde Mental</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="regProgFarmaciaBasica" value="FARMACIA_BASICA"
+                                        <input type="checkbox" id="regProgFarmaciaBasica" value="BASIC_PHARMACY"
                                             onchange="updateBuilderOptions('builderCategory', 'regProg')">
                                         <label for="regProgFarmaciaBasica">Farmácia Básica</label>
                                     </div>
@@ -835,7 +835,7 @@
                                 <div class="form-group flex-1"><label>CPF</label><input type="text" id="editCpf"></div>
                                 <div class="form-group flex-1"><label>CNS</label><input type="text" id="editCns"></div>
                                 <div class="form-group flex-1"><label>Nascimento</label><input type="date"
-                                        id="editBirthDate"></div>
+                                        id="editBirthDate" max=""></div>
                             </div>
 
                             <div class="form-row mt-15">
@@ -917,22 +917,22 @@
                                         <label for="editProgDiabetes">Diabetes</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="editProgHipertensao" value="HIPERTENSAO"
+                                        <input type="checkbox" id="editProgHipertensao" value="HYPERTENSION"
                                             onchange="updateBuilderOptions('editBuilderCategory', 'editProg')">
                                         <label for="editProgHipertensao">Hipertensão</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="editProgMulher" value="SAUDE_DA_MULHER"
+                                        <input type="checkbox" id="editProgMulher" value="WOMENS_HEALTH"
                                             onchange="updateBuilderOptions('editBuilderCategory', 'editProg')">
                                         <label for="editProgMulher">Saúde da Mulher</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="editProgMental" value="SAUDE_MENTAL"
+                                        <input type="checkbox" id="editProgMental" value="MENTAL_HEALTH"
                                             onchange="updateBuilderOptions('editBuilderCategory', 'editProg')">
                                         <label for="editProgMental">Saúde Mental</label>
                                     </div>
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="editProgFarmaciaBasica" value="FARMACIA_BASICA"
+                                        <input type="checkbox" id="editProgFarmaciaBasica" value="BASIC_PHARMACY"
                                             onchange="updateBuilderOptions('editBuilderCategory', 'editProg')">
                                         <label for="editProgFarmaciaBasica">Farmácia Básica</label>
                                     </div>
@@ -1462,39 +1462,39 @@
                                     <div class="form-group flex-1">
                                         <label class="fs-xs fw-700 text-muted">Forma Farmacêutica</label>
                                         <select id="editPharmaceuticalForm">
-                                            <option value="COMPRIMIDO">Comprimido</option>
-                                            <option value="CAPSULA">Cápsula</option>
-                                            <option value="SOLUCAO">Solução Oral</option>
-                                            <option value="SUSPENSAO">Suspensão Oral</option>
-                                            <option value="INJETAVEL">Injetável</option>
-                                            <option value="POMADA">Pomada</option>
-                                            <option value="CREME">Creme</option>
-                                            <option value="GEL">Gel</option>
-                                            <option value="XAROPE">Xarope</option>
-                                            <option value="GOTAS">Gotas</option>
-                                            <option value="INALATORIO">Inalatório</option>
-                                            <option value="PO">Pó</option>
-                                            <option value="AMPOLA">Ampola</option>
-                                            <option value="FRASCO_GESTANTES">Frasco (P/ Gestantes)</option>
-                                            <option value="COMPRIMIDO_GESTANTES">Comprimido (P/ Gestantes)</option>
-                                        </select>
+                                             <option value="TABLET">Comprimido</option>
+                                             <option value="CAPSULE">Cápsula</option>
+                                             <option value="SOLUTION">Solução Oral</option>
+                                             <option value="SUSPENSION">Suspensão Oral</option>
+                                             <option value="INJECTABLE">Injetável</option>
+                                             <option value="OINTMENT">Pomada</option>
+                                             <option value="CREAM">Creme</option>
+                                             <option value="GEL">Gel</option>
+                                             <option value="SYRUP">Xarope</option>
+                                             <option value="DROPS">Gotas</option>
+                                             <option value="INHALER">Inalatório</option>
+                                             <option value="POWDER">Pó</option>
+                                             <option value="AMPOULE">Ampola</option>
+                                             <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
+                                             <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
+                                         </select>
                                     </div>
                                     <div class="form-group flex-1">
                                         <label class="fs-xs fw-700 text-muted">Via de Administração</label>
                                         <select id="editAdministrationRoute">
-                                            <option value="ORAL">Oral</option>
-                                            <option value="SUBLINGUAL">Sublingual</option>
-                                            <option value="INTRAVENOSA">Intravenosa</option>
-                                            <option value="INTRAMUSCULAR">Intramuscular</option>
-                                            <option value="SUBCUTANEA">Subcutânea</option>
-                                            <option value="TOPICA">Tópica</option>
-                                            <option value="OFTALMICA">Oftálmica</option>
-                                            <option value="OTOLOGICA">Otológica</option>
-                                            <option value="NASAL">Nasal</option>
-                                            <option value="RETAL">Retal</option>
-                                            <option value="VAGINAL">Vaginal</option>
-                                            <option value="INALATORIA">Inalatória</option>
-                                        </select>
+                                             <option value="ORAL">Oral</option>
+                                             <option value="SUBLINGUAL">Sublingual</option>
+                                             <option value="INTRAVENOUS">Intravenosa</option>
+                                             <option value="INTRAMUSCULAR">Intramuscular</option>
+                                             <option value="SUBCUTANEOUS">Subcutânea</option>
+                                             <option value="TOPICAL">Tópica</option>
+                                             <option value="OPHTHALMIC">Oftálmica</option>
+                                             <option value="OTIC">Otológica</option>
+                                             <option value="NASAL">Nasal</option>
+                                             <option value="RECTAL">Retal</option>
+                                             <option value="VAGINAL">Vaginal</option>
+                                             <option value="INHALATIONAL">Inalatória</option>
+                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-row mt-20">
@@ -1505,7 +1505,7 @@
                                             style="justify-content: center;">
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="editMedProgFarmaciaBasica"
-                                                    value="FARMACIA_BASICA"
+                                                    value="BASIC_PHARMACY"
                                                     style="width: 18px; height: 18px; cursor: pointer;"> Farmácia
                                                 Básica</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
@@ -1515,17 +1515,17 @@
                                                 Diabetes</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="editMedProgHipertensao"
-                                                    value="HIPERTENSAO"
+                                                    value="HYPERTENSION"
                                                     style="width: 18px; height: 18px; cursor: pointer;">
                                                 Hipertensão</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="editMedProgSaudeMulher"
-                                                    value="SAUDE_DA_MULHER"
+                                                    value="WOMENS_HEALTH"
                                                     style="width: 18px; height: 18px; cursor: pointer;"> Saúde da
                                                 Mulher</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="editMedProgSaudeMental"
-                                                    value="SAUDE_MENTAL"
+                                                    value="MENTAL_HEALTH"
                                                     style="width: 18px; height: 18px; cursor: pointer;"> Saúde
                                                 Mental</label>
                                         </div>
@@ -1661,21 +1661,21 @@
                                         <label class="fs-xs fw-700 text-muted">Forma Farmacêutica</label>
                                         <select id="newMedForm">
                                             <option value="">Selecione...</option>
-                                            <option value="COMPRIMIDO">Comprimido</option>
-                                            <option value="CAPSULA">Cápsula</option>
-                                            <option value="SOLUCAO">Solução Oral</option>
-                                            <option value="SUSPENSAO">Suspensão Oral</option>
-                                            <option value="INJETAVEL">Injetável</option>
-                                            <option value="POMADA">Pomada</option>
-                                            <option value="CREME">Creme</option>
+                                            <option value="TABLET">Comprimido</option>
+                                            <option value="CAPSULE">Cápsula</option>
+                                            <option value="SOLUTION">Solução Oral</option>
+                                            <option value="SUSPENSION">Suspensão Oral</option>
+                                            <option value="INJECTABLE">Injetável</option>
+                                            <option value="OINTMENT">Pomada</option>
+                                            <option value="CREAM">Creme</option>
                                             <option value="GEL">Gel</option>
-                                            <option value="XAROPE">Xarope</option>
-                                            <option value="GOTAS">Gotas</option>
-                                            <option value="INALATORIO">Inalatório</option>
-                                            <option value="PO">Pó</option>
-                                            <option value="AMPOLA">Ampola</option>
-                                            <option value="FRASCO_GESTANTES">Frasco (P/ Gestantes)</option>
-                                            <option value="COMPRIMIDO_GESTANTES">Comprimido (P/ Gestantes)</option>
+                                            <option value="SYRUP">Xarope</option>
+                                            <option value="DROPS">Gotas</option>
+                                            <option value="INHALER">Inalatório</option>
+                                            <option value="POWDER">Pó</option>
+                                            <option value="AMPOULE">Ampola</option>
+                                            <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
+                                            <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
                                         </select>
                                     </div>
                                     <div class="form-group flex-1">
@@ -1684,16 +1684,16 @@
                                             <option value="">Selecione...</option>
                                             <option value="ORAL">Oral</option>
                                             <option value="SUBLINGUAL">Sublingual</option>
-                                            <option value="INTRAVENOSA">Intravenosa</option>
+                                            <option value="INTRAVENOUS">Intravenosa</option>
                                             <option value="INTRAMUSCULAR">Intramuscular</option>
-                                            <option value="SUBCUTANEA">Subcutânea</option>
-                                            <option value="TOPICA">Tópica</option>
-                                            <option value="OFTALMICA">Oftálmica</option>
-                                            <option value="OTOLOGICA">Otológica</option>
+                                            <option value="SUBCUTANEOUS">Subcutânea</option>
+                                            <option value="TOPICAL">Tópica</option>
+                                            <option value="OPHTHALMIC">Oftálmica</option>
+                                            <option value="OTIC">Otológica</option>
                                             <option value="NASAL">Nasal</option>
-                                            <option value="RETAL">Retal</option>
+                                            <option value="RECTAL">Retal</option>
                                             <option value="VAGINAL">Vaginal</option>
-                                            <option value="INALATORIA">Inalatória</option>
+                                            <option value="INHALATIONAL">Inalatória</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1705,7 +1705,7 @@
                                             style="justify-content: center;">
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="newMedProgFarmaciaBasica"
-                                                    value="FARMACIA_BASICA"
+                                                    value="BASIC_PHARMACY"
                                                     style="width: 18px; height: 18px; cursor: pointer;"> Farmácia
                                                 Básica</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
@@ -1715,17 +1715,17 @@
                                                 Diabetes</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="newMedProgHipertensao"
-                                                    value="HIPERTENSAO"
+                                                    value="HYPERTENSION"
                                                     style="width: 18px; height: 18px; cursor: pointer;">
                                                 Hipertensão</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="newMedProgSaudeMulher"
-                                                    value="SAUDE_DA_MULHER"
+                                                    value="WOMENS_HEALTH"
                                                     style="width: 18px; height: 18px; cursor: pointer;"> Saúde da
                                                 Mulher</label>
                                             <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
                                                 style="margin: 0;"><input type="checkbox" id="newMedProgSaudeMental"
-                                                    value="SAUDE_MENTAL"
+                                                    value="MENTAL_HEALTH"
                                                     style="width: 18px; height: 18px; cursor: pointer;"> Saúde
                                                 Mental</label>
                                         </div>
@@ -1768,26 +1768,28 @@
                     </div>
 
                     <div class="table-responsive"
-                        style="flex: 1; min-height: 0; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                        style="flex: 1; min-height: 480px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: 0;">
                         <table class="table" style="table-layout: fixed; width: 100%;">
                             <thead>
-                                <tr>
-                                    <th class="sortable" style="width: 25%;" onclick="handleSort('name')">ITEM <i
-                                            class="fa-solid fa-sort sort-icon" id="sort-name"></i></th>
-                                    <th style="width: 15%; text-align: center;">TIPO</th>
-                                    <th style="width: 20%; text-align: center;">CATEGORIA</th>
-                                    <th class="sortable" style="width: 12%; text-align: center;"
+                                <tr style="height: 60px;">
+                                    <th class="sortable" style="width: 25%; text-align: center;"
+                                        onclick="handleSort('name')">ITEM <i class="fa-solid fa-sort sort-icon"
+                                            id="sort-name"></i></th>
+                                    <th style="width: 17%; text-align: center;">TIPO</th>
+                                    <th style="width: 17%; text-align: center;">CATEGORIA</th>
+                                    <th class="sortable" style="width: 17%; text-align: center;"
                                         onclick="handleSort('quantity')">QUANTIDADE <i
                                             class="fa-solid fa-sort sort-icon" id="sort-quantity"></i></th>
-                                    <th class="sortable" style="width: 13%; text-align: center;"
+                                    <th class="sortable" style="width: 17%; text-align: center;"
                                         onclick="handleSort('expiration')">VALIDADE <i
                                             class="fa-solid fa-sort sort-icon" id="sort-expiration"></i></th>
-                                    <th style="width: 15%; text-align: center;">SITUAÇÃO</th>
+                                    <th style="width: 17%; text-align: center;">SITUAÇÃO</th>
                                 </tr>
                             </thead>
                             <tbody id="inventoryBody">
-                                <tr>
-                                    <td colspan="6" class="empty-msg">Defina seus filtros e clique em
+                                <tr style="height: 400px;">
+                                    <td colspan="6" class="empty-msg" style="vertical-align: middle;">Defina seus
+                                        filtros e clique em
                                         <b>Buscar</b> para carregar os dados.
                                     </td>
                                 </tr>
@@ -1965,6 +1967,8 @@
                                     <label class="fs-xs fw-700 text-muted">Cargo</label>
                                     <select id="newEmpRole" onchange="toggleMicroareaField('new')">
                                         <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
+                                        <option value="ENF">Enfermeiro(a)</option>
+                                        <option value="TRIAGEM">Triagem</option>
                                         <option value="FARMACEUTICO">Farmacêutico</option>
                                         <option value="ADMINISTRATIVO">Administrativo</option>
                                         <option value="ENF_GERENTE">Enf. Gerente</option>
@@ -2034,6 +2038,8 @@
                                     <label class="fs-xs fw-700 text-muted mb-8">Cargo</label>
                                     <select id="editEmpRole" class="h-42" onchange="toggleMicroareaField('edit')">
                                         <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
+                                        <option value="ENF">Enfermeiro(a)</option>
+                                        <option value="TRIAGEM">Triagem</option>
                                         <option value="FARMACEUTICO">Farmacêutico</option>
                                         <option value="ADMINISTRATIVO">Administrativo</option>
                                         <option value="ENF_GERENTE">Enf. Gerente</option>
@@ -2291,9 +2297,7 @@
                 </div>
             </div>
 
-            <!-- ==========================================
-             SEÇÃO DE RELATÓRIOS
-        =========================================== -->
+            <!-- SEÇÃO DE RELATÓRIOS -->
             <section id="view-relatorios" class="view-section">
 
 
@@ -2862,6 +2866,16 @@
     <script type="module" src="js/pedidos.js?v=2"></script>
     <script type="module" src="js/reports.js?v=2"></script>
     <script type="module" src="js/audit.js?v=1"></script>
+    <script>
+        // Configura proteção para datas futuras em campos de nascimento
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            const newBirthDate = document.getElementById('newBirthDate');
+            const editBirthDate = document.getElementById('editBirthDate');
+            if (newBirthDate) newBirthDate.max = today;
+            if (editBirthDate) editBirthDate.max = today;
+        });
+    </script>
 </body>
 
 </html>

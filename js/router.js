@@ -180,6 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const roleMap = {
                 'ADM_TI': 'Administrador de TI',
                 'ENF_GERENTE': 'Enfermeiro(a) Gerente',
+                'ENF': 'Enfermeiro(a)',
+                'TRIAGEM': 'Triagem',
                 'TEC_ENFERMAGEM': 'Técnico(a) de Enfermagem',
                 'FARMACEUTICO': 'Farmacêutico',
                 'ADMINISTRATIVO': 'Administrativo',

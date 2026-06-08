@@ -730,6 +730,29 @@ function formatEnum(value) {
 function getFriendlyPharmForm(form) {
     if (!form) return "";
     const mapping = {
+        // Chaves em Inglês
+        "TABLET": "Comprimido",
+        "CAPSULE": "Cápsula",
+        "SYRUP": "Xarope",
+        "SUSPENSION": "Suspensão Oral",
+        "DROPS": "Gotas",
+        "OINTMENT": "Pomada",
+        "CREAM": "Creme",
+        "INJECTABLE": "Injetável",
+        "SUPPOSITORY": "Supositório",
+        "TRANSDERMAL_PATCH": "Adesivo Transdérmico",
+        "LOTION": "Loção",
+        "SOLUTION": "Solução Oral",
+        "ELIXIR": "Elixir",
+        "GEL": "Gel",
+        "PASTE": "Pasta",
+        "POWDER": "Pó",
+        "INHALER": "Inalatório",
+        "AMPOULE": "Ampola",
+        "BOTTLE_PREGNANT": "Frasco (P/ Gestantes)",
+        "TABLET_PREGNANT": "Comprimido (P/ Gestantes)",
+
+        // Fallback em Português
         "COMPRIMIDO": "Comprimido",
         "AMPOLA": "Ampola",
         "FRASCO_GESTANTES": "Frasco (P/ Gestantes)",
@@ -740,7 +763,6 @@ function getFriendlyPharmForm(form) {
         "INJETAVEL": "Injetável",
         "POMADA": "Pomada",
         "CREME": "Creme",
-        "GEL": "Gel",
         "XAROPE": "Xarope",
         "GOTAS": "Gotas",
         "INALATORIO": "Inalatório",

@@ -117,6 +117,8 @@
             const roleLabels = {
                 ADM_TI: 'Administrador TI',
                 ENF_GERENTE: 'Enf. Gerente',
+                ENF: 'Enfermeiro(a)',
+                TRIAGEM: 'Triagem',
                 TEC_ENFERMAGEM: 'Téc. Enfermagem',
                 FARMACEUTICO: 'Farmacêutico',
                 ADMINISTRATIVO: 'Administrativo',
@@ -197,13 +199,19 @@
 
     // Auxiliar de escape HTML
     function escapeHTML(str) {
-        if (!str) return '';
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
+        if (str === null || str === undefined || str === '') return '';
+        return String(str).replace(/[&<>'"`=\/]/g,
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;',
+                '`': '&#x60;',
+                '=': '&#x3D;',
+                '/': '&#x2F;'
+            }[tag] || tag)
+        );
     }
 
     // Exportar para escopo global do roteador e inicialização

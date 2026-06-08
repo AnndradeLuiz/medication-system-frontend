@@ -374,7 +374,7 @@
         }
 
         // 3. TRAVA DE SEGURANÇA: Paciente de Fora (UBS Externa)
-        if (selectedPatientIsExternal && (!med.programCategories || !med.programCategories.includes('FARMACIA_BASICA'))) {
+        if (selectedPatientIsExternal && (!med.programCategories || (!med.programCategories.includes('FARMACIA_BASICA') && !med.programCategories.includes('BASIC_PHARMACY')))) {
             const catStr = med.programCategories ? med.programCategories.join(', ') : 'Nenhuma';
             showToast(`BLOQUEADO: Este paciente é de outra UBS.\nEle só tem permissão para retirar itens da Farmácia Básica.\n\nO medicamento '${med.activeIngredient} ${med.concentration}' pertence às categorias: ${catStr}.`, 'error');
             return;
@@ -477,7 +477,7 @@
                     continue;
                 }
 
-                if (selectedPatientIsExternal && (!med.programCategories || !med.programCategories.includes('FARMACIA_BASICA'))) {
+                if (selectedPatientIsExternal && (!med.programCategories || (!med.programCategories.includes('FARMACIA_BASICA') && !med.programCategories.includes('BASIC_PHARMACY')))) {
                     missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Bloqueado para paciente externo)`);
                     continue;
                 }
@@ -1116,7 +1116,7 @@
                         <span class="fw-600 text-main fs-14">${escapeHTML(patientName)}</span>
                         <span class="fw-600 text-primary fs-14">${escapeHTML(dateStr)} - ${escapeHTML(timeStr)}</span>
                     </div>
-                    <span class="text-muted fs-12">Responsável: ${employeeName}</span>
+                    <span class="text-muted fs-12">Responsável: ${escapeHTML(employeeName)}</span>
                 </div>
             `;
 
@@ -1313,20 +1313,43 @@
             return;
         }
 
-        // Validação de Programa (Ignora FARMACIA_BASICA pois é de livre acesso)
+        // Validação de Programa (Ignora BASIC_PHARMACY pois é de livre acesso)
         const categories = selectedMed.programCategories || (selectedMed.programCategory ? [selectedMed.programCategory] : []);
-        const isUniversal = categories.includes('FARMACIA_BASICA');
+        
+        const normalizeCategory = cat => {
+            if (!cat) return '';
+            const map = {
+                'HIPERTENSAO': 'HYPERTENSION',
+                'DIABETES': 'DIABETES',
+                'SAUDE_MENTAL': 'MENTAL_HEALTH',
+                'SAUDE_DA_MULHER': 'WOMENS_HEALTH',
+                'FARMACIA_BASICA': 'BASIC_PHARMACY',
+                'HYPERTENSION': 'HYPERTENSION',
+                'WOMENS_HEALTH': 'WOMENS_HEALTH',
+                'MENTAL_HEALTH': 'MENTAL_HEALTH',
+                'BASIC_PHARMACY': 'BASIC_PHARMACY'
+            };
+            return map[cat.toUpperCase()] || cat.toUpperCase();
+        };
+
+        const normalizedCats = categories.map(normalizeCategory);
+        const isUniversal = normalizedCats.includes('BASIC_PHARMACY');
+        
         if (!isUniversal && currentEditDispPatientData && currentEditDispPatientData.programs) {
-            const hasProgram = currentEditDispPatientData.programs.some(p => categories.includes(p.programCategory));
+            const hasProgram = currentEditDispPatientData.programs.some(p => normalizedCats.includes(normalizeCategory(p.programCategory)));
             if (!hasProgram) {
                 const formatMap = {
-                    'HIPERTENSAO': 'Hipertensão',
+                    'HYPERTENSION': 'Hipertensão',
                     'DIABETES': 'Diabetes',
+                    'MENTAL_HEALTH': 'Saúde Mental',
+                    'WOMENS_HEALTH': 'Saúde da Mulher',
+                    'BASIC_PHARMACY': 'Farmácia Básica',
+                    'HIPERTENSAO': 'Hipertensão',
                     'SAUDE_MENTAL': 'Saúde Mental',
                     'SAUDE_DA_MULHER': 'Saúde da Mulher',
                     'FARMACIA_BASICA': 'Farmácia Básica'
                 };
-                const friendlyCategories = categories.map(cat => formatMap[cat] || cat).join(', ');
+                const friendlyCategories = categories.map(cat => formatMap[cat.toUpperCase()] || cat).join(', ');
                 showToast(`O paciente não possui autorização para nenhum dos programas do medicamento: ${friendlyCategories}`, 'error');
                 return;
             }

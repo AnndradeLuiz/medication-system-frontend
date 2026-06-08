@@ -51,8 +51,26 @@ function renderProgramsChart(dataObj) {
 
     if (programsChartInstance) programsChartInstance.destroy();
 
-    const labels = Object.keys(dataObj);
-    const data = Object.values(dataObj);
+    const labelsMap = {
+        "DIABETES": "Diabetes",
+        "HYPERTENSION": "Hipertensão",
+        "BASIC_PHARMACY": "Farmácia Básica",
+        "WOMENS_HEALTH": "Saúde da Mulher",
+        "MENTAL_HEALTH": "Saúde Mental",
+        "HIPERTENSAO": "Hipertensão",
+        "FARMACIA_BASICA": "Farmácia Básica",
+        "SAUDE_DA_MULHER": "Saúde da Mulher",
+        "SAUDE_MENTAL": "Saúde Mental"
+    };
+
+    const normalizedData = {};
+    Object.entries(dataObj || {}).forEach(([key, val]) => {
+        const friendlyName = labelsMap[key] || key;
+        normalizedData[friendlyName] = (normalizedData[friendlyName] || 0) + val;
+    });
+
+    const labels = Object.keys(normalizedData);
+    const data = Object.values(normalizedData);
 
     // Paleta de cores vibrantes e modernas
     const colors = [
@@ -380,9 +398,9 @@ async function loadInventoryAlerts() {
 
             tbody.innerHTML += `
                 <tr ${rowStyle} style="border-bottom: 1px solid #e2e8f0; height: 50px;">
-                    <td style="padding: 12px 8px; font-weight:500; vertical-align: middle;">${item.activeIngredient}</td>
-                    <td style="padding: 12px 8px; text-align: center; vertical-align: middle; color: #64748b;">${item.concentration}</td>
-                    <td style="padding: 12px 8px; text-align: center; font-family: monospace; vertical-align: middle; color: #475569;">${item.lotCode || '-'}</td>
+                    <td style="padding: 12px 8px; font-weight:500; text-align: center; vertical-align: middle;">${escapeHTML(item.activeIngredient)}</td>
+                    <td style="padding: 12px 8px; text-align: center; vertical-align: middle; color: #64748b;">${escapeHTML(item.concentration)}</td>
+                    <td style="padding: 12px 8px; text-align: center; font-family: monospace; vertical-align: middle; color: #475569;">${escapeHTML(item.lotCode || '-')}</td>
                     <td style="padding: 12px 8px; text-align: center; font-weight:600; vertical-align: middle;">${item.quantity}</td>
                     <td style="padding: 12px 8px; text-align: center; vertical-align: middle; color: #475569;">${expDate}</td>
                     <td style="padding: 12px 8px; text-align: center; vertical-align: middle; font-weight: 500;">${daysRemaining}</td>
@@ -430,8 +448,8 @@ async function loadConsumptionProjection() {
 
             tbody.innerHTML += `
                 <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 10px 8px; font-weight:500;">${item.activeIngredient}</td>
-                    <td style="padding: 10px 8px; text-align: center;">${item.concentration}</td>
+                    <td style="padding: 10px 8px; font-weight:500; text-align: center;">${escapeHTML(item.activeIngredient)}</td>
+                    <td style="padding: 10px 8px; text-align: center;">${escapeHTML(item.concentration)}</td>
                     <td style="padding: 10px 8px; text-align: center; font-weight:600;">${item.totalStock}</td>
                     <td style="padding: 10px 8px; text-align: center;">${item.cmm}</td>
                     <td style="padding: 10px 8px; text-align: center; font-weight:600;">${item.autonomyDays}</td>
@@ -537,9 +555,9 @@ async function loadThirdPartyDispensations(periodStr) {
                 tbody.innerHTML += `
                     <tr style="border-bottom: 1px solid #e2e8f0; cursor: pointer; transition: background-color 0.2s;" onclick="openAuditDetailsModal(${index})" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
                         <td style="padding: 12px 8px; width: 20%; text-align: center; vertical-align: middle; white-space: nowrap;">${dateStr}</td>
-                        <td style="padding: 12px 8px; width: 30%; text-align: center; vertical-align: middle; font-weight:600; color:#1e3a8a;">${item.terceiroNome}</td>
-                        <td style="padding: 12px 8px; width: 30%; text-align: center; vertical-align: middle; font-weight:500;">${item.pacienteNome}</td>
-                        <td style="padding: 12px 8px; width: 20%; text-align: center; vertical-align: middle;">${item.medicamento}</td>
+                        <td style="padding: 12px 8px; width: 30%; text-align: center; vertical-align: middle; font-weight:600; color:#1e3a8a;">${escapeHTML(item.terceiroNome)}</td>
+                        <td style="padding: 12px 8px; width: 30%; text-align: center; vertical-align: middle; font-weight:500;">${escapeHTML(item.pacienteNome)}</td>
+                        <td style="padding: 12px 8px; width: 20%; text-align: center; vertical-align: middle;">${escapeHTML(item.medicamento)}</td>
                     </tr>
                 `;
             });

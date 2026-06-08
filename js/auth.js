@@ -487,7 +487,14 @@ window.showToast = function(message, type = 'success') {
         document.head.appendChild(style);
     }
 
-    toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+    const iconEl = document.createElement('i');
+    iconEl.className = `fa-solid ${icon}`;
+    
+    const spanEl = document.createElement('span');
+    spanEl.textContent = message;
+
+    toast.appendChild(iconEl);
+    toast.appendChild(spanEl);
     toastContainer.appendChild(toast);
 
     setTimeout(() => {

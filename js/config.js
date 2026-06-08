@@ -10,13 +10,16 @@ const API_URL = `http://${window.location.hostname}:8080`;
  */
 function escapeHTML(str) {
     if (str === null || str === undefined || str === '') return '';
-    return String(str).replace(/[&<>'"]/g,
+    return String(str).replace(/[&<>'"`=\/]/g,
         tag => ({
             '&': '&amp;',
             '<': '&lt;',
             '>': '&gt;',
             "'": '&#39;',
-            '"': '&quot;'
+            '"': '&quot;',
+            '`': '&#x60;',
+            '=': '&#x3D;',
+            '/': '&#x2F;'
         }[tag] || tag)
     );
 }

@@ -146,7 +146,7 @@
     text-align: center;
     padding: 25px 20px !important;
     border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: 0;
     background-color: var(--color-bg);
     margin: 20px 0 !important;
 }

@@ -89,7 +89,7 @@
                 filtered.forEach(m => {
                     const li = document.createElement('li');
                     li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
-                    li.innerHTML = `<span style="font-weight: 600; color: #1f2937;">${m.activeIngredient}</span> <span style="font-size: 13px; color: #6b7280;">(${m.concentration})</span>`;
+                    li.innerHTML = `<span style="font-weight: 600; color: #1f2937;">${escapeHTML(m.activeIngredient)}</span> <span style="font-size: 13px; color: #6b7280;">(${escapeHTML(m.concentration)})</span>`;
 
                     li.onmouseover = () => li.style.backgroundColor = '#e0e7ff';
                     li.onmouseout = () => li.style.backgroundColor = 'transparent';
@@ -433,6 +433,11 @@
 
         const labels = {
             "DIABETES": "Diabetes",
+            "HYPERTENSION": "Hipertensão",
+            "BASIC_PHARMACY": "Farmácia Básica",
+            "WOMENS_HEALTH": "Saúde da Mulher",
+            "MENTAL_HEALTH": "Saúde Mental",
+            // Fallback
             "HIPERTENSAO": "Hipertensão",
             "FARMACIA_BASICA": "Farmácia Básica",
             "SAUDE_DA_MULHER": "Saúde da Mulher",
@@ -524,29 +529,28 @@
 
     // --- ESCONDER/MOSTRAR PROGRAMAS NA EDIÇÃO ---
     function toggleProgramasEdit() {
-        const isExternal = document.getElementById('editExternal').checked;
-        const secaoProgramas = document.getElementById('secaoProgramasEdit');
+        const isExt = document.getElementById('editExternal').checked;
+        const secao = document.getElementById('secaoProgramasEdit');
         const acsContainer = document.getElementById('editPatientAcsContainer');
-
+        
         if (acsContainer) {
-            acsContainer.style.display = isExternal ? 'none' : 'flex';
-            if (isExternal) {
-                const selectEl = document.getElementById('editPatientAcs');
-                if (selectEl) selectEl.value = '';
-                const microareaInput = document.getElementById('editPatientMicroarea');
-                if (microareaInput) microareaInput.value = '';
-            }
+            acsContainer.style.display = isExt ? 'none' : 'flex';
         }
-
-        if (!secaoProgramas) return;
-
-        if (isExternal) {
-            secaoProgramas.style.display = 'none';
-
-            currentEditPatientPrograms = [];
-            renderEditBuilderPrograms();
-        } else {
-            secaoProgramas.style.display = 'block';
+        
+        if (isExt) {
+            const acsSelect = document.getElementById('editPatientAcs');
+            if (acsSelect) acsSelect.value = "";
+            const microareaInput = document.getElementById('editPatientMicroarea');
+            if (microareaInput) microareaInput.value = "";
+        }
+        
+        if (secao) {
+            if (isExt) {
+                secao.style.display = 'none';
+                // Não limpa currentEditPatientPrograms para caso o usuário desmarque 'Externo'
+            } else {
+                secao.style.display = 'block';
+            }
         }
     }
 
@@ -990,15 +994,21 @@
 
         const labels = {
             "DIABETES": "Diabetes",
+            "HYPERTENSION": "Hipertensão",
+            "WOMENS_HEALTH": "Saúde da Mulher",
+            "MENTAL_HEALTH": "Saúde Mental",
+            "BASIC_PHARMACY": "Farmácia Básica",
+            // Fallback
             "HIPERTENSAO": "Hipertensão",
             "SAUDE_DA_MULHER": "Saúde da Mulher",
-            "SAUDE_MENTAL": "Saúde Mental"
+            "SAUDE_MENTAL": "Saúde Mental",
+            "FARMACIA_BASICA": "Farmácia Básica"
         };
 
         // 1. Mostrar Programas Inscritos
         if (patient.programCategories && patient.programCategories.length > 0) {
             const catNames = patient.programCategories
-                .filter(cat => cat !== 'FARMACIA_BASICA') // Remove redundância
+                .filter(cat => cat !== 'FARMACIA_BASICA' && cat !== 'BASIC_PHARMACY') // Remove redundância
                 .map(cat => labels[cat] || cat)
                 .join(', ');
 
@@ -1064,7 +1074,7 @@
                 programsHtml += `<div style="margin-bottom: 12px; border-left: 3px solid #e2e8f0; padding-left: 10px;">
                 <b style="font-size: 13px; color: #64748b;">${catName}</b><br>
                 <span style="font-size: 14px; color: #1e293b;">
-                    <i class="fa-solid fa-pills" style="font-size: 12px; color: #0f766e;"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b style="color:#ea580c;">${prog.quantity} un</b>
+                    <i class="fa-solid fa-pills" style="font-size: 12px; color: #0f766e;"></i> <b>${escapeHTML(prog.medicationName)} (${escapeHTML(prog.concentration)})</b> - <b style="color:#ea580c;">${prog.quantity} un</b>
                 </span>
                 ${posologiaHtml}
             </div>`;
@@ -1241,8 +1251,16 @@
 
         const enrollments = [];
         if (!isExternal) {
-            document.querySelectorAll('input[id^="editProg"]:checked').forEach(cb => {
-                const category = cb.value;
+            const domCategories = Array.from(document.querySelectorAll('input[id^="editProg"]')).map(cb => cb.value);
+            const checkedCategories = Array.from(document.querySelectorAll('input[id^="editProg"]:checked')).map(cb => cb.value);
+            const allCategories = [...new Set(currentEditPatientPrograms.map(p => p.category))];
+
+            allCategories.forEach(category => {
+                // Pula categorias que estão no DOM mas o usuário desmarcou
+                if (domCategories.includes(category) && !checkedCategories.includes(category)) {
+                    return;
+                }
+                
                 const medications = currentEditPatientPrograms
                     .filter(p => p.category === category)
                     .map(p => ({
@@ -1260,10 +1278,19 @@
                         administrationInstructions: p.administrationInstructions
                     }));
 
-                enrollments.push({
-                    category: category,
-                    medications: medications
-                });
+                if (medications.length > 0) {
+                    enrollments.push({
+                        category: category,
+                        medications: medications
+                    });
+                }
+            });
+
+            // Inclui as categorias checadas que não têm nenhum medicamento ainda
+            checkedCategories.forEach(category => {
+                if (!allCategories.includes(category)) {
+                    enrollments.push({ category: category, medications: [] });
+                }
             });
         }
 
