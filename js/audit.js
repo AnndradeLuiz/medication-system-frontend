@@ -1,4 +1,4 @@
-(function() {
+(function () {
     let auditCurrentPage = 0;
     let auditTotalPages = 1;
     let auditPageSize = 20;
@@ -6,25 +6,23 @@
     // --- CARREGAR LOGS DE AUDITORIA ---
     async function loadAuditLogs(page = 0) {
         auditCurrentPage = page;
-        
+
         const tableBody = document.getElementById('auditTableBody');
         if (tableBody) {
             tableBody.innerHTML = '<tr><td colspan="6" class="empty-msg"><i class="fa-solid fa-spinner fa-spin"></i> Carregando logs de auditoria...</td></tr>';
         }
 
-        // Recuperar valores dos filtros
         const start = document.getElementById('auditFilterStart').value;
         const end = document.getElementById('auditFilterEnd').value;
-        const employeeName = document.getElementById('auditFilterUser').value;
+        const practitionerName = document.getElementById('auditFilterUser').value;
         const action = document.getElementById('auditFilterAction').value;
         const entityType = document.getElementById('auditFilterEntity').value;
         const keyword = document.getElementById('auditFilterKeyword').value;
 
-        // Construir URL com parâmetros de busca
         let queryParams = [];
         queryParams.push(`page=${auditCurrentPage}`);
         queryParams.push(`size=${auditPageSize}`);
-        queryParams.push(`sort=momment,desc`); // Garantir ordenação decrescente por padrão
+        queryParams.push(`sort=moment,desc`);
 
         if (start) {
             const startDate = new Date(`${start}T00:00:00`);
@@ -34,7 +32,7 @@
             const endDate = new Date(`${end}T23:59:59`);
             queryParams.push(`end=${endDate.toISOString()}`);
         }
-        if (employeeName) queryParams.push(`employeeName=${encodeURIComponent(employeeName)}`);
+        if (practitionerName) queryParams.push(`practitionerName=${encodeURIComponent(practitionerName)}`);
         if (action) queryParams.push(`action=${encodeURIComponent(action)}`);
         if (entityType) queryParams.push(`entityType=${encodeURIComponent(entityType)}`);
         if (keyword) queryParams.push(`keyword=${encodeURIComponent(keyword)}`);
@@ -46,7 +44,7 @@
                 headers: getAuthHeaders(),
                 cache: 'no-store'
             });
-            
+
             if (!response.ok) {
                 if (response.status === 403) {
                     throw new Error('Acesso negado. Apenas administradores ou enfermeiros gerentes podem visualizar a auditoria.');
@@ -56,10 +54,10 @@
 
             const pageData = await response.json();
             const logs = pageData.content || [];
-            
+
             // Extrai as informações de paginação (suporta Spring Boot 2.x e 3.3+)
             const pageInfo = pageData.page || pageData;
-            
+
             // Atualizar paginação UI
             auditTotalPages = pageInfo.totalPages || 1;
             const currentPageNum = pageInfo.number !== undefined ? pageInfo.number : 0;
@@ -67,14 +65,14 @@
             const totalElements = pageInfo.totalElements || 0;
 
             document.getElementById('auditCurrentPage').innerText = `Pág ${currentPageNum + 1} de ${auditTotalPages}`;
-            
+
             const startItem = totalElements === 0 ? 0 : (currentPageNum * pageSize) + 1;
             const endItem = Math.min((currentPageNum + 1) * pageSize, totalElements);
             document.getElementById('auditPageInfo').innerText = `${startItem}-${endItem} de ${totalElements}`;
-            
+
             const isFirst = currentPageNum === 0;
             const isLast = currentPageNum >= (auditTotalPages - 1);
-            
+
             document.getElementById('btnPrevAudit').disabled = pageData.first !== undefined ? pageData.first : isFirst;
             document.getElementById('btnNextAudit').disabled = pageData.last !== undefined ? pageData.last : isLast;
 
@@ -94,7 +92,7 @@
         tbody.innerHTML = '';
 
         if (!logs || logs.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-msg">Nenhum evento de auditoria registrado para os filtros aplicados.</td></tr>';
+            tbody.innerHTML = '<tr style="height: 400px;"><td colspan="6" class="empty-msg" style="vertical-align: middle;">Nenhum evento de auditoria registrado para os filtros aplicados.</td></tr>';
             return;
         }
 
@@ -102,29 +100,19 @@
 
         logs.forEach(log => {
             const tr = document.createElement('tr');
-            
+
             // Formatar data/hora
             let formattedDate = '-';
-            if (log.momment) {
+            if (log.moment) {
                 try {
-                    formattedDate = new Date(log.momment).toLocaleString('pt-BR');
+                    formattedDate = new Date(log.moment).toLocaleString('pt-BR');
                 } catch (e) {
-                    formattedDate = log.momment;
+                    formattedDate = log.moment;
                 }
             }
 
             // Traduzir cargo do funcionário
-            const roleLabels = {
-                ADM_TI: 'Administrador TI',
-                ENF_GERENTE: 'Enf. Gerente',
-                ENF: 'Enfermeiro(a)',
-                TRIAGEM: 'Triagem',
-                TEC_ENFERMAGEM: 'Téc. Enfermagem',
-                FARMACEUTICO: 'Farmacêutico',
-                ADMINISTRATIVO: 'Administrativo',
-                SISTEMA: 'Sistema'
-            };
-            const roleLabel = roleLabels[log.employeeRole] || log.employeeRole || 'Sistema';
+            const roleLabel = window.ROLE_LABELS ? (window.ROLE_LABELS[log.practitionerRole] || log.practitionerRole || 'Sistema') : (log.practitionerRole || 'Sistema');
 
             // Customizar estilo da Ação
             let actionBadge = '';
@@ -154,7 +142,7 @@
             // Traduzir Entidades do Módulo
             const entityLabels = {
                 Patient: 'Paciente',
-                Employee: 'Funcionário',
+                practitioner: 'Profissional',
                 Medication: 'Medicamento',
                 Dispensation: 'Dispensação',
                 FacilitySupply: 'Insumo Infraestrutura',
@@ -164,8 +152,8 @@
 
             tr.innerHTML = `
                 <td class="font-data text-muted text-center" style="font-size: 13px;">${formattedDate}</td>
-                <td class="text-center"><span class="fw-600 text-main" style="font-size: 13.5px;">${escapeHTML(log.employeeName || 'Sistema')}</span></td>
-                <td class="text-center"><span class="role-badge role-${log.employeeRole || 'SISTEMA'}">${roleLabel}</span></td>
+                <td class="text-center"><span class="fw-600 text-main" style="font-size: 13.5px;">${escapeHTML(log.practitionerName || 'Sistema')}</span></td>
+                <td class="text-center"><span class="role-badge role-${log.practitionerRole || 'SISTEMA'}">${roleLabel}</span></td>
                 <td class="text-center">${actionBadge}</td>
                 <td class="text-center"><span class="fw-600" style="color: #64748b; font-size: 13px;">${entityLabel}</span></td>
                 <td style="font-size: 13.5px; color: var(--color-text-main); font-weight: 500; padding: 12px 16px;">${escapeHTML(log.details || '')}</td>
@@ -178,7 +166,7 @@
     }
 
     // --- LIMPAR FILTROS ---
-    window.clearAuditFilters = function() {
+    window.clearAuditFilters = function () {
         document.getElementById('auditFilterStart').value = '';
         document.getElementById('auditFilterEnd').value = '';
         document.getElementById('auditFilterUser').value = '';
@@ -189,32 +177,17 @@
     };
 
     // --- NAVEGAÇÃO DE PÁGINAS ---
-    window.prevAuditPage = function() {
+    window.prevAuditPage = function () {
         if (auditCurrentPage > 0) loadAuditLogs(auditCurrentPage - 1);
     };
 
-    window.nextAuditPage = function() {
+    window.nextAuditPage = function () {
         if (auditCurrentPage < auditTotalPages - 1) loadAuditLogs(auditCurrentPage + 1);
     };
 
-    // Auxiliar de escape HTML
-    function escapeHTML(str) {
-        if (str === null || str === undefined || str === '') return '';
-        return String(str).replace(/[&<>'"`=\/]/g,
-            tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;',
-                '`': '&#x60;',
-                '=': '&#x3D;',
-                '/': '&#x2F;'
-            }[tag] || tag)
-        );
-    }
 
     // Exportar para escopo global do roteador e inicialização
     window.loadAuditLogs = loadAuditLogs;
 
 })();
+

@@ -5,36 +5,23 @@
 
 async function initComponents() {
     try {
-        // 1. Carregar Sidebar
-        const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
-        if (sidebarPlaceholder) {
-            const sidebarHtml = await fetch('partials/sidebar.html').then(r => r.text());
-            sidebarPlaceholder.innerHTML = sidebarHtml;
-
-            // Marcar link ativo na sidebar
-            highlightActiveLink();
-        }
-
-        // 2. Carregar Header
-        const headerPlaceholder = document.getElementById('header-placeholder');
-        if (headerPlaceholder) {
-            const headerHtml = await fetch('partials/header.html').then(r => r.text());
-            headerPlaceholder.innerHTML = headerHtml;
-        }
+        // A sidebar e o header agora são carregados diretamente na estrutura SPA do app.html
+        // Apenas mantemos o destaque de link ativo.
+        highlightActiveLink();
 
         // Restaurar nome do usuário logado e cargo (funciona para layouts estáticos e dinâmicos)
-        const loggedEmployeeName = localStorage.getItem('sgdm_userName');
+        const loggedpractitionerName = localStorage.getItem('sgdm_userName');
         const loggedUserEl = document.getElementById('loggedUser');
-        if (loggedUserEl && loggedEmployeeName) {
-            loggedUserEl.innerText = loggedEmployeeName;
+        if (loggedUserEl && loggedpractitionerName) {
+            loggedUserEl.innerText = loggedpractitionerName;
         }
 
         const statusEl = document.querySelector('.user-status');
-        const employeeRoleRaw = localStorage.getItem('sgdm_userRole');
+        const practitionerRoleRaw = localStorage.getItem('sgdm_userRole');
         if (statusEl) {
             let displayRole = 'Funcionário';
-            if (employeeRoleRaw && employeeRoleRaw !== 'undefined') {
-                const roleMap = {
+            if (practitionerRoleRaw && practitionerRoleRaw !== 'undefined') {
+                const roleMap = window.ROLE_LABELS || {
                     'ADM_TI': 'Administrador de TI',
                     'ENF_GERENTE': 'Enfermeiro(a) Gerente',
                     'ENF': 'Enfermeiro(a)',
@@ -43,8 +30,8 @@ async function initComponents() {
                     'FARMACEUTICO': 'Farmacêutico',
                     'ADMINISTRATIVO': 'Administrativo'
                 };
-                displayRole = roleMap[employeeRoleRaw.toUpperCase()] ||
-                    employeeRoleRaw.charAt(0).toUpperCase() + employeeRoleRaw.slice(1).toLowerCase();
+                displayRole = roleMap[practitionerRoleRaw.toUpperCase()] ||
+                    practitionerRoleRaw.charAt(0).toUpperCase() + practitionerRoleRaw.slice(1).toLowerCase();
             }
             statusEl.innerText = displayRole;
         }
@@ -140,85 +127,63 @@ function setLoading(buttonId, isLoading, originalHtml = '') {
     }
 }
 
-/**
- * Exibe a animação global da logo pulsante
- */
 function showGlobalLoader() {
     const loader = document.getElementById('globalLoader');
     if (loader) loader.classList.remove('d-none');
 }
 
-/**
- * Esconde a animação global da logo pulsante
- */
+
 function hideGlobalLoader() {
     const loader = document.getElementById('globalLoader');
     if (loader) loader.classList.add('d-none');
 }
 
-// Redundância de segurança (failsafe): garante que a página sempre fique visível mesmo em lentidão de rede
 setTimeout(() => {
     document.body.classList.add('ready');
 }, 200);
 
-// --- GLOBAL UTILITIES ---
-window.escapeHTML = function(str) {
-    if (str === null || str === undefined || str === '') return '';
-    return String(str).replace(/[&<>'"`=\/]/g, function(m) {
-        return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            "'": '&#39;',
-            '"': '&quot;',
-            '`': '&#x60;',
-            '=': '&#x3D;',
-            '/': '&#x2F;'
-        }[m];
-    });
-};
 
-window.applyCpfMask = function(valOrEvent) {
+window.applyCpfMask = function (valOrEvent) {
     let value = typeof valOrEvent === 'string' ? valOrEvent : valOrEvent.target.value;
     value = value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
-    
+
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    
+
     if (typeof valOrEvent === 'object') {
         valOrEvent.target.value = value;
     }
     return value;
 };
 
-window.formatCPF = function(cpf) {
+window.formatCPF = function (cpf) {
     if (!cpf) return '-';
     let value = cpf.replace(/\D/g, "");
     if (value.length !== 11) return cpf;
     return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 };
 
-window.isValidCPF = function(cpf) {
+window.isValidCPF = function (cpf) {
     if (!cpf) return false;
     cpf = cpf.replace(/[^\d]+/g, '');
     if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
-    
+
     let sum = 0;
     let remainder;
-    
+
     for (let i = 1; i <= 9; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
     remainder = (sum * 10) % 11;
     if ((remainder === 10) || (remainder === 11)) remainder = 0;
     if (remainder !== parseInt(cpf.substring(9, 10))) return false;
-    
+
     sum = 0;
     for (let i = 1; i <= 10; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
     remainder = (sum * 10) % 11;
     if ((remainder === 10) || (remainder === 11)) remainder = 0;
     if (remainder !== parseInt(cpf.substring(10, 11))) return false;
-    
+
     return true;
 };
 
@@ -248,7 +213,7 @@ function initCustomScrollbars() {
             wrapper.style.minHeight = container.style.minHeight || '0';
             wrapper.style.display = 'flex';
             wrapper.style.flexDirection = 'column';
-            
+
             // Ajustar o container interno para ocupar o espaço do wrapper flexível
             container.style.height = '100%';
             container.style.flex = '1';
@@ -313,18 +278,18 @@ function initCustomScrollbars() {
 
         document.addEventListener('mousemove', e => {
             if (!dragging) return;
-            
+
             const trackRect = scrollbar.getBoundingClientRect();
             // Posição ideal do topo do thumb em relação ao track
             let newTop = e.clientY - trackRect.top - startOffset;
-            
+
             // Limites de movimento do thumb
             const maxTop = trackRect.height - thumb.offsetHeight;
             newTop = Math.max(0, Math.min(newTop, maxTop));
-            
+
             // Calcula o percentual exato de rolagem (de 0 a 1)
             const scrollPercent = maxTop > 0 ? (newTop / maxTop) : 0;
-            
+
             // Define o scrollTop do container baseado no percentual
             container.scrollTop = scrollPercent * (container.scrollHeight - container.clientHeight);
         });
@@ -346,3 +311,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Exportar para uso em tabelas criadas dinamicamente
 window.initCustomScrollbars = initCustomScrollbars;
+

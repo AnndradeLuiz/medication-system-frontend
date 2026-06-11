@@ -91,8 +91,8 @@ function switchView(viewId, pushState = true) {
         if (typeof initEstoqueModule === 'function') initEstoqueModule();
         if (typeof loadAllData === 'function') loadAllData();
     } else if (viewId === 'funcionarios') {
-        // No módulo funcionários, loadEmployees carrega a API e renderiza a tabela internamente
-        if (typeof loadEmployees === 'function') loadEmployees();
+        // No módulo funcionários, loadpractitioners carrega a API e renderiza a tabela internamente
+        if (typeof loadpractitioners === 'function') loadpractitioners();
     } else if (viewId === 'inventory-list') {
         if (typeof initInventoryModule === 'function') initInventoryModule();
         // if (typeof loadInventory === 'function') loadInventory(); // Desativado para carregar só ao filtrar
@@ -165,18 +165,18 @@ function initSpaRouter() {
 // Inicializa quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
     // Restaurar nome do usuário no cabeçalho
-    const loggedEmployeeName = localStorage.getItem('sgdm_userName');
+    const loggedpractitionerName = localStorage.getItem('sgdm_userName');
     const loggedUserEl = document.getElementById('loggedUser');
-    if (loggedUserEl && loggedEmployeeName) {
-        loggedUserEl.innerText = loggedEmployeeName;
+    if (loggedUserEl && loggedpractitionerName) {
+        loggedUserEl.innerText = loggedpractitionerName;
     }
 
     // Cargo formatado
     const statusEl = document.querySelector('.user-status');
-    const employeeRoleRaw = localStorage.getItem('sgdm_userRole');
+    const practitionerRoleRaw = localStorage.getItem('sgdm_userRole');
     if (statusEl) {
         let displayRole = 'Funcionário';
-        if (employeeRoleRaw && employeeRoleRaw !== 'undefined') {
+        if (practitionerRoleRaw && practitionerRoleRaw !== 'undefined') {
             const roleMap = {
                 'ADM_TI': 'Administrador de TI',
                 'ENF_GERENTE': 'Enfermeiro(a) Gerente',
@@ -187,9 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 'ADMINISTRATIVO': 'Administrativo',
                 'ACS': 'ACS'
             };
-            displayRole = roleMap[employeeRoleRaw.toUpperCase()] ||
-                roleMap[employeeRoleRaw.toUpperCase()] ||
-                employeeRoleRaw.charAt(0).toUpperCase() + employeeRoleRaw.slice(1).toLowerCase();
+            displayRole = roleMap[practitionerRoleRaw.toUpperCase()] ||
+                roleMap[practitionerRoleRaw.toUpperCase()] ||
+                practitionerRoleRaw.charAt(0).toUpperCase() + practitionerRoleRaw.slice(1).toLowerCase();
         }
         statusEl.innerText = displayRole;
     }
@@ -222,3 +222,4 @@ function switchTab(tabId, element) {
 }
 
 window.switchTab = switchTab;
+

@@ -316,7 +316,7 @@ function switchReportTab(tabName) {
 
 let hiperdiaAgeChartInstance = null;
 let hiperdiaTherapyChartInstance = null;
-let prodEmployeeChartInstance = null;
+let prodpractitionerChartInstance = null;
 let prodHourChartInstance = null;
 let prodWeekdayChartInstance = null;
 
@@ -629,16 +629,16 @@ async function loadProductivityStats() {
         const stats = await response.json();
 
         // 1. Gráfico de Produtividade dos Funcionários
-        const empCtx = document.getElementById('productivityEmployeeChart').getContext('2d');
-        if (prodEmployeeChartInstance) prodEmployeeChartInstance.destroy();
+        const empCtx = document.getElementById('productivitypractitionerChart').getContext('2d');
+        if (prodpractitionerChartInstance) prodpractitionerChartInstance.destroy();
 
-        prodEmployeeChartInstance = new Chart(empCtx, {
+        prodpractitionerChartInstance = new Chart(empCtx, {
             type: 'bar',
             data: {
-                labels: Object.keys(stats.employeeProductivity),
+                labels: Object.keys(stats.practitionerProductivity),
                 datasets: [{
                     label: 'Entregas',
-                    data: Object.values(stats.employeeProductivity),
+                    data: Object.values(stats.practitionerProductivity),
                     backgroundColor: '#8b5cf6',
                     borderRadius: 4
                 }]
@@ -790,3 +790,4 @@ window.exportDynamicExcel = exportDynamicExcel;
 window.loadSelectedAnalyticsReport = loadSelectedAnalyticsReport;
 window.exportAnalyticsExcel = exportAnalyticsExcel;
 window.filterThirdPartyTable = filterThirdPartyTable;
+

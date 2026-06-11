@@ -2,1502 +2,1652 @@
     {
         "activeIngredient": "AAS",
         "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA",
-            "HIPERTENSAO"
+            "HYPERTENSION",
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Acido Fólico",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Albendazol",
         "concentration": "40 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Albendazol",
         "concentration": "400 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ambroxol Adulto",
         "concentration": "6 mg/mL",
-        "PharmaceuticalForm": "XAROPE",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ambroxol Pediátrico",
         "concentration": "3 mg/mL",
-        "PharmaceuticalForm": "XAROPE",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Amoxicilina",
         "concentration": "250 mg/5mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Amoxicilina",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ampicilina",
         "concentration": "50 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ampicilina",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Azitromicina",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Azitromicina",
         "concentration": "600 mg",
-        "PharmaceuticalForm": "PO",
+        "pharmaceuticalForm": "POWDER",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Benzilpenicilina",
         "concentration": "1.200.000 UI",
-        "PharmaceuticalForm": "INJETAVEL",
+        "pharmaceuticalForm": "INJECTABLE",
         "administrationRoute": "INTRAMUSCULAR",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Benzoato de Benzila",
         "concentration": null,
-        "PharmaceuticalForm": "LOCAO",
-        "administrationRoute": "TOPICA",
+        "pharmaceuticalForm": "LOTION",
+        "administrationRoute": "TOPICAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Brom. de Ipratrópio",
+        "activeIngredient": "Brometo de Ipratrópio",
         "concentration": "0,25 mg/mL",
-        "PharmaceuticalForm": "SOLUCAO",
-        "administrationRoute": "INALATORIA",
+        "pharmaceuticalForm": "SOLUTION",
+        "administrationRoute": "INHALATIONAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cefalexina",
-        "concentration": "250 mg/5 mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "concentration": "250 mg/5mL",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cefalexina",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cetoconazol",
         "concentration": "200 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cetoconazol",
         "concentration": null,
-        "PharmaceuticalForm": "CREME",
-        "administrationRoute": "TOPICA",
+        "pharmaceuticalForm": "CREAM",
+        "administrationRoute": "TOPICAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cimetidina",
         "concentration": "150 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ciprofloxacino",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cloridrato de Ranitidina",
         "concentration": "150 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Dexametasona",
         "concentration": "1%",
-        "PharmaceuticalForm": "CREME",
-        "administrationRoute": "TOPICA",
+        "pharmaceuticalForm": "CREAM",
+        "administrationRoute": "TOPICAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Dexametasona",
         "concentration": "0,1 mg/mL",
-        "PharmaceuticalForm": "ELIXIR",
+        "pharmaceuticalForm": "ELIXIR",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Dexclofeniramina",
         "concentration": "0,4 mg/mL",
-        "PharmaceuticalForm": "SOLUCAO",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Diclofenaco",
         "concentration": "50 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Diclofenaco de Sódio",
         "concentration": "15 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Simeticona",
         "concentration": "75 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Dipirona",
-        "concentration": "500 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "concentration": "50 mg/mL",
+        "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Dipirona",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Eritromicina",
         "concentration": "50 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Eritromicina",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Fluconazol",
         "concentration": "150 mg",
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Guaco (Mikania Glomerata)",
         "concentration": null,
-        "PharmaceuticalForm": "XAROPE",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Hidróxido de Alumínio",
         "concentration": "60 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ibuprofeno",
         "concentration": "100 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ibuprofeno",
         "concentration": "600 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Iodeto de Potássio",
         "concentration": "20 mg/mL",
-        "PharmaceuticalForm": "XAROPE",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Isoflavona de Soja",
         "concentration": null,
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Mebendazol",
         "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Mebendazol",
         "concentration": "20 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metoclopramida",
         "concentration": "4 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metoclopramida",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metronidazol",
         "concentration": "250 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metronidazol",
         "concentration": "40 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metronidazol",
         "concentration": "100 mg/g",
-        "PharmaceuticalForm": "GEL",
+        "pharmaceuticalForm": "CREAM",
         "administrationRoute": "VAGINAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Miconazol",
         "concentration": "2%",
-        "PharmaceuticalForm": "CREME",
+        "pharmaceuticalForm": "CREAM",
         "administrationRoute": "VAGINAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Neomicina + bacitracina",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "POMADA",
-        "administrationRoute": "TOPICA",
+        "pharmaceuticalForm": "OINTMENT",
+        "administrationRoute": "TOPICAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Nistatina",
         "concentration": "100.000 UI/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Óleo Mineral",
         "concentration": "100 mL",
-        "PharmaceuticalForm": "SOLUCAO",
+        "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Omeprazol",
         "concentration": "20 mg",
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Paracetamol",
         "concentration": "200 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Paracetamol",
         "concentration": "750 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Pasta d' Agua",
+        "activeIngredient": "Pasta d' Água",
         "concentration": null,
-        "PharmaceuticalForm": "PASTA",
-        "administrationRoute": "TOPICA",
+        "pharmaceuticalForm": "PASTE",
+        "administrationRoute": "TOPICAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Polivitamínico",
         "concentration": null,
-        "PharmaceuticalForm": "SOLUCAO",
+        "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Prednisona",
         "concentration": "20 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Sais de Reidratação Oral",
         "concentration": null,
-        "PharmaceuticalForm": "PO",
+        "pharmaceuticalForm": "POWDER",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Salbutamol",
         "concentration": "0,4 mg/mL",
-        "PharmaceuticalForm": "XAROPE",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Secnidazol",
         "concentration": "1000 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Sulfametoxazol + Trimetoprima",
+        "activeIngredient": "Sulfametoxazol+Trimetoprima",
         "concentration": null,
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Sulfametoxazol + Trimetoprima",
+        "activeIngredient": "Sulfametoxazol+Trimetoprima",
         "concentration": null,
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Sulfato Ferroso",
         "concentration": "25 mg/mL",
-        "PharmaceuticalForm": "GOTAS",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Sulfato Ferroso",
         "concentration": "40 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Tiabendazol",
         "concentration": "50 mg/mL",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Tiabendazol",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "BASIC_PHARMACY"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Acetato de Medroxiprogesterona",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Acetato de Medroxiprogesterona",
         "concentration": "50 mg/mL",
-        "PharmaceuticalForm": "AMPOLA",
+        "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Acetato de Medroxiprogesterona",
         "concentration": "150 mg/mL",
-        "PharmaceuticalForm": "AMPOLA",
+        "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Ácido Fólico",
+        "activeIngredient": "Ácido Fólico (P/ Gestantes)",
         "concentration": "0,2 mg/mL",
-        "PharmaceuticalForm": "FRASCO_GESTANTES",
+        "pharmaceuticalForm": "BOTTLE_PREGNANT",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Enantato de Noretisterona + Valerato de Estradiol",
         "concentration": "(50 mg + 5 mg)/mL",
-        "PharmaceuticalForm": "AMPOLA",
+        "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Etinilestradiol + Levonorgestrel",
         "concentration": "0,03 mg + 0,15 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Isoflavona de Soja (Glycine max)",
         "concentration": "75 mg",
-        "PharmaceuticalForm": "CAPSULA",
+        "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Levonorgestrel",
         "concentration": "0,75 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Levonorgestrel",
         "concentration": "1,5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Noretisterona",
         "concentration": "0,35 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Sulfato Ferroso",
+        "activeIngredient": "Sulfato Ferroso (P/ Gestantes)",
         "concentration": "40 mg",
-        "PharmaceuticalForm": "COMPRIMIDO_GESTANTES",
+        "pharmaceuticalForm": "TABLET_PREGNANT",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_DA_MULHER"
+            "WOMENS_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Ácido Valproico / Valproato de Sódio",
+        "activeIngredient": "Ácido Valproico ou Valproato de Sódio",
         "concentration": "250 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Ácido Valproico / Valproato de Sódio",
+        "activeIngredient": "Ácido Valproico ou Valproato de Sódio",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Ácido Valproico",
-        "concentration": "250 mg/5 mL (Frasco 100ml)",
-        "PharmaceuticalForm": "XAROPE",
+        "concentration": "250 mg/5mL",
+        "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Amitriptilina",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Amitriptilina",
         "concentration": "75 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Biperideno",
         "concentration": "2 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carbamazepina",
         "concentration": "200 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carbamazepina",
         "concentration": "400 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carbamazepina",
-        "concentration": "2% (Frasco 100ml)",
-        "PharmaceuticalForm": "SUSPENSAO",
+        "concentration": "2%",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carbonato de Lítio",
         "concentration": "300 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Clomipramina",
+        "activeIngredient": "Clomipramina (Anafranil)",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Clonazepam",
         "concentration": "2 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Clonazepam",
         "concentration": "0,5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Clonazepam",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Clonazepam",
-        "concentration": "2,5 mg/mL (Frasco 20ml)",
-        "PharmaceuticalForm": "GOTAS",
+        "concentration": "2,5 mg/mL",
+        "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Clorpromazina",
+        "activeIngredient": "Clorpromazina (Amplictil)",
         "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Clorpromazina",
+        "activeIngredient": "Clorpromazina (Amplictil)",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Diazepam",
+        "activeIngredient": "Diazepam (Compaz)",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Diazepam",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Fenitoína",
+        "activeIngredient": "Fenitoína (Hidantal)",
         "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
+    },
+    {
+        "activeIngredient": "Fenobarbital (Gardenal)",
+        "concentration": "100 mg",
+        "pharmaceuticalForm": "TABLET",
+        "administrationRoute": "ORAL",
+        "programCategories": [
+            "MENTAL_HEALTH"
+        ],
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Fenobarbital",
-        "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "concentration": "4%",
+        "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
-    },
-    {
-        "activeIngredient": "Fenobarbital",
-        "concentration": "4% (Frasco 20ml)",
-        "PharmaceuticalForm": "SOLUCAO",
-        "administrationRoute": "ORAL",
-        "programCategories": [
-            "SAUDE_MENTAL"
-        ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Flufenazina",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Fluoxetina",
         "concentration": "20 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Haloperidol Decanoato",
         "concentration": "50 mg/mL",
-        "PharmaceuticalForm": "AMPOLA",
+        "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Haloperidol",
+        "activeIngredient": "Haloperidol (Haldol)",
         "concentration": "1 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Haloperidol",
+        "activeIngredient": "Haloperidol (Haldol)",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Haloperidol",
         "concentration": null,
-        "PharmaceuticalForm": "SOLUCAO",
+        "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Imipramina",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Levodopa + Carbidopa",
         "concentration": "250 mg + 25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Levodopa + Benserazida",
         "concentration": "100 mg + 25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Levomepromazina",
         "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Levomepromazina",
+        "activeIngredient": "Levomepromazina (Neozine)",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Prometazina",
+        "activeIngredient": "Prometazina (Fenergan)",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "SAUDE_MENTAL"
+            "MENTAL_HEALTH"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Alendronato de Sódio",
         "concentration": "70 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Alopurinol",
         "concentration": "100 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Alopurinol",
         "concentration": "300 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Anlodipino",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Anlodipino",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Atenolol",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Atenolol",
         "concentration": "50 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Captopril",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carvedilol",
         "concentration": "3,125 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carvedilol",
         "concentration": "6,25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carvedilol",
         "concentration": "12,5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carvedilol",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carbonato de Cálcio",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Carbonato de Cálcio + Colecalciferol",
         "concentration": null,
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "FARMACIA_BASICA"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cloridrato de Amiodarona",
         "concentration": "200 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cloridrato de Propranolol",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Cloridrato de Propranolol",
         "concentration": "40 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Digoxina",
         "concentration": "0,25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Dinitrato de Isossorbida",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
-        "administrationRoute": "SUBLINGUAL",
+        "pharmaceuticalForm": "TABLET",
+        "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Espironolactona",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Furosemida",
         "concentration": "40 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Glibenclamida",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
             "DIABETES"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Glicazida",
         "concentration": "30 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
             "DIABETES"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Hidralazina",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Hidroclorotiazida",
         "concentration": "12,5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Hidroclorotiazida",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Losartana",
         "concentration": "50 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Maleato de Enalapril",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Maleato de Enalapril",
         "concentration": "20 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metformina",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
             "DIABETES"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metformina",
         "concentration": "850 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
             "DIABETES"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metildopa",
         "concentration": "250 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Metildopa",
         "concentration": "500 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Nifedipino",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Nifedipino",
         "concentration": "20 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Sinvastatina",
         "concentration": "10 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Sinvastatina",
         "concentration": "20 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Succinato de Metoprolol",
         "concentration": "25 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Succinato de Metoprolol",
         "concentration": "50 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Valfarina Sódica",
         "concentration": "5 mg",
-        "PharmaceuticalForm": "COMPRIMIDO",
+        "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
         "programCategories": [
-            "HIPERTENSAO"
+            "HYPERTENSION"
         ],
-        "lots": []
+        "lots": [],
+        "_class": "com.luiz.medication_system.dominio.Medication"
     }
 ]

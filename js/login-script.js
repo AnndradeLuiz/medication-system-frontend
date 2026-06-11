@@ -82,15 +82,15 @@ loginForm.addEventListener('submit', async function (e) {
             }
 
             localStorage.setItem('sgdm_userName', data.name || 'Usuário');
-            localStorage.setItem('sgdm_employeeId', data.id);
+            localStorage.setItem('sgdm_practitionerId', data.id);
 
-            const role = data.role || data.position || data.cargo || 'undefined';
+            const role = data.role || data.practitionerRoleEnum || data.position || data.cargo || 'undefined';
             localStorage.setItem('sgdm_userRole', role);
 
             console.log('[Login] Role Salvo no LocalStorage:', role);
 
             if (data.registration) {
-                localStorage.setItem('sgdm_employeeRegistration', data.registration);
+                localStorage.setItem('sgdm_practitionerRegistration', data.registration);
             }
             // O Token JWT agora vem no Cookie HttpOnly (segurança contra XSS)
             // Lemos o token da resposta apenas para extrair a data de expiração e salvar no localStorage
@@ -152,4 +152,5 @@ loginForm.addEventListener('submit', async function (e) {
         errorMessage.style.display = 'block';
     }
 });
+
 

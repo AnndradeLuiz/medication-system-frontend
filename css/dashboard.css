@@ -750,6 +750,20 @@ button {
     box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
 }
 
+.btn-secondary {
+    background: var(--color-bg);
+    color: var(--color-text-main);
+    padding: 12px 24px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.btn-secondary:hover {
+    background: var(--color-border);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
 .btn-success { 
     background: linear-gradient(135deg, var(--color-success), #059669); 
     color: white; 
@@ -1629,9 +1643,12 @@ button {
 
 .role-ADM_TI { background: var(--color-blue-soft); color: var(--color-blue-text); }
 .role-ENF_GERENTE { background: var(--color-green-soft); color: var(--color-green-text); }
+.role-ENF { background: var(--color-green-soft); color: var(--color-green-text); }
+.role-TRIAGEM { background: var(--color-blue-soft); color: var(--color-blue-text); }
 .role-TEC_ENFERMAGEM { background: var(--color-indigo-soft); color: var(--color-indigo-text); }
 .role-FARMACEUTICO { background: var(--color-orange-soft); color: var(--color-orange-text); }
 .role-ADMINISTRATIVO { background: var(--color-pink-soft); color: var(--color-pink-text); }
+.role-ACS { background: var(--color-purple-soft); color: var(--color-purple-text); }
 
 .status-indicator {
     display: inline-flex;

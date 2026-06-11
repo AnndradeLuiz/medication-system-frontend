@@ -1,6 +1,6 @@
 (function () {
-    let loggedEmployeeName = '';
-    let loggedEmployeeId = '';
+    let loggedpractitionerName = '';
+    let loggedpractitionerId = '';
     let searchTimeout = null;
     let medicationList = [];
     let requestItems = [];
@@ -8,7 +8,7 @@
     let currentEditDispItems = [];
     let originalEditDispQuantities = {};
     let currentEditDispPatientId = "";
-    let currentEditDispEmployeeId = "";
+    let currentEditDisppractitionerId = "";
     let currentEditDispThirdPerson = null;
     let currentEditDispPatientData = null;
     let currentDispensePatientData = null;
@@ -57,8 +57,8 @@
         if (isDashboardModuleInitialized) return;
         isDashboardModuleInitialized = true;
 
-        loggedEmployeeName = localStorage.getItem('sgdm_userName');
-        loggedEmployeeId = localStorage.getItem('sgdm_employeeId');
+        loggedpractitionerName = localStorage.getItem('sgdm_userName');
+        loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');
 
         // As chamadas loadMedications() e loadDispensations() 
         // serão gerenciadas pelo router.js
@@ -556,7 +556,7 @@
         });
 
         const payload = {
-            employeeId: loggedEmployeeId,
+            practitionerId: loggedpractitionerId,
             patientId: patientId,
             thirdPerson: thirdPersonData,
             items: itemsForBackend
@@ -1094,9 +1094,9 @@
             const filtered = dispensationList.filter(d => {
                 const dateStr = new Date(d.moment).toLocaleString('pt-BR');
                 const patientName = d.targetPatient ? d.targetPatient.name.toLowerCase() : "";
-                const employeeName = d.employee ? d.employee.name.toLowerCase() : "";
+                const practitionerName = d.practitioner ? d.practitioner.name.toLowerCase() : "";
 
-                return dateStr.includes(query) || patientName.includes(query) || employeeName.includes(query);
+                return dateStr.includes(query) || patientName.includes(query) || practitionerName.includes(query);
             });
 
             list.innerHTML = '';
@@ -1106,7 +1106,7 @@
                 const timeStr = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
                 const patientName = d.targetPatient ? d.targetPatient.name : "Paciente Desconhecido";
-                const employeeName = d.employee ? d.employee.name : "N/A";
+                const practitionerName = d.practitioner ? d.practitioner.name : "N/A";
 
                 const li = document.createElement('li');
                 li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
@@ -1116,7 +1116,7 @@
                         <span class="fw-600 text-main fs-14">${escapeHTML(patientName)}</span>
                         <span class="fw-600 text-primary fs-14">${escapeHTML(dateStr)} - ${escapeHTML(timeStr)}</span>
                     </div>
-                    <span class="text-muted fs-12">Responsável: ${escapeHTML(employeeName)}</span>
+                    <span class="text-muted fs-12">Responsável: ${escapeHTML(practitionerName)}</span>
                 </div>
             `;
 
@@ -1141,7 +1141,7 @@
 
             document.getElementById('editDispensationId').value = disp.id;
             currentEditDispPatientId = disp.targetPatient ? (disp.targetPatient.id || disp.targetPatient.patientId) : null;
-            currentEditDispEmployeeId = disp.employee ? (disp.employee.id || disp.employee.employeeId) : null;
+            currentEditDisppractitionerId = disp.practitioner ? (disp.practitioner.id || disp.practitioner.practitionerId) : null;
             currentEditDispPatientData = null;
 
             if (currentEditDispPatientId) {
@@ -1159,7 +1159,7 @@
 
             const patientName = disp.targetPatient ? disp.targetPatient.name : "N/A";
             document.getElementById('displayDispensationPatient').innerText = patientName;
-            document.getElementById('editDispEmployee').value = disp.employee ? disp.employee.name : "N/A";
+            document.getElementById('editDisppractitioner').value = disp.practitioner ? disp.practitioner.name : "N/A";
             const dateObj = new Date(disp.moment);
             const dateStr = dateObj.toLocaleDateString('pt-BR');
             const timeStr = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -1338,17 +1338,7 @@
         if (!isUniversal && currentEditDispPatientData && currentEditDispPatientData.programs) {
             const hasProgram = currentEditDispPatientData.programs.some(p => normalizedCats.includes(normalizeCategory(p.programCategory)));
             if (!hasProgram) {
-                const formatMap = {
-                    'HYPERTENSION': 'Hipertensão',
-                    'DIABETES': 'Diabetes',
-                    'MENTAL_HEALTH': 'Saúde Mental',
-                    'WOMENS_HEALTH': 'Saúde da Mulher',
-                    'BASIC_PHARMACY': 'Farmácia Básica',
-                    'HIPERTENSAO': 'Hipertensão',
-                    'SAUDE_MENTAL': 'Saúde Mental',
-                    'SAUDE_DA_MULHER': 'Saúde da Mulher',
-                    'FARMACIA_BASICA': 'Farmácia Básica'
-                };
+                const formatMap = window.PROGRAM_LABELS || {};
                 const friendlyCategories = categories.map(cat => formatMap[cat.toUpperCase()] || cat).join(', ');
                 showToast(`O paciente não possui autorização para nenhum dos programas do medicamento: ${friendlyCategories}`, 'error');
                 return;
@@ -1408,7 +1398,7 @@
         }
 
         const payload = {
-            employeeId: currentEditDispEmployeeId,
+            practitionerId: currentEditDisppractitionerId,
             patientId: currentEditDispPatientId,
             thirdPerson: currentEditDispThirdPerson, // Mantém o original já que é apenas leitura
             items: currentEditDispItems.map(item => ({

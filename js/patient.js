@@ -10,13 +10,13 @@
     // carregar ACS
     async function loadAcsList() {
         try {
-            const response = await fetch(`${API_URL}/employees?size=1000`, {
+            const response = await fetch(`${API_URL}/practitioners?size=1000`, {
                 headers: getAuthHeaders()
             });
             if (response.ok) {
                 const pageData = await response.json();
-                const employees = pageData.content || [];
-                acsList = employees.filter(emp => emp.status && emp.role === 'ACS');
+                const practitioners = pageData.content || [];
+                acsList = practitioners.filter(emp => emp.status && emp.role === 'ACS');
                 populateAcsDropdowns();
             }
         } catch (error) {
@@ -261,14 +261,7 @@
         const fragment = document.createDocumentFragment();
 
         currentPatientPrograms.forEach((prog, index) => {
-            const labels = {
-                "DIABETES": "Diabetes",
-                "HIPERTENSAO": "Hipertensão",
-                "FARMACIA_BASICA": "Farmácia Básica",
-                "SAUDE_DA_MULHER": "Saúde da Mulher",
-                "SAUDE_MENTAL": "Saúde Mental"
-            };
-            const catName = labels[prog.category] || prog.category;
+            const catName = window.PROGRAM_LABELS ? window.PROGRAM_LABELS[prog.category] || prog.category : prog.category;
             const isCont = prog.isContinuous ? "Uso Contínuo" : (prog.treatmentDuration || "Temporário");
             const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
 
@@ -394,13 +387,7 @@
         const fragment = document.createDocumentFragment();
 
         currentEditPatientPrograms.forEach((prog, index) => {
-            const labels = {
-                "DIABETES": "Diabetes",
-                "HIPERTENSAO": "Hipertensão",
-                "SAUDE_DA_MULHER": "Saúde da Mulher",
-                "SAUDE_MENTAL": "Saúde Mental"
-            };
-            const catName = labels[prog.category] || prog.category;
+            const catName = window.PROGRAM_LABELS ? window.PROGRAM_LABELS[prog.category] || prog.category : prog.category;
             const isCont = prog.isContinuous ? "Uso Contínuo" : (prog.treatmentDuration || "Temporário");
             const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
 
@@ -431,18 +418,7 @@
         const checkboxes = document.querySelectorAll(`input[id^="${checkboxPrefix}"]`);
         const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
 
-        const labels = {
-            "DIABETES": "Diabetes",
-            "HYPERTENSION": "Hipertensão",
-            "BASIC_PHARMACY": "Farmácia Básica",
-            "WOMENS_HEALTH": "Saúde da Mulher",
-            "MENTAL_HEALTH": "Saúde Mental",
-            // Fallback
-            "HIPERTENSAO": "Hipertensão",
-            "FARMACIA_BASICA": "Farmácia Básica",
-            "SAUDE_DA_MULHER": "Saúde da Mulher",
-            "SAUDE_MENTAL": "Saúde Mental"
-        };
+        const labels = window.PROGRAM_LABELS || {};
 
         const currentValue = selectEl.value;
 
@@ -1736,3 +1712,4 @@
     };
 
 })();
+

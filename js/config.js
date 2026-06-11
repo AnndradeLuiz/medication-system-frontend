@@ -1,13 +1,34 @@
-/**
- * config.js — Configurações centralizadas do SGDMI
- * Este arquivo deve ser carregado ANTES de todos os outros scripts.
- */
-const API_URL = `http://${window.location.hostname}:8080`;
-//const API_URL = `https://medication-system-wlmx.onrender.com`;
-/**
- * Função utilitária para prevenir XSS (Cross-Site Scripting)
- * Transforma caracteres especiais em entidades HTML.
- */
+const API_URL = window.ENV_API_URL ||
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? `http://${window.location.hostname}:8080`
+        : window.location.origin);
+
+
+const ROLE_LABELS = {
+    ADM_TI: 'Administrador TI',
+    ENF_GERENTE: 'Enf. Gerente',
+    ENF: 'Enfermeiro(a)',
+    TRIAGEM: 'Triagem',
+    TEC_ENFERMAGEM: 'Téc. Enfermagem',
+    FARMACEUTICO: 'Farmacêutico',
+    ADMINISTRATIVO: 'Administrativo',
+    SISTEMA: 'Sistema',
+    ACS: 'ACS'
+};
+
+const PROGRAM_LABELS = {
+    DIABETES: 'Diabetes',
+    HIPERTENSAO: 'Hipertensão',
+    FARMACIA_BASICA: 'Farmácia Básica',
+    SAUDE_DA_MULHER: 'Saúde da Mulher',
+    SAUDE_MENTAL: 'Saúde Mental',
+    // Fallbacks para compatibilidade
+    HYPERTENSION: 'Hipertensão',
+    BASIC_PHARMACY: 'Farmácia Básica',
+    WOMENS_HEALTH: 'Saúde da Mulher',
+    MENTAL_HEALTH: 'Saúde Mental'
+};
+
 function escapeHTML(str) {
     if (str === null || str === undefined || str === '') return '';
     return String(str).replace(/[&<>'"`=\/]/g,
@@ -24,12 +45,9 @@ function escapeHTML(str) {
     );
 }
 
-/**
- * Realiza uma requisição HTTP fetch com suporte a timeout automático usando AbortController
- * e tratamento amigável de erros de rede.
- */
+
 async function fetchWithTimeout(resource, options = {}) {
-    const { timeout = 10000 } = options; // Limite padrão de 10 segundos (10000ms)
+    const { timeout = 10000 } = options;
 
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
@@ -55,16 +73,16 @@ async function fetchWithTimeout(resource, options = {}) {
     }
 }
 
-// Salva a referência original do fetch e aplica o monkey patch para interceptação global
 if (!window.originalFetch) {
     window.originalFetch = window.fetch;
     window.fetch = fetchWithTimeout;
 }
 
-// Exportações globais para compatibilidade com ES Modules (type="module")
 window.API_URL = API_URL;
 window.escapeHTML = escapeHTML;
 window.fetchWithTimeout = fetchWithTimeout;
+window.ROLE_LABELS = ROLE_LABELS;
+window.PROGRAM_LABELS = PROGRAM_LABELS;
 
 
 

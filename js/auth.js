@@ -1,26 +1,9 @@
-/**
- * auth.js — Módulo centralizado de autorização (RBAC)
- * Utilizado por todas as páginas do SGDMI para controlar acesso por role.
- *
- * Roles com acesso total: ADM_TI, ENF_GERENTE
- * Roles com acesso restrito: TEC_ENFERMAGEM, FARMACEUTICO, ADMINISTRATIVO
- *
- * Funcionalidades bloqueadas para roles básicos:
- * - Cadastrar medicamento
- * - Cadastrar qualquer tipo de insumo/material
- * - Editar ou remover medicamento/insumo
- * - Cadastrar ou gerenciar funcionários
- */
-
 const PRIVILEGED_ROLES = ['ADM_TI', 'ENF_GERENTE'];
 let isServerOffline = false;
 let reconnectionInterval = null;
 let heartbeatInterval = null;
 
-/**
- * Função global para alternar a visibilidade do menu lateral no mobile
- */
-window.toggleSidebar = function() {
+window.toggleSidebar = function () {
     const sidebar = document.querySelector('.sidebar');
     const overlay = document.querySelector('.sidebar-overlay');
     if (sidebar) {
@@ -31,10 +14,6 @@ window.toggleSidebar = function() {
     }
 };
 
-/**
- * Controle do menu mobile (sidebar toggle)
- * Ativado automaticamente em telas ≤ 1024px via CSS
- */
 function setupMobileMenu() {
     const menuBtn = document.querySelector('.mobile-menu-btn');
     const sidebar = document.querySelector('.sidebar');
@@ -63,9 +42,6 @@ function setupMobileMenu() {
     });
 }
 
-/**
- * Injeta o HTML e CSS do overlay de servidor offline.
- */
 function injectOfflineOverlay() {
     if (document.getElementById('server-offline-overlay')) return;
 
@@ -105,42 +81,30 @@ function injectOfflineOverlay() {
     document.body.appendChild(overlay);
 }
 
-/**
- * Exibe o aviso de servidor offline.
- */
 function showOfflineOverlay() {
     if (isServerOffline) return;
     isServerOffline = true;
-    
+
     const overlay = document.getElementById('server-offline-overlay');
     if (overlay) overlay.style.display = 'flex';
 }
 
-
-/**
- * Monitoramento de Sessão Local (Renovação Proativa)
- * Verifica a expiração do token localmente a cada minuto.
- * Se estiver prestes a expirar (< 2 min), faz um refresh proativo.
- */
 function startHeartbeat() {
     if (heartbeatInterval) clearInterval(heartbeatInterval);
-    
+
     heartbeatInterval = setInterval(() => {
         const expStr = localStorage.getItem('sgdm_token_exp');
         if (!expStr) return;
-        
+
         try {
             const exp = parseInt(expStr, 10);
             const currentTimestamp = Math.floor(Date.now() / 1000);
-            
-            // Faltam menos de 2 minutos para expirar?
+
             if (exp && (exp - currentTimestamp) < 120) {
                 console.warn('[Auth] Access Token prestes a expirar. Tentando renovação proativa...');
-                
-                // Evita disparar vários se já estiver renovando pelo interceptor
+
                 if (!isRefreshing) {
                     const apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
-                    // Um fetch manual proativo (o interceptor vai cuidar da resposta se der 401)
                     fetch(`${apiUrl}/auth/refresh`, {
                         method: 'POST',
                         credentials: 'include'
@@ -162,15 +126,9 @@ function startHeartbeat() {
         } catch (e) {
             console.error('Erro ao verificar expiração do token:', e);
         }
-    }, 60000); // Checa a cada 60 segundos
+    }, 60000);
 }
 
-/**
- * INTERCEPTADOR GLOBAL DE FETCH (Com Refresh Token Automático)
- * Injeta 'credentials: include' em todas as chamadas.
- * Monitora 401/403. Se ocorrer, tenta bater no endpoint /auth/refresh.
- * Se der certo, refaz a requisição original de forma transparente.
- */
 let isRefreshing = false;
 let refreshSubscribers = [];
 
@@ -183,48 +141,44 @@ const originalFetch = window.fetch;
 window.fetch = async (...args) => {
     let [url, options] = args;
     options = options || {};
-    options.credentials = 'include'; // Garante o envio do Cookie HttpOnly
+    options.credentials = 'include';
 
     try {
         let response = await originalFetch(url, options);
 
-        // Se o servidor retornar 401 ou 403 e NÃO for a tela de login nem a rota de auth
-        if ((response.status === 401 || response.status === 403) 
+        const urlStr = typeof url === 'string' ? url : (url && url.url ? url.url : String(url));
+
+        if ((response.status === 401 || response.status === 403)
             && !window.location.pathname.includes('login.html')
-            && typeof url === 'string' 
-            && !url.includes('/auth/login') 
-            && !url.includes('/auth/refresh')) {
-            
+            && !urlStr.includes('/auth/login')
+            && !urlStr.includes('/auth/refresh')) {
+
             if (!isRefreshing) {
                 isRefreshing = true;
                 try {
                     console.warn('[Auth] Acesso negado/expirado. Tentando renovação silenciosa de sessão...');
-                    // Tenta renovar a sessão usando o refresh token
                     const apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
                     const refreshRes = await originalFetch(`${apiUrl}/auth/refresh`, {
                         method: 'POST',
                         credentials: 'include'
                     });
-                    
+
                     if (refreshRes.ok) {
-                        // Sucesso: atualiza a expiração local
                         const data = await refreshRes.json();
                         if (data.token) {
                             try {
                                 const payloadBase64 = data.token.split('.')[1];
                                 const payloadJson = JSON.parse(atob(payloadBase64));
                                 localStorage.setItem('sgdm_token_exp', payloadJson.exp);
-                            } catch (e) {}
+                            } catch (e) { }
                         }
-                        
+
                         isRefreshing = false;
                         onRefreshed(true);
                         console.log('[Auth] Sessão renovada com sucesso!');
-                        
-                        // Refaz a chamada original com o novo cookie
+
                         return await originalFetch(url, options);
                     } else {
-                        // Falha no refresh (token de refresh também expirou ou é inválido)
                         isRefreshing = false;
                         onRefreshed(false);
                         forceLogout();
@@ -237,7 +191,6 @@ window.fetch = async (...args) => {
                     return response;
                 }
             } else {
-                // Já está renovando em outra requisição simultânea. Aguarda terminar e tenta novamente.
                 return new Promise(resolve => {
                     refreshSubscribers.push(async (success) => {
                         if (success) {
@@ -262,23 +215,19 @@ window.fetch = async (...args) => {
 function forceLogout() {
     console.warn('[Auth] Sessão permanentemente expirada. Redirecionando...');
     localStorage.removeItem('sgdm_userName');
-    localStorage.removeItem('sgdm_employeeId');
+    localStorage.removeItem('sgdm_practitionerId');
     localStorage.removeItem('sgdm_userRole');
     localStorage.removeItem('sgdm_token_exp');
-    localStorage.removeItem('sgdm_employeeRegistration');
+    localStorage.removeItem('sgdm_practitionerRegistration');
     window.location.href = 'login.html?expired=true';
 }
 
-/**
- * Inicializa os componentes ao carregar a página.
- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar sessão centralizada
-    const loggedEmployeeId = localStorage.getItem('sgdm_employeeId');
+    const loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');
     const tokenExp = localStorage.getItem('sgdm_token_exp');
-    
+
     if (!window.location.pathname.includes('login.html')) {
-        if (!loggedEmployeeId || !tokenExp) {
+        if (!loggedpractitionerId || !tokenExp) {
             console.warn('[Auth] Sessão inválida no carregamento. Redirecionando para login.');
             window.location.href = 'login.html';
             return;
@@ -286,12 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     injectOfflineOverlay();
-    startHeartbeat(); // Inicia a vigilância contínua
-    setupMobileMenu(); // Controle do menu mobile (sidebar)
+    startHeartbeat();
+    setupMobileMenu();
 });
 
 /**
- * Retorna o role do usuário logado salvo no localStorage.
  * @returns {string|null}
  */
 function getCurrentRole() {
@@ -299,7 +247,6 @@ function getCurrentRole() {
 }
 
 /**
- * Verifica se o usuário logado possui um role privilegiado.
  * @returns {boolean}
  */
 function isPrivileged() {
@@ -308,16 +255,11 @@ function isPrivileged() {
 }
 
 /**
- * Aplica as restrições de acesso na página com base no role do usuário.
- * Oculta os elementos cujos IDs forem passados no array `restrictedElementIds`.
- * Se o usuário não for privilegiado, os elementos são ocultados com display:none.
- *
- * @param {string[]} restrictedElementIds - Array de IDs de elementos a ocultar se não privilegiado
- * @param {Function|null} onRestricted - Callback opcional chamado se for role restrito
+ * @param {string[]} restrictedElementIds
+ * @param {Function|null} onRestricted
  */
 function applyRoleRestrictions(restrictedElementIds = [], onRestricted = null) {
     if (isPrivileged()) {
-        // Acesso total: não faz nada, tudo permanece visível
         return;
     }
 
@@ -329,15 +271,13 @@ function applyRoleRestrictions(restrictedElementIds = [], onRestricted = null) {
         }
     });
 
-    // Executa callback opcional (ex: redirecionar para aba padrão)
     if (typeof onRestricted === 'function') {
         onRestricted();
     }
 }
 
 /**
- * Exibe um aviso visual discreto informando que o acesso foi restrito.
- * Útil para informar ao usuário por que certas abas não aparecem.
+ * @deprecated
  */
 function showAccessBanner() {
     if (isPrivileged()) return;
@@ -361,7 +301,6 @@ function showAccessBanner() {
         Algumas funcionalidades de cadastro, edição e exclusão estão disponíveis apenas para Gerentes e TI.
     `;
 
-    // Insere o banner logo após o header (.top-header)
     const header = document.querySelector('.top-header');
     if (header && header.nextSibling) {
         header.parentNode.insertBefore(banner, header.nextSibling);
@@ -369,8 +308,6 @@ function showAccessBanner() {
 }
 
 /**
- * Retorna os headers padrão.
- * O envio do JWT agora é automático pelo navegador via Cookie (credentials: 'include').
  * @returns {Object}
  */
 function getAuthHeaders() {
@@ -380,12 +317,10 @@ function getAuthHeaders() {
 }
 
 /**
- * Faz logout avisando o servidor (para invalidar o cookie) e limpando os dados da sessão.
- * @param {boolean} isExpired Se true, redireciona com mensagem de expiração
+ * @param {boolean} isExpired
  */
 async function logout(isExpired = false) {
     try {
-        // Envia requisição para invalidar o cookie no back-end
         if (typeof API_URL !== 'undefined') {
             await fetch(`${API_URL}/auth/logout`, {
                 method: 'POST',
@@ -397,11 +332,11 @@ async function logout(isExpired = false) {
     }
 
     localStorage.removeItem('sgdm_userName');
-    localStorage.removeItem('sgdm_employeeId');
+    localStorage.removeItem('sgdm_practitionerId');
     localStorage.removeItem('sgdm_userRole');
     localStorage.removeItem('sgdm_token_exp');
-    localStorage.removeItem('sgdm_employeeRegistration');
-    
+    localStorage.removeItem('sgdm_practitionerRegistration');
+
     if (isExpired) {
         window.location.href = 'login.html?expired=true';
     } else {
@@ -409,7 +344,6 @@ async function logout(isExpired = false) {
     }
 }
 
-// Exporta as funções para uso global nas páginas
 window.getCurrentRole = getCurrentRole;
 window.isPrivileged = isPrivileged;
 window.applyRoleRestrictions = applyRoleRestrictions;
@@ -418,11 +352,10 @@ window.getAuthHeaders = getAuthHeaders;
 window.logout = logout;
 
 /**
- * Exibe uma notificação Toast na tela.
- * @param {string} message Mensagem a ser exibida.
- * @param {string} type Tipo da notificação: 'success', 'error', 'info', 'warning' (padrão é 'success').
+ * @param {string} message
+ * @param {string} type
  */
-window.showToast = function(message, type = 'success') {
+window.showToast = function (message, type = 'success') {
     let toastContainer = document.getElementById('toast-container');
     if (!toastContainer) {
         toastContainer = document.createElement('div');
@@ -440,9 +373,9 @@ window.showToast = function(message, type = 'success') {
     }
 
     const toast = document.createElement('div');
-    let bgColor = '#10b981'; // success (green)
+    let bgColor = '#10b981';
     let icon = 'fa-check-circle';
-    
+
     if (type === 'error') {
         bgColor = '#ef4444';
         icon = 'fa-circle-xmark';
@@ -489,7 +422,7 @@ window.showToast = function(message, type = 'success') {
 
     const iconEl = document.createElement('i');
     iconEl.className = `fa-solid ${icon}`;
-    
+
     const spanEl = document.createElement('span');
     spanEl.textContent = message;
 
@@ -506,3 +439,4 @@ window.showToast = function(message, type = 'success') {
         }, 300);
     }, 4000);
 };
+

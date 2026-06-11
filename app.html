@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGDMI - Sistema Gestão Dispensação Medicamentos</title>
+    <title>e-Farma SUS</title>
 
     <!-- Icons and Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,12 +16,11 @@
     <link rel="stylesheet" href="css/pedidos.css">
 
     <script>
-        // Verificação rápida de privilégio na raiz do documento
         if (['ADM_TI', 'ENF_GERENTE'].includes(localStorage.getItem('sgdm_userRole'))) {
             document.documentElement.classList.add('is-privileged');
         }
     </script>
-    <link rel="icon" href="img/logo-unica-sem-fundo.png">
+    <link rel="icon" href="img/logo-sem-fundo.svg">
 
     <style>
         /* Ocultar e transicionar seções */
@@ -198,10 +197,9 @@
 
 <body class="theme-medicamentos ready">
     <div class="app-container">
-        <!-- 1. Sidebar Fixa do SPA -->
         <aside class="sidebar">
             <div class="sidebar-header" style="justify-content: center;">
-                <img src="img/logo.svg" alt="e-Farma SUS Logo"
+                <img src="img/logo-barra-de-secao.svg" alt="e-Farma SUS Logo"
                     style="max-height: 180px; width: auto; max-width: 100%; object-fit: contain; cursor: pointer;"
                     onclick="switchView('home-screen')" title="Voltar à Tela Inicial">
             </div>
@@ -244,9 +242,7 @@
         </aside>
         <div class="sidebar-overlay"></div>
 
-        <!-- 2. Main Content do SPA -->
         <main class="main-content">
-            <!-- Header Fixo -->
             <header class="top-header">
                 <button class="mobile-menu-btn" aria-label="Abrir menu">
                     <i class="fa-solid fa-bars"></i>
@@ -267,12 +263,9 @@
             </header>
 
             <div id="globalLoader" class="global-loader d-none">
-                <img src="img/logo-unica-sem-fundo.png" alt="Carregando...">
+                <img src="img/logo-sem-fundo.svg" alt="Carregando...">
             </div>
 
-            <!-- ================= SEÇÕES SPA (TELA INICIAL, PACIENTES, DISPENSA, ESTOQUE, INVENTÁRIO, FUNCIONÁRIOS) ================= -->
-
-            <!-- SEÇÃO: TELA INICIAL (home-screen.html) -->
             <div id="view-home-screen" class="view-section">
                 <section class="home-content">
                     <div class="kpi-grid">
@@ -327,7 +320,6 @@
                         </div>
                     </div>
 
-                    <!-- Seção de Dados: Gráficos e Atividades -->
                     <div class="dashboard-grid-main mt-20">
                         <div class="dashboard-charts-column">
                             <div class="charts-grid">
@@ -383,7 +375,6 @@
                 </section>
             </div>
 
-            <!-- SEÇÃO: GESTÃO DE PACIENTES (patient.html) -->
             <div id="view-patient" class="view-section" style="overflow: hidden; height: 100%;">
                 <div class="tabs-wrapper">
                     <div class="tabs-container">
@@ -1247,7 +1238,7 @@
                             <div class="form-row">
                                 <div class="form-group flex-2">
                                     <label class="fs-xs fw-700 text-muted">Funcionário Responsável</label>
-                                    <input type="text" id="editDispEmployee" class="input-readonly" readonly>
+                                    <input type="text" id="editDisppractitioner" class="input-readonly" readonly>
                                 </div>
                                 <div class="form-group flex-1">
                                     <label class="fs-xs fw-700 text-muted">Data e Hora</label>
@@ -1462,39 +1453,39 @@
                                     <div class="form-group flex-1">
                                         <label class="fs-xs fw-700 text-muted">Forma Farmacêutica</label>
                                         <select id="editPharmaceuticalForm">
-                                             <option value="TABLET">Comprimido</option>
-                                             <option value="CAPSULE">Cápsula</option>
-                                             <option value="SOLUTION">Solução Oral</option>
-                                             <option value="SUSPENSION">Suspensão Oral</option>
-                                             <option value="INJECTABLE">Injetável</option>
-                                             <option value="OINTMENT">Pomada</option>
-                                             <option value="CREAM">Creme</option>
-                                             <option value="GEL">Gel</option>
-                                             <option value="SYRUP">Xarope</option>
-                                             <option value="DROPS">Gotas</option>
-                                             <option value="INHALER">Inalatório</option>
-                                             <option value="POWDER">Pó</option>
-                                             <option value="AMPOULE">Ampola</option>
-                                             <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
-                                             <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
-                                         </select>
+                                            <option value="TABLET">Comprimido</option>
+                                            <option value="CAPSULE">Cápsula</option>
+                                            <option value="SOLUTION">Solução Oral</option>
+                                            <option value="SUSPENSION">Suspensão Oral</option>
+                                            <option value="INJECTABLE">Injetável</option>
+                                            <option value="OINTMENT">Pomada</option>
+                                            <option value="CREAM">Creme</option>
+                                            <option value="GEL">Gel</option>
+                                            <option value="SYRUP">Xarope</option>
+                                            <option value="DROPS">Gotas</option>
+                                            <option value="INHALER">Inalatório</option>
+                                            <option value="POWDER">Pó</option>
+                                            <option value="AMPOULE">Ampola</option>
+                                            <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
+                                            <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
+                                        </select>
                                     </div>
                                     <div class="form-group flex-1">
                                         <label class="fs-xs fw-700 text-muted">Via de Administração</label>
                                         <select id="editAdministrationRoute">
-                                             <option value="ORAL">Oral</option>
-                                             <option value="SUBLINGUAL">Sublingual</option>
-                                             <option value="INTRAVENOUS">Intravenosa</option>
-                                             <option value="INTRAMUSCULAR">Intramuscular</option>
-                                             <option value="SUBCUTANEOUS">Subcutânea</option>
-                                             <option value="TOPICAL">Tópica</option>
-                                             <option value="OPHTHALMIC">Oftálmica</option>
-                                             <option value="OTIC">Otológica</option>
-                                             <option value="NASAL">Nasal</option>
-                                             <option value="RECTAL">Retal</option>
-                                             <option value="VAGINAL">Vaginal</option>
-                                             <option value="INHALATIONAL">Inalatória</option>
-                                         </select>
+                                            <option value="ORAL">Oral</option>
+                                            <option value="SUBLINGUAL">Sublingual</option>
+                                            <option value="INTRAVENOUS">Intravenosa</option>
+                                            <option value="INTRAMUSCULAR">Intramuscular</option>
+                                            <option value="SUBCUTANEOUS">Subcutânea</option>
+                                            <option value="TOPICAL">Tópica</option>
+                                            <option value="OPHTHALMIC">Oftálmica</option>
+                                            <option value="OTIC">Otológica</option>
+                                            <option value="NASAL">Nasal</option>
+                                            <option value="RECTAL">Retal</option>
+                                            <option value="VAGINAL">Vaginal</option>
+                                            <option value="INHALATIONAL">Inalatória</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-row mt-20">
@@ -1888,11 +1879,11 @@
                                     <i class="fa-solid fa-users"></i> Equipe Cadastrada
                                 </h3>
                                 <div class="d-flex align-center gap-10">
-                                    <input type="text" id="searchEmployeeInput"
+                                    <input type="text" id="searchpractitionerInput"
                                         placeholder="Filtrar por nome ou matrícula..." class="w-280"
-                                        oninput="filterEmployeeTable()">
-                                    <button id="btnRefreshEmployees" class="btn-success btn-sm white-space-nowrap"
-                                        onclick="loadEmployees()">
+                                        oninput="filterpractitionerTable()">
+                                    <button id="btnRefreshpractitioners" class="btn-success btn-sm white-space-nowrap"
+                                        onclick="loadpractitioners()">
                                         <i class="fa-solid fa-refresh"></i> Atualizar
                                     </button>
                                 </div>
@@ -1900,7 +1891,7 @@
 
                             <div class="table-responsive"
                                 style="flex: 1; min-height: 0; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
-                                <table class="table" id="employeeTable">
+                                <table class="table" id="practitionerTable">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Nome</th>
@@ -1911,7 +1902,7 @@
                                             <th style="width: 110px; text-align: center;">Ações</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="employeeTableBody">
+                                    <tbody id="practitionerTableBody">
                                         <tr>
                                             <td colspan="6" class="empty-msg">
                                                 <i class="fa-solid fa-spinner fa-spin"></i> Carregando
@@ -1925,17 +1916,17 @@
 
                         <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm"
                             style="border: 1px solid #e2e8f0; flex-shrink: 0;">
-                            <span class="fs-14 text-muted">Mostrando <strong id="employeePageInfo">0-0 de 0</strong>
+                            <span class="fs-14 text-muted">Mostrando <strong id="practitionerPageInfo">0-0 de 0</strong>
                                 funcionários</span>
                             <div class="d-flex gap-10">
-                                <button class="btn btn-outline-secondary btn-sm" id="btnPrevEmployee"
-                                    onclick="prevEmployeePage()"><i class="fa-solid fa-chevron-left"></i>
+                                <button class="btn btn-outline-secondary btn-sm" id="btnPrevpractitioner"
+                                    onclick="prevpractitionerPage()"><i class="fa-solid fa-chevron-left"></i>
                                     Anterior</button>
                                 <span class="fs-14 fw-600"
                                     style="padding: 5px 10px; background: #eff6ff; color: #2563eb; border-radius: 4px;"
-                                    id="employeeCurrentPage">Pág 1</span>
-                                <button class="btn btn-outline-secondary btn-sm" id="btnNextEmployee"
-                                    onclick="nextEmployeePage()">Próxima <i
+                                    id="practitionerCurrentPage">Pág 1</span>
+                                <button class="btn btn-outline-secondary btn-sm" id="btnNextpractitioner"
+                                    onclick="nextpractitionerPage()">Próxima <i
                                         class="fa-solid fa-chevron-right"></i></button>
                             </div>
                         </div>
@@ -1992,8 +1983,8 @@
                             </div>
 
                             <div class="mt-20 text-right">
-                                <button id="btnSaveNewEmployee" type="button" class="btn-success ml-auto"
-                                    onclick="saveNewEmployee()">
+                                <button id="btnSaveNewpractitioner" type="button" class="btn-success ml-auto"
+                                    onclick="saveNewpractitioner()">
                                     <i class="fa-solid fa-save"></i> Cadastrar Funcionário
                                 </button>
                             </div>
@@ -2002,7 +1993,7 @@
                 </section>
 
                 <!-- Modal de Edição de Funcionários -->
-                <div class="modal-overlay" id="editEmployeeModal">
+                <div class="modal-overlay" id="editpractitionerModal">
                     <div class="modal-container max-w-640">
                         <div class="modal-header">
                             <h3 class="m-0 text-primary fs-xl fw-700">
@@ -2078,8 +2069,8 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancelar</button>
-                            <button id="btnUpdateEmployee" type="button" class="btn-success d-inline-flex align-center"
-                                onclick="saveEmployeeEdit()">
+                            <button id="btnUpdatepractitioner" type="button"
+                                class="btn-success d-inline-flex align-center" onclick="savepractitionerEdit()">
                                 <i class="fa-solid fa-save mr-10"></i> Salvar Alterações
                             </button>
                         </div>
@@ -2143,7 +2134,7 @@
                                     style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
                                     <option value="">Todos os Módulos</option>
                                     <option value="Patient">Paciente</option>
-                                    <option value="Employee">Funcionário</option>
+                                    <option value="practitioner">Funcionário</option>
                                     <option value="Medication">Medicamento</option>
                                     <option value="Dispensation">Dispensação</option>
                                     <option value="FacilitySupply">Insumo Infraestrutura</option>
@@ -2196,8 +2187,8 @@
                                 </tr>
                             </thead>
                             <tbody id="auditTableBody">
-                                <tr>
-                                    <td colspan="6" class="empty-msg">
+                                <tr style="height: 400px;">
+                                    <td colspan="6" class="empty-msg" style="vertical-align: middle;">
                                         <i class="fa-solid fa-spinner fa-spin"></i> Carregando logs de auditoria...
                                     </td>
                                 </tr>
@@ -2651,7 +2642,7 @@
                                     </h4>
                                     <div
                                         style="position: relative; height: 240px; width: 100%; display: flex; justify-content: center;">
-                                        <canvas id="productivityEmployeeChart"></canvas>
+                                        <canvas id="productivitypractitionerChart"></canvas>
                                     </div>
                                 </div>
                                 <div
@@ -2787,7 +2778,7 @@
             <div class="modal-body"
                 style="text-align: justify; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box; overflow-y: auto; flex-grow: 1;">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="img/logo.svg" alt="Logo e-Farma SUS"
+                    <img src="img/logo-fundo-branco.svg" alt="Logo e-Farma SUS"
                         style="max-width: 100%; max-height: 110px; margin-bottom: 10px; object-fit: contain;">
                     <h3 style="color: var(--color-primary); font-size: 18px; margin: 0; line-height: 1.4;">
                         Sistema de Gestão de Requisições e Estoque<br>
