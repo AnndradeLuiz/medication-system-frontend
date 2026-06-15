@@ -27,7 +27,7 @@ window.loadDashboardMetrics = async function(period = "7days") {
 
     try {
         const [dispRes, medRes] = await Promise.allSettled([
-            fetch(`${API_URL}/dispensations?size=1000`, { headers: getAuthHeaders() }),
+            fetch(`${API_URL}/dispensations?size=200`, { headers: getAuthHeaders() }),
             fetch(`${API_URL}/medications`, { headers: getAuthHeaders() })
         ]);
         

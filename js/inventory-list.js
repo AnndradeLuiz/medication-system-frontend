@@ -22,7 +22,7 @@
         // Mensagem inicial de tela vazia até que o usuário filtre
         const tbody = document.getElementById('inventoryBody');
         if (tbody && tbody.innerHTML.trim() === '') {
-            tbody.innerHTML = `<tr style="height: 400px;"><td colspan="6" class="text-center p-40 text-muted" style="vertical-align: middle;">Defina seus filtros e clique em <b>Filtrar</b> (ou digite e aperte Enter) para carregar os dados.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center p-40 text-muted" style="vertical-align: middle;">Defina seus filtros e clique em <b>Filtrar</b> (ou digite e aperte Enter) para carregar os dados.</td></tr>`;
         }
 
         const modal = document.getElementById('filterModal');
@@ -106,7 +106,7 @@
         tbody.innerHTML = '';
 
         if (!items || items.length === 0) {
-            tbody.innerHTML = `<tr style="height: 400px;"><td colspan="6" style="text-align: center; vertical-align: middle; padding: 40px; color: var(--color-text-muted);">Nenhum item encontrado com os filtros atuais.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; vertical-align: middle; padding: 40px; color: var(--color-text-muted);">Nenhum item encontrado com os filtros atuais.</td></tr>`;
             return;
         }
 

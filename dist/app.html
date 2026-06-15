@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGDMI - Sistema Gestão Dispensação Medicamentos</title>
+    <title>e-Farma SUS</title>
 
     <!-- Icons and Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,12 +12,11 @@
     <!-- Design System CSS -->
 
     <script>
-        // Verificação rápida de privilégio na raiz do documento
         if (['ADM_TI', 'ENF_GERENTE'].includes(localStorage.getItem('sgdm_userRole'))) {
             document.documentElement.classList.add('is-privileged');
         }
     </script>
-    <link rel="icon" href="img/logo-unica-sem-fundo.png">
+    <link rel="icon" href="/medication-system-frontend/assets/logo-sem-fundo-DJ9CEPHC.svg">
 
     <style>
         /* Ocultar e transicionar seções */
@@ -190,7 +189,7 @@
             border: 1px solid #e5e7eb;
         }
     </style>
-  <script type="module" crossorigin src="/medication-system-frontend/assets/app-DGdjsNuD.js"></script>
+  <script type="module" crossorigin src="/medication-system-frontend/assets/app-hOhSR91Z.js"></script>
   <link rel="modulepreload" crossorigin href="/medication-system-frontend/assets/global-tokens-BrMjRbtd.js">
   <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/global-tokens-PEQnPYH7.css">
   <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/app-BY5AmXso.css">
@@ -198,10 +197,9 @@
 
 <body class="theme-medicamentos ready">
     <div class="app-container">
-        <!-- 1. Sidebar Fixa do SPA -->
         <aside class="sidebar">
             <div class="sidebar-header" style="justify-content: center;">
-                <img src="img/logo.svg" alt="e-Farma SUS Logo"
+                <img src="/medication-system-frontend/assets/logo-barra-de-secao-B9e4JpgU.svg" alt="e-Farma SUS Logo"
                     style="max-height: 180px; width: auto; max-width: 100%; object-fit: contain; cursor: pointer;"
                     onclick="switchView('home-screen')" title="Voltar à Tela Inicial">
             </div>
@@ -244,9 +242,7 @@
         </aside>
         <div class="sidebar-overlay"></div>
 
-        <!-- 2. Main Content do SPA -->
         <main class="main-content">
-            <!-- Header Fixo -->
             <header class="top-header">
                 <button class="mobile-menu-btn" aria-label="Abrir menu">
                     <i class="fa-solid fa-bars"></i>
@@ -267,12 +263,9 @@
             </header>
 
             <div id="globalLoader" class="global-loader d-none">
-                <img src="img/logo-unica-sem-fundo.png" alt="Carregando...">
+                <img src="data:image/svg+xml,%3csvg%20width='100%25'%20height='100%25'%20viewBox='15%2020%20166%20158'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M38%20125C33.5817%20125%2030%20121.418%2030%20117L30%2091C30%2086.5817%2033.5817%2083%2038%2083L176%2083L176%20117C176%20121.418%20172.418%20125%20168%20125L38%20125Z'%20fill='%2303469B'/%3e%3cpath%20d='M53%2077C53%2072.5817%2056.5817%2069%2061%2069H168C172.418%2069%20176%2072.5817%20176%2077V89H53V77Z'%20fill='%2303469B'/%3e%3cpath%20d='M76%2033C76%2028.5817%2079.5817%2025%2084%2025H125C129.418%2025%20133%2028.5817%20133%2033V75H76V33Z'%20fill='%2303469B'/%3e%3cpath%20d='M76%20125H133V165C133%20169.418%20129.418%20173%20125%20173H84C79.5817%20173%2076%20169.418%2076%20165V125Z'%20fill='%233B8FE6'/%3e%3crect%20x='56.8146'%20y='122.712'%20width='86.0632'%20height='48.8557'%20rx='24.4279'%20transform='rotate(-50%2056.8146%20122.712)'%20fill='%2303459A'/%3e%3crect%20x='64.4238'%20y='122.583'%20width='76.156'%20height='37.3561'%20rx='18.6781'%20transform='rotate(-50%2064.4238%20122.583)'%20fill='white'/%3e%3cpath%20d='M92.1838%2097.208L105.365%2081.4995C110.231%2075.7008%20118.876%2074.9444%20124.674%2079.8101C130.473%2084.6759%20131.23%2093.3211%20126.364%2099.1198L113.183%20114.828L92.1838%2097.208Z'%20fill='%2303469B'/%3e%3cpath%20d='M92.1838%2097.208L105.365%2081.4995C110.231%2075.7008%20118.876%2074.9444%20124.674%2079.8101C130.473%2084.6759%20131.23%2093.3211%20126.364%2099.1198L113.183%20114.828L92.1838%2097.208Z'%20fill='%2303469B'/%3e%3crect%20x='51'%20y='46'%20width='12'%20height='12'%20rx='2'%20fill='%233B8FE6'/%3e%3crect%20x='36'%20y='58'%20width='12'%20height='12'%20rx='2'%20fill='%2303469B'/%3e%3crect%20x='35'%20y='39'%20width='9'%20height='9'%20rx='2'%20fill='%2303469B'/%3e%3crect%20x='21'%20y='49'%20width='9'%20height='9'%20rx='2'%20fill='%2303469B'/%3e%3crect%20x='23'%20y='67'%20width='9'%20height='9'%20rx='2'%20fill='%2303469B'/%3e%3c/svg%3e" alt="Carregando...">
             </div>
 
-            <!-- ================= SEÇÕES SPA (TELA INICIAL, PACIENTES, DISPENSA, ESTOQUE, INVENTÁRIO, FUNCIONÁRIOS) ================= -->
-
-            <!-- SEÇÃO: TELA INICIAL (home-screen.html) -->
             <div id="view-home-screen" class="view-section">
                 <section class="home-content">
                     <div class="kpi-grid">
@@ -327,7 +320,6 @@
                         </div>
                     </div>
 
-                    <!-- Seção de Dados: Gráficos e Atividades -->
                     <div class="dashboard-grid-main mt-20">
                         <div class="dashboard-charts-column">
                             <div class="charts-grid">
@@ -383,7 +375,6 @@
                 </section>
             </div>
 
-            <!-- SEÇÃO: GESTÃO DE PACIENTES (patient.html) -->
             <div id="view-patient" class="view-section" style="overflow: hidden; height: 100%;">
                 <div class="tabs-wrapper">
                     <div class="tabs-container">
@@ -1347,14 +1338,14 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-end p-20"
-                            style="border-top: 1px solid var(--color-border); padding: 20px; gap: 12px;">
-                            <button onclick="printDispensationReceipt()"
-                                class="btn-success-outline d-flex align-center gap-8"
-                                style="background: transparent; border: 1.5px solid var(--color-success); color: var(--color-success); border-radius: 6px; padding: 8px 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                        <div class="modal-footer d-flex justify-center p-20"
+                            style="border-top: 1px solid var(--color-border); padding: 20px; gap: 16px;">
+                            <button onclick="printDispensationReceipt()" class="d-flex align-center gap-8"
+                                style="flex: 1; max-width: 250px; justify-content: center; background-color: #ffffff; border: 2px solid var(--color-warning); color: var(--color-warning); border-radius: 15px; height: 55px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                 <i class="fa-solid fa-print"></i> Imprimir Nota
                             </button>
-                            <button onclick="closeDispensationSummary()" class="btn-success d-flex align-center gap-8">
+                            <button onclick="closeDispensationSummary()" class="btn-success d-flex align-center gap-8"
+                                style="flex: 1; max-width: 250px; justify-content: center; height: 55px; border-radius: 15px;">
                                 <i class="fa-solid fa-check-circle"></i> Concluir e Fechar
                             </button>
                         </div>
@@ -1462,39 +1453,39 @@
                                     <div class="form-group flex-1">
                                         <label class="fs-xs fw-700 text-muted">Forma Farmacêutica</label>
                                         <select id="editPharmaceuticalForm">
-                                             <option value="TABLET">Comprimido</option>
-                                             <option value="CAPSULE">Cápsula</option>
-                                             <option value="SOLUTION">Solução Oral</option>
-                                             <option value="SUSPENSION">Suspensão Oral</option>
-                                             <option value="INJECTABLE">Injetável</option>
-                                             <option value="OINTMENT">Pomada</option>
-                                             <option value="CREAM">Creme</option>
-                                             <option value="GEL">Gel</option>
-                                             <option value="SYRUP">Xarope</option>
-                                             <option value="DROPS">Gotas</option>
-                                             <option value="INHALER">Inalatório</option>
-                                             <option value="POWDER">Pó</option>
-                                             <option value="AMPOULE">Ampola</option>
-                                             <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
-                                             <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
-                                         </select>
+                                            <option value="TABLET">Comprimido</option>
+                                            <option value="CAPSULE">Cápsula</option>
+                                            <option value="SOLUTION">Solução Oral</option>
+                                            <option value="SUSPENSION">Suspensão Oral</option>
+                                            <option value="INJECTABLE">Injetável</option>
+                                            <option value="OINTMENT">Pomada</option>
+                                            <option value="CREAM">Creme</option>
+                                            <option value="GEL">Gel</option>
+                                            <option value="SYRUP">Xarope</option>
+                                            <option value="DROPS">Gotas</option>
+                                            <option value="INHALER">Inalatório</option>
+                                            <option value="POWDER">Pó</option>
+                                            <option value="AMPOULE">Ampola</option>
+                                            <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
+                                            <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
+                                        </select>
                                     </div>
                                     <div class="form-group flex-1">
                                         <label class="fs-xs fw-700 text-muted">Via de Administração</label>
                                         <select id="editAdministrationRoute">
-                                             <option value="ORAL">Oral</option>
-                                             <option value="SUBLINGUAL">Sublingual</option>
-                                             <option value="INTRAVENOUS">Intravenosa</option>
-                                             <option value="INTRAMUSCULAR">Intramuscular</option>
-                                             <option value="SUBCUTANEOUS">Subcutânea</option>
-                                             <option value="TOPICAL">Tópica</option>
-                                             <option value="OPHTHALMIC">Oftálmica</option>
-                                             <option value="OTIC">Otológica</option>
-                                             <option value="NASAL">Nasal</option>
-                                             <option value="RECTAL">Retal</option>
-                                             <option value="VAGINAL">Vaginal</option>
-                                             <option value="INHALATIONAL">Inalatória</option>
-                                         </select>
+                                            <option value="ORAL">Oral</option>
+                                            <option value="SUBLINGUAL">Sublingual</option>
+                                            <option value="INTRAVENOUS">Intravenosa</option>
+                                            <option value="INTRAMUSCULAR">Intramuscular</option>
+                                            <option value="SUBCUTANEOUS">Subcutânea</option>
+                                            <option value="TOPICAL">Tópica</option>
+                                            <option value="OPHTHALMIC">Oftálmica</option>
+                                            <option value="OTIC">Otológica</option>
+                                            <option value="NASAL">Nasal</option>
+                                            <option value="RECTAL">Retal</option>
+                                            <option value="VAGINAL">Vaginal</option>
+                                            <option value="INHALATIONAL">Inalatória</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-row mt-20">
@@ -2078,8 +2069,8 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancelar</button>
-                            <button id="btnUpdatepractitioner" type="button" class="btn-success d-inline-flex align-center"
-                                onclick="savepractitionerEdit()">
+                            <button id="btnUpdatepractitioner" type="button"
+                                class="btn-success d-inline-flex align-center" onclick="savepractitionerEdit()">
                                 <i class="fa-solid fa-save mr-10"></i> Salvar Alterações
                             </button>
                         </div>
@@ -2196,8 +2187,8 @@
                                 </tr>
                             </thead>
                             <tbody id="auditTableBody">
-                                <tr>
-                                    <td colspan="6" class="empty-msg">
+                                <tr style="height: 400px;">
+                                    <td colspan="6" class="empty-msg" style="vertical-align: middle;">
                                         <i class="fa-solid fa-spinner fa-spin"></i> Carregando logs de auditoria...
                                     </td>
                                 </tr>
@@ -2787,7 +2778,7 @@
             <div class="modal-body"
                 style="text-align: justify; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box; overflow-y: auto; flex-grow: 1;">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="img/logo.svg" alt="Logo e-Farma SUS"
+                    <img src="/medication-system-frontend/assets/logo-fundo-branco-BfbwflnU.svg" alt="Logo e-Farma SUS"
                         style="max-width: 100%; max-height: 110px; margin-bottom: 10px; object-fit: contain;">
                     <h3 style="color: var(--color-primary); font-size: 18px; margin: 0; line-height: 1.4;">
                         Sistema de Gestão de Requisições e Estoque<br>

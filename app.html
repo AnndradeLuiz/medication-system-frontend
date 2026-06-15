@@ -593,11 +593,6 @@
                                             onchange="updateBuilderOptions('builderCategory', 'regProg')">
                                         <label for="regProgMental">Saúde Mental</label>
                                     </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="regProgFarmaciaBasica" value="BASIC_PHARMACY"
-                                            onchange="updateBuilderOptions('builderCategory', 'regProg')">
-                                        <label for="regProgFarmaciaBasica">Farmácia Básica</label>
-                                    </div>
                                 </div>
 
                                 <label class="fw-700 text-main mb-12 d-block fs-14">
@@ -607,7 +602,7 @@
 
                                 <div class="program-builder-container radius-8 mb-15"
                                     style="display: flex; flex-direction: column; gap: 15px;">
-                                    <!-- Linha 1: Programa, Medicamento e Qtd Mensal -->
+
                                     <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
                                         <div class="form-group flex-2">
                                             <label>Programa</label>
@@ -804,8 +799,8 @@
 
                             <div
                                 class="modal-footer text-right border-t pt-15 mt-20 d-flex justify-between align-center">
-                                <button class="btn-cancel w-auto d-flex align-center gap-8"
-                                    style="background-color: #ef4444; color: white;" onclick="deletePatientFromModal()">
+                                <button class="btn-danger-solid w-auto d-flex align-center gap-8"
+                                    onclick="deletePatientFromModal()">
                                     <i class="fa-solid fa-trash"></i> Excluir Paciente
                                 </button>
                                 <button class="btn-primary w-auto d-flex align-center gap-8" onclick="enableEditMode()">
@@ -878,7 +873,6 @@
                                 </div>
                             </div>
 
-                            <!-- Campo ACS e Microárea para Edição -->
                             <div id="editPatientAcsContainer" class="form-row mt-15 mb-15">
                                 <div class="form-group flex-1">
                                     <label for="editPatientAcs"><i class="fa-solid fa-user-nurse"></i> ACS
@@ -934,7 +928,6 @@
 
                                 <div class="program-builder-container radius-8 mb-15"
                                     style="display: flex; flex-direction: column; gap: 15px;">
-                                    <!-- Linha 1: Programa e Medicamento -->
                                     <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
                                         <div class="form-group flex-1">
                                             <label>Programa</label>
@@ -956,7 +949,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Linha 2: Quantidade Mensal e Quantidade por Dose -->
                                     <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
                                         <div class="form-group flex-1">
                                             <label>Quantidade Mensal</label>
@@ -970,7 +962,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Linha 3: Unidade Dose e Frequência / Horário -->
                                     <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
                                         <div class="form-group flex-1">
                                             <label>Unidade Dose</label>
@@ -1009,7 +1000,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Linha 4: Frequência Especial e Tipo de Uso -->
                                     <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
                                         <div class="form-group flex-1" id="editBuilderFrequencyCustomGroup"
                                             style="margin: 0;">
@@ -1028,7 +1018,6 @@
                                                     style="margin: 0 !important; display: inline-flex !important; align-items: center !important; cursor: pointer; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; line-height: 1 !important;">CONTÍNUO</label>
                                             </div>
                                         </div>
-                                        <!-- Campo invisível no layout -->
                                         <div class="form-group" id="editBuilderTimesPerDayGroup"
                                             style="display: none; margin: 0;">
                                             <label>Vezes ao Dia</label>
@@ -1037,7 +1026,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Linha 5: Quantidade de Dias e Data da Receita -->
                                     <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
                                         <div class="form-group flex-1" id="editBuilderDurationDaysGroup"
                                             style="margin: 0;">
@@ -1051,7 +1039,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Linha 6: Instruções e Botão Adicionar -->
                                     <div class="form-row"
                                         style="margin: 0; gap: 15px; width: 100%; align-items: flex-end;">
                                         <div class="form-group flex-1" style="margin: 0;">
@@ -1128,7 +1115,7 @@
                                 <div class="form-group checkbox-group m-0">
                                     <input type="checkbox" id="isThirdParty" onchange="toggleThirdPartySection()">
                                     <label for="isThirdParty" class="fs-sm fw-700 text-success pointer">
-                                        Medicamento retirado por retirante? (Marque se não for o próprio paciente)
+                                        Medicamento possui retirante? (Marque se não for o próprio paciente)
                                     </label>
                                 </div>
                             </div>
@@ -1152,6 +1139,77 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div id="prescriptionSection" class="section-highlight mt-20"
+                                style="background-color: #f8fafc; border: 1px dashed #cbd5e1;">
+                                <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i
+                                        class="fa-solid fa-user-doctor mr-10"></i> Dados da Prescrição Médica
+                                </h4>
+                                <div class="form-row d-flex gap-15 mb-15">
+                                    <div class="form-group flex-1 m-0">
+                                        <label class="fs-xs fw-700 text-muted">Data da Prescrição</label>
+                                        <input type="date" id="prescriptionDate">
+                                    </div>
+                                    <div class="form-group flex-2 m-0">
+                                        <label class="fs-xs fw-700 text-muted">Nome do Prescritor</label>
+                                        <input type="text" id="prescriberName" placeholder="Dr(a).">
+                                    </div>
+                                    <div class="form-group flex-1 m-0">
+                                        <label class="fs-xs fw-700 text-muted">CPF DO PRESCRITOR</label>
+                                        <input type="text" id="prescriberCpf" placeholder="000.000.000-00">
+                                    </div>
+                                </div>
+                                <div class="form-row d-flex gap-15">
+                                    <div class="form-group flex-1 m-0">
+                                        <label class="fs-xs fw-700 text-muted">Conselho</label>
+                                        <select id="prescriberCouncil" class="form-select">
+                                            <option value="">Selecione</option>
+                                            <option value="CRM">CRM</option>
+                                            <option value="CRO">CRO</option>
+                                            <option value="CRF">CRF</option>
+                                            <option value="COREN">COREN</option>
+                                            <option value="RMS">RMS</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group flex-1 m-0">
+                                        <label class="fs-xs fw-700 text-muted">UF do Conselho</label>
+                                        <select id="prescriberCouncilUF" class="form-select">
+                                            <option value="">UF</option>
+                                            <option value="AC">AC</option>
+                                            <option value="AL">AL</option>
+                                            <option value="AP">AP</option>
+                                            <option value="AM">AM</option>
+                                            <option value="BA">BA</option>
+                                            <option value="CE">CE</option>
+                                            <option value="DF">DF</option>
+                                            <option value="ES">ES</option>
+                                            <option value="GO">GO</option>
+                                            <option value="MA">MA</option>
+                                            <option value="MT">MT</option>
+                                            <option value="MS">MS</option>
+                                            <option value="MG">MG</option>
+                                            <option value="PA">PA</option>
+                                            <option value="PB">PB</option>
+                                            <option value="PR">PR</option>
+                                            <option value="PE">PE</option>
+                                            <option value="PI">PI</option>
+                                            <option value="RJ">RJ</option>
+                                            <option value="RN">RN</option>
+                                            <option value="RS">RS</option>
+                                            <option value="RO">RO</option>
+                                            <option value="RR">RR</option>
+                                            <option value="SC">SC</option>
+                                            <option value="SP">SP</option>
+                                            <option value="SE">SE</option>
+                                            <option value="TO">TO</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group flex-2 m-0">
+                                        <label class="fs-xs fw-700 text-muted">Nº do Conselho</label>
+                                        <input type="text" id="prescriberCouncilNumber" placeholder="Ex: 123456">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="card">
@@ -1167,7 +1225,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="form-row align-bottom">
+                            <div class="form-row align-bottom mb-15">
                                 <div class="form-group flex-3 pos-relative mb-0">
                                     <label class="fs-xs fw-700 text-muted">Medicamento</label>
                                     <input type="text" id="dispenseMedInput"
@@ -1179,10 +1237,21 @@
                                     <label class="fs-xs fw-700 text-muted">Quantidade</label>
                                     <input type="number" id="medQuantity" min="1" value="1">
                                 </div>
+                            </div>
+                            <div class="form-row align-bottom mb-20 p-10 radius-6"
+                                style="background: #f8fafc; border: 1px dashed #cbd5e1;">
                                 <div class="form-group flex-1 mb-0">
-                                    <label>&nbsp;</label>
-                                    <button type="button" class="btn-primary w-full" id="btnAddItem"
-                                        onclick="addItemDispensation()">
+                                    <label class="fs-xs fw-700 text-muted">Duração (Dias)</label>
+                                    <input type="number" id="medDuration" min="1" placeholder="Dias (Opc.)">
+                                </div>
+                                <div class="form-group flex-2 mb-0">
+                                    <label class="fs-xs fw-700 text-muted">Orientações de Uso</label>
+                                    <input type="text" id="medInstructions" placeholder="Ex: 1cp a cada 8h (Opc.)">
+                                </div>
+                                <div class="form-group flex-1 mb-0">
+                                    <label class="fs-xs fw-700 text-muted">&nbsp;</label>
+                                    <button type="button" class="btn-primary w-full" style="height: 48px;"
+                                        id="btnAddItem" onclick="addItemDispensation()">
                                         <i class="fa-solid fa-plus"></i> Adicionar
                                     </button>
                                 </div>
@@ -1191,15 +1260,19 @@
                             <table class="data-table table-split">
                                 <thead>
                                     <tr>
-                                        <th class="w-400">Medicamento</th>
-                                        <th class="w-250">Lote</th>
+                                        <th class="w-400 text-left">Medicamento</th>
+                                        <th class="w-250 text-center">Lote</th>
                                         <th class="w-150 text-center">Quantidade</th>
-                                        <th class="text-center">Deletar</th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="itemsBody"></tbody>
+                                <tbody id="itemsBody">
+                                    <tr>
+                                        <td colspan="4" class="empty-msg text-center" style="vertical-align: middle;">
+                                            Nenhum medicamento adicionado à lista ainda.</td>
+                                    </tr>
+                                </tbody>
                             </table>
-                            <p id="emptyTableMsg" class="empty-msg">Nenhum medicamento adicionado à lista ainda.</p>
 
                             <div class="action-footer mt-25 text-right">
                                 <button type="button" class="btn-success d-none ml-auto" id="btnFinalize"
@@ -1266,8 +1339,8 @@
                                         <input type="number" id="inputNovaQuantidadeEdicao" min="1" value="1">
                                     </div>
                                     <div class="form-group flex-1">
-                                        <label>&nbsp;</label>
-                                        <button type="button" class="btn-primary w-full h-42"
+                                        <label class="fs-xs fw-700 text-muted">&nbsp;</label>
+                                        <button type="button" class="btn-primary w-full" style="height: 48px;"
                                             onclick="addMedToEditDispensation()">Adicionar</button>
                                     </div>
                                 </div>
@@ -1278,23 +1351,31 @@
                                 <table class="data-table w-full table-split">
                                     <thead>
                                         <tr>
-                                            <th class="w-400">Medicamento</th>
-                                            <th class="w-250">Lote</th>
+                                            <th class="w-400 text-left">Medicamento</th>
+                                            <th class="w-250 text-center">Lote</th>
                                             <th class="w-100 text-center">Quantidade</th>
-                                            <th class="text-center w-80">Ações</th>
+                                            <th class="text-center w-80">Deletar</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="editDispensationItemsBody"></tbody>
+                                    <tbody id="editDispensationItemsBody">
+                                        <tr>
+                                            <td colspan="4" class="empty-msg text-center"
+                                                style="vertical-align: middle;">Nenhum medicamento adicionado à lista
+                                                ainda.</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
 
-                            <div class="mt-25 d-flex justify-end gap-10" style="gap: 10px;">
-                                <button type="button" class="btn-success-outline w-auto d-inline-flex"
-                                    style="background: transparent; border: 1.5px solid #22c55e; color: #15803d; border-radius: 6px; padding: 8px 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                            <div class="mt-25 d-flex justify-end p-20"
+                                style="border-top: 1px solid var(--color-border); padding: 20px; gap: 16px;">
+                                <button type="button" class="d-flex align-center gap-8"
+                                    style="flex: 1; max-width: 250px; justify-content: center; background-color: #ffffff; border: 2px solid #22c55e; color: #15803d; border-radius: 15px; height: 55px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
                                     onclick="reprintDispensation()">
                                     <i class="fa-solid fa-print"></i> Reimprimir Recibo
                                 </button>
-                                <button id="btnUpdateDispensation" class="btn-success w-auto d-inline-flex"
+                                <button id="btnUpdateDispensation" class="btn-success d-flex align-center gap-8"
+                                    style="flex: 1; max-width: 250px; justify-content: center; height: 55px; border-radius: 15px;"
                                     onclick="saveDispensationEdit()">
                                     <i class="fa-solid fa-save"></i> Atualizar Dispensação
                                 </button>
@@ -1333,19 +1414,18 @@
                                         </tr>
                                     </thead>
                                     <tbody id="dispensationSummaryBody">
-                                        <!-- Preenchido via JS -->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-end p-20"
-                            style="border-top: 1px solid var(--color-border); padding: 20px; gap: 12px;">
-                            <button onclick="printDispensationReceipt()"
-                                class="btn-success-outline d-flex align-center gap-8"
-                                style="background: transparent; border: 1.5px solid var(--color-success); color: var(--color-success); border-radius: 6px; padding: 8px 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                        <div class="modal-footer d-flex justify-center p-20"
+                            style="border-top: 1px solid var(--color-border); padding: 20px; gap: 16px;">
+                            <button onclick="printDispensationReceipt()" class="d-flex align-center gap-8"
+                                style="flex: 1; max-width: 250px; justify-content: center; background-color: #ffffff; border: 2px solid var(--color-warning); color: var(--color-warning); border-radius: 15px; height: 55px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                 <i class="fa-solid fa-print"></i> Imprimir Nota
                             </button>
-                            <button onclick="closeDispensationSummary()" class="btn-success d-flex align-center gap-8">
+                            <button onclick="closeDispensationSummary()" class="btn-success d-flex align-center gap-8"
+                                style="flex: 1; max-width: 250px; justify-content: center; height: 55px; border-radius: 15px;">
                                 <i class="fa-solid fa-check-circle"></i> Concluir e Fechar
                             </button>
                         </div>
@@ -1760,7 +1840,7 @@
 
                     <div class="table-responsive"
                         style="flex: 1; min-height: 480px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: 0;">
-                        <table class="table" style="table-layout: fixed; width: 100%;">
+                        <table class="table" style="table-layout: fixed; width: 100%; height: 100%;">
                             <thead>
                                 <tr style="height: 60px;">
                                     <th class="sortable" style="width: 25%; text-align: center;"
@@ -1778,7 +1858,7 @@
                                 </tr>
                             </thead>
                             <tbody id="inventoryBody">
-                                <tr style="height: 400px;">
+                                <tr>
                                     <td colspan="6" class="empty-msg" style="vertical-align: middle;">Defina seus
                                         filtros e clique em
                                         <b>Buscar</b> para carregar os dados.
@@ -1999,8 +2079,8 @@
                             <h3 class="m-0 text-primary fs-xl fw-700">
                                 <i class="fa-solid fa-user-pen mr-10"></i> Editar Funcionário
                             </h3>
-                            <button type="button" class="modal-close" onclick="closeEditModal()">
-                                <i class="fa-solid fa-xmark"></i>
+                            <button type="button" class="btn-close" onclick="closeEditModal()">
+                                <i class="fa-solid fa-times"></i>
                             </button>
                         </div>
 

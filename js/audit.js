@@ -142,11 +142,14 @@
             // Traduzir Entidades do Módulo
             const entityLabels = {
                 Patient: 'Paciente',
-                practitioner: 'Profissional',
+                practitioner: 'Funcionário',
+                Practitioner: 'Funcionário',
                 Medication: 'Medicamento',
                 Dispensation: 'Dispensação',
                 FacilitySupply: 'Insumo Infraestrutura',
-                MedicalSupply: 'Insumo Médico'
+                MedicalSupply: 'Insumo Médico',
+                MedicationLot: 'Lote de Medicamento',
+                SupplyLot: 'Lote de Insumo'
             };
             const entityLabel = entityLabels[log.entityType] || log.entityType || '-';
 

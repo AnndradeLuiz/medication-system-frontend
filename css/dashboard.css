@@ -750,6 +750,18 @@ button {
     box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
 }
 
+.btn-danger-solid { 
+    background: linear-gradient(135deg, #ef4444, #dc2626); 
+    color: white; 
+    padding: 12px 24px; 
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+    border: none;
+}
+.btn-danger-solid:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(239, 68, 68, 0.3);
+}
+
 .btn-secondary {
     background: var(--color-bg);
     color: var(--color-text-main);
@@ -1469,7 +1481,7 @@ button {
         font-size: 12px;
     }
 
-    .btn-primary {
+    .btn-primary, .btn-danger-solid {
         padding: 12px 16px;
         font-size: 14px;
     }
@@ -1781,4 +1793,8 @@ button {
         max-height: 90vh !important;
         overflow-y: auto !important;
     }
+}
+
+#prescriptionSection select.form-select {
+    height: 48px !important;
 }

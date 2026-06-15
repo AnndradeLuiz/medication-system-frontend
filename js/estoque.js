@@ -15,6 +15,14 @@ window.initEstoqueModule = async function() {
     await loadAllData();
     setupAutocomplete();
     handleQueryParams();
+
+    // Trava de validade (permitir apenas datas a partir de amanhã)
+    const lotExpiration = document.getElementById('lotExpiration');
+    if (lotExpiration) {
+        const amanhã = new Date();
+        amanhã.setDate(amanhã.getDate() + 1);
+        lotExpiration.min = amanhã.toISOString().split('T')[0];
+    }
 };
 
 function handleQueryParams() {
@@ -569,7 +577,7 @@ async function saveEdit() {
                     lotObj.curQuantity = Math.max(0, newCurQty);
                 }
             } else {
-                lotObj.receivedQuantity = parseInt(qtyInput.value);
+                lotObj.quantity = parseInt(qtyInput.value);
             }
             updatedLots.push(lotObj);
         }
