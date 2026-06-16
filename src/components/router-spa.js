@@ -1,45 +1,75 @@
 /**
- * router.js — Roteador de SPA Unificada em Arquivo Único (app.html)
- * Gerencia a alternação instantânea de seções visible/invisible,
- * sincroniza classes active no menu e títulos no header, e suporta
- * voltar/avançar no histórico usando hash do navegador.
+ * router-spa.js — Roteador de SPA Vanilla utilizando Fetch API
+ * Carrega fragmentos HTML sob demanda e os injeta no DOM.
  */
 
-function switchView(viewId, pushState = true) {
+// Cache opcional das views para evitar fetch repetido (acelera a navegação)
+const viewCache = {};
+
+async function fetchViewHtml(viewId) {
+    if (viewCache[viewId]) {
+        return viewCache[viewId];
+    }
+    
+    try {
+        const response = await fetch(`src/pages/views/${viewId}.html`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const html = await response.text();
+        viewCache[viewId] = html;
+        return html;
+    } catch (error) {
+        console.error(`[SPA Router] Erro ao buscar view ${viewId}:`, error);
+        return `<div style="padding: 20px; color: red;">Erro ao carregar a página (${viewId}). Verifique o console.</div>`;
+    }
+}
+
+async function switchView(viewId, pushState = true) {
     const userRole = localStorage.getItem('sgdm_userRole');
     if (userRole && userRole.toUpperCase() === 'ACS' && viewId !== 'acs-restricted') {
         switchView('acs-restricted', false);
         return;
     }
-    console.log(`[SPA Router] Mudando para a visão: ${viewId}`);
+    console.log(`[SPA Router] Carregando a visão: ${viewId}`);
     
-    // 1. Ocultar todas as seções e mostrar apenas a ativa
-    const sections = document.querySelectorAll('.view-section');
-    sections.forEach(sec => {
-        sec.classList.remove('active');
-        sec.style.removeProperty('display');
-    });
+    showGlobalLoader();
+
+    // 1. Ocultar container atual suavemente (opcional para transição mais bonita)
+    const container = document.getElementById('app-content-container');
+    if (container) {
+        container.style.opacity = '0.5';
+    }
+
+    // 2. Buscar HTML (usa cache se já existe, caso contrário faz o fetch)
+    const viewHtml = await fetchViewHtml(viewId);
     
-    const targetSection = document.getElementById(`view-${viewId}`);
-    if (targetSection) {
-        targetSection.classList.add('active');
-        targetSection.style.removeProperty('display');
+    // 3. Injetar HTML no Container
+    if (container) {
+        container.innerHTML = viewHtml;
+        
+        // Ativar a section injetada para que o CSS `.view-section.active` funcione
+        const injectedSection = container.querySelector('.view-section');
+        if (injectedSection) {
+            injectedSection.classList.add('active');
+            injectedSection.style.display = 'flex';
+        }
+
+        container.style.opacity = '1';
         
         // Resetar para a primeira aba (parte inicial da seção)
-        const firstTab = targetSection.querySelector('.tabs-container .tab');
+        const firstTab = container.querySelector('.tabs-container .tab');
         if (firstTab) {
             firstTab.click();
         }
         
-        // Resetar o scroll para o topo ao mudar de seção
-        const scrollable = targetSection.querySelector('.form-content, .home-content, [style*="overflow"]');
+        // Resetar o scroll
+        const scrollable = container.querySelector('.form-content, .home-content, [style*="overflow"]');
         if (scrollable) scrollable.scrollTo(0, 0);
         window.scrollTo(0, 0);
     } else {
-        console.warn(`[SPA Router] Seção view-${viewId} não encontrada.`);
+        console.warn(`[SPA Router] Container 'app-content-container' não encontrado no HTML principal.`);
     }
 
-    // 2. Atualizar menu ativo na Sidebar
+    // 4. Atualizar menu ativo na Sidebar
     const links = document.querySelectorAll('.sidebar-nav a');
     links.forEach(link => {
         const href = link.getAttribute('href');
@@ -50,7 +80,7 @@ function switchView(viewId, pushState = true) {
         }
     });
 
-    // 3. Atualizar Título e Descrição no Header
+    // 5. Atualizar Título e Descrição no Header
     const h1 = document.getElementById('page-title-h1');
     const p = document.getElementById('page-title-p');
     if (h1 && p) {
@@ -70,15 +100,15 @@ function switchView(viewId, pushState = true) {
         p.innerText = info.desc;
     }
 
-    // 4. Salvar estado de navegação no histórico do navegador
+    // 6. Salvar estado de navegação no histórico do navegador
     if (pushState) {
         history.pushState({ viewId }, '', `#${viewId}`);
     }
 
-    // 5. Garantir o efeito de fade-in pronto
+    // 7. Garantir o efeito de fade-in pronto
     document.body.classList.add('ready');
 
-    // Executar re-inicialização de dados específicos se a função existir
+    // 8. Executar re-inicialização de dados específicos do JS de cada módulo
     if (viewId === 'home-screen') {
         if (typeof initHomeModule === 'function') initHomeModule();
         if (typeof loadDashboardMetrics === 'function') loadDashboardMetrics("7days");
@@ -91,25 +121,27 @@ function switchView(viewId, pushState = true) {
         if (typeof initEstoqueModule === 'function') initEstoqueModule();
         if (typeof loadAllData === 'function') loadAllData();
     } else if (viewId === 'funcionarios') {
-        // No módulo funcionários, loadpractitioners carrega a API e renderiza a tabela internamente
         if (typeof loadpractitioners === 'function') loadpractitioners();
     } else if (viewId === 'inventory-list') {
         if (typeof initInventoryModule === 'function') initInventoryModule();
-        // if (typeof loadInventory === 'function') loadInventory(); // Desativado para carregar só ao filtrar
     } else if (viewId === 'dashboard') {
         if (typeof initDashboardModule === 'function') initDashboardModule();
         if (typeof loadMedications === 'function') loadMedications();
         if (typeof loadDispensations === 'function') loadDispensations();
     } else if (viewId === 'pedidos') {
         if (typeof initPedidosModule === 'function') initPedidosModule();
+    } else if (viewId === 'relatorios') {
+        if (typeof switchReportTab === 'function') switchReportTab('dashboard');
     } else if (viewId === 'audit') {
         if (typeof loadAuditLogs === 'function') loadAuditLogs(0);
     }
+
+    hideGlobalLoader();
 }
 
 // Inicializar ouvintes do roteador
 function initSpaRouter() {
-    console.log("[SPA Router] Inicializando Roteador de Arquivo Único...");
+    console.log("[SPA Router] Inicializando Novo Roteador Dinâmico (Fetch API)...");
 
     // Escutar eventos de avançar/voltar nas setas do navegador
     window.addEventListener('popstate', function (e) {
@@ -208,6 +240,7 @@ function switchTab(tabId, element) {
     }
     element.classList.add('active');
 
+    // Localiza a seção alvo dentro do DOM atual (que pode ter acabado de ser injetado)
     const targetSection = document.getElementById(tabId);
     if (targetSection && targetSection.parentElement) {
         Array.from(targetSection.parentElement.children).forEach(child => {
@@ -222,4 +255,3 @@ function switchTab(tabId, element) {
 }
 
 window.switchTab = switchTab;
-

@@ -1,0 +1,390 @@
+<!-- SEÇÃO DE RELATÓRIOS -->
+<section id="view-relatorios" class="view-section">
+
+
+    <!-- NAVEGAÇÃO DE SUB-ABAS DE RELATÓRIOS -->
+    <div class="report-tabs-nav"
+        style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 10px;">
+        <button class="btn" onclick="switchReportTab('dashboard')" id="tab-rep-dashboard"
+            style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: 8px; border: 1.5px solid var(--color-primary); background-color: var(--color-primary); color: white; transition: all 0.2s;"><i
+                class="fa-solid fa-chart-line"></i> Dashboard Gerencial</button>
+        <button class="btn" onclick="switchReportTab('custom')" id="tab-rep-custom"
+            style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: 8px; border: 1.5px solid #cbd5e1; background-color: white; color: #475569; transition: all 0.2s;"><i
+                class="fa-solid fa-table-list"></i> Construtor de Planilhas</button>
+        <button class="btn" onclick="switchReportTab('analytics')" id="tab-rep-analytics"
+            style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: 8px; border: 1.5px solid #cbd5e1; background-color: white; color: #475569; transition: all 0.2s;"><i
+                class="fa-solid fa-folder-open"></i> Relatórios Analíticos</button>
+    </div>
+
+    <!-- SUB-ABA 1: DASHBOARD CONSOLIDADO -->
+    <div id="rep-sub-dashboard">
+        <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+                <h3 style="margin: 0; display: inline-flex; align-items: center; gap: 8px;"><i
+                        class="fa-solid fa-chart-line"></i> Dashboard Gerencial</h3>
+                <button class="btn btn-primary" onclick="exportStandardPDF()"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin: 0; padding: 8px 16px; vertical-align: middle;"><i
+                        class="fa-solid fa-file-pdf"></i> Exportar Consolidado (PDF)</button>
+            </div>
+            <div class="card-body" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div
+                    style="flex: 1; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                    <h4 style="margin-bottom: 15px; color: #475569;">Atendimentos por Programa</h4>
+                    <div
+                        style="position: relative; height: 250px; width: 100%; display: flex; justify-content: center;">
+                        <canvas id="programsPieChart"></canvas>
+                    </div>
+                </div>
+                <div
+                    style="flex: 1; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                    <h4 style="margin-bottom: 15px; color: #475569;">Top 5 Medicamentos Dispensados</h4>
+                    <div
+                        style="position: relative; height: 250px; width: 100%; display: flex; justify-content: center;">
+                        <canvas id="topMedsBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-ABA 2: CONSTRUTOR DINÂMICO -->
+    <div id="rep-sub-custom" style="display: none;">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fa-solid fa-table-list"></i> Extração Dinâmica de Dados (Excel/CSV)</h3>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom: 20px; color: #64748b;">Marque abaixo exatamente quais colunas
+                    você
+                    deseja que apareçam na sua planilha de exportação das dispensações.</p>
+
+                <form id="dynamicReportForm" style="display: flex; gap: 40px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <h4
+                            style="color: #2563eb; margin-bottom: 10px; border-bottom: 2px solid #bfdbfe; padding-bottom: 5px;">
+                            Dados do Paciente</h4>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="pacienteNome" checked> Nome</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="pacienteCpf"> CPF</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="pacienteCns"> Cartão SUS (CNS)</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="pacienteNascimento"> Data de Nascimento</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="pacienteIdade"> Idade Atual</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="pacienteTelefones"> Telefones</label>
+                    </div>
+
+                    <div style="flex: 1; min-width: 250px;">
+                        <h4
+                            style="color: #059669; margin-bottom: 10px; border-bottom: 2px solid #a7f3d0; padding-bottom: 5px;">
+                            Dados do Medicamento</h4>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="medicamentoPrincipioAtivo" checked> Princípio
+                            Ativo</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="medicamentoConcentracao" checked>
+                            Concentração</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="medicamentoForma"> Forma Farmacêutica</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="medicamentoProgramas"> Programa Associado</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="medicamentoLote"> Lote Utilizado</label>
+                    </div>
+
+                    <div style="flex: 1; min-width: 250px;">
+                        <h4
+                            style="color: #7c3aed; margin-bottom: 10px; border-bottom: 2px solid #ddd6fe; padding-bottom: 5px;">
+                            Dados da Entrega</h4>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="quantidadeEntregue" checked> Quantidade
+                            Entregue</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="dataEntrega" checked> Data da Entrega</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="funcionarioResponsavel"> Funcionário</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="retiradoPorTerceiro"> Possui Retirante?</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="terceiroNome"> Nome do Retirante</label>
+                        <label style="display: block; margin-bottom: 8px;"><input type="checkbox"
+                                name="columns" value="terceiroCpf"> CPF do Retirante</label>
+                    </div>
+                </form>
+
+                <div
+                    style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="exportDynamicCSV()"
+                        style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; border: 1px solid #cbd5e1; background-color: #f8fafc; color: #334155; transition: all 0.2s;"><i
+                            class="fa-solid fa-file-csv" style="color: #475569;"></i> Exportar
+                        CSV</button>
+                    <button type="button" class="btn btn-primary" onclick="exportDynamicExcel()"
+                        style="background-color: #10b981; border-color: #10b981; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: white;"><i
+                            class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-ABA 3: RELATÓRIOS ANALÍTICOS (SUS) -->
+    <div id="rep-sub-analytics" style="display: none;">
+        <div class="analytics-selector"
+            style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px; background: #f8fafc; padding: 12px 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <label
+                style="font-weight: 600; color: #475569; margin: 0; display: inline-flex; align-items: center; gap: 6px;"><i
+                    class="fa-solid fa-file-invoice"></i> Selecione o Relatório Especializado:</label>
+            <select id="select-analytics-report" onchange="loadSelectedAnalyticsReport()"
+                style="padding: 8px 16px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; color: #1e293b; background: white; cursor: pointer; min-width: 320px;">
+                <option value="inventory-alerts">1. Alerta de Validade de Lotes e Estoque Crítico
+                </option>
+                <option value="consumption-projection">2. Consumo Médio Mensal (CMM) e Projeção</option>
+                <option value="epidemiology-hiperdia">3. Perfil Epidemiológico - Hiperdia</option>
+                <option value="third-party-dispensations">4. Rastreabilidade de Retiradas por Retirantes
+                </option>
+                <option value="productivity-stats">5. Produtividade de Funcionários e Fluxo de
+                    Atendimento
+                </option>
+            </select>
+        </div>
+
+        <!-- Painel 1: Validade de Lotes e Estoque Crítico -->
+        <div id="panel-inventory-alerts" class="card analytics-panel">
+            <div class="card-header"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-triangle-exclamation"
+                        style="color: #ef4444;"></i> Controle de Validade e Alerta de Estoque</h3>
+                <button class="btn" onclick="exportAnalyticsExcel('inventory-alerts')"
+                    style="display: inline-flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 6px 12px; border-radius: 6px; font-weight:600;"><i
+                        class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+            </div>
+            <div class="card-body">
+                <p style="color: #64748b; margin-bottom: 15px;">Monitoramento de lotes cadastrados,
+                    identificando medicamentos zerados, vencidos ou com expiração próxima.</p>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table" id="table-inventory-alerts"
+                        style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: left;">
+                                <th style="padding: 12px 8px; width: 25%; vertical-align: middle;">
+                                    Princípio
+                                    Ativo</th>
+                                <th
+                                    style="padding: 12px 8px; width: 15%; text-align: center; vertical-align: middle;">
+                                    Concentração</th>
+                                <th
+                                    style="padding: 12px 8px; width: 15%; text-align: center; vertical-align: middle;">
+                                    Lote</th>
+                                <th
+                                    style="padding: 12px 8px; width: 12%; text-align: center; vertical-align: middle;">
+                                    Estoque Atual</th>
+                                <th
+                                    style="padding: 12px 8px; width: 12%; text-align: center; vertical-align: middle;">
+                                    Validade</th>
+                                <th
+                                    style="padding: 12px 8px; width: 10%; text-align: center; vertical-align: middle;">
+                                    Dias p/ Vencer</th>
+                                <th
+                                    style="padding: 12px 8px; width: 11%; text-align: center; vertical-align: middle;">
+                                    Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Painel 2: CMM e Projeção -->
+        <div id="panel-consumption-projection" class="card analytics-panel" style="display: none;">
+            <div class="card-header"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-chart-simple" style="color: #3b82f6;"></i>
+                    Consumo Médio Mensal (CMM) e Projeção de Demanda</h3>
+                <button class="btn" onclick="exportAnalyticsExcel('consumption-projection')"
+                    style="display: inline-flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 6px 12px; border-radius: 6px; font-weight:600;"><i
+                        class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+            </div>
+            <div class="card-body">
+                <p style="color: #64748b; margin-bottom: 15px;">Estimativa matemática do CMM baseado no
+                    histórico de atendimentos, prevendo a autonomia do estoque em dias.</p>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table" id="table-consumption-projection"
+                        style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: left;">
+                                <th style="padding: 8px;">Medicamento</th>
+                                <th style="padding: 8px; text-align: center;">Concentração</th>
+                                <th style="padding: 8px; text-align: center;">Saldo Disponível</th>
+                                <th style="padding: 8px; text-align: center;">CMM (6 meses)</th>
+                                <th style="padding: 8px; text-align: center;">Autonomia (Dias)</th>
+                                <th style="padding: 8px; text-align: center;">Urgência de Compra</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Painel 3: Epidemiologia Hiperdia -->
+        <div id="panel-epidemiology-hiperdia" class="card analytics-panel" style="display: none;">
+            <div class="card-header" style="padding: 12px 20px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-heart-pulse" style="color: #ef4444;"></i>
+                    Perfil
+                    Epidemiológico - Grupo de Hiperdia</h3>
+            </div>
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="hiperdia-stats-cards" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <div
+                        style="flex: 1; min-width: 180px; background: #eff6ff; border: 1px solid #bfdbfe; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h5 style="margin:0; color: #2563eb;">Pacientes Hiperdia</h5>
+                        <p id="hiperdia-total"
+                            style="font-size: 24px; font-weight: bold; margin: 5px 0 0 0; color: #1e3a8a;">
+                            0
+                        </p>
+                    </div>
+                    <div
+                        style="flex: 1; min-width: 180px; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h5 style="margin:0; color: #059669;">Apenas Diabéticos</h5>
+                        <p id="hiperdia-diabetes"
+                            style="font-size: 24px; font-weight: bold; margin: 5px 0 0 0; color: #064e3b;">
+                            0
+                        </p>
+                    </div>
+                    <div
+                        style="flex: 1; min-width: 180px; background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h5 style="margin:0; color: #d97706;">Apenas Hipertensos</h5>
+                        <p id="hiperdia-hipertensao"
+                            style="font-size: 24px; font-weight: bold; margin: 5px 0 0 0; color: #78350f;">
+                            0
+                        </p>
+                    </div>
+                    <div
+                        style="flex: 1; min-width: 180px; background: #fdf2f8; border: 1px solid #fbcfe8; padding: 15px; border-radius: 8px; text-align: center;">
+                        <h5 style="margin:0; color: #db2777;">Hipertensão + Diabetes</h5>
+                        <p id="hiperdia-ambos"
+                            style="font-size: 24px; font-weight: bold; margin: 5px 0 0 0; color: #831843;">
+                            0
+                        </p>
+                    </div>
+                </div>
+                <div class="hiperdia-charts" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div
+                        style="flex: 1; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                        <h4 style="margin-bottom: 15px; color: #475569;">Distribuição de Idade do
+                            Hiperdia
+                        </h4>
+                        <div
+                            style="position: relative; height: 230px; width: 100%; display: flex; justify-content: center;">
+                            <canvas id="hiperdiaAgeChart"></canvas>
+                        </div>
+                    </div>
+                    <div
+                        style="flex: 1; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                        <h4 style="margin-bottom: 15px; color: #475569;">Terapia Farmacológica
+                            (Polifarmácia)</h4>
+                        <div
+                            style="position: relative; height: 230px; width: 100%; display: flex; justify-content: center;">
+                            <canvas id="hiperdiaTherapyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Painel 4: Rastreabilidade de Retirantes -->
+        <div id="panel-third-party-dispensations" class="card analytics-panel" style="display: none;">
+            <div class="card-header"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-user-shield" style="color: #7c3aed;"></i>
+                    Rastreabilidade e Auditoria de Retiradas por Retirantes</h3>
+                <button class="btn" onclick="exportAnalyticsExcel('third-party-dispensations')"
+                    style="display: inline-flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 6px 12px; border-radius: 6px; font-weight:600;"><i
+                        class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+            </div>
+            <div class="card-body">
+                <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="search-third-party"
+                        placeholder="Pesquisar por retirante, paciente ou CPF..."
+                        onkeyup="filterThirdPartyTable()"
+                        style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; width: 100%; max-width: 380px;">
+                    <p style="color: #64748b; font-size: 13px; margin: 0;">Relação auditável de
+                        dispensações
+                        assinadas e retiradas por retirantes autorizados.</p>
+                </div>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table" id="table-third-party"
+                        style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: left;">
+                                <th
+                                    style="padding: 12px 8px; width: 20%; text-align: center; vertical-align: middle;">
+                                    Data / Hora</th>
+                                <th
+                                    style="padding: 12px 8px; width: 30%; text-align: center; vertical-align: middle;">
+                                    Nome do Retirante</th>
+                                <th
+                                    style="padding: 12px 8px; width: 30%; text-align: center; vertical-align: middle;">
+                                    Paciente Titular</th>
+                                <th
+                                    style="padding: 12px 8px; width: 20%; text-align: center; vertical-align: middle;">
+                                    Medicamento Entregue</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Painel 5: Produtividade e Fluxo -->
+        <div id="panel-productivity-stats" class="card analytics-panel" style="display: none;">
+            <div class="card-header" style="padding: 12px 20px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-business-time" style="color: #06b6d4;"></i>
+                    Fluxo de Atendimento e Produtividade da Equipe</h3>
+            </div>
+            <div class="card-body" style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="productivity-charts-top" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div
+                        style="flex: 1.2; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                        <h4 style="margin-bottom: 15px; color: #475569;">Atendimentos por Funcionário
+                        </h4>
+                        <div
+                            style="position: relative; height: 240px; width: 100%; display: flex; justify-content: center;">
+                            <canvas id="productivitypractitionerChart"></canvas>
+                        </div>
+                    </div>
+                    <div
+                        style="flex: 0.8; min-width: 300px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                        <h4 style="margin-bottom: 15px; color: #475569;">Tempo Médio de Atendimento</h4>
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 240px;">
+                            <div style="font-size: 48px; font-weight: 700; color: #06b6d4; line-height: 1;">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+                            <div id="avg-service-time"
+                                style="font-size: 32px; font-weight: 800; color: #1e293b; margin-top: 10px;">
+                                -- min</div>
+                            <div style="font-size: 14px; color: #64748b; margin-top: 5px;">Por paciente
+                                desde o login</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="productivity-charts-bottom"
+                    style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                    <h4 style="margin-bottom: 15px; color: #475569;">Dispersão por Dia da Semana
+                        (Atendimentos no Mês)</h4>
+                    <div
+                        style="position: relative; height: 200px; width: 100%; display: flex; justify-content: center;">
+                        <canvas id="productivityWeekdayChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

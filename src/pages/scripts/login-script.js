@@ -105,7 +105,7 @@ loginForm.addEventListener('submit', async function (e) {
                 console.log('[Auth] Sessão autenticada. Token recebido via Cookie.');
             }
 
-            window.location.href = 'app.html';
+            window.location.href = 'index.html';
         } else if (response.status === 429) {
             // Rate Limiting — muitas tentativas de login
             errorMessage.innerText = data.message || 'Muitas tentativas de login. Aguarde alguns minutos antes de tentar novamente.';

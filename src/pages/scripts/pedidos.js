@@ -24,19 +24,11 @@
     let isInitialized = false;
 
     window.initPedidosModule = function() {
-        if (isInitialized) return;
-        isInitialized = true;
-
         console.log("[Pedidos Module] Inicializando novo módulo de requisições por abas...");
-
-
 
         // Limpar o campo de busca ao inicializar
         const searchInput = document.getElementById('pedidosSearch');
         if (searchInput) searchInput.value = '';
-
-        // Limpar quantidades em memória ao inicializar
-        solicitQuantities = {};
 
         // Escutar a alteração do tipo de relatório para aplicar filtros imediatamente
         const reportTypeSelect = document.getElementById("pdfReportType");
@@ -46,8 +38,12 @@
             };
         }
 
-        // Carregar itens do backend e renderizar
-        loadAllCatalogItems();
+        // Carregar itens do backend e renderizar, ou usar o cache se já existirem
+        if (allMedsRaw.length > 0 || allSuppliesRaw.length > 0 || allCleaningRaw.length > 0) {
+            applyReportFiltering();
+        } else {
+            loadAllCatalogItems();
+        }
     };
 
     /**

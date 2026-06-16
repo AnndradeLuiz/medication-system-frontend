@@ -1,0 +1,238 @@
+<!-- SEÇÃO: GESTÃO DE FUNCIONÁRIOS (funcionarios.html) -->
+<div id="view-funcionarios" class="view-section" style="overflow: hidden; height: 100%;">
+    <div class="tabs-wrapper">
+        <div class="tabs-container">
+            <div class="tab active" onclick="switchTab('tab-lista-funcionario', this)">
+                <i class="fa-solid fa-users"></i> Funcionários Cadastrados
+            </div>
+            <div class="tab" onclick="switchTab('tab-cadastro-funcionario', this)">
+                <i class="fa-solid fa-user-plus"></i> Novo Funcionário
+            </div>
+        </div>
+    </div>
+
+    <section class="form-content max-w-1100"
+        style="height: calc(100% - 60px); display: flex; flex-direction: column; overflow: hidden; padding-bottom: 10px;">
+        <div id="tab-lista-funcionario" class="tab-section active-section"
+            style="height: 100%; display: flex; flex-direction: column; overflow: hidden;">
+            <div class="card"
+                style="flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; margin-bottom: 0;">
+                <div class="d-flex justify-between align-center mb-20">
+                    <h3 class="m-0 p-0 border-0">
+                        <i class="fa-solid fa-users"></i> Equipe Cadastrada
+                    </h3>
+                    <div class="d-flex align-center gap-10">
+                        <input type="text" id="searchpractitionerInput"
+                            placeholder="Filtrar por nome ou matrícula..." class="w-280"
+                            oninput="filterpractitionerTable()">
+                        <button id="btnRefreshpractitioners" class="btn-success btn-sm white-space-nowrap"
+                            onclick="loadpractitioners()">
+                            <i class="fa-solid fa-refresh"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive"
+                    style="flex: 1; min-height: 0; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                    <table class="table" id="practitionerTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Nome</th>
+                                <th style="width: 140px; text-align: center;">Matrícula</th>
+                                <th style="width: 150px; text-align: center;">CPF</th>
+                                <th style="width: 180px; text-align: center;">Cargo</th>
+                                <th style="width: 120px; text-align: center;">Situação</th>
+                                <th style="width: 110px; text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="practitionerTableBody">
+                            <tr>
+                                <td colspan="6" class="empty-msg">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Carregando
+                                    funcionários...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm"
+                style="border: 1px solid #e2e8f0; flex-shrink: 0;">
+                <span class="fs-14 text-muted">Mostrando <strong id="practitionerPageInfo">0-0 de 0</strong>
+                    funcionários</span>
+                <div class="d-flex gap-10">
+                    <button class="btn btn-outline-secondary btn-sm" id="btnPrevpractitioner"
+                        onclick="prevpractitionerPage()"><i class="fa-solid fa-chevron-left"></i>
+                        Anterior</button>
+                    <span class="fs-14 fw-600"
+                        style="padding: 5px 10px; background: #eff6ff; color: #2563eb; border-radius: 4px;"
+                        id="practitionerCurrentPage">Pág 1</span>
+                    <button class="btn btn-outline-secondary btn-sm" id="btnNextpractitioner"
+                        onclick="nextpractitionerPage()">Próxima <i
+                            class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-cadastro-funcionario" class="tab-section"
+            style="height: 100%; overflow-y: auto; padding-bottom: 20px;">
+            <div class="card">
+                <h3><i class="fa-solid fa-id-badge"></i> Dados do Novo Funcionário</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div class="form-group" style="grid-column: span 2; margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted">Nome Completo</label>
+                        <input type="text" id="newEmpName" placeholder="Nome do funcionário">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted">Matrícula (Opcional)</label>
+                        <input type="text" id="newEmpRegistration" placeholder="Ex: MAT2027">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted">CPF</label>
+                        <input type="text" id="newEmpCpf" placeholder="Ex: 000.000.000-00" maxlength="14"
+                            oninput="this.value = applyCpfMask(this.value)">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted">Senha</label>
+                        <input type="password" id="newEmpPassword" placeholder="Senha inicial">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted">Cargo</label>
+                        <select id="newEmpRole" onchange="toggleMicroareaField('new')">
+                            <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
+                            <option value="ENF">Enfermeiro(a)</option>
+                            <option value="TRIAGEM">Triagem</option>
+                            <option value="FARMACEUTICO">Farmacêutico</option>
+                            <option value="ADMINISTRATIVO">Administrativo</option>
+                            <option value="ENF_GERENTE">Enf. Gerente</option>
+                            <option value="ADM_TI">Administrador TI</option>
+                            <option value="ACS">ACS</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="newEmpMicroareaGroup"
+                        style="margin-bottom: 0; display: none;">
+                        <label class="fs-xs fw-700 text-muted">Microárea</label>
+                        <select id="newEmpMicroarea">
+                            <option value="">Selecione...</option>
+                            <option value="1">Microárea 1</option>
+                            <option value="2">Microárea 2</option>
+                            <option value="3">Microárea 3</option>
+                            <option value="4">Microárea 4</option>
+                            <option value="5">Microárea 5</option>
+                            <option value="6">Microárea 6</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-20 text-right">
+                    <button id="btnSaveNewpractitioner" type="button" class="btn-success ml-auto"
+                        onclick="saveNewpractitioner()">
+                        <i class="fa-solid fa-save"></i> Cadastrar Funcionário
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Edição de Funcionários -->
+    <div class="modal-overlay" id="editpractitionerModal">
+        <div class="modal-container max-w-640">
+            <div class="modal-header">
+                <h3 class="m-0 text-primary fs-xl fw-700">
+                    <i class="fa-solid fa-user-pen mr-10"></i> Editar Funcionário
+                </h3>
+                <button type="button" class="btn-close" onclick="closeEditModal()">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="editEmpId">
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div class="form-group" style="grid-column: span 2; margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Nome Completo</label>
+                        <input type="text" id="editEmpName" placeholder="Nome do funcionário">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Matrícula (Opcional)</label>
+                        <input type="text" id="editEmpRegistration" placeholder="Ex: MAT2027">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">CPF</label>
+                        <input type="text" id="editEmpCpf" placeholder="000.000.000-00" maxlength="14"
+                            oninput="this.value = applyCpfMask(this.value)">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Nova Senha (opcional)</label>
+                        <input type="password" id="editEmpPassword" placeholder="Deixar em branco">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Cargo</label>
+                        <select id="editEmpRole" class="h-42" onchange="toggleMicroareaField('edit')">
+                            <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
+                            <option value="ENF">Enfermeiro(a)</option>
+                            <option value="TRIAGEM">Triagem</option>
+                            <option value="FARMACEUTICO">Farmacêutico</option>
+                            <option value="ADMINISTRATIVO">Administrativo</option>
+                            <option value="ENF_GERENTE">Enf. Gerente</option>
+                            <option value="ADM_TI">Administrador TI</option>
+                            <option value="ACS">ACS</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="editEmpMicroareaGroup"
+                        style="margin-bottom: 0; display: none;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Microárea</label>
+                        <select id="editEmpMicroarea" class="h-42">
+                            <option value="">Selecione...</option>
+                            <option value="1">Microárea 1</option>
+                            <option value="2">Microárea 2</option>
+                            <option value="3">Microárea 3</option>
+                            <option value="4">Microárea 4</option>
+                            <option value="5">Microárea 5</option>
+                            <option value="6">Microárea 6</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column align-center mt-30 mb-10 gap-12">
+                    <label for="editEmpStatus" class="d-flex align-center gap-12 cursor-pointer m-0">
+                        <input type="checkbox" id="editEmpStatus" class="w-20 h-20 cursor-pointer">
+                        <span class="text-success fw-700 fs-sm text-uppercase">Funcionário Ativo no
+                            Sistema</span>
+                    </label>
+                    <p class="text-muted fs-xs text-center max-w-400">
+                        Desmarque para bloquear o acesso e ocultar o funcionário das listagens
+                        principais do
+                        sistema.
+                    </p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancelar</button>
+                <button id="btnUpdatepractitioner" type="button"
+                    class="btn-success d-inline-flex align-center" onclick="savepractitionerEdit()">
+                    <i class="fa-solid fa-save mr-10"></i> Salvar Alterações
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão de Funcionários -->
+    <div id="deleteConfirmModal" class="modal-overlay z-200">
+        <div class="modal-container max-w-440 text-center">
+            <div class="modal-body p-40">
+                <div class="fs-3xl mb-15">⚠️</div>
+                <h3 class="fs-xl fw-700 text-main mb-10">Confirmar Exclusão</h3>
+                <p id="deleteConfirmText" class="text-muted fs-sm mb-25"></p>
+
+                <div class="d-flex gap-12 justify-center">
+                    <button onclick="closeDeleteConfirm()" class="btn-cancel">Cancelar</button>
+                    <button id="btnConfirmDelete" class="btn-danger">Sim, Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

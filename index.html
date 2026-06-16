@@ -3,17 +3,362 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=login.html" />
-    <title>Sistema de Medicamentos - Redirecionando...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Farma SUS</title>
+
+    <!-- Icons and Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="src/styles/global-tokens.css">
+    <link rel="stylesheet" href="src/styles/dashboard.css">
+    <link rel="stylesheet" href="src/styles/patient.css?v=1">
+    <link rel="stylesheet" href="src/styles/pedidos.css">
+
     <script>
-        window.location.href = "login.html";
+        if (['ADM_TI', 'ENF_GERENTE'].includes(localStorage.getItem('sgdm_userRole'))) {
+            document.documentElement.classList.add('is-privileged');
+        }
     </script>
+    <link rel="icon" href="src/assets/img/logo-sem-fundo.svg">
+    
+    <style>
+        /* Ocultar e transicionar seções */
+        .view-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.15s ease-in-out;
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .view-section.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+        }
+
+        /* Otimizar altura do iframe/container em tela única */
+        .app-section-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* INVENTORY LIST CUSTOM STYLES */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--color-surface);
+            padding: 20px 32px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+            margin-bottom: 24px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-group label {
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        .inventory-table-container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border);
+            overflow: auto;
+            max-height: calc(100vh - 220px);
+        }
+
+        .status-pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .status-pill.healthy {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .status-pill.low {
+            background: #fff7ed;
+            color: #d97706;
+        }
+
+        .status-pill.critical {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .type-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            background: var(--color-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+        }
+
+        .sort-icon {
+            margin-left: 6px;
+            font-size: 10px;
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .sort-icon.active {
+            opacity: 1;
+            color: var(--color-primary);
+        }
+
+        th.sortable {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        th.sortable:hover {
+            background-color: var(--color-primary-light) !important;
+            color: var(--color-primary);
+        }
+
+        /* SEGMENTED CONTROL STYLES (Estoque) */
+        .segmented-control {
+            display: flex;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 20px auto 10px auto;
+            width: fit-content;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .segment {
+            padding: 10px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .segment:hover {
+            color: #334155;
+        }
+
+        .segment.active-medicamentos {
+            background-color: white;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+
+        .segment.active-insumos {
+            background-color: white;
+            color: #0ea5e9;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+
+        body.theme-medicamentos .sidebar-nav li a.active {
+            background-color: #2563eb;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        body.theme-insumos .sidebar-nav li a.active {
+            background-color: #0ea5e9;
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        .disabled-input {
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: not-allowed;
+            border: 1px solid #e5e7eb;
+        }
+    </style>
 </head>
 
-<body>
-    <p style="font-family: sans-serif; text-align: center; margin-top: 50px; color: #64748b;">
-        Redirecionando para a página de login...
-    </p>
+<body class="theme-medicamentos ready">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header" style="justify-content: center;">
+                <img src="src/assets/img/logo-barra-de-secao.svg" alt="e-Farma SUS Logo"
+                    style="max-height: 180px; width: auto; max-width: 100%; object-fit: contain; cursor: pointer;"
+                    onclick="switchView('home-screen')" title="Voltar à Tela Inicial">
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#home-screen" onclick="switchView('home-screen')"><i class="fa-solid fa-home"></i> Tela Inicial</a></li>
+                    <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i> Pacientes</a></li>
+                    <li><a href="#dashboard" onclick="switchView('dashboard')"><i class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
+                    <li><a href="#estoque" onclick="switchView('estoque')"><i class="fa-solid fa-boxes-stacked"></i> Estoque Geral</a></li>
+                    <li><a href="#inventory-list" onclick="switchView('inventory-list')"><i class="fa-solid fa-file-medical"></i> Inventário Total</a></li>
+                    <li><a href="#pedidos" onclick="switchView('pedidos')"><i class="fa-solid fa-file-invoice"></i> Pedidos</a></li>
+                    <li id="sidebarRelatoriosLi" style="display: none;"><a href="#relatorios" onclick="switchView('relatorios')"><i class="fa-solid fa-chart-pie"></i> Relatórios</a></li>
+                    <li id="sidebarFuncLi" style="display: none;"><a href="#funcionarios" onclick="switchView('funcionarios')"><i class="fa-solid fa-user-shield"></i> Funcionários</a></li>
+                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i class="fa-solid fa-clock-rotate-left"></i> Auditoria Geral</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" class="logout-btn" onclick="openCreditsModal()"
+                    style="background: rgba(14, 165, 233, 0.1); color: var(--color-primary); border-color: rgba(14, 165, 233, 0.2); margin-bottom: 8px;">
+                    <i class="fa-solid fa-circle-info"></i> Sobre / Créditos
+                </a>
+                <a href="login.html" class="logout-btn" onclick="localStorage.clear()">
+                    <i class="fa-solid fa-sign-out-alt"></i> Sair do Sistema
+                </a>
+            </div>
+        </aside>
+        <div class="sidebar-overlay"></div>
+
+        <main class="main-content">
+            <header class="top-header">
+                <button class="mobile-menu-btn" aria-label="Abrir menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1 id="page-title-h1">Painel Geral</h1>
+                    <p id="page-title-p">Visão geral das operações e alertas do sistema</p>
+                </div>
+                <div class="user-profile">
+                    <div class="user-info-text">
+                        <span class="user-name" id="loggedUser">Usuário Logado</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div id="globalLoader" class="global-loader d-none">
+                <img src="src/assets/img/logo-sem-fundo.svg" alt="Carregando...">
+            </div>
+
+            <!-- CONTAINER PARA INJEÇÃO DINÂMICA DE VIEWS (SPA) -->
+            <div id="app-content-container" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0;">
+                <!-- O conteúdo das views (.view-section) será injetado aqui via router-spa.js -->
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal de Créditos / Sobre -->
+    <div id="creditsModal" class="modal-overlay">
+        <div class="modal-container"
+            style="max-width: 550px; width: 95%; margin: auto; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;">
+            <div class="modal-header" style="flex-shrink: 0;">
+                <h3><i class="fa-solid fa-circle-info"></i> Sobre o Sistema</h3>
+                <button class="btn-close" onclick="closeCreditsModal()"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body"
+                style="text-align: justify; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box; overflow-y: auto; flex-grow: 1;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="src/assets/img/logo-fundo-branco.svg" alt="Logo e-Farma SUS"
+                        style="max-width: 100%; max-height: 110px; margin-bottom: 10px; object-fit: contain;">
+                    <h3 style="color: var(--color-primary); font-size: 18px; margin: 0; line-height: 1.4;">
+                        Sistema de Gestão de Requisições e Estoque<br>
+                        <span style="font-size: 22px;">e-Farma SUS</span>
+                    </h3>
+                    <p style="font-size: 13px; color: var(--color-text-light); margin-top: 6px;">Versão 1.0</p>
+                </div>
+
+                <p>Este sistema foi idealizado e desenvolvido como solução tecnológica para otimização da gestão de
+                    estoque e do fluxo de requisições de medicamentos no SUS.</p>
+
+                <p>A necessidade foi identificada a partir das vivências práticas na Unidade Básica de Saúde (UBS)
+                    durante a atuação como monitor do <strong>Projeto PET Saúde Digital</strong>. Observou-se o enorme
+                    gargalo gerado pelo uso exclusivo de papéis para gerenciar o estoque, o que exigia um controle
+                    manual demorado e exaustivo. O objetivo do sistema é justamente digitalizar esse fluxo, acabando com
+                    a dependência do papel, facilitando o controle de validade, reduzindo desperdícios e automatizando a
+                    geração de pedidos.</p>
+
+                <div
+                    style="background: var(--color-bg); padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-top: 20px; word-wrap: break-word;">
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px;">
+                        <li style="margin-bottom: 8px;"><strong>Autor / Desenvolvedor:</strong> Luiz Eduardo Eleutério
+                            de Andrade</li>
+                        <li style="margin-bottom: 8px;"><strong>Instituição de Ensino:</strong> Universidade Federal do
+                            Oeste do Pará - UFOPA</li>
+                        <li><strong>Orientação:</strong> <em>(A definir)</em></li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary" onclick="closeCreditsModal()">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts do Sistema unificados e carregados em paralelo -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        function openCreditsModal() {
+            document.getElementById('creditsModal').classList.add('active');
+        }
+
+        // Redirecionadores globais para compatibilidade de escopo com ES Modules
+        var setLoading = (a, b, c) => window.setLoading ? window.setLoading(a, b, c) : console.log("loading...");
+        var showGlobalLoader = () => window.showGlobalLoader && window.showGlobalLoader();
+        var hideGlobalLoader = () => window.hideGlobalLoader && window.hideGlobalLoader();
+
+        function closeCreditsModal() {
+            document.getElementById('creditsModal').classList.remove('active');
+        }
+
+        // Fechar modal ao clicar fora dela
+        window.addEventListener('click', function (event) {
+            const modal = document.getElementById('creditsModal');
+            if (event.target == modal) {
+                closeCreditsModal();
+            }
+        });
+    </script>
+    
+    <script type="module" src="src/services/store.js"></script>
+    <script type="module" src="src/config/config.js?v=2"></script>
+    <script type="module" src="src/services/auth.js?v=2"></script>
+    <script type="module" src="src/components/components.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/home.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/patient.js?v=6"></script>
+    <script type="module" src="src/pages/scripts/dashboard.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/estoque.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/funcionarios.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/inventory-list.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/pedidos.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/reports.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/audit.js?v=1"></script>
+    <script>
+        // Configura proteção para datas futuras em campos de nascimento
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            const newBirthDate = document.getElementById('newBirthDate');
+            const editBirthDate = document.getElementById('editBirthDate');
+            if (newBirthDate) newBirthDate.max = today;
+            if (editBirthDate) editBirthDate.max = today;
+        });
+    </script>
 </body>
 
 </html>

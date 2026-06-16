@@ -1,0 +1,376 @@
+<div id="view-estoque" class="view-section">
+    <!-- Segmented Control para chavear tipo -->
+    <div class="segmented-control">
+        <div class="segment active-medicamentos" id="segMedicamentos" onclick="setMode('medicamentos')">
+            <i class="fa-solid fa-pills"></i> Medicamentos
+        </div>
+        <div class="segment" id="segInsumos" onclick="setMode('insumos')">
+            <i class="fa-solid fa-boxes-stacked"></i> Insumos
+        </div>
+    </div>
+
+    <div class="tabs-wrapper">
+        <div class="tabs-container">
+            <div class="tab active" onclick="switchTab('tab-consultar', this)">
+                <i class="fa-solid fa-magnifying-glass"></i> Consultar / Editar Catálogo
+            </div>
+            <div class="tab" id="tabEditLabel" style="display:none;"
+                onclick="switchTab('tab-editar', this)">
+                Editar Cadastro
+            </div>
+            <div class="tab" onclick="switchTab('tab-lote', this)">
+                <i class="fa-solid fa-circle-plus"></i> Entrada de Lote
+            </div>
+            <div class="tab" id="tab-link-cadastro" onclick="switchTab('tab-cadastro-estoque', this)">
+                <i class="fa-solid fa-plus-circle"></i> Cadastrar Item
+            </div>
+        </div>
+    </div>
+
+    <section class="form-content">
+        <div id="tab-consultar" class="tab-section active-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-search"></i> Pesquisar para Editar</h3>
+                <div class="form-row pos-relative">
+                    <div class="form-group flex-1">
+                        <label id="lblSearchName" class="fs-xs fw-700 text-muted">Nome do Insumo</label>
+                        <input type="text" id="estoqueSearchInput" placeholder="Ex: Seringa, Gaze..."
+                            autocomplete="off">
+                        <ul id="searchSuggestions" class="suggestion-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="editCard" class="card d-none mt-20">
+                <div class="d-flex justify-between align-center mb-20">
+                    <h3 class="mb-0"><i class="fa-solid fa-pen-to-square"></i> Editando: <span
+                            id="displayItemName" class="text-primary"></span></h3>
+                    <button type="button" class="btn-cancel" onclick="closeEditCard()">Cancelar</button>
+                </div>
+
+                <input type="hidden" id="editItemId">
+                <input type="hidden" id="editItemSupplyType">
+
+                <div class="form-row">
+                    <div class="form-group flex-2">
+                        <label id="lblEditName" class="fs-xs fw-700 text-muted">Nome do Insumo</label>
+                        <input type="text" id="editStockItemName" placeholder="Nome descritivo">
+                    </div>
+                </div>
+
+                <div id="insumoFieldsEdit">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Tipo de Insumo</label>
+                            <select id="editSupplyType">
+                                <option value="medical">Médico</option>
+                                <option value="facility">Uso Geral / Sanitário</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Unidade de Medida</label>
+                            <input type="text" id="editInsumoUnit" placeholder="Ex: Rolo, Pacote, Unidade">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="medicationFieldsEdit" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Concentração</label>
+                            <div class="d-flex gap-10">
+                                <input type="number" step="any" id="editConcentrationValue"
+                                    placeholder="Valor" style="flex: 1.5; min-width: 0;">
+                                <select id="editConcentrationUnit" style="flex: 1; min-width: 0;">
+                                    <option value="mg">mg</option>
+                                    <option value="g">g</option>
+                                    <option value="mcg">mcg</option>
+                                    <option value="mL">mL</option>
+                                    <option value="mg/mL">mg/mL</option>
+                                    <option value="g/mL">g/mL</option>
+                                    <option value="UI">UI</option>
+                                    <option value="U/mL">U/mL</option>
+                                    <option value="%">%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Forma Farmacêutica</label>
+                            <select id="editPharmaceuticalForm">
+                                <option value="TABLET">Comprimido</option>
+                                <option value="CAPSULE">Cápsula</option>
+                                <option value="SOLUTION">Solução Oral</option>
+                                <option value="SUSPENSION">Suspensão Oral</option>
+                                <option value="INJECTABLE">Injetável</option>
+                                <option value="OINTMENT">Pomada</option>
+                                <option value="CREAM">Creme</option>
+                                <option value="GEL">Gel</option>
+                                <option value="SYRUP">Xarope</option>
+                                <option value="DROPS">Gotas</option>
+                                <option value="INHALER">Inalatório</option>
+                                <option value="POWDER">Pó</option>
+                                <option value="AMPOULE">Ampola</option>
+                                <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
+                                <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Via de Administração</label>
+                            <select id="editAdministrationRoute">
+                                <option value="ORAL">Oral</option>
+                                <option value="SUBLINGUAL">Sublingual</option>
+                                <option value="INTRAVENOUS">Intravenosa</option>
+                                <option value="INTRAMUSCULAR">Intramuscular</option>
+                                <option value="SUBCUTANEOUS">Subcutânea</option>
+                                <option value="TOPICAL">Tópica</option>
+                                <option value="OPHTHALMIC">Oftálmica</option>
+                                <option value="OTIC">Otológica</option>
+                                <option value="NASAL">Nasal</option>
+                                <option value="RECTAL">Retal</option>
+                                <option value="VAGINAL">Vaginal</option>
+                                <option value="INHALATIONAL">Inalatória</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row mt-20">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Programas (Pode selecionar vários)</label>
+                            <div class="d-flex flex-row flex-wrap gap-20 mt-10"
+                                style="justify-content: center;">
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="editMedProgFarmaciaBasica"
+                                        value="BASIC_PHARMACY"
+                                        style="width: 18px; height: 18px; cursor: pointer;"> Farmácia
+                                    Básica</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="editMedProgDiabetes"
+                                        value="DIABETES"
+                                        style="width: 18px; height: 18px; cursor: pointer;">
+                                    Diabetes</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="editMedProgHipertensao"
+                                        value="HYPERTENSION"
+                                        style="width: 18px; height: 18px; cursor: pointer;">
+                                    Hipertensão</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="editMedProgSaudeMulher"
+                                        value="WOMENS_HEALTH"
+                                        style="width: 18px; height: 18px; cursor: pointer;"> Saúde da
+                                    Mulher</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="editMedProgSaudeMental"
+                                        value="MENTAL_HEALTH"
+                                        style="width: 18px; height: 18px; cursor: pointer;"> Saúde
+                                    Mental</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-30 border-t pt-25">
+                    <h3><i class="fa-solid fa-cubes"></i> Lotes Registrados</h3>
+                    <div class="table-responsive"
+                        style="max-height: 250px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 300px; text-align: center;">Código Lote</th>
+                                    <th style="width: 250px; text-align: center;">Validade</th>
+                                    <th class="text-center" style="width: 150px; text-align: center;"
+                                        id="thQty1">Qtd. Inicial</th>
+                                    <th class="text-center" style="width: 150px; text-align: center;"
+                                        id="thQty2">Qtd. Restante</th>
+                                </tr>
+                            </thead>
+                            <tbody id="editLotsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-25 d-flex justify-end">
+                    <button id="btnSaveEditLabel" type="button" class="btn-success ml-auto"
+                        onclick="saveEdit()">
+                        <i class="fa-solid fa-save"></i> Atualizar Item e Lotes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-lote" class="tab-section">
+            <div class="card">
+                <h3><i class="fa-solid fa-truck-ramp-box"></i> Entrada de Lote</h3>
+                <div class="form-row">
+                    <div class="form-group flex-1" style="display: none;">
+                        <label class="fs-xs fw-700 text-muted">Tipo de Item</label>
+                        <select id="entryItemType" onchange="populateEntryItems()">
+                            <option value="medicamentos">Medicamentos</option>
+                            <option value="insumos">Insumos (Médicos e Gerais)</option>
+                        </select>
+                    </div>
+                    <div class="form-group flex-1 pos-relative">
+                        <label id="lblEntrySelect" class="fs-xs fw-700 text-muted">Selecione o Medicamento</label>
+                        <input type="text" id="lotSelectSearch" placeholder="Buscar para selecionar..."
+                            autocomplete="off" class="w-full h-42" oninput="searchEntryItems()">
+                        <input type="hidden" id="lotSelectId">
+                        <ul id="lotSelectSuggestions"
+                            class="suggestion-list d-none pos-absolute top-100 left-0 right-0 bg-white border-slate radius-6 shadow-sm max-h-200 overflow-y-auto z-50 p-0 m-0 mt-4 no-list">
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-row mt-20">
+                    <div class="form-group flex-1">
+                        <label class="fs-xs fw-700 text-muted">Código do Lote</label>
+                        <input type="text" id="lotCode" placeholder="Ex: LOT-2026-X">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label class="fs-xs fw-700 text-muted">Quantidade Recebida</label>
+                        <input type="number" id="lotQuantity" min="1" placeholder="Ex: 500">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label class="fs-xs fw-700 text-muted">Data de Validade</label>
+                        <input type="date" id="lotExpiration">
+                    </div>
+                </div>
+
+                <div class="action-footer mt-25 d-flex justify-end">
+                    <button id="btnSaveLot" type="button" class="btn-success" onclick="saveLot()">
+                        <i class="fa-solid fa-check-circle"></i> Confirmar Entrada no Estoque
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-cadastro-estoque" class="tab-section">
+            <div class="card">
+                <h3 class="mb-20"><i class="fa-solid fa-circle-plus" id="registerIcon"></i> <span
+                        id="registerCardTitle">Cadastrar Novo Insumo no Catálogo</span></h3>
+
+                <div class="form-row">
+                    <div class="form-group flex-2">
+                        <label id="lblRegisterName" class="fs-xs fw-700 text-muted">Nome do Insumo</label>
+                        <input type="text" id="newItemName" placeholder="Ex: Seringa, Sabão...">
+                    </div>
+                </div>
+
+                <div id="insumoFields">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Categoria do Insumo</label>
+                            <select id="newInsumoType">
+                                <option value="medical">Médico</option>
+                                <option value="facility">Geral / Sanitário / Administrativo</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Unidade de Medida</label>
+                            <input type="text" id="newInsumoUnit" placeholder="Ex: Rolo, Pacote, Unidade">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="medicationFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Concentração</label>
+                            <div class="d-flex gap-10">
+                                <input type="number" step="any" id="newMedConcentrationValue"
+                                    placeholder="Valor" style="flex: 1.5; min-width: 0;">
+                                <select id="newMedConcentrationUnit" style="flex: 1; min-width: 0;">
+                                    <option value="mg">mg</option>
+                                    <option value="g">g</option>
+                                    <option value="mcg">mcg</option>
+                                    <option value="mL">mL</option>
+                                    <option value="mg/mL">mg/mL</option>
+                                    <option value="g/mL">g/mL</option>
+                                    <option value="UI">UI</option>
+                                    <option value="U/mL">U/mL</option>
+                                    <option value="%">%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Forma Farmacêutica</label>
+                            <select id="newMedForm">
+                                <option value="">Selecione...</option>
+                                <option value="TABLET">Comprimido</option>
+                                <option value="CAPSULE">Cápsula</option>
+                                <option value="SOLUTION">Solução Oral</option>
+                                <option value="SUSPENSION">Suspensão Oral</option>
+                                <option value="INJECTABLE">Injetável</option>
+                                <option value="OINTMENT">Pomada</option>
+                                <option value="CREAM">Creme</option>
+                                <option value="GEL">Gel</option>
+                                <option value="SYRUP">Xarope</option>
+                                <option value="DROPS">Gotas</option>
+                                <option value="INHALER">Inalatório</option>
+                                <option value="POWDER">Pó</option>
+                                <option value="AMPOULE">Ampola</option>
+                                <option value="BOTTLE_PREGNANT">Frasco (P/ Gestantes)</option>
+                                <option value="TABLET_PREGNANT">Comprimido (P/ Gestantes)</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Via de Administração</label>
+                            <select id="newMedRoute">
+                                <option value="">Selecione...</option>
+                                <option value="ORAL">Oral</option>
+                                <option value="SUBLINGUAL">Sublingual</option>
+                                <option value="INTRAVENOUS">Intravenosa</option>
+                                <option value="INTRAMUSCULAR">Intramuscular</option>
+                                <option value="SUBCUTANEOUS">Subcutânea</option>
+                                <option value="TOPICAL">Tópica</option>
+                                <option value="OPHTHALMIC">Oftálmica</option>
+                                <option value="OTIC">Otológica</option>
+                                <option value="NASAL">Nasal</option>
+                                <option value="RECTAL">Retal</option>
+                                <option value="VAGINAL">Vaginal</option>
+                                <option value="INHALATIONAL">Inalatória</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row mt-20">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Programas (Pode selecionar vários)</label>
+                            <div class="d-flex flex-row flex-wrap gap-20 mt-10"
+                                style="justify-content: center;">
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="newMedProgFarmaciaBasica"
+                                        value="BASIC_PHARMACY"
+                                        style="width: 18px; height: 18px; cursor: pointer;"> Farmácia
+                                    Básica</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="newMedProgDiabetes"
+                                        value="DIABETES"
+                                        style="width: 18px; height: 18px; cursor: pointer;">
+                                    Diabetes</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="newMedProgHipertensao"
+                                        value="HYPERTENSION"
+                                        style="width: 18px; height: 18px; cursor: pointer;">
+                                    Hipertensão</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="newMedProgSaudeMulher"
+                                        value="WOMENS_HEALTH"
+                                        style="width: 18px; height: 18px; cursor: pointer;"> Saúde da
+                                    Mulher</label>
+                                <label class="d-flex align-center gap-8 fs-14 fw-600 cursor-pointer"
+                                    style="margin: 0;"><input type="checkbox" id="newMedProgSaudeMental"
+                                        value="MENTAL_HEALTH"
+                                        style="width: 18px; height: 18px; cursor: pointer;"> Saúde
+                                    Mental</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-15 d-flex justify-end">
+                <button id="btnSaveNewCatalogItem" type="button" class="btn-success ml-auto"
+                    onclick="saveNewItem()">
+                    <i class="fa-solid fa-plus-circle"></i> Salvar no Catálogo
+                </button>
+            </div>
+        </div>
+    </section>
+</div>

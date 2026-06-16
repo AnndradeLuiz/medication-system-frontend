@@ -45,7 +45,7 @@ async function initComponents() {
         if (!window.navigateTo) {
             console.log("[Components] Carregando o roteador SPA dinamicamente...");
             const routerScript = document.createElement('script');
-            routerScript.src = 'js/router.js';
+            routerScript.src = 'src/components/router-spa.js';
             routerScript.onload = () => {
                 if (typeof initSpaRouter === 'function') {
                     initSpaRouter();

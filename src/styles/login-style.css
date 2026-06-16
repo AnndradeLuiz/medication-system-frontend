@@ -31,7 +31,7 @@ body {
 .login-right {
     width: 60%;
     position: relative;
-    background: url('../img/img-ubs.jpg') center center / cover no-repeat;
+    background: url('../assets/img/img-ubs.jpg') center center / cover no-repeat;
     display: flex;
     align-items: flex-end;
     padding: 60px;
