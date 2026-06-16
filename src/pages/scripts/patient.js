@@ -160,12 +160,15 @@
         }
     }
 
-    function addProgramToBuilder() {
-        const category = document.getElementById('builderCategory').value;
-        const medId = document.getElementById('builderMedId').value;
-        const medName = document.getElementById('builderMedName').value;
-        const medConcentration = document.getElementById('builderMedConcentration').value;
-        const quantity = parseInt(document.getElementById('builderQuantity').value);
+    function handleProgramToBuilder(isEdit) {
+        const prefix = isEdit ? 'editBuilder' : 'builder';
+        const targetList = isEdit ? currentEditPatientPrograms : currentPatientPrograms;
+
+        const category = document.getElementById(`${prefix}Category`).value;
+        const medId = document.getElementById(`${prefix}MedId`).value;
+        const medName = document.getElementById(`${prefix}MedName`).value;
+        const medConcentration = document.getElementById(`${prefix}MedConcentration`).value;
+        const quantity = parseInt(document.getElementById(`${prefix}Quantity`).value);
 
         if (!category) {
             showToast("Selecione um programa.");
@@ -177,33 +180,33 @@
             return;
         }
 
-        if (currentPatientPrograms.some(p => p.medicationId === medId)) {
+        if (targetList.some(p => p.medicationId === medId)) {
             showToast("Este medicamento já foi adicionado para este paciente.");
             return;
         }
 
-        const rawPrescriptionDate = document.getElementById('builderPrescriptionDate').value;
+        const rawPrescriptionDate = document.getElementById(`${prefix}PrescriptionDate`).value;
         if (!rawPrescriptionDate) {
             showToast("Informe a data de emissão da receita.");
             return;
         }
 
-        const doseQuantity = parseFloat(document.getElementById('builderDoseQty').value) || 1.0;
-        const doseUnit = document.getElementById('builderDoseUnit').value;
-        const freqSelect = document.getElementById('builderFrequency').value;
+        const doseQuantity = parseFloat(document.getElementById(`${prefix}DoseQty`).value) || 1.0;
+        const doseUnit = document.getElementById(`${prefix}DoseUnit`).value;
+        const freqSelect = document.getElementById(`${prefix}Frequency`).value;
         const frequency = freqSelect === 'custom'
-            ? document.getElementById('builderFrequencyCustom').value.trim()
+            ? document.getElementById(`${prefix}FrequencyCustom`).value.trim()
             : freqSelect;
-        const timesPerDay = parseInt(document.getElementById('builderTimesPerDay').value) || 0;
-        const isContinuous = document.getElementById('builderIsContinuous').checked;
-        const durationDaysVal = document.getElementById('builderDurationDays').value;
+        const timesPerDay = parseInt(document.getElementById(`${prefix}TimesPerDay`).value) || 0;
+        const isContinuous = document.getElementById(`${prefix}IsContinuous`).checked;
+        const durationDaysVal = document.getElementById(`${prefix}DurationDays`).value;
         const treatmentDuration = isContinuous
             ? "Contínuo"
             : (durationDaysVal ? `${durationDaysVal} dias` : "");
         const prescriptionDate = rawPrescriptionDate ? new Date(rawPrescriptionDate + 'T00:00:00').toISOString() : null;
-        const administrationInstructions = document.getElementById('builderInstructions').value.trim();
+        const administrationInstructions = document.getElementById(`${prefix}Instructions`).value.trim();
 
-        currentPatientPrograms.push({
+        targetList.push({
             category: category,
             medicationId: medId,
             medicationName: medName,
@@ -219,54 +222,52 @@
             administrationInstructions: administrationInstructions
         });
 
-        // Limpar os campos do builder
-        document.getElementById('builderCategory').value = '';
-        document.getElementById('builderMedSearch').value = '';
-        document.getElementById('builderMedId').value = '';
-        document.getElementById('builderMedName').value = '';
-        document.getElementById('builderMedConcentration').value = '';
-        document.getElementById('builderQuantity').value = '';
+        document.getElementById(`${prefix}Category`).value = '';
+        document.getElementById(`${prefix}MedSearch`).value = '';
+        document.getElementById(`${prefix}MedId`).value = '';
+        document.getElementById(`${prefix}MedName`).value = '';
+        document.getElementById(`${prefix}MedConcentration`).value = '';
+        document.getElementById(`${prefix}Quantity`).value = '';
 
-        // Reset padrão
-        document.getElementById('builderDoseQty').value = '1';
-        document.getElementById('builderDoseUnit').value = 'comprimido(s)';
-        document.getElementById('builderFrequency').value = '1 vez ao dia';
-        document.getElementById('builderFrequencyCustom').value = '';
-        document.getElementById('builderFrequencyCustomGroup').style.display = 'none';
-        document.getElementById('builderTimesPerDayGroup').style.display = 'flex';
-        document.getElementById('builderTimesPerDay').value = '1';
-        document.getElementById('builderIsContinuous').checked = true;
-        document.getElementById('builderDurationDaysGroup').style.display = 'none';
-        document.getElementById('builderDurationDays').value = '';
-        document.getElementById('builderPrescriptionDate').value = '';
-        document.getElementById('builderInstructions').value = '';
+        document.getElementById(`${prefix}DoseQty`).value = '1';
+        document.getElementById(`${prefix}DoseUnit`).value = 'comprimido(s)';
+        document.getElementById(`${prefix}Frequency`).value = '1 vez ao dia';
+        document.getElementById(`${prefix}FrequencyCustom`).value = '';
+        document.getElementById(`${prefix}FrequencyCustomGroup`).style.display = 'none';
+        document.getElementById(`${prefix}TimesPerDayGroup`).style.display = 'flex';
+        document.getElementById(`${prefix}TimesPerDay`).value = '1';
+        document.getElementById(`${prefix}IsContinuous`).checked = true;
+        document.getElementById(`${prefix}DurationDaysGroup`).style.display = 'none';
+        document.getElementById(`${prefix}DurationDays`).value = '';
+        document.getElementById(`${prefix}PrescriptionDate`).value = '';
+        document.getElementById(`${prefix}Instructions`).value = '';
 
-        renderBuilderPrograms();
+        renderProgramsList(isEdit);
     }
 
-    function removeProgramFromBuilder(index) {
-        currentPatientPrograms.splice(index, 1);
-        renderBuilderPrograms();
-    }
-
-    function renderBuilderPrograms() {
-        const listEl = document.getElementById('patientProgramsList');
+    function renderProgramsList(isEdit) {
+        const listElId = isEdit ? 'editPatientProgramsList' : 'patientProgramsList';
+        const listEl = document.getElementById(listElId);
+        const targetList = isEdit ? currentEditPatientPrograms : currentPatientPrograms;
         listEl.innerHTML = '';
 
-        if (currentPatientPrograms.length === 0) {
+        if (targetList.length === 0) {
             listEl.innerHTML = '<div style="text-align: center; color: #6b7280; font-size: 14px; padding: 10px; border: 1px dashed #d1d5db; border-radius: 6px;">Nenhum programa adicionado.</div>';
             return;
         }
 
         const fragment = document.createDocumentFragment();
 
-        currentPatientPrograms.forEach((prog, index) => {
+        targetList.forEach((prog, index) => {
             const catName = window.PROGRAM_LABELS ? window.PROGRAM_LABELS[prog.category] || prog.category : prog.category;
             const isCont = prog.isContinuous ? "Uso Contínuo" : (prog.treatmentDuration || "Temporário");
             const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
 
             const div = document.createElement('div');
             div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 8px;';
+            
+            const btnAction = isEdit ? `removeProgramFromEditBuilder(${index})` : `removeProgramFromBuilder(${index})`;
+
             div.innerHTML = `
             <div>
                 <div style="font-weight: 600; color: #111827; font-size: 14px;">${catName}</div>
@@ -277,7 +278,7 @@
                     Posologia: ${prog.doseQuantity} ${prog.doseUnit}, ${prog.frequency} (${isCont}). Receita: ${dateStr}.
                 </div>
             </div>
-            <button type="button" onclick="removeProgramFromBuilder(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 5px;">
+            <button type="button" onclick="${btnAction}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 5px;">
                 <i class="fa-solid fa-trash"></i>
             </button>
         `;
@@ -287,131 +288,21 @@
         listEl.appendChild(fragment);
     }
 
-    function addProgramToEditBuilder() {
-        const category = document.getElementById('editBuilderCategory').value;
-        const medId = document.getElementById('editBuilderMedId').value;
-        const medName = document.getElementById('editBuilderMedName').value;
-        const medConcentration = document.getElementById('editBuilderMedConcentration').value;
-        const quantity = parseInt(document.getElementById('editBuilderQuantity').value);
+    function addProgramToBuilder() { handleProgramToBuilder(false); }
+    function addProgramToEditBuilder() { handleProgramToBuilder(true); }
 
-        if (!category) {
-            showToast("Selecione um programa.");
-            return;
-        }
-
-        if (!medId || isNaN(quantity) || quantity <= 0) {
-            showToast("Selecione um medicamento e informe uma quantidade válida maior que zero.");
-            return;
-        }
-
-        if (currentEditPatientPrograms.some(p => p.medicationId === medId)) {
-            showToast("Este medicamento já foi adicionado para este paciente.");
-            return;
-        }
-
-        const rawPrescriptionDate = document.getElementById('editBuilderPrescriptionDate').value;
-        if (!rawPrescriptionDate) {
-            showToast("Informe a data de emissão da receita.");
-            return;
-        }
-
-        const doseQuantity = parseFloat(document.getElementById('editBuilderDoseQty').value) || 1.0;
-        const doseUnit = document.getElementById('editBuilderDoseUnit').value;
-        const freqSelect = document.getElementById('editBuilderFrequency').value;
-        const frequency = freqSelect === 'custom'
-            ? document.getElementById('editBuilderFrequencyCustom').value.trim()
-            : freqSelect;
-        const timesPerDay = parseInt(document.getElementById('editBuilderTimesPerDay').value) || 0;
-        const isContinuous = document.getElementById('editBuilderIsContinuous').checked;
-        const durationDaysVal = document.getElementById('editBuilderDurationDays').value;
-        const treatmentDuration = isContinuous
-            ? "Contínuo"
-            : (durationDaysVal ? `${durationDaysVal} dias` : "");
-        const prescriptionDate = rawPrescriptionDate ? new Date(rawPrescriptionDate + 'T00:00:00').toISOString() : null;
-        const administrationInstructions = document.getElementById('editBuilderInstructions').value.trim();
-
-        currentEditPatientPrograms.push({
-            category: category,
-            medicationId: medId,
-            medicationName: medName,
-            concentration: medConcentration,
-            quantity: quantity,
-            doseQuantity: doseQuantity,
-            doseUnit: doseUnit,
-            frequency: frequency,
-            timesPerDay: timesPerDay,
-            treatmentDuration: treatmentDuration,
-            isContinuous: isContinuous,
-            prescriptionDate: prescriptionDate,
-            administrationInstructions: administrationInstructions
-        });
-
-        document.getElementById('editBuilderCategory').value = '';
-        document.getElementById('editBuilderMedSearch').value = '';
-        document.getElementById('editBuilderMedId').value = '';
-        document.getElementById('editBuilderMedName').value = '';
-        document.getElementById('editBuilderMedConcentration').value = '';
-        document.getElementById('editBuilderQuantity').value = '';
-
-        // Reset padrão
-        document.getElementById('editBuilderDoseQty').value = '1';
-        document.getElementById('editBuilderDoseUnit').value = 'comprimido(s)';
-        document.getElementById('editBuilderFrequency').value = '1 vez ao dia';
-        document.getElementById('editBuilderFrequencyCustom').value = '';
-        document.getElementById('editBuilderFrequencyCustomGroup').style.display = 'none';
-        document.getElementById('editBuilderTimesPerDayGroup').style.display = 'flex';
-        document.getElementById('editBuilderTimesPerDay').value = '1';
-        document.getElementById('editBuilderIsContinuous').checked = true;
-        document.getElementById('editBuilderDurationDaysGroup').style.display = 'none';
-        document.getElementById('editBuilderDurationDays').value = '';
-        document.getElementById('editBuilderPrescriptionDate').value = '';
-        document.getElementById('editBuilderInstructions').value = '';
-
-        renderEditBuilderPrograms();
+    function removeProgramFromBuilder(index) {
+        currentPatientPrograms.splice(index, 1);
+        renderProgramsList(false);
     }
 
     function removeProgramFromEditBuilder(index) {
         currentEditPatientPrograms.splice(index, 1);
-        renderEditBuilderPrograms();
+        renderProgramsList(true);
     }
 
-    function renderEditBuilderPrograms() {
-        const listEl = document.getElementById('editPatientProgramsList');
-        listEl.innerHTML = '';
-
-        if (currentEditPatientPrograms.length === 0) {
-            listEl.innerHTML = '<div style="text-align: center; color: #6b7280; font-size: 14px; padding: 10px; border: 1px dashed #d1d5db; border-radius: 6px;">Nenhum programa adicionado.</div>';
-            return;
-        }
-
-        const fragment = document.createDocumentFragment();
-
-        currentEditPatientPrograms.forEach((prog, index) => {
-            const catName = window.PROGRAM_LABELS ? window.PROGRAM_LABELS[prog.category] || prog.category : prog.category;
-            const isCont = prog.isContinuous ? "Uso Contínuo" : (prog.treatmentDuration || "Temporário");
-            const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
-
-            const div = document.createElement('div');
-            div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 8px;';
-            div.innerHTML = `
-            <div>
-                <div style="font-weight: 600; color: #111827; font-size: 14px;">${catName}</div>
-                <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">
-                    <i class="fa-solid fa-pills" style="color: #0f766e; margin-right: 4px;"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b style="color: #ea580c;">${prog.quantity} un</b>
-                </div>
-                <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
-                    Posologia: ${prog.doseQuantity} ${prog.doseUnit}, ${prog.frequency} (${isCont}). Receita: ${dateStr}.
-                </div>
-            </div>
-            <button type="button" onclick="removeProgramFromEditBuilder(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 5px;">
-                <i class="fa-solid fa-trash"></i>
-            </button>
-        `;
-            fragment.appendChild(div);
-        });
-
-        listEl.appendChild(fragment);
-    }
+    function renderBuilderPrograms() { renderProgramsList(false); }
+    function renderEditBuilderPrograms() { renderProgramsList(true); }
 
     function updateBuilderOptions(selectId, checkboxPrefix) {
         const selectEl = document.getElementById(selectId);

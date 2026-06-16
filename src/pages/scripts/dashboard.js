@@ -1652,29 +1652,19 @@
     window.closeEditMed = closeEditMed;
 
     function initCpfMasks() {
-        const formatCPF = (val) => {
-            return val
-                .replace(/\D/g, '')
-                .replace(/(\d{3})(\d)/, '$1.$2')
-                .replace(/(\d{3})(\d)/, '$1.$2')
-                .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-                .replace(/(-\d{2})\d+?$/, '$1');
-        };
-
         const prescriberCpfInput = document.getElementById('prescriberCpf');
         if (prescriberCpfInput) {
             prescriberCpfInput.addEventListener('input', (e) => {
-                e.target.value = formatCPF(e.target.value);
+                e.target.value = window.applyCpfMask(e.target.value);
             });
         }
         const tpDocumentInput = document.getElementById('tpDocument');
         if (tpDocumentInput) {
             tpDocumentInput.addEventListener('input', (e) => {
-                e.target.value = formatCPF(e.target.value);
+                e.target.value = window.applyCpfMask(e.target.value);
             });
         }
     }
-
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initCpfMasks);
     } else {

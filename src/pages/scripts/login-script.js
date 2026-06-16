@@ -61,9 +61,11 @@ loginForm.addEventListener('submit', async function (e) {
     };
 
     try {
-        const response = await fetch(`${API_URL}/auth/login`, {
+        const response = await window.apiFetch(`/auth/login`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             credentials: 'include', // Obrigatório para o navegador aceitar e salvar o Cookie
             body: JSON.stringify(payload)
         });
