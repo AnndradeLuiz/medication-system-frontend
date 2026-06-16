@@ -87,7 +87,7 @@ async function switchView(viewId, pushState = true) {
         const titles = {
             'home-screen': { title: 'Painel Geral', desc: 'Visão geral das operações e alertas do sistema' },
             'patient': { title: 'Gestão de Pacientes', desc: 'Busca, cadastros e atualizações de prontuário' },
-            'dashboard': { title: 'Dispensa de Medicamentos', desc: 'Registro e histórico de dispensações de medicamentos a pacientes' },
+            'dispensacao': { title: 'Dispensa de Medicamentos', desc: 'Registro e histórico de dispensações de medicamentos a pacientes' },
             'estoque': { title: 'Estoque Geral', desc: 'Entrada de lotes e cadastro de itens no catálogo' },
             'inventory-list': { title: 'Inventário Total', desc: 'Listagem unificada de todos os itens do sistema' },
             'funcionarios': { title: 'Gestão de Funcionários', desc: 'Cadastro, atualização e controle de acesso da equipe' },
@@ -124,8 +124,8 @@ async function switchView(viewId, pushState = true) {
         if (typeof loadpractitioners === 'function') loadpractitioners();
     } else if (viewId === 'inventory-list') {
         if (typeof initInventoryModule === 'function') initInventoryModule();
-    } else if (viewId === 'dashboard') {
-        if (typeof initDashboardModule === 'function') initDashboardModule();
+    } else if (viewId === 'dispensacao') {
+        if (typeof initDispensacaoModule === 'function') initDispensacaoModule();
         if (typeof loadMedications === 'function') loadMedications();
         if (typeof loadDispensations === 'function') loadDispensations();
     } else if (viewId === 'pedidos') {

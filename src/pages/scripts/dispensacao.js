@@ -74,7 +74,6 @@
         });
     }
 
-
     async function loadMedications() {
         try {
             const response = await fetch(`${API_URL}/medications`, {
@@ -110,25 +109,14 @@
         }
     }
 
-    let isDashboardModuleInitialized = false;
-    window.initDashboardModule = function () {
-        if (isDashboardModuleInitialized) return;
-        isDashboardModuleInitialized = true;
+    let isDispensacaoModuleInitialized = false;
+    window.initDispensacaoModule = function () {
+        if (isDispensacaoModuleInitialized) return;
+        isDispensacaoModuleInitialized = true;
 
         loggedpractitionerName = localStorage.getItem('sgdm_userName');
         loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');
 
-        // As chamadas loadMedications() e loadDispensations() 
-        // serão gerenciadas pelo router.js
-
-        const amanha = new Date();
-        amanha.setDate(amanha.getDate() + 1);
-        const amanhaString = amanha.toISOString().split('T')[0];
-
-        const lotExpInput = document.getElementById('lotExpiration');
-        if (lotExpInput) {
-            lotExpInput.min = amanhaString;
-        }
         const patientInput = document.getElementById('dispensePatientInput');
         if (patientInput) {
             patientInput.addEventListener('input', function (e) {
@@ -150,49 +138,11 @@
             tpDocInput.addEventListener('input', e => e.target.value = applyCpfMask(e.target.value));
         }
 
-        const searchEditMedInput = document.getElementById('searchEditMedInput');
-        if (searchEditMedInput) {
-            searchEditMedInput.addEventListener('input', function (e) {
-                const query = e.target.value.toLowerCase();
-                const list = document.getElementById('editMedSuggestions');
-
-                if (query.length < 2) {
-                    list.style.display = 'none';
-                    return;
-                }
-
-                const filtered = medicationList.filter(m =>
-                    m.activeIngredient && m.activeIngredient.toLowerCase().includes(query)
-                );
-
-                list.innerHTML = '';
-                if (filtered.length === 0) {
-                    list.innerHTML = '<li style="padding: 10px; color: #ef4444;">Nenhum medicamento encontrado.</li>';
-                } else {
-                    filtered.forEach(m => {
-                        const li = document.createElement('li');
-                        li.setAttribute('role', 'option');
-                        li.style.cssText = 'padding: 10px; border-bottom: 1px solid #f3f4f6; cursor: pointer;';
-                        li.innerHTML = `
-                    <div class="d-flex flex-column">
-                        <span class="fw-600 text-main fs-14">${escapeHTML(m.activeIngredient)}</span>
-                        <span class="text-muted fs-12">${escapeHTML(m.concentration || '')}</span>
-                    </div>
-                `;
-                        li.onclick = () => selectMedicationToEdit(m.id);
-                        list.appendChild(li);
-                    });
-                }
-                list.style.display = 'block';
-            });
-        }
-
         loadDispensations();
         toggleThirdPartySection();
         toggleThirdPartySection();
 
         setupKeyboardNavigation('dispensePatientInput', 'patientSuggestions');
-        setupKeyboardNavigation('searchEditMedInput', 'editMedSuggestions');
         setupKeyboardNavigation('inputBuscaMedEdicao', 'editDispAddMedSuggestions');
     };
 
@@ -238,7 +188,6 @@
                             list.style.display = 'none';
                             document.getElementById('selectedPatientCard').style.display = 'flex';
 
-                            // Memoriza se o paciente é externo para barrarmos a medicação depois!
                             selectedPatientIsExternal = p.external === true;
                             currentDispensePatientData = p;
 
@@ -283,7 +232,7 @@
         document.getElementById('selectedPatientCard').style.display = 'none';
         document.getElementById('dispensePatientInput').style.display = 'block';
         document.getElementById('dispensePatientInput').focus();
-        selectedPatientIsExternal = false; // Reseta a memória de segurança
+        selectedPatientIsExternal = false;
         currentDispensePatientData = null;
         const containerAutoFill = document.getElementById('autoFillProgramsContainer');
         if (containerAutoFill) containerAutoFill.style.display = 'none';
@@ -298,7 +247,6 @@
                 section.classList.remove('d-none');
             } else {
                 section.classList.add('d-none');
-                // Limpar campos se desmarcar
                 const tpName = document.getElementById('tpName');
                 const tpDoc = document.getElementById('tpDocument');
                 const tpObs = document.getElementById('tpObservation');
@@ -331,7 +279,6 @@
                 return;
             }
 
-            // CORREÇÃO: Filtrar apenas pelo activeIngredient
             const filtered = medicationList.filter(m =>
                 m.activeIngredient && m.activeIngredient.toLowerCase().includes(query)
             );
@@ -345,14 +292,12 @@
                     const li = document.createElement('li');
                     li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
 
-                    // CORREÇÃO: Exibir activeIngredient na lista
                     li.innerHTML = `<span style="font-weight: 600; color: #1f2937;">${escapeHTML(m.activeIngredient)}</span> <span style="font-size: 13px; color: #6b7280;">(${escapeHTML(m.concentration)})</span>`;
 
                     li.onmouseover = () => li.style.backgroundColor = '#e0e7ff';
                     li.onmouseout = () => li.style.backgroundColor = 'transparent';
 
                     li.onclick = () => {
-                        // CORREÇÃO: Preencher o input com o nome correto
                         document.getElementById('dispenseMedInput').value = `${m.activeIngredient} (${m.concentration})`;
                         document.getElementById('dispenseMedId').value = m.id;
                         list.style.display = 'none';
@@ -428,7 +373,6 @@
         const duration = document.getElementById('medDuration').value;
         const instructions = document.getElementById('medInstructions').value;
 
-        // 1. Validações Iniciais
         if (!medId) {
             showToast("Pesquise e selecione um medicamento na lista sugerida.", "error");
             return;
@@ -438,7 +382,6 @@
             return;
         }
 
-        // 2. Busca os detalhes reais do medicamento (onde moram o Ingrediente e a Concentração)
         const med = await fetchMedicationDetails(medId) || medicationList.find(m => m.id === medId);
 
         if (!med) {
@@ -446,14 +389,12 @@
             return;
         }
 
-        // 3. TRAVA DE SEGURANÇA: Paciente de Fora (UBS Externa)
         if (selectedPatientIsExternal && (!med.programCategories || (!med.programCategories.includes('FARMACIA_BASICA') && !med.programCategories.includes('BASIC_PHARMACY')))) {
             const catStr = med.programCategories ? med.programCategories.join(', ') : 'Nenhuma';
             showToast(`BLOQUEADO: Este paciente é de outra UBS.\nEle só tem permissão para retirar itens da Farmácia Básica.\n\nO medicamento '${med.activeIngredient} ${med.concentration}' pertence às categorias: ${catStr}.`, 'error');
             return;
         }
 
-        // 4. Verificação de Estoque (FEFO)
         const fefoResult = calculateFEFOPreview(med, quantity);
 
         if (!fefoResult.success) {
@@ -461,18 +402,16 @@
             return;
         }
 
-        // 5. Adiciona à lista de dispensação usando os dados confirmados do objeto 'med'
         requestItems.push({
             medicationId: medId,
-            medicationActiveIngredient: med.activeIngredient, // Corrigido typo e pegando do objeto
-            medicationConcentration: med.concentration,       // Agora a variável existe!
+            medicationActiveIngredient: med.activeIngredient,
+            medicationConcentration: med.concentration,
             quantity: quantity,
             previewLots: fefoResult.previewString,
             duration: duration,
             instructions: instructions
         });
 
-        // 6. Limpa os campos para a próxima inclusão
         document.getElementById('dispenseMedId').value = "";
         document.getElementById('dispenseMedInput').value = "";
         document.getElementById('medQuantity').value = "1";
@@ -542,7 +481,6 @@
         let totalAdded = 0;
         let missingMeds = [];
 
-        // Mostra indicador de loading se quiser (ou desabilita botão)
         const btnAutoFill = document.querySelector('#autoFillProgramsContainer button');
         if (btnAutoFill) btnAutoFill.disabled = true;
 
@@ -550,7 +488,7 @@
             if (!enr.medications) continue;
             for (const enrMed of enr.medications) {
                 const medId = enrMed.medicationId;
-                const quantity = enrMed.quantity; // Correction here
+                const quantity = enrMed.quantity;
 
                 if (!medId || !quantity || quantity <= 0) continue;
 
@@ -647,7 +585,6 @@
             return backendItem;
         });
 
-        // Captura dados da prescrição (RNDS) se preenchidos
         let prescriptionData = null;
         const pDate = document.getElementById('prescriptionDate').value;
         const pName = document.getElementById('prescriberName').value.trim();
@@ -696,7 +633,6 @@
                 document.getElementById('isThirdParty').checked = false;
                 toggleThirdPartySection();
                 
-                // Limpar campos de prescrição
                 document.getElementById('prescriptionDate').value = "";
                 document.getElementById('prescriberName').value = "";
                 document.getElementById('prescriberCpf').value = "";
@@ -799,7 +735,6 @@
             const url = window.URL.createObjectURL(blob);
             window.open(url, '_blank');
 
-            // Limpa a URL da memória após 1 minuto
             setTimeout(() => window.URL.revokeObjectURL(url), 60000);
         } catch (e) {
             console.error("Erro ao imprimir recibo:", e);
@@ -808,401 +743,6 @@
             setLoading('btnFinalize', false);
         }
     };
-
-    async function salvarLote() {
-        const medId = document.getElementById('medicationSelectLot').value;
-        const lote = document.getElementById('lotCode').value;
-        const quantidade = parseInt(document.getElementById('lotQuantity').value);
-        const validade = document.getElementById('lotExpiration').value;
-
-        const errors = [];
-        if (!medId) errors.push("Selecione o medicamento para entrada.");
-        if (!lote) errors.push("O Código do Lote é obrigatório.");
-        if (isNaN(quantidade) || quantidade <= 0) errors.push("A Quantidade deve ser um número válido maior que zero.");
-        if (!validade) errors.push("A Data de Validade é obrigatória.");
-
-        if (errors.length > 0) {
-            errors.forEach(err => showToast(err, 'error'));
-            return;
-        }
-
-        const dataValidade = new Date(validade + 'T00:00:00');
-        const hoje = new Date();
-        hoje.setHours(0, 0, 0, 0);
-
-        if (dataValidade < hoje) {
-            showToast("Regra de Segurança: Não é permitido dar entrada em um lote com validade vencida!");
-            return;
-        }
-
-        const expirationDateISO = new Date(validade + 'T12:00:00Z').toISOString();
-
-        const lotPayload = {
-            expirationDate: expirationDateISO,
-            lotCode: lote,
-            quantity: quantidade
-        };
-
-        setLoading('btnSaveLot', true);
-        try {
-            const response = await fetch(`${API_URL}/medications/${medId}/lots`, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify([lotPayload])
-            });
-
-            if (response.ok || response.status === 201 || response.status === 204) {
-                showToast(`Sucesso! Entrada do Lote ${lote} registrada no sistema.`);
-                document.getElementById('medicationSelectLot').value = "";
-                document.getElementById('lotCode').value = "";
-                document.getElementById('lotQuantity').value = "";
-                document.getElementById('lotExpiration').value = "";
-                loadMedications();
-            } else if (response.status === 422) {
-                try {
-                    const errorData = await response.json();
-                    if (errorData.errors && errorData.errors.length > 0) {
-                        showToast(errorData.errors[0].message, 'error');
-                    } else {
-                        showToast(errorData.message || "Dados de lote inválidos.", 'error');
-                    }
-                } catch (e) {
-                    showToast("Erro de validação no servidor.", 'error');
-                }
-            } else {
-                try {
-                    const errorData = await response.json();
-                    showToast(errorData.message || "Erro ao salvar lote no servidor.", 'error');
-                } catch (e) {
-                    showToast("Erro ao salvar lote no servidor.", 'error');
-                }
-            }
-        } catch (error) {
-            showToast("Não foi possível conectar ao servidor para salvar o lote.", 'error');
-        } finally {
-            setLoading('btnSaveLot', false);
-        }
-    }
-
-    async function salvarNovoMedicamento() {
-        let activePrinciple = document.getElementById('newMedActive').value.trim();
-        // Capitaliza a primeira letra de cada palavra (ex: "ácido acetilsalicílico" -> "Ácido Acetilsalicílico")
-        if (activePrinciple) {
-            activePrinciple = activePrinciple.toLowerCase().replace(/(?:^|\s)\S/g, a => a.toUpperCase());
-        }
-        let concentration = document.getElementById('newMedConcentration').value.trim();
-        const pharmaceuticalForm = document.getElementById('newMedForm').value;
-        const administrationRoute = document.getElementById('newMedRoute').value;
-        const programCategories = [];
-        document.querySelectorAll('input[id^="newMedProg"]:checked').forEach(cb => {
-            programCategories.push(cb.value);
-        });
-
-        const errors = [];
-        if (!activePrinciple) errors.push("O Princípio Ativo é obrigatório.");
-        if (!concentration) errors.push("A Concentração é obrigatória.");
-        if (!pharmaceuticalForm) errors.push("Selecione a Forma Farmacêutica.");
-        if (!administrationRoute) errors.push("Selecione a Via de Administração.");
-        if (programCategories.length === 0) errors.push("Selecione pelo menos um Programa / Categoria.");
-
-        if (errors.length > 0) {
-            errors.forEach(err => showToast(err, 'error'));
-            return;
-        }
-
-        // Padroniza a concentração: remove espaços, converte tudo para minúsculo ("MG" -> "mg") e ajusta "ml" para "mL"
-        concentration = concentration.replace(/\s+/g, '').toLowerCase().replace(/ml/g, 'mL');
-
-        // Impede o cadastro de medicamentos duplicados
-        const isDuplicate = medicationList.some(med =>
-            med.activeIngredient &&
-            med.activeIngredient.toLowerCase() === activePrinciple.toLowerCase() &&
-            med.concentration &&
-            med.concentration.replace(/\s+/g, '').toLowerCase() === concentration.toLowerCase()
-        );
-
-        if (isDuplicate) {
-            showToast("Erro: Este medicamento já está cadastrado com esta mesma concentração!", 'error');
-            return;
-        }
-
-        const payload = {
-            activeIngredient: activePrinciple,
-            concentration: concentration,
-            pharmaceuticalForm: pharmaceuticalForm,
-            administrationRoute: administrationRoute,
-            programCategories: programCategories,
-            lots: []
-        };
-
-        setLoading('btnSaveNewMedication', true);
-        try {
-            const response = await fetch(`${API_URL}/medications`, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok || response.status === 201) {
-                showToast(`Sucesso! O medicamento '${activePrinciple} ${concentration}' foi adicionado.`);
-                document.getElementById('newMedActive').value = "";
-                document.getElementById('newMedConcentration').value = "";
-                document.getElementById('newMedForm').value = "";
-                document.getElementById('newMedRoute').value = "";
-                document.querySelectorAll('input[id^="newMedProg"]').forEach(cb => cb.checked = false);
-                loadMedications();
-            } else if (response.status === 422) {
-                try {
-                    const errorData = await response.json();
-                    if (errorData.errors && errorData.errors.length > 0) {
-                        showToast(errorData.errors[0].message, 'error');
-                    } else {
-                        showToast(errorData.message || "Dados do medicamento inválidos.", 'error');
-                    }
-                } catch (e) {
-                    showToast("Erro de validação no servidor.", 'error');
-                }
-            } else {
-                try {
-                    const errorData = await response.json();
-                    showToast(errorData.message || "Erro ao salvar medicamento.", 'error');
-                } catch (e) {
-                    showToast("Erro ao salvar medicamento.", 'error');
-                }
-            }
-
-        } catch (error) {
-            showToast("Não foi possível conectar ao servidor. O Java está rodando?", 'error');
-        } finally {
-            setLoading('btnSaveNewMedication', false);
-        }
-    }
-
-    const searchEditMedInput = document.getElementById('searchEditMedInput');
-    if (searchEditMedInput) {
-        searchEditMedInput.addEventListener('input', function (e) {
-            const query = e.target.value.toLowerCase();
-            const list = document.getElementById('editMedSuggestions');
-
-            if (query.length < 2) {
-                list.style.display = 'none';
-                return;
-            }
-
-            const filtered = medicationList.filter(m =>
-                m.activeIngredient && m.activeIngredient.toLowerCase().includes(query)
-            );
-
-            list.innerHTML = '';
-
-            if (filtered.length === 0) {
-                list.innerHTML = '<li style="padding: 10px 15px; color: #ef4444; font-size: 14px;">Medicamento não encontrado.</li>';
-            } else {
-                filtered.forEach(m => {
-                    const li = document.createElement('li');
-                    li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
-
-                    li.innerHTML = `
-                    <div class="d-flex flex-column">
-                        <span class="fw-600 text-main fs-14">${escapeHTML(m.activeIngredient)}</span>
-                        <span class="text-muted fs-12">${escapeHTML(m.concentration || '')}</span>
-                    </div>
-                `;
-
-                    li.onmouseover = () => li.style.backgroundColor = '#e0e7ff';
-                    li.onmouseout = () => li.style.backgroundColor = 'transparent';
-
-                    li.onclick = () => {
-                        selectMedicationToEdit(m.id);
-                        list.style.display = 'none';
-                    };
-                    list.appendChild(li);
-                });
-            }
-            list.style.display = 'block';
-        });
-    }
-
-    async function selectMedicationToEdit(id) {
-        const med = await fetchMedicationDetails(id);
-        if (!med) return;
-
-        document.getElementById('editMedSuggestions').style.display = 'none';
-        document.getElementById('searchEditMedInput').value = '';
-
-        document.getElementById('editMedId').value = med.id;
-        document.getElementById('displayMedName').innerText = med.activeIngredient;
-        document.getElementById('editMedActive').value = med.activeIngredient;
-        document.getElementById('editMedConcentration').value = med.concentration;
-        document.getElementById('editMedForm').value = med.pharmaceuticalForm;
-        document.getElementById('editMedRoute').value = med.administrationRoute;
-        // Marcar as checkboxes correspondentes aos programas do medicamento
-        document.querySelectorAll('input[id^="editProg"]').forEach(cb => cb.checked = false);
-        if (med.programCategories) {
-            med.programCategories.forEach(cat => {
-                const cb = document.querySelector(`input[id^="editProg"][value="${cat}"]`);
-                if (cb) cb.checked = true;
-            });
-        } else if (med.programCategory) {
-            const cb = document.querySelector(`input[id^="editProg"][value="${med.programCategory}"]`);
-            if (cb) cb.checked = true;
-        }
-
-        // Renderização dos Lotes
-        const lotsBody = document.getElementById('editLotsBody');
-        lotsBody.innerHTML = '';
-
-        if (med.lots && med.lots.length > 0) {
-            const fragment = document.createDocumentFragment();
-            med.lots.forEach((lot, index) => {
-                const dateValue = lot.expirationDate ? lot.expirationDate.split('T')[0] : '';
-                const quantidadeInicial = lot.initialQuantity !== undefined ? lot.initialQuantity : lot.quantity;
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                <td>
-                    <input type="text" id="editLotCode_${index}" value="${escapeHTML(lot.lotCode)}" 
-                        class="edit-inline-input" title="Clique para editar o código do lote">
-                </td>
-                <td>
-                    <input type="date" id="editLotExp_${index}" value="${dateValue}" 
-                        class="edit-inline-input" title="Clique para editar a data de validade">
-                </td>
-                <td class="fw-600 text-center color-muted">
-                    ${quantidadeInicial} un
-                    <input type="hidden" id="editLotQty_${index}" value="${quantidadeInicial}">
-                </td>
-                <td class="fw-bold text-center text-success">
-                    ${lot.currentQuantity || 0} un
-                </td>
-            `;
-                fragment.appendChild(tr);
-            });
-            lotsBody.appendChild(fragment);
-        } else {
-            lotsBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #6b7280; padding: 20px;">Sem lotes registrados para este item.</td></tr>';
-        }
-
-        document.getElementById('editMedCard').classList.remove('d-none');
-
-        // Mostra o botão de exclusão apenas para roles com acesso total
-        const btnDelete = document.getElementById('btnDeleteMed');
-        if (btnDelete) {
-            btnDelete.style.display = isPrivileged() ? 'inline-flex' : 'none';
-        }
-    }
-
-    function closeEditMed() {
-        document.getElementById('editMedCard').classList.add('d-none');
-        document.getElementById('searchEditMedInput').focus();
-    }
-
-    async function deleteMedication() {
-        const id = document.getElementById('editMedId').value;
-        const name = document.getElementById('displayMedName').innerText;
-
-        if (!confirm(`⚠️ Tem certeza que deseja EXCLUIR o medicamento "${name}"?\n\nEsta ação é irreversível e removerá todos os lotes associados.`)) {
-            return;
-        }
-
-        try {
-            const response = await fetch(`${API_URL}/medications/${id}`, {
-                method: 'DELETE',
-                headers: getAuthHeaders()
-            });
-            if (response.ok || response.status === 204) {
-                showToast(`Medicamento "${name}" excluído com sucesso.`);
-                closeEditMed();
-                loadMedications();
-            } else {
-                showToast('Erro ao excluir. Verifique se o medicamento não possui dispensações ativas.', 'error');
-            }
-        } catch (e) {
-            showToast('Erro de conexão ao tentar excluir.', 'error');
-        }
-    }
-
-    async function saveMedicationEdit() {
-        const id = document.getElementById('editMedId').value;
-        let activePrinciple = document.getElementById('editMedActive').value.trim();
-        // Capitaliza a primeira letra de cada palavra
-        if (activePrinciple) {
-            activePrinciple = activePrinciple.toLowerCase().replace(/(?:^|\s)\S/g, a => a.toUpperCase());
-        }
-        let concentration = document.getElementById('editMedConcentration').value.trim();
-
-        // Padroniza a concentração: remove espaços, converte tudo para minúsculo e ajusta "ml" para "mL"
-        concentration = concentration.replace(/\s+/g, '').toLowerCase().replace(/ml/g, 'mL');
-
-        // Verifica se já existe outro medicamento (com ID diferente) com o mesmo nome e concentração
-        const isDuplicate = medicationList.some(med =>
-            String(med.id) !== String(id) &&
-            med.activeIngredient &&
-            med.activeIngredient.toLowerCase() === activePrinciple.toLowerCase() &&
-            med.concentration &&
-            med.concentration.replace(/\s+/g, '').toLowerCase() === concentration.toLowerCase()
-        );
-
-        if (isDuplicate) {
-            showToast("Erro: Já existe outro medicamento cadastrado com este nome e concentração!", 'error');
-            return;
-        }
-
-        const updatedLots = [];
-        const rows = document.querySelectorAll('#editLotsBody tr');
-
-        rows.forEach((row, index) => {
-            const codeInput = document.getElementById(`editLotCode_${index}`);
-            const expInput = document.getElementById(`editLotExp_${index}`);
-            const qtyInput = document.getElementById(`editLotQty_${index}`); // Agora ele vai achar este campo!
-
-            if (codeInput && expInput && qtyInput) {
-                const expDateISO = expInput.value ? new Date(expInput.value + 'T12:00:00Z').toISOString() : null;
-
-                updatedLots.push({
-                    expirationDate: expDateISO,
-                    lotCode: codeInput.value.trim(),
-                    quantity: parseInt(qtyInput.value)
-                });
-            }
-        });
-
-        const programCategories = [];
-        document.querySelectorAll('input[id^="editProg"]:checked').forEach(cb => {
-            programCategories.push(cb.value);
-        });
-
-        const payload = {
-            activeIngredient: activePrinciple,
-            concentration: concentration,
-            pharmaceuticalForm: document.getElementById('editMedForm').value,
-            administrationRoute: document.getElementById('editMedRoute').value,
-            programCategories: programCategories,
-            lots: updatedLots
-        };
-
-        setLoading('btnUpdateMedication', true);
-        try {
-            const response = await fetch(`${API_URL}/medications/${id}`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                showToast("Medicamento e lotes atualizados com sucesso!");
-                closeEditMed();
-                loadMedications();
-            } else {
-                const err = await response.json();
-                showToast(err.message || "Não foi possível atualizar os dados.", 'error');
-            }
-        } catch (error) {
-            showToast("Erro de conexão com o servidor.", 'error');
-        } finally {
-            setLoading('btnUpdateMedication', false);
-        }
-    }
 
     function setupEditDispensationAutocomplete() {
         const input = document.getElementById('searchEditDispensationInput');
@@ -1394,7 +934,7 @@
     }
 
     function setupEditDispAddMedSearch() {
-        const input = document.getElementById('inputBuscaMedEdicao'); // Novo ID
+        const input = document.getElementById('inputBuscaMedEdicao');
         const list = document.getElementById('editDispAddMedSuggestions');
         if (!input || !list) return;
 
@@ -1402,7 +942,6 @@
         input.dataset.listenerAttached = 'true';
 
         input.addEventListener('input', function (e) {
-            // TRAVA: Limpa o ID oculto sempre que digitar algo novo
             document.getElementById('inputOcultoMedIdEdicao').value = "";
 
             const query = e.target.value.toLowerCase();
@@ -1419,7 +958,7 @@
                 li.innerHTML = `<span style="font-weight: 600;">${escapeHTML(m.activeIngredient)}</span> <small>(${escapeHTML(m.concentration)})</small>`;
 
                 li.onclick = () => {
-                    document.getElementById('inputOcultoMedIdEdicao').value = m.id; // Novo ID
+                    document.getElementById('inputOcultoMedIdEdicao').value = m.id;
                     input.value = `${m.activeIngredient} ${m.concentration}`;
                     list.style.display = 'none';
                 };
@@ -1444,7 +983,6 @@
             return;
         }
 
-        // Validação de Programa (Ignora BASIC_PHARMACY pois é de livre acesso)
         const categories = selectedMed.programCategories || (selectedMed.programCategory ? [selectedMed.programCategory] : []);
 
         const normalizeCategory = cat => {
@@ -1519,9 +1057,9 @@
 
         updateEditDispensationTable();
     }
+
     async function saveDispensationEdit() {
         const id = document.getElementById('editDispensationId').value;
-
 
         if (currentEditDispItems.length === 0) {
             showToast("A dispensação precisa ter pelo menos um medicamento.");
@@ -1531,7 +1069,7 @@
         const payload = {
             practitionerId: currentEditDisppractitionerId,
             patientId: currentEditDispPatientId,
-            thirdPerson: currentEditDispThirdPerson, // Mantém o original já que é apenas leitura
+            thirdPerson: currentEditDispThirdPerson,
             items: currentEditDispItems.map(item => ({
                 medicationId: item.medicationId,
                 quantity: item.quantity
@@ -1602,7 +1140,6 @@
             const url = window.URL.createObjectURL(blob);
             window.open(url, '_blank');
 
-            // Limpa a URL da memória após 1 minuto
             setTimeout(() => window.URL.revokeObjectURL(url), 60000);
         } catch (e) {
             console.error("Erro na reimpressão:", e);
@@ -1613,11 +1150,6 @@
     // ==========================================
     // EXPORTS PÚBLICOS (API Global do Módulo)
     // ==========================================
-
-    // Navegação Geral & Layout
-    window.switchTab = switchTab;
-    window.clearPatientSelection = clearPatientSelection;
-    window.toggleThirdPartySection = toggleThirdPartySection;
 
     // Gerenciamento de Dispensações (Nova Dispensação)
     window.addItemDispensation = addItemDispensation;
@@ -1636,7 +1168,6 @@
     window.saveDispensationEdit = saveDispensationEdit;
     window.closeEditDispensation = closeEditDispensation;
 
-    // Gerenciamento de Medicamentos (Cadastro/Edição)
     window.loadMedications = loadMedications;
     window.loadDispensations = loadDispensations;
     window.fetchPatientSuggestions = fetchPatientSuggestions;
@@ -1644,12 +1175,8 @@
     window.fetchMedicationDetails = fetchMedicationDetails;
     window.calculateFEFOPreview = calculateFEFOPreview;
     window.updateTable = updateTable;
-    window.selectMedicationToEdit = selectMedicationToEdit;
-    window.deleteMedication = deleteMedication;
-    window.salvarLote = salvarLote;
-    window.salvarNovoMedicamento = salvarNovoMedicamento;
-    window.saveMedicationEdit = saveMedicationEdit;
-    window.closeEditMed = closeEditMed;
+    window.toggleThirdPartySection = toggleThirdPartySection;
+    window.clearPatientSelection = clearPatientSelection;
 
     function initCpfMasks() {
         const prescriberCpfInput = document.getElementById('prescriberCpf');
@@ -1671,4 +1198,3 @@
         initCpfMasks();
     }
 })();
-
