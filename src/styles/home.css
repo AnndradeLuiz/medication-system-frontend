@@ -1,0 +1,180 @@
+/* ================= STYLE ESPECÍFICO - TELA INICIAL (HOME) ================= */
+
+.home-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.critical-alert-title {
+    color: var(--color-text-main);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.critical-alert-title i {
+    color: var(--color-danger);
+    font-size: 20px;
+}
+
+/* Grid de KPIs - Design Premium */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.kpi-card {
+    background: var(--color-surface);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transform: translate(30%, -30%);
+}
+
+.kpi-card.clickable:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-primary-light);
+}
+
+.kpi-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradientes Suaves para Icons */
+.kpi-blue {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: #2563eb;
+}
+
+.kpi-green {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    color: #10b981;
+}
+
+.kpi-orange {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    color: #f59e0b;
+}
+
+.kpi-red {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    color: #ef4444;
+}
+
+.kpi-info h3 {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.kpi-info p {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--color-text-main);
+    letter-spacing: -0.02em;
+}
+
+/* Layout de Gráficos */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.chart-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+.chart-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-main);
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* Ajustes na Tabela Crítica */
+.full-width-card {
+    border-radius: 20px !important;
+}
+
+.critical-alert-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Ações Rápidas */
+.quick-actions-grid {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.action-btn {
+    flex: 1;
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    border: none;
+    padding: 20px;
+    font-size: 15px;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.action-btn i {
+    font-size: 20px;
+    color: var(--color-primary);
+}
+
+.action-btn:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}

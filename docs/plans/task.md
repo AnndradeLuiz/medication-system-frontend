@@ -1,10 +1,14 @@
-# Checklist de Refatoração
-
-| Status | Descrição | Arquivo |
-| :---: | --- | --- |
-| [x] | Deletar `app.html` monolítico obsoleto | `app.html` |
-| [x] | Incluir `src/utils/formatters.js` no `index.html` | `index.html` |
-| [x] | Mover funções de CPF para `formatters.js` e remover duplicações | `components.js`, `dashboard.js`, `funcionarios.js` |
-| [x] | Refatorar lógica duplicada do construtor de receitas | `patient.js` |
-| [x] | Criar cliente de API centralizado | `src/services/api.js` |
-| [ ] | Substituir `fetch` isolados pelo novo cliente de API | Diversos scripts |
+| Status | Task Description | Target File |
+| :---: | :--- | :--- |
+| [x] | Criar dispensacao.css e mover estilos de dispensação | `src/styles/dispensacao.css` |
+| [x] | Criar home.css e mover estilos de KPIs/quick actions | `src/styles/home.css` |
+| [x] | Criar estoque.css e mover estilos de estoque/lotes | `src/styles/estoque.css` |
+| [x] | Criar inventory-list.css e mover estilos de listagem de inventário | `src/styles/inventory-list.css` |
+| [x] | Criar funcionarios.css e mover estilos de funcionários | `src/styles/funcionarios.css` |
+| [x] | Criar relatorios.css e mover estilos de relatórios | `src/styles/relatorios.css` |
+| [x] | Criar audit.css e mover estilos de auditoria | `src/styles/audit.css` |
+| [x] | Criar acs-restricted.css e mover estilos de restrição ACS | `src/styles/acs-restricted.css` |
+| [x] | Atualizar index.html para importar todos os novos arquivos CSS | `index.html` |
+| [x] | Limpar estilos específicos transferidos do global.css | `src/styles/global.css` |
+| [x] | Corrigir erro de importação da API no login.html | `login.html` |
+| [x] | Validar visualmente todas as telas no sistema | N/A |

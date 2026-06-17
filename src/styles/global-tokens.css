@@ -2,21 +2,27 @@
 
 :root {
     /* Colors - Clinical Blue Palette */
-    --color-primary: #2563eb;       /* Electric Blue */
+    --color-primary: #2563eb;
+    /* Electric Blue */
     --color-primary-dark: #1d4ed8;
     --color-primary-light: #dbeafe;
-    
-    --color-deep: #0f172a;          /* Slate Deep */
-    --color-deep-dark: #020617;     /* Midnight */
-    
-    --color-success: #10b981;       /* Emerald */
-    --color-warning: #f59e0b;       /* Amber */
-    --color-danger: #ef4444;        /* Rose */
-    
+
+    --color-deep: #0f172a;
+    /* Slate Deep */
+    --color-deep-dark: #020617;
+    /* Midnight */
+
+    --color-success: #10b981;
+    /* Emerald */
+    --color-warning: #f59e0b;
+    /* Amber */
+    --color-danger: #ef4444;
+    /* Rose */
+
     --color-bg: #f1f5f9;
     --color-surface: #ffffff;
     --color-border: #e2e8f0;
-    
+
     --color-text-main: #0f172a;
     --color-text-muted: #64748b;
     --color-text-on-dark: #f8fafc;
@@ -38,14 +44,22 @@
     --color-pink-text: #9d174d;
 
     /* Typography - Sizes */
-    --font-2xs: 0.6875rem; /* 11px */
-    --font-xs: 0.75rem;    /* 12px */
-    --font-sm: 0.875rem;   /* 14px */
-    --font-base: 1rem;     /* 16px */
-    --font-lg: 1.125rem;   /* 18px */
-    --font-xl: 1.25rem;    /* 20px */
-    --font-2xl: 1.5rem;    /* 24px */
-    --font-3xl: 1.875rem;  /* 30px */
+    --font-2xs: 0.6875rem;
+    /* 11px */
+    --font-xs: 0.75rem;
+    /* 12px */
+    --font-sm: 0.875rem;
+    /* 14px */
+    --font-base: 1rem;
+    /* 16px */
+    --font-lg: 1.125rem;
+    /* 18px */
+    --font-xl: 1.25rem;
+    /* 20px */
+    --font-2xl: 1.5rem;
+    /* 24px */
+    --font-3xl: 1.875rem;
+    /* 30px */
 
     /* Typography - Weights */
     --weight-normal: 400;
@@ -61,7 +75,7 @@
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 10px 25px -5px rgba(37, 99, 235, 0.05), 0 8px 10px -6px rgba(37, 99, 235, 0.01);
     --shadow-lg: 0 20px 40px -5px rgba(37, 99, 235, 0.08), 0 10px 15px -5px rgba(37, 99, 235, 0.03);
-    
+
     --radius-sm: 8px;
     --radius-md: 16px;
     --radius-lg: 24px;
@@ -84,34 +98,102 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-h1 { font-size: var(--font-3xl); font-weight: var(--weight-bold); }
-h2 { font-size: var(--font-2xl); font-weight: var(--weight-bold); }
-h3 { font-size: var(--font-xl); font-weight: var(--weight-semibold); }
-h4 { font-size: var(--font-lg); font-weight: var(--weight-semibold); }
+h1 {
+    font-size: var(--font-3xl);
+    font-weight: var(--weight-bold);
+}
+
+h2 {
+    font-size: var(--font-2xl);
+    font-weight: var(--weight-bold);
+}
+
+h3 {
+    font-size: var(--font-xl);
+    font-weight: var(--weight-semibold);
+}
+
+h4 {
+    font-size: var(--font-lg);
+    font-weight: var(--weight-semibold);
+}
 
 /* Utility Classes */
-.fs-2xs { font-size: var(--font-2xs) !important; }
-.fs-xs { font-size: var(--font-xs) !important; }
-.fs-sm { font-size: var(--font-sm) !important; }
-.fs-base { font-size: var(--font-base) !important; }
-.fs-lg { font-size: var(--font-lg) !important; }
-.fs-xl { font-size: var(--font-xl) !important; }
+.fs-2xs {
+    font-size: var(--font-2xs) !important;
+}
 
-.fw-400 { font-weight: var(--weight-normal) !important; }
-.fw-500 { font-weight: var(--weight-medium) !important; }
-.fw-600 { font-weight: var(--weight-semibold) !important; }
-.fw-700 { font-weight: var(--weight-bold) !important; }
+.fs-xs {
+    font-size: var(--font-xs) !important;
+}
 
-.text-center { text-align: center !important; }
-.text-left { text-align: left !important; }
-.text-right { text-align: right !important; }
+.fs-sm {
+    font-size: var(--font-sm) !important;
+}
 
-.text-muted { color: var(--color-text-muted) !important; }
-.text-main { color: var(--color-text-main) !important; }
-.text-primary { color: var(--color-primary) !important; }
-.text-success { color: var(--color-success) !important; }
-.text-danger { color: var(--color-danger) !important; }
-.text-warning { color: var(--color-warning) !important; }
+.fs-base {
+    font-size: var(--font-base) !important;
+}
+
+.fs-lg {
+    font-size: var(--font-lg) !important;
+}
+
+.fs-xl {
+    font-size: var(--font-xl) !important;
+}
+
+.fw-400 {
+    font-weight: var(--weight-normal) !important;
+}
+
+.fw-500 {
+    font-weight: var(--weight-medium) !important;
+}
+
+.fw-600 {
+    font-weight: var(--weight-semibold) !important;
+}
+
+.fw-700 {
+    font-weight: var(--weight-bold) !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-muted {
+    color: var(--color-text-muted) !important;
+}
+
+.text-main {
+    color: var(--color-text-main) !important;
+}
+
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.text-danger {
+    color: var(--color-danger) !important;
+}
+
+.text-warning {
+    color: var(--color-warning) !important;
+}
 
 /* Base resets or helper utilities can go here if needed */
 .font-data {
@@ -145,9 +227,20 @@ h4 { font-size: var(--font-lg); font-weight: var(--weight-semibold); }
 }
 
 @keyframes pulse-logo {
-    0% { transform: scale(0.9); opacity: 0.7; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(0.9); opacity: 0.7; }
+    0% {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.9);
+        opacity: 0.7;
+    }
 }
 
 /* ================== GLOBAL SCROLLBAR ================== */

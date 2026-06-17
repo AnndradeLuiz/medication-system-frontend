@@ -1,15 +1,7 @@
-/**
- * components.js — Carregamento dinâmico de componentes (Sidebar e Header)
- * Tarefa 5: Componentização de Partials
- */
-
 async function initComponents() {
     try {
-        // A sidebar e o header agora são carregados diretamente na estrutura SPA do app.html
-        // Apenas mantemos o destaque de link ativo.
         highlightActiveLink();
 
-        // Restaurar nome do usuário logado e cargo (funciona para layouts estáticos e dinâmicos)
         const loggedpractitionerName = localStorage.getItem('sgdm_userName');
         const loggedUserEl = document.getElementById('loggedUser');
         if (loggedUserEl && loggedpractitionerName) {
@@ -36,12 +28,9 @@ async function initComponents() {
             statusEl.innerText = displayRole;
         }
 
-        // 3. Inicializar eventos (do auth.js)
         if (typeof setupMobileMenu === 'function') {
             setupMobileMenu();
         }
-
-        // 4. Inicializar o Roteador SPA (Single Page Application)
         if (!window.navigateTo) {
             console.log("[Components] Carregando o roteador SPA dinamicamente...");
             const routerScript = document.createElement('script');
@@ -50,7 +39,6 @@ async function initComponents() {
                 if (typeof initSpaRouter === 'function') {
                     initSpaRouter();
                 }
-                // Ativar fade-in suave ao carregar todos os componentes e roteador
                 document.body.classList.add('ready');
             };
             routerScript.onerror = () => {
@@ -59,19 +47,15 @@ async function initComponents() {
             };
             document.body.appendChild(routerScript);
         } else {
-            // Se o roteador já estiver carregado (navegação interna), apenas garante exibição
             document.body.classList.add('ready');
         }
 
     } catch (error) {
         console.error("Erro ao carregar componentes:", error);
-        document.body.classList.add('ready'); // Garante exibição em caso de erro
+        document.body.classList.add('ready');
     }
 }
 
-/**
- * Destaca o link da sidebar correspondente à página atual
- */
 function highlightActiveLink() {
     const currentPath = window.location.pathname.split('/').pop() || 'home-screen.html';
     const links = document.querySelectorAll('.sidebar-nav a');
@@ -86,19 +70,9 @@ function highlightActiveLink() {
     });
 }
 
-// Inicializar quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', initComponents);
 
-/**
- * Utilitário para Feedback de Ação (Tarefa 6)
- * Gerencia o estado de loading de um botão.
- * 
- * @param {string} buttonId - ID do botão
- * @param {boolean} isLoading - Se deve ativar ou desativar o loading
- * @param {string} originalHtml - Conteúdo original do botão para restaurar (opcional)
- */
 function setLoading(buttonId, isLoading, originalHtml = '') {
-    // Suporte para assinatura simplificada de um parâmetro (boolean) do inventário
     if (typeof buttonId === 'boolean') {
         if (buttonId) showGlobalLoader();
         else hideGlobalLoader();
@@ -109,7 +83,6 @@ function setLoading(buttonId, isLoading, originalHtml = '') {
     if (!btn) return;
 
     if (isLoading) {
-        // Salvar HTML original se não for fornecido
         if (!originalHtml) btn.dataset.originalHtml = btn.innerHTML;
 
         btn.classList.add('btn-loading');
@@ -118,7 +91,6 @@ function setLoading(buttonId, isLoading, originalHtml = '') {
         btn.classList.remove('btn-loading');
         btn.disabled = false;
 
-        // Restaurar HTML original
         if (originalHtml) {
             btn.innerHTML = originalHtml;
         } else if (btn.dataset.originalHtml) {
@@ -144,26 +116,18 @@ setTimeout(() => {
 
 
 
-// Exportar funções de loading globais para o objeto window
 window.setLoading = setLoading;
 window.showGlobalLoader = showGlobalLoader;
 window.hideGlobalLoader = hideGlobalLoader;
 
-/**
- * Scrollbar customizado flutuante para .table-responsive
- * Cria um thumb que flutua sobre a tabela (sem calha/gutter)
- * Efeito idêntico ao da sidebar: aparece no hover, some ao sair
- */
+
 function initCustomScrollbars() {
     document.querySelectorAll('.table-responsive').forEach(container => {
-        // Pular se já foi inicializado
         if (container.parentElement?.classList.contains('table-scroll-wrapper')) return;
 
-        // Criar wrapper
         const wrapper = document.createElement('div');
         wrapper.className = 'table-scroll-wrapper';
 
-        // Se o container original usa flex no style, transfere a flexibilidade para o wrapper
         const styleAttr = container.getAttribute('style') || '';
         if (container.style.flex || container.style.flexGrow || styleAttr.includes('flex')) {
             wrapper.style.flex = container.style.flex || '1';
@@ -171,7 +135,6 @@ function initCustomScrollbars() {
             wrapper.style.display = 'flex';
             wrapper.style.flexDirection = 'column';
 
-            // Ajustar o container interno para ocupar o espaço do wrapper flexível
             container.style.height = '100%';
             container.style.flex = '1';
             container.style.minHeight = '0';
@@ -180,25 +143,20 @@ function initCustomScrollbars() {
         container.parentNode.insertBefore(wrapper, container);
         wrapper.appendChild(container);
 
-        // Criar elementos do scrollbar
         const scrollbar = document.createElement('div');
         scrollbar.className = 'table-custom-scrollbar';
         const thumb = document.createElement('div');
         thumb.className = 'table-custom-scrollbar-thumb';
         scrollbar.appendChild(thumb);
         wrapper.appendChild(scrollbar);
-
-        // Atualizar tamanho e posição do thumb
         function updateThumb() {
             const ratio = container.clientHeight / container.scrollHeight;
-            // Se o conteúdo cabe, esconder scrollbar
             if (ratio >= 1) {
                 scrollbar.style.display = 'none';
                 return;
             }
             scrollbar.style.display = '';
 
-            // Usar altura real do track (com offsets top/bottom)
             const trackHeight = scrollbar.clientHeight;
             const thumbHeight = Math.max(ratio * trackHeight, 24);
             thumb.style.height = thumbHeight + 'px';
@@ -208,7 +166,6 @@ function initCustomScrollbars() {
             thumb.style.top = (scrollRatio * maxTop) + 'px';
         }
 
-        // Listeners de scroll e resize
         container.addEventListener('scroll', updateThumb);
         if (typeof ResizeObserver !== 'undefined') {
             const observer = new ResizeObserver(updateThumb);
@@ -220,13 +177,11 @@ function initCustomScrollbars() {
         }
         updateThumb();
 
-        // Suporte robusto a arrastar (drag) o thumb baseado em posicionamento absoluto
         let dragging = false;
-        let startOffset = 0; // Distância do clique em relação ao topo do thumb
+        let startOffset = 0;
 
         thumb.addEventListener('mousedown', e => {
             dragging = true;
-            // Calcula onde o usuário clicou dentro do próprio thumb
             startOffset = e.clientY - thumb.getBoundingClientRect().top;
             thumb.classList.add('dragging');
             e.preventDefault();
@@ -237,17 +192,13 @@ function initCustomScrollbars() {
             if (!dragging) return;
 
             const trackRect = scrollbar.getBoundingClientRect();
-            // Posição ideal do topo do thumb em relação ao track
             let newTop = e.clientY - trackRect.top - startOffset;
 
-            // Limites de movimento do thumb
             const maxTop = trackRect.height - thumb.offsetHeight;
             newTop = Math.max(0, Math.min(newTop, maxTop));
 
-            // Calcula o percentual exato de rolagem (de 0 a 1)
             const scrollPercent = maxTop > 0 ? (newTop / maxTop) : 0;
 
-            // Define o scrollTop do container baseado no percentual
             container.scrollTop = scrollPercent * (container.scrollHeight - container.clientHeight);
         });
 
@@ -260,12 +211,9 @@ function initCustomScrollbars() {
     });
 }
 
-// Inicializar scrollbars quando DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
-    // Aguardar um pouco para que as tabelas dinâmicas sejam renderizadas
     setTimeout(initCustomScrollbars, 500);
 });
 
-// Exportar para uso em tabelas criadas dinamicamente
 window.initCustomScrollbars = initCustomScrollbars;
 

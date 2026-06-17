@@ -1,0 +1,143 @@
+/* ================= STYLE ESPECÍFICO - CADASTRO DE FUNCIONÁRIOS ================= */
+
+/* Badges de Cargo e Status do Funcionário */
+.role-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: var(--font-2xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.role-ADM_TI {
+    background: var(--color-blue-soft);
+    color: var(--color-blue-text);
+}
+
+.role-ENF_GERENTE {
+    background: var(--color-green-soft);
+    color: var(--color-green-text);
+}
+
+.role-ENF {
+    background: var(--color-green-soft);
+    color: var(--color-green-text);
+}
+
+.role-TRIAGEM {
+    background: var(--color-blue-soft);
+    color: var(--color-blue-text);
+}
+
+.role-TEC_ENFERMAGEM {
+    background: var(--color-indigo-soft);
+    color: var(--color-indigo-text);
+}
+
+.role-FARMACEUTICO {
+    background: var(--color-orange-soft);
+    color: var(--color-orange-text);
+}
+
+.role-ADMINISTRATIVO {
+    background: var(--color-pink-soft);
+    color: var(--color-pink-text);
+}
+
+.role-ACS {
+    background: var(--color-purple-soft);
+    color: var(--color-purple-text);
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-2xs);
+    font-weight: var(--weight-bold);
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: var(--color-green-soft);
+    color: var(--color-green-text);
+}
+
+.status-inactive {
+    background: var(--color-red-soft);
+    color: var(--color-red-text);
+}
+
+/* Inputs Inline para Edição Rápida */
+.edit-inline-input {
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    width: 100%;
+    cursor: pointer;
+    font-size: var(--font-sm);
+    transition: var(--transition);
+    color: var(--color-text-main);
+}
+
+.edit-inline-input:hover {
+    background-color: var(--color-bg);
+    border-color: var(--color-border);
+}
+
+.edit-inline-input:focus {
+    background-color: white;
+    border-color: var(--color-primary);
+    cursor: text;
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* Botões de Ação na Tabela de Funcionários */
+.table-actions {
+    display: inline-flex;
+    gap: 8px;
+}
+
+.btn-icon-blue {
+    background: var(--color-blue-soft);
+    color: var(--color-primary);
+    border: 1px solid #bfdbfe;
+}
+
+.btn-icon-blue:hover {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary-dark);
+}
+
+.btn-icon-red {
+    background: var(--color-red-soft);
+    color: var(--color-danger);
+    border: 1px solid #fca5a5;
+}
+
+.btn-icon-red:hover {
+    background: var(--color-danger);
+    color: white;
+    border-color: #dc2626;
+}
+
+.btn-icon-sm {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+}
