@@ -1,14 +1,15 @@
 | Status | Task Description | Target File |
 | :---: | :--- | :--- |
-| [x] | Criar dispensacao.css e mover estilos de dispensação | `src/styles/dispensacao.css` |
-| [x] | Criar home.css e mover estilos de KPIs/quick actions | `src/styles/home.css` |
-| [x] | Criar estoque.css e mover estilos de estoque/lotes | `src/styles/estoque.css` |
-| [x] | Criar inventory-list.css e mover estilos de listagem de inventário | `src/styles/inventory-list.css` |
-| [x] | Criar funcionarios.css e mover estilos de funcionários | `src/styles/funcionarios.css` |
-| [x] | Criar relatorios.css e mover estilos de relatórios | `src/styles/relatorios.css` |
-| [x] | Criar audit.css e mover estilos de auditoria | `src/styles/audit.css` |
-| [x] | Criar acs-restricted.css e mover estilos de restrição ACS | `src/styles/acs-restricted.css` |
-| [x] | Atualizar index.html para importar todos os novos arquivos CSS | `index.html` |
-| [x] | Limpar estilos específicos transferidos do global.css | `src/styles/global.css` |
-| [x] | Corrigir erro de importação da API no login.html | `login.html` |
-| [x] | Validar visualmente todas as telas no sistema | N/A |
+| [x] | Renomear arquivos de home-screen para home | `src/pages/views/home-screen.html` |
+| [x] | Renomear arquivos do módulo patient para pacientes | `src/pages/views/patient.html`, `src/pages/scripts/patient.js`, `src/styles/patient.css` |
+| [x] | Renomear arquivos do módulo inventory-list para inventario | `src/pages/views/inventory-list.html`, `src/pages/scripts/inventory-list.js`, `src/styles/inventory-list.css` |
+| [x] | Renomear script de reports.js para relatorios.js | `src/pages/scripts/reports.js` |
+| [x] | Renomear arquivos do módulo audit para auditoria | `src/pages/views/audit.html`, `src/pages/scripts/audit.js`, `src/styles/audit.css` |
+| [x] | Renomear arquivos de acs-restricted para acs-restrito | `src/pages/views/acs-restricted.html`, `src/styles/acs-restricted.css` |
+| [x] | Renomear roteador router-spa.js para router.js | `src/components/router-spa.js` |
+| [x] | Atualizar imports de scripts/estilos e switchView no index.html | `index.html` |
+| [x] | Atualizar components.js para usar router.js e remover redundâncias | `src/components/components.js` |
+| [x] | Atualizar mapeamento de rotas e chamadas de módulos no router.js | `src/components/router.js` |
+| [x] | Corrigir referências internas nos scripts de views atualizados | `src/pages/scripts/*` |
+| [x] | Validar visualmente todo o fluxo de navegação no sistema | N/A |
+| [x] | Criar skill para geração de diagramas (SequenceDiagram.org) | `.agent/skills/creating-sequence-diagrams/SKILL.md` |

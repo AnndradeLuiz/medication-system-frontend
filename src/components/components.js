@@ -34,7 +34,7 @@ async function initComponents() {
         if (!window.navigateTo) {
             console.log("[Components] Carregando o roteador SPA dinamicamente...");
             const routerScript = document.createElement('script');
-            routerScript.src = 'src/components/router-spa.js';
+            routerScript.src = 'src/components/router.js';
             routerScript.onload = () => {
                 if (typeof initSpaRouter === 'function') {
                     initSpaRouter();
@@ -57,7 +57,7 @@ async function initComponents() {
 }
 
 function highlightActiveLink() {
-    const currentPath = window.location.pathname.split('/').pop() || 'home-screen.html';
+    const currentPath = window.location.pathname.split('/').pop() || 'home.html';
     const links = document.querySelectorAll('.sidebar-nav a');
 
     links.forEach(link => {

@@ -1,5 +1,5 @@
 /**
- * router-spa.js — Roteador de SPA Vanilla utilizando Fetch API
+ * router.js — Roteador de SPA Vanilla utilizando Fetch API
  * Carrega fragmentos HTML sob demanda e os injeta no DOM.
  */
 
@@ -85,7 +85,7 @@ async function switchView(viewId, pushState = true) {
     const p = document.getElementById('page-title-p');
     if (h1 && p) {
         const titles = {
-            'home-screen': { title: 'Painel Geral', desc: 'Visão geral das operações e alertas do sistema' },
+            'home': { title: 'Painel Geral', desc: 'Visão geral das operações e alertas do sistema' },
             'patient': { title: 'Gestão de Pacientes', desc: 'Busca, cadastros e atualizações de prontuário' },
             'dispensacao': { title: 'Dispensa de Medicamentos', desc: 'Registro e histórico de dispensações de medicamentos a pacientes' },
             'estoque': { title: 'Estoque Geral', desc: 'Entrada de lotes e cadastro de itens no catálogo' },
@@ -109,7 +109,7 @@ async function switchView(viewId, pushState = true) {
     document.body.classList.add('ready');
 
     // 8. Executar re-inicialização de dados específicos do JS de cada módulo
-    if (viewId === 'home-screen') {
+    if (viewId === 'home') {
         if (typeof initHomeModule === 'function') initHomeModule();
         if (typeof loadDashboardMetrics === 'function') loadDashboardMetrics("7days");
         if (typeof loadCriticalStock === 'function') loadCriticalStock();
@@ -145,12 +145,12 @@ function initSpaRouter() {
 
     // Escutar eventos de avançar/voltar nas setas do navegador
     window.addEventListener('popstate', function (e) {
-        const hash = window.location.hash.substring(1) || 'home-screen';
+        const hash = window.location.hash.substring(1) || 'home';
         switchView(hash, false);
     });
 
     // Ler hash da URL de entrada para carregar a tela correspondente no reload
-    const initialView = window.location.hash.substring(1) || 'home-screen';
+    const initialView = window.location.hash.substring(1) || 'home';
     
     // Tratamento de segurança para privilégios de Administrador
     const userRole = localStorage.getItem('sgdm_userRole');
@@ -165,7 +165,7 @@ function initSpaRouter() {
         return;
     }
     if ((initialView === 'funcionarios' || initialView === 'audit') && !['ADM_TI', 'ENF_GERENTE'].includes(userRole)) {
-        switchView('home-screen', false);
+        switchView('home', false);
         return;
     }
 

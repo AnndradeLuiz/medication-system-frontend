@@ -1,7 +1,7 @@
-            <div id="view-home-screen" class="view-section">
+            <div id="view-home" class="view-section">
                 <section class="home-content">
                     <div class="kpi-grid">
-                        <div class="kpi-card clickable" onclick="switchView('patient')">
+                        <div class="kpi-card clickable" onclick="switchView('pacientes')">
                             <div class="kpi-icon kpi-blue"><i class="fa-solid fa-users"></i></div>
                             <div class="kpi-info">
                                 <h3>Pacientes Cadastrados</h3>
@@ -17,7 +17,7 @@
                             </div>
                         </div>
 
-                        <div class="kpi-card clickable" onclick="switchView('inventory-list')">
+                        <div class="kpi-card clickable" onclick="switchView('inventario')">
                             <div class="kpi-icon kpi-orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
                             <div class="kpi-info">
                                 <h3>Estoque Baixo (Itens)</h3>
@@ -25,7 +25,7 @@
                             </div>
                         </div>
 
-                        <div class="kpi-card clickable" onclick="switchView('inventory-list')">
+                        <div class="kpi-card clickable" onclick="switchView('inventario')">
                             <div class="kpi-icon kpi-red"><i class="fa-solid fa-calendar-xmark"></i></div>
                             <div class="kpi-info">
                                 <h3>Lotes Vencendo</h3>
@@ -41,7 +41,7 @@
                                 <div class="action-icon bg-blue-soft"><i class="fa-solid fa-pills"></i></div>
                                 <span>Nova Dispensação</span>
                             </button>
-                            <button class="action-btn" onclick="switchView('patient')">
+                            <button class="action-btn" onclick="switchView('pacientes')">
                                 <div class="action-icon bg-green-soft"><i class="fa-solid fa-user-plus"></i></div>
                                 <span>Cadastrar Paciente</span>
                             </button>
