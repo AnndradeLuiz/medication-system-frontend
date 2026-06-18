@@ -577,6 +577,20 @@
         loadMedications();
         loadAcsList();
 
+        // Resetar estado de busca
+        currentPatients = [];
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.value = '';
+        
+        const pageInfoEl = document.getElementById('patientPageInfo');
+        const currentPgEl = document.getElementById('patientCurrentPage');
+        const btnPrev = document.getElementById('btnPrevPatient');
+        const btnNext = document.getElementById('btnNextPatient');
+        
+        if (pageInfoEl) pageInfoEl.innerText = '0-0 de 0';
+        if (currentPgEl) currentPgEl.innerText = 'Pág 1 de 1';
+        if (btnPrev) btnPrev.disabled = true;
+        if (btnNext) btnNext.disabled = true;
 
         // Listeners para atualização de microárea do ACS
         const newSelect = document.getElementById('newPatientAcs');
@@ -1401,6 +1415,18 @@
                             suggestionsList.style.display = 'none';
 
                             currentPatients = [p];
+                            
+                            // Update pagination UI explicitly for single selection
+                            const pageInfoEl = document.getElementById('patientPageInfo');
+                            const currentPgEl = document.getElementById('patientCurrentPage');
+                            const btnPrev = document.getElementById('btnPrevPatient');
+                            const btnNext = document.getElementById('btnNextPatient');
+                            
+                            if (pageInfoEl) pageInfoEl.innerText = `1-1 de 1`;
+                            if (currentPgEl) currentPgEl.innerText = `Pág 1 de 1`;
+                            if (btnPrev) btnPrev.disabled = true;
+                            if (btnNext) btnNext.disabled = true;
+
                             renderPatientTable();
                             openPatientModal(String(p.id));
                         };

@@ -842,7 +842,7 @@
             document.getElementById('editDispensationId').value = disp.id;
             currentEditDispPatientId = disp.targetPatient ? (disp.targetPatient.id || disp.targetPatient.patientId) : null;
             const practObj = disp.practitioner || disp.Practitioner || null;
-            currentEditDisppractitionerId = practObj ? (practObj.id || practObj.practitionerId) : null;
+            currentEditDisppractitionerId = practObj ? (practObj.id || practObj.practitionerId || practObj.PractitionerId) : null;
             currentEditDispPatientData = null;
 
             if (currentEditDispPatientId) {
