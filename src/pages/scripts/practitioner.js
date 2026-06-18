@@ -58,7 +58,7 @@
             return;
         }
 
-        const loggedId = localStorage.getItem('sgdm_practitionerId');
+        const loggedId = sessionStorage.getItem('sgdm_practitionerId');
         const fragment = document.createDocumentFragment();
 
         list.forEach(emp => {

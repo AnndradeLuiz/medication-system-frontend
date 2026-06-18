@@ -15,3 +15,8 @@
 | [x] | Atualizar menu lateral, estilos e scripts no index.html | `index.html` |
 | [x] | Atualizar roteador router.js com novas rotas e RBAC | `src/components/router.js` |
 | [x] | Validar visualmente os novos módulos integrados no sistema | N/A |
+| [x] | Corrigir busca dinâmica ('ao digitar') na aba de Pacientes | `src/pages/scripts/patient.js` |
+| [x] | Alterar `localStorage` para `sessionStorage` em todo o sistema | Vários arquivos |
+| [x] | Adicionar botão e função de PDF no módulo de Estoque/Lotes | `src/pages/views/inventory.html`, `src/pages/scripts/inventory.js` |
+| [x] | Ajustar nomes dos PDFs gerados no módulo de Pedidos para o padrão inglês | `src/pages/scripts/request.js` |
+| [x] | Garantir recarregamento dos módulos sem cache (Bypass do problema de Inventário Total) | `index.html` |

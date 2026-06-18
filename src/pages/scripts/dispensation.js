@@ -114,29 +114,8 @@
         if (isDispensationModuleInitialized) return;
         isDispensationModuleInitialized = true;
 
-        loggedpractitionerName = localStorage.getItem('sgdm_userName');
-        loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');
-
-        const patientInput = document.getElementById('dispensePatientInput');
-        if (patientInput) {
-            patientInput.addEventListener('input', function (e) {
-                let val = e.target.value;
-                if (/^\d/.test(val)) {
-                    e.target.value = applyCpfMask(val);
-                }
-                clearTimeout(searchTimeout);
-                if (val.length >= 3) {
-                    searchTimeout = setTimeout(() => fetchPatientSuggestions(val), 400);
-                } else {
-                    document.getElementById('patientSuggestions').style.display = 'none';
-                }
-            });
-        }
-
-        const tpDocInput = document.getElementById('tpDocument');
-        if (tpDocInput) {
-            tpDocInput.addEventListener('input', e => e.target.value = applyCpfMask(e.target.value));
-        }
+        loggedpractitionerName = sessionStorage.getItem('sgdm_userName');
+        loggedpractitionerId = sessionStorage.getItem('sgdm_practitionerId');
 
         loadDispensations();
         toggleThirdPartySection();
@@ -145,6 +124,84 @@
         setupKeyboardNavigation('dispensePatientInput', 'patientSuggestions');
         setupKeyboardNavigation('inputBuscaMedEdicao', 'editDispAddMedSuggestions');
     };
+
+    document.addEventListener('input', function (e) {
+        if (e.target.id === 'dispensePatientInput') {
+            let val = e.target.value;
+            // A máscara pode bagunçar se não lidar bem com o cursor, mas como estava antes:
+            if (/^\d/.test(val)) {
+                e.target.value = applyCpfMask(val);
+                val = e.target.value;
+            }
+            clearTimeout(searchTimeout);
+            if (val.length >= 3) {
+                searchTimeout = setTimeout(() => fetchPatientSuggestions(val), 400);
+            } else {
+                const sugg = document.getElementById('patientSuggestions');
+                if (sugg) sugg.style.display = 'none';
+            }
+        } else if (e.target.id === 'tpDocument') {
+            e.target.value = applyCpfMask(e.target.value);
+        } else if (e.target.id === 'dispenseMedInput') {
+            const query = e.target.value.toLowerCase();
+            const list = document.getElementById('medSuggestions');
+
+            if (query.length < 2) {
+                if (list) list.style.display = 'none';
+                return;
+            }
+
+            let allowedCategories = null;
+            if (currentDispensePatientData) {
+                allowedCategories = new Set(['BASIC_PHARMACY', 'FARMACIA_BASICA']);
+                if (currentDispensePatientData.enrollments) {
+                    currentDispensePatientData.enrollments.forEach(enr => {
+                        if (enr.category) allowedCategories.add(enr.category);
+                    });
+                }
+            }
+
+            const filtered = medicationList.filter(m => {
+                if (!m.activeIngredient || !m.activeIngredient.toLowerCase().includes(query)) return false;
+
+                if (!allowedCategories) return true;
+
+                if (selectedPatientIsExternal) {
+                    return m.programCategories && (m.programCategories.includes('FARMACIA_BASICA') || m.programCategories.includes('BASIC_PHARMACY'));
+                }
+
+                if (!m.programCategories || m.programCategories.length === 0) return true;
+
+                return m.programCategories.some(cat => allowedCategories.has(cat));
+            });
+
+            if (list) {
+                list.innerHTML = '';
+
+                if (filtered.length === 0) {
+                    list.innerHTML = '<li style="padding: 10px 15px; color: #ef4444; font-size: 14px;">Medicamento não encontrado.</li>';
+                } else {
+                    filtered.forEach(m => {
+                        const li = document.createElement('li');
+                        li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
+
+                        li.innerHTML = `<span style="font-weight: 600; color: #1f2937;">${escapeHTML(m.activeIngredient)}</span> <span style="font-size: 13px; color: #6b7280;">(${escapeHTML(m.concentration)})</span>`;
+
+                        li.onmouseover = () => li.style.backgroundColor = '#e0e7ff';
+                        li.onmouseout = () => li.style.backgroundColor = 'transparent';
+
+                        li.onclick = () => {
+                            document.getElementById('dispenseMedInput').value = `${m.activeIngredient} (${m.concentration})`;
+                            document.getElementById('dispenseMedId').value = m.id;
+                            list.style.display = 'none';
+                        };
+                        list.appendChild(li);
+                    });
+                }
+                list.style.display = 'block';
+            }
+        }
+    });
 
     async function fetchPatientSuggestions(query) {
         const list = document.getElementById('patientSuggestions');
@@ -208,6 +265,14 @@
                                     containerAutoFill.style.display = 'none';
                                 }
                             }
+
+                            // Habilita os campos de medicamento
+                            document.getElementById('dispenseMedInput').disabled = false;
+                            document.getElementById('dispenseMedInput').placeholder = "Digite o nome do medicamento...";
+                            document.getElementById('medQuantity').disabled = false;
+                            document.getElementById('medDuration').disabled = false;
+                            document.getElementById('medInstructions').disabled = false;
+                            document.getElementById('btnAddItem').disabled = false;
                         };
                         list.appendChild(li);
                     });
@@ -236,6 +301,16 @@
         currentDispensePatientData = null;
         const containerAutoFill = document.getElementById('autoFillProgramsContainer');
         if (containerAutoFill) containerAutoFill.style.display = 'none';
+
+        // Desabilita e limpa os campos de medicamento
+        document.getElementById('dispenseMedInput').disabled = true;
+        document.getElementById('dispenseMedInput').value = '';
+        document.getElementById('dispenseMedId').value = '';
+        document.getElementById('dispenseMedInput').placeholder = "Selecione um paciente primeiro...";
+        document.getElementById('medQuantity').disabled = true;
+        document.getElementById('medDuration').disabled = true;
+        document.getElementById('medInstructions').disabled = true;
+        document.getElementById('btnAddItem').disabled = true;
     }
 
     function toggleThirdPartySection() {
@@ -268,46 +343,7 @@
         if (selectLot) selectLot.innerHTML = options;
     }
 
-    const medInput = document.getElementById('dispenseMedInput');
-    if (medInput) {
-        medInput.addEventListener('input', function (e) {
-            const query = e.target.value.toLowerCase();
-            const list = document.getElementById('medSuggestions');
 
-            if (query.length < 2) {
-                list.style.display = 'none';
-                return;
-            }
-
-            const filtered = medicationList.filter(m =>
-                m.activeIngredient && m.activeIngredient.toLowerCase().includes(query)
-            );
-
-            list.innerHTML = '';
-
-            if (filtered.length === 0) {
-                list.innerHTML = '<li style="padding: 10px 15px; color: #ef4444; font-size: 14px;">Medicamento não encontrado.</li>';
-            } else {
-                filtered.forEach(m => {
-                    const li = document.createElement('li');
-                    li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
-
-                    li.innerHTML = `<span style="font-weight: 600; color: #1f2937;">${escapeHTML(m.activeIngredient)}</span> <span style="font-size: 13px; color: #6b7280;">(${escapeHTML(m.concentration)})</span>`;
-
-                    li.onmouseover = () => li.style.backgroundColor = '#e0e7ff';
-                    li.onmouseout = () => li.style.backgroundColor = 'transparent';
-
-                    li.onclick = () => {
-                        document.getElementById('dispenseMedInput').value = `${m.activeIngredient} (${m.concentration})`;
-                        document.getElementById('dispenseMedId').value = m.id;
-                        list.style.display = 'none';
-                    };
-                    list.appendChild(li);
-                });
-            }
-            list.style.display = 'block';
-        });
-    }
 
     document.addEventListener('click', function (e) {
         if (e.target.id !== 'dispenseMedInput') {

@@ -14,8 +14,8 @@
         <div id="tab-dispensation" class="tab-section active-section">
             <div class="card mb-25">
                 <h3 class="mb-20"><i class="fa-solid fa-hand-holding-medical"></i> Registrar Dispensação ao Paciente</h3>
-                <div class="form-row pos-relative">
-                    <div class="form-group flex-1 m-0">
+                <div class="form-row">
+                    <div class="form-group flex-1 m-0 pos-relative">
                         <label class="fs-xs fw-700 text-muted">Paciente (CPF ou Nome)</label>
                         <input type="text" id="dispensePatientInput"
                             placeholder="Ex: 000.000.000-00 ou Maria da Silva" autocomplete="off"
@@ -149,29 +149,29 @@
                     <div class="form-group flex-3 pos-relative mb-0">
                         <label class="fs-xs fw-700 text-muted">Medicamento</label>
                         <input type="text" id="dispenseMedInput"
-                            placeholder="Digite o nome do medicamento..." autocomplete="off">
+                            placeholder="Selecione um paciente primeiro..." autocomplete="off" disabled>
                         <input type="hidden" id="dispenseMedId">
                         <ul id="medSuggestions" class="suggestion-list"></ul>
                     </div>
                     <div class="form-group flex-1 mb-0">
                         <label class="fs-xs fw-700 text-muted">Quantidade</label>
-                        <input type="number" id="medQuantity" min="1" value="1">
+                        <input type="number" id="medQuantity" min="1" value="1" disabled>
                     </div>
                 </div>
                 <div class="form-row align-bottom mb-20 p-10 radius-6"
                     style="background: #f8fafc; border: 1px dashed #cbd5e1;">
                     <div class="form-group flex-1 mb-0">
                         <label class="fs-xs fw-700 text-muted">Duração (Dias)</label>
-                        <input type="number" id="medDuration" min="1" placeholder="Dias (Opc.)">
+                        <input type="number" id="medDuration" min="1" placeholder="Dias (Opc.)" disabled>
                     </div>
                     <div class="form-group flex-2 mb-0">
                         <label class="fs-xs fw-700 text-muted">Orientações de Uso</label>
-                        <input type="text" id="medInstructions" placeholder="Ex: 1cp a cada 8h (Opc.)">
+                        <input type="text" id="medInstructions" placeholder="Ex: 1cp a cada 8h (Opc.)" disabled>
                     </div>
                     <div class="form-group flex-1 mb-0">
                         <label class="fs-xs fw-700 text-muted">&nbsp;</label>
                         <button type="button" class="btn-primary w-full" style="height: 48px;"
-                            id="btnAddItem" onclick="addItemDispensation()">
+                            id="btnAddItem" onclick="addItemDispensation()" disabled>
                             <i class="fa-solid fa-plus"></i> Adicionar
                         </button>
                     </div>
@@ -206,8 +206,8 @@
         <div id="tab-edit-dispensation" class="tab-section">
             <div class="card">
                 <h3><i class="fa-solid fa-search"></i> Pesquisar para Editar</h3>
-                <div class="form-row pos-relative">
-                    <div class="form-group flex-1">
+                <div class="form-row">
+                    <div class="form-group flex-1 pos-relative">
                         <label class="fs-xs fw-700 text-muted">Digite o Nome do Paciente, Funcionário ou Data (DD/MM/AAAA)</label>
                         <input type="text" id="searchEditDispensationInput"
                             placeholder="Ex: Maria da Silva, João Pedro, 15/05/2026..." autocomplete="off">

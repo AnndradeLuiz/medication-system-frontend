@@ -93,7 +93,7 @@ function startHeartbeat() {
     if (heartbeatInterval) clearInterval(heartbeatInterval);
 
     heartbeatInterval = setInterval(() => {
-        const expStr = localStorage.getItem('sgdm_token_exp');
+        const expStr = sessionStorage.getItem('sgdm_token_exp');
         if (!expStr) return;
 
         try {
@@ -114,7 +114,7 @@ function startHeartbeat() {
                             if (data.token) {
                                 const payloadBase64 = data.token.split('.')[1];
                                 const payloadJson = JSON.parse(atob(payloadBase64));
-                                localStorage.setItem('sgdm_token_exp', payloadJson.exp);
+                                sessionStorage.setItem('sgdm_token_exp', payloadJson.exp);
                                 console.log('[Auth] Renovação proativa concluída com sucesso.');
                             }
                         } else {
@@ -169,7 +169,7 @@ window.fetch = async (...args) => {
                             try {
                                 const payloadBase64 = data.token.split('.')[1];
                                 const payloadJson = JSON.parse(atob(payloadBase64));
-                                localStorage.setItem('sgdm_token_exp', payloadJson.exp);
+                                sessionStorage.setItem('sgdm_token_exp', payloadJson.exp);
                             } catch (e) { }
                         }
 
@@ -214,27 +214,27 @@ window.fetch = async (...args) => {
 
 function forceLogout() {
     console.warn('[Auth] Sessão permanentemente expirada. Redirecionando...');
-    localStorage.removeItem('sgdm_userName');
-    localStorage.removeItem('sgdm_practitionerId');
-    localStorage.removeItem('sgdm_userRole');
-    localStorage.removeItem('sgdm_token_exp');
-    localStorage.removeItem('sgdm_practitionerRegistration');
+    sessionStorage.removeItem('sgdm_userName');
+    sessionStorage.removeItem('sgdm_practitionerId');
+    sessionStorage.removeItem('sgdm_userRole');
+    sessionStorage.removeItem('sgdm_token_exp');
+    sessionStorage.removeItem('sgdm_practitionerRegistration');
     window.location.href = 'login.html?expired=true';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');
-    const tokenExp = localStorage.getItem('sgdm_token_exp');
+    const loggedpractitionerId = sessionStorage.getItem('sgdm_practitionerId');
+    const tokenExp = sessionStorage.getItem('sgdm_token_exp');
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
     if (!window.location.pathname.includes('login.html')) {
         if (!loggedpractitionerId || !tokenExp || parseInt(tokenExp, 10) < currentTimestamp) {
             console.warn('[Auth] Sessão inválida ou expirada no carregamento. Redirecionando silenciosamente para login.');
-            localStorage.removeItem('sgdm_userName');
-            localStorage.removeItem('sgdm_practitionerId');
-            localStorage.removeItem('sgdm_userRole');
-            localStorage.removeItem('sgdm_token_exp');
-            localStorage.removeItem('sgdm_practitionerRegistration');
+            sessionStorage.removeItem('sgdm_userName');
+            sessionStorage.removeItem('sgdm_practitionerId');
+            sessionStorage.removeItem('sgdm_userRole');
+            sessionStorage.removeItem('sgdm_token_exp');
+            sessionStorage.removeItem('sgdm_practitionerRegistration');
             window.location.href = 'login.html';
             return;
         }
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * @returns {string|null}
  */
 function getCurrentRole() {
-    return localStorage.getItem('sgdm_userRole');
+    return sessionStorage.getItem('sgdm_userRole');
 }
 
 /**
@@ -337,11 +337,11 @@ async function logout(isExpired = false) {
         console.error("Erro ao invalidar cookie no logout:", e);
     }
 
-    localStorage.removeItem('sgdm_userName');
-    localStorage.removeItem('sgdm_practitionerId');
-    localStorage.removeItem('sgdm_userRole');
-    localStorage.removeItem('sgdm_token_exp');
-    localStorage.removeItem('sgdm_practitionerRegistration');
+    sessionStorage.removeItem('sgdm_userName');
+    sessionStorage.removeItem('sgdm_practitionerId');
+    sessionStorage.removeItem('sgdm_userRole');
+    sessionStorage.removeItem('sgdm_token_exp');
+    sessionStorage.removeItem('sgdm_practitionerRegistration');
 
     if (isExpired) {
         window.location.href = 'login.html?expired=true';

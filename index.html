@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="src/styles/audit.css">
 
     <script>
-        if (['ADM_TI', 'ENF_GERENTE'].includes(localStorage.getItem('sgdm_userRole'))) {
+        if (['ADM_TI', 'ENF_GERENTE'].includes(sessionStorage.getItem('sgdm_userRole'))) {
             document.documentElement.classList.add('is-privileged');
         }
     </script>
@@ -82,7 +82,7 @@
                     style="background: rgba(14, 165, 233, 0.1); color: var(--color-primary); border-color: rgba(14, 165, 233, 0.2); margin-bottom: 8px;">
                     <i class="fa-solid fa-circle-info"></i> Sobre / Créditos
                 </a>
-                <a href="login.html" class="logout-btn" onclick="localStorage.clear()">
+                <a href="login.html" class="logout-btn" onclick="sessionStorage.clear()">
                     <i class="fa-solid fa-sign-out-alt"></i> Sair do Sistema
                 </a>
             </div>
@@ -201,14 +201,15 @@
     <script type="module" src="src/services/api.js"></script>
     <script type="module" src="src/utils/formatters.js"></script>
     <script type="module" src="src/components/components.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/home.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/patient.js?v=6"></script>
-    <script type="module" src="src/pages/scripts/dispensation.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/inventory.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/practitioner.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/request.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/total-inventory.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/audit.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/home.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/patient.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/dispensation.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/inventory.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/practitioner.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/request.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/total-inventory.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/audit.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/report.js?v=3"></script>
     <script>
         // Configura proteção para datas futuras em campos de nascimento
         document.addEventListener('DOMContentLoaded', () => {

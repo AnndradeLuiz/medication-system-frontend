@@ -1,36 +1,23 @@
-/**
- * js/pedidos.js — Controle do Módulo de Pedidos e Geração de PDF para Impressão
- * Gerencia as abas de Medicamentos, Insumos Médicos e Material de Limpeza.
- * Retém em memória as quantidades solicitadas digitadas pelo usuário para que não se percam.
- * Envia as listas unificadas e estruturadas para o backend em Java gerar o PDF oficial.
- */
-
-(function() {
+(function () {
     let medicationsList = [];
-    let suppliesList = [];      // Insumos médicos (/supplies)
-    let cleaningList = [];      // Insumos de limpeza e outros (/supply-facilities)
-    
-    // Variáveis cruas para reter todo o catálogo em memória e evitar requisições redundantes
+    let suppliesList = [];
+    let cleaningList = [];
+
     let allMedsRaw = [];
     let allSuppliesRaw = [];
     let allCleaningRaw = [];
-    
-    // Objeto em memória para armazenar as quantidades solicitadas
-    // Chave: {tipo}_{id} (Ex: "med_15", "supply_3", "cleaning_8")
-    // Valor: Inteiro (Quantidade Solicitada)
+
     let solicitQuantities = {};
-    
-    let activeTab = 'medications'; // 'medications' | 'supplies' | 'cleaning'
+
+    let activeTab = 'medications';
     let isInitialized = false;
 
-    window.initRequestModule = function() {
+    window.initRequestModule = function () {
         console.log("[Pedidos Module] Inicializando novo módulo de requisições por abas...");
 
-        // Limpar o campo de busca ao inicializar
         const searchInput = document.getElementById('requestSearch');
         if (searchInput) searchInput.value = '';
 
-        // Escutar a alteração do tipo de relatório para aplicar filtros imediatamente
         const reportTypeSelect = document.getElementById("pdfReportType");
         if (reportTypeSelect) {
             reportTypeSelect.onchange = () => {
@@ -38,7 +25,6 @@
             };
         }
 
-        // Carregar itens do backend e renderizar, ou usar o cache se já existirem
         if (allMedsRaw.length > 0 || allSuppliesRaw.length > 0 || allCleaningRaw.length > 0) {
             applyReportFiltering();
         } else {
@@ -46,14 +32,10 @@
         }
     };
 
-    /**
-     * Alterna a aba ativa e re-renderiza a tabela correspondente.
-     */
-    window.switchRequestTab = function(tabName) {
+    window.switchRequestTab = function (tabName) {
         if (tabName === activeTab) return;
         activeTab = tabName;
 
-        // Atualizar classes 'active' nos botões de aba
         const tabs = ['medications', 'supplies', 'cleaning'];
         tabs.forEach(t => {
             const btn = document.getElementById(`tab-${t}`);
@@ -66,23 +48,17 @@
             }
         });
 
-        // Limpar o input de busca ao mudar de aba
         const searchInput = document.getElementById('requestSearch');
         if (searchInput) searchInput.value = '';
 
-        // Renderizar os itens da nova aba ativa
         renderActiveTabTable();
     };
 
-    /**
-     * Carrega as três listas de itens em paralelo a partir das APIs correspondentes.
-     */
     async function loadAllCatalogItems() {
         const tbody = document.getElementById('requestItemsTableBody');
         tbody.innerHTML = `<tr><td colspan="4" class="text-center p-30 text-muted"><i class="fa-solid fa-spinner fa-spin mr-10"></i>Carregando medicamentos e insumos...</td></tr>`;
 
         try {
-            // Buscas paralelas para máximo desempenho
             const [medsRes, suppliesRes, cleaningRes] = await Promise.all([
                 fetch(`${API_URL}/medications`, { headers: getAuthHeaders() }),
                 fetch(`${API_URL}/supplies`, { headers: getAuthHeaders() }),
@@ -93,7 +69,6 @@
             allSuppliesRaw = suppliesRes.ok ? await suppliesRes.json() : [];
             allCleaningRaw = cleaningRes.ok ? await cleaningRes.json() : [];
 
-            // Aplica a filtragem baseando-se no tipo de relatório selecionado
             applyReportFiltering();
 
         } catch (error) {
@@ -103,91 +78,74 @@
         }
     }
 
-    /**
-     * Filtra e atualiza dinamicamente as tabelas com base no tipo de relatório selecionado.
-     */
     function applyReportFiltering() {
         const reportTypeSelect = document.getElementById("pdfReportType");
         const reportType = reportTypeSelect ? reportTypeSelect.value : "estoque-geral";
         const cleaningTabBtn = document.getElementById('tab-cleaning');
         const suppliesTabBtn = document.getElementById('tab-supplies');
 
-        // Insumos específicos e exclusivos da Saúde da Mulher / Rede Materna
         const saudeMulherInsumos = [
-            "fixador de células", "kit papanicolau", "lençol descartável", 
-            "preservativo feminino", "preservativo masculino", "gel condutor", 
+            "fixador de células", "kit papanicolau", "lençol descartável",
+            "preservativo feminino", "preservativo masculino", "gel condutor",
             "teste rápido de gravidez", "teste rápido de proteinúria"
         ];
 
         if (reportType === 'saude-mulher') {
-            // 1. Filtrar medicamentos específicos do programa SAUDE_DA_MULHER
-            medicationsList = allMedsRaw.filter(med => 
+            medicationsList = allMedsRaw.filter(med =>
                 med.programCategories && (med.programCategories.includes('SAUDE_DA_MULHER') || med.programCategories.includes('WOMENS_HEALTH'))
             );
-            
-            // 2. Filtrar insumos específicos da Saúde da Mulher / Rede Materna
-            suppliesList = allSuppliesRaw.filter(item => 
+
+            suppliesList = allSuppliesRaw.filter(item =>
                 item.name && saudeMulherInsumos.some(si => item.name.toLowerCase().includes(si))
             );
-            
-            // 3. Ocultar a aba de limpeza e exibir de insumos
             cleaningList = [];
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'none';
             if (suppliesTabBtn) suppliesTabBtn.style.display = 'inline-flex';
-            
-            // Se o usuário estava na aba de limpeza, muda automaticamente para a aba de medicamentos
+
             if (activeTab === 'cleaning') {
                 switchRequestTab('medications');
             }
         } else if (reportType === 'saude-mental') {
-            // 1. Filtrar medicamentos específicos do programa SAUDE_MENTAL
-            medicationsList = allMedsRaw.filter(med => 
+            medicationsList = allMedsRaw.filter(med =>
                 med.programCategories && (med.programCategories.includes('SAUDE_MENTAL') || med.programCategories.includes('MENTAL_HEALTH'))
             );
-            
-            // 2. Não há insumos nem itens de limpeza na Saúde Mental
+
             suppliesList = [];
             cleaningList = [];
             if (suppliesTabBtn) suppliesTabBtn.style.display = 'none';
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'none';
-            
-            // Força a aba ativa para ser a de medicamentos
+
             if (activeTab !== 'medications') {
                 switchRequestTab('medications');
             }
         } else if (reportType === 'hiperdia') {
-            // 1. Filtrar medicamentos específicos de Hipertensão e Diabetes
-            medicationsList = allMedsRaw.filter(med => 
+            medicationsList = allMedsRaw.filter(med =>
                 med.programCategories && (
-                    med.programCategories.includes('HIPERTENSAO') || 
-                    med.programCategories.includes('HYPERTENSION') || 
+                    med.programCategories.includes('HIPERTENSAO') ||
+                    med.programCategories.includes('HYPERTENSION') ||
                     med.programCategories.includes('DIABETES')
                 )
             );
-            
-            // 2. Não há insumos nem itens de limpeza no Hiperdia
+
             suppliesList = [];
             cleaningList = [];
             if (suppliesTabBtn) suppliesTabBtn.style.display = 'none';
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'none';
-            
-            // Força a aba ativa para ser a de medicamentos
+
             if (activeTab !== 'medications') {
                 switchRequestTab('medications');
             }
         } else {
-            // Farmácia Básica e Insumos (padrão)
-            medicationsList = allMedsRaw.filter(med => 
+            medicationsList = allMedsRaw.filter(med =>
                 med.programCategories && (med.programCategories.includes('FARMACIA_BASICA') || med.programCategories.includes('BASIC_PHARMACY'))
             );
-            
-            // Exclui os insumos da Saúde da Mulher da lista da Farmácia Básica
-            suppliesList = allSuppliesRaw.filter(item => 
+
+            suppliesList = allSuppliesRaw.filter(item =>
                 !item.name || !saudeMulherInsumos.some(si => item.name.toLowerCase().includes(si))
             );
-            
+
             cleaningList = allCleaningRaw;
-            
+
             if (suppliesTabBtn) suppliesTabBtn.style.display = 'inline-flex';
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'inline-flex';
         }
@@ -204,9 +162,6 @@
         renderActiveTabTable();
     }
 
-    /**
-     * Renderiza a tabela baseando-se na aba ativa
-     */
     function renderActiveTabTable() {
         const tbody = document.getElementById('requestItemsTableBody');
         tbody.innerHTML = '';
@@ -231,16 +186,13 @@
         }
 
         items.forEach((item, index) => {
-            // Calcular o estoque atual somando a quantidade de lotes válidos
             let totalStock = 0;
             if (item.lots && item.lots.length > 0) {
                 item.lots.forEach(lot => {
-                    // Trata quantidade nula
                     totalStock += (lot.currentQuantity !== undefined ? lot.currentQuantity : (lot.quantity || 0));
                 });
             }
 
-            // Nome formatado
             let displayName = '';
             if (activeTab === 'medications') {
                 const reportTypeSelect = document.getElementById("pdfReportType");
@@ -278,11 +230,7 @@
         });
     }
 
-    /**
-     * Chamada via 'oninput' do input de quantidade.
-     * Atualiza o estado das quantidades em memória para que não se percam na troca de abas.
-     */
-    window.updateQuantityState = function(inputEl) {
+    window.updateQuantityState = function (inputEl) {
         const key = inputEl.getAttribute('data-key');
         const val = parseInt(inputEl.value) || 0;
         if (val < 0) {
@@ -293,11 +241,7 @@
         }
     };
 
-    /**
-     * Filtra a tabela local baseado no input de busca.
-     * Filtra ocultando as linhas da aba ativa de forma rápida e fluida.
-     */
-    window.filterRequestTable = function() {
+    window.filterRequestTable = function () {
         const input = document.getElementById('requestSearch');
         if (!input) return;
         const filter = input.value.toUpperCase();
@@ -306,7 +250,7 @@
         const trs = tbody.getElementsByTagName('tr');
 
         for (let i = 0; i < trs.length; i++) {
-            const td = trs[i].getElementsByTagName('td')[1]; // A coluna 1 tem a descrição
+            const td = trs[i].getElementsByTagName('td')[1];
             if (td) {
                 const txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -318,18 +262,12 @@
         }
     };
 
-    /**
-     * Prepara o payload estruturado com as 3 listas e solicita a geração do PDF ao backend em Java.
-     */
-    window.printCurrentOrder = async function() {
-        // Ler tipo de relatório selecionado no início para ser acessível em todo o escopo
+    window.printCurrentOrder = async function () {
         const reportTypeSelect = document.getElementById("pdfReportType");
         const reportType = reportTypeSelect ? reportTypeSelect.value : "estoque-geral";
 
-        // Formatar data como campo em branco para preenchimento manual no PDF
         let formattedDate = '___/___/_____';
 
-        // Mapear Medicamentos
         const medicationsPayload = medicationsList.map(item => {
             const itemKey = `med_${item.id}`;
             const qty = solicitQuantities[itemKey] || 0;
@@ -353,7 +291,6 @@
             };
         });
 
-        // Mapear Insumos Médicos
         const suppliesPayload = suppliesList.map(item => {
             const itemKey = `supply_${item.id}`;
             const qty = solicitQuantities[itemKey] || 0;
@@ -371,8 +308,6 @@
                 requestedQty: qty
             };
         });
-
-        // Mapear Insumos de Limpeza
         const cleaningPayload = cleaningList.map(item => {
             const itemKey = `cleaning_${item.id}`;
             const qty = solicitQuantities[itemKey] || 0;
@@ -391,7 +326,6 @@
             };
         });
 
-        // Montar o Payload para o backend DTO
         const payload = {
             reportType: reportType,
             requestDate: formattedDate,
@@ -402,7 +336,7 @@
 
         try {
             showToast("Gerando PDF, aguarde...", "info");
-            
+
             const response = await fetch(`${API_URL}/reports/pedidos`, {
                 method: 'POST',
                 headers: {
@@ -418,26 +352,25 @@
 
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
-            
-            // Criar link temporário para download
+
             const a = document.createElement('a');
             a.href = url;
             const filename = reportType === "saude-mulher"
-                ? "requisicao_saude_da_mulher_e_rede_materna.pdf"
+                ? "request_womens_health.pdf"
                 : reportType === "saude-mental"
-                ? "requisicao_saude_mental_e_neurologico.pdf"
-                : reportType === "hiperdia"
-                ? "requisicao_hipertensao_e_diabetes.pdf"
-                : "requisicao_farmacia_basica_e_insumos.pdf";
+                    ? "request_mental_health.pdf"
+                    : reportType === "hiperdia"
+                        ? "request_hypertension_diabetes.pdf"
+                        : "request_basic_pharmacy_and_supplies.pdf";
             a.download = filename;
             document.body.appendChild(a);
             a.click();
-            
+
             setTimeout(() => {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
             }, 100);
-            
+
             showToast("PDF oficial gerado com sucesso!", "success");
 
         } catch (error) {
@@ -446,9 +379,6 @@
         }
     };
 
-    /**
-     * Helpers internos
-     */
     function formatEnum(value) {
         if (!value) return '';
         return value.replace(/_/g, ' ').toLowerCase().replace(/(?:^|\s)\S/g, a => a.toUpperCase());

@@ -1,5 +1,5 @@
 // Limpa qualquer "resto" de sessão antiga ao carregar a tela de login
-localStorage.clear();
+sessionStorage.clear();
 
 // Verifica se veio redirecionado por sessão expirada
 const urlParams = new URLSearchParams(window.location.search);
@@ -90,24 +90,24 @@ loginForm.addEventListener('submit', async function (e) {
                 return;
             }
 
-            localStorage.setItem('sgdm_userName', data.name || 'Usuário');
-            localStorage.setItem('sgdm_practitionerId', data.id);
+            sessionStorage.setItem('sgdm_userName', data.name || 'Usuário');
+            sessionStorage.setItem('sgdm_practitionerId', data.id);
 
             const role = data.role || data.practitionerRoleEnum || data.position || data.cargo || 'undefined';
-            localStorage.setItem('sgdm_userRole', role);
+            sessionStorage.setItem('sgdm_userRole', role);
 
-            console.log('[Login] Role Salvo no LocalStorage:', role);
+            console.log('[Login] Role Salvo no sessionStorage:', role);
 
             if (data.registration) {
-                localStorage.setItem('sgdm_practitionerRegistration', data.registration);
+                sessionStorage.setItem('sgdm_practitionerRegistration', data.registration);
             }
             // O Token JWT agora vem no Cookie HttpOnly (segurança contra XSS)
-            // Lemos o token da resposta apenas para extrair a data de expiração e salvar no localStorage
+            // Lemos o token da resposta apenas para extrair a data de expiração e salvar no sessionStorage
             if (data.token) {
                 try {
                     const payloadBase64 = data.token.split('.')[1];
                     const payloadJson = JSON.parse(atob(payloadBase64));
-                    localStorage.setItem('sgdm_token_exp', payloadJson.exp);
+                    sessionStorage.setItem('sgdm_token_exp', payloadJson.exp);
                 } catch (e) {
                     console.error("Erro ao decodificar expiração do token:", e);
                 }

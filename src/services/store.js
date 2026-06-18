@@ -5,8 +5,8 @@ class AppStore extends EventTarget {
     constructor() {
         super();
         this.state = {
-            userRole: localStorage.getItem('sgdm_userRole') || null,
-            userName: localStorage.getItem('sgdm_userName') || null,
+            userRole: sessionStorage.getItem('sgdm_userRole') || null,
+            userName: sessionStorage.getItem('sgdm_userName') || null,
             notifications: []
         };
     }

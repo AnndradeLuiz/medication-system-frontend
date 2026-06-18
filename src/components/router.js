@@ -24,7 +24,7 @@ async function fetchViewHtml(viewId) {
 }
 
 async function switchView(viewId, pushState = true) {
-    const userRole = localStorage.getItem('sgdm_userRole');
+    const userRole = sessionStorage.getItem('sgdm_userRole');
     if (userRole && userRole.toUpperCase() === 'ACS' && viewId !== 'acs-restricted') {
         switchView('acs-restricted', false);
         return;
@@ -154,7 +154,7 @@ function initSpaRouter() {
     const initialView = window.location.hash.substring(1) || 'home';
     
     // Tratamento de segurança para privilégios de Administrador
-    const userRole = localStorage.getItem('sgdm_userRole');
+    const userRole = sessionStorage.getItem('sgdm_userRole');
     if (userRole && userRole.toUpperCase() === 'ACS') {
         const sidebar = document.querySelector('.sidebar');
         const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
@@ -198,7 +198,7 @@ function initSpaRouter() {
 // Inicializa quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
     // Restaurar nome do usuário no cabeçalho
-    const loggedpractitionerName = localStorage.getItem('sgdm_userName');
+    const loggedpractitionerName = sessionStorage.getItem('sgdm_userName');
     const loggedUserEl = document.getElementById('loggedUser');
     if (loggedUserEl && loggedpractitionerName) {
         loggedUserEl.innerText = loggedpractitionerName;
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cargo formatado
     const statusEl = document.querySelector('.user-status');
-    const practitionerRoleRaw = localStorage.getItem('sgdm_userRole');
+    const practitionerRoleRaw = sessionStorage.getItem('sgdm_userRole');
     if (statusEl) {
         let displayRole = 'Funcionário';
         if (practitionerRoleRaw && practitionerRoleRaw !== 'undefined') {

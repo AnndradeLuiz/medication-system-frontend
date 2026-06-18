@@ -2,14 +2,14 @@ async function initComponents() {
     try {
         highlightActiveLink();
 
-        const loggedpractitionerName = localStorage.getItem('sgdm_userName');
+        const loggedpractitionerName = sessionStorage.getItem('sgdm_userName');
         const loggedUserEl = document.getElementById('loggedUser');
         if (loggedUserEl && loggedpractitionerName) {
             loggedUserEl.innerText = loggedpractitionerName;
         }
 
         const statusEl = document.querySelector('.user-status');
-        const practitionerRoleRaw = localStorage.getItem('sgdm_userRole');
+        const practitionerRoleRaw = sessionStorage.getItem('sgdm_userRole');
         if (statusEl) {
             let displayRole = 'Funcionário';
             if (practitionerRoleRaw && practitionerRoleRaw !== 'undefined') {

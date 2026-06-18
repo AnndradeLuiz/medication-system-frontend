@@ -1345,25 +1345,23 @@
         return result;
     }
 
-    var searchInputEl = document.getElementById('searchInput');
-    var suggestionsList = document.getElementById('patientPageSuggestions');
     var floatingSearchTimeout;
+    var suggestionsList;
 
-    if (searchInputEl) {
-        searchInputEl.addEventListener('input', function (e) {
+    document.addEventListener('input', function (e) {
+        if (e.target.id === 'searchInput') {
             let val = e.target.value;
-
-            // Removida a máscara forçada de CPF aqui para permitir a digitação de CNS (15 dígitos) ou outros formatos.
-
+            
             clearTimeout(floatingSearchTimeout);
-
+            suggestionsList = document.getElementById('patientPageSuggestions');
+            
             if (val.length >= 3) {
                 floatingSearchTimeout = setTimeout(() => fetchFloatingSuggestions(val), 400);
             } else {
                 if (suggestionsList) suggestionsList.style.display = 'none';
             }
-        });
-    }
+        }
+    });
 
     async function fetchFloatingSuggestions(query) {
         if (!suggestionsList) return;
