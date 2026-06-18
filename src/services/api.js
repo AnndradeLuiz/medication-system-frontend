@@ -1,39 +1,35 @@
-/**
- * api.js - Cliente de API centralizado
- */
-
-window.apiFetch = async function(path, options = {}) {
+window.apiFetch = async function (path, options = {}) {
     const url = path.startsWith('http') ? path : `${window.API_URL || 'http://localhost:8080/api'}${path}`;
-    
+
     const defaultHeaders = window.getAuthHeaders ? window.getAuthHeaders() : {};
     const headers = new Headers(defaultHeaders);
-    
+
     if (options.headers) {
         const extraHeaders = new Headers(options.headers);
         for (const [key, value] of extraHeaders.entries()) {
             headers.set(key, value);
         }
     }
-    
+
     if (options.body instanceof FormData) {
         headers.delete('Content-Type');
     } else if (!headers.has('Content-Type') && options.body && typeof options.body === 'string') {
         headers.set('Content-Type', 'application/json');
     }
-    
+
     const config = {
         ...options,
         headers
     };
-    
+
     const response = await fetch(url, config);
-    
+
     if (response.status === 401) {
         if (window.handleTokenExpiration) {
             window.handleTokenExpiration();
         }
     }
-    
+
     return response;
 };
 
@@ -48,7 +44,7 @@ window.apiClient = {
 
             const contentType = response.headers.get("content-type");
             let data = null;
-            
+
             if (contentType && contentType.includes("application/json")) {
                 data = await response.json();
             } else if (contentType && contentType.includes("application/pdf")) {
