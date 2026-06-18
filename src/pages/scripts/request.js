@@ -23,11 +23,11 @@
     let activeTab = 'medications'; // 'medications' | 'supplies' | 'cleaning'
     let isInitialized = false;
 
-    window.initPedidosModule = function() {
+    window.initRequestModule = function() {
         console.log("[Pedidos Module] Inicializando novo módulo de requisições por abas...");
 
         // Limpar o campo de busca ao inicializar
-        const searchInput = document.getElementById('pedidosSearch');
+        const searchInput = document.getElementById('requestSearch');
         if (searchInput) searchInput.value = '';
 
         // Escutar a alteração do tipo de relatório para aplicar filtros imediatamente
@@ -49,7 +49,7 @@
     /**
      * Alterna a aba ativa e re-renderiza a tabela correspondente.
      */
-    window.switchPedidosTab = function(tabName) {
+    window.switchRequestTab = function(tabName) {
         if (tabName === activeTab) return;
         activeTab = tabName;
 
@@ -67,7 +67,7 @@
         });
 
         // Limpar o input de busca ao mudar de aba
-        const searchInput = document.getElementById('pedidosSearch');
+        const searchInput = document.getElementById('requestSearch');
         if (searchInput) searchInput.value = '';
 
         // Renderizar os itens da nova aba ativa
@@ -78,7 +78,7 @@
      * Carrega as três listas de itens em paralelo a partir das APIs correspondentes.
      */
     async function loadAllCatalogItems() {
-        const tbody = document.getElementById('pedidosItemsTableBody');
+        const tbody = document.getElementById('requestItemsTableBody');
         tbody.innerHTML = `<tr><td colspan="4" class="text-center p-30 text-muted"><i class="fa-solid fa-spinner fa-spin mr-10"></i>Carregando medicamentos e insumos...</td></tr>`;
 
         try {
@@ -137,7 +137,7 @@
             
             // Se o usuário estava na aba de limpeza, muda automaticamente para a aba de medicamentos
             if (activeTab === 'cleaning') {
-                switchPedidosTab('medications');
+                switchRequestTab('medications');
             }
         } else if (reportType === 'saude-mental') {
             // 1. Filtrar medicamentos específicos do programa SAUDE_MENTAL
@@ -153,7 +153,7 @@
             
             // Força a aba ativa para ser a de medicamentos
             if (activeTab !== 'medications') {
-                switchPedidosTab('medications');
+                switchRequestTab('medications');
             }
         } else if (reportType === 'hiperdia') {
             // 1. Filtrar medicamentos específicos de Hipertensão e Diabetes
@@ -173,7 +173,7 @@
             
             // Força a aba ativa para ser a de medicamentos
             if (activeTab !== 'medications') {
-                switchPedidosTab('medications');
+                switchRequestTab('medications');
             }
         } else {
             // Farmácia Básica e Insumos (padrão)
@@ -208,7 +208,7 @@
      * Renderiza a tabela baseando-se na aba ativa
      */
     function renderActiveTabTable() {
-        const tbody = document.getElementById('pedidosItemsTableBody');
+        const tbody = document.getElementById('requestItemsTableBody');
         tbody.innerHTML = '';
 
         let items = [];
@@ -297,11 +297,11 @@
      * Filtra a tabela local baseado no input de busca.
      * Filtra ocultando as linhas da aba ativa de forma rápida e fluida.
      */
-    window.filterPedidosTable = function() {
-        const input = document.getElementById('pedidosSearch');
+    window.filterRequestTable = function() {
+        const input = document.getElementById('requestSearch');
         if (!input) return;
         const filter = input.value.toUpperCase();
-        const tbody = document.getElementById('pedidosItemsTableBody');
+        const tbody = document.getElementById('requestItemsTableBody');
         if (!tbody) return;
         const trs = tbody.getElementsByTagName('tr');
 

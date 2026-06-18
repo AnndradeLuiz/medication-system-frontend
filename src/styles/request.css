@@ -184,7 +184,7 @@ table.table th {
     text-align: center;
 }
 
-#view-pedidos table.table th:nth-child(2) {
+#view-request table.table th:nth-child(2) {
     text-align: left;
     /* Descrição alinhada à esquerda */
 }

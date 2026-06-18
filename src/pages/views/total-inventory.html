@@ -1,4 +1,4 @@
-<div id="view-inventory-list" class="view-section" style="overflow: hidden; height: 100%;">
+<div id="view-total-inventory" class="view-section" style="overflow: hidden; height: 100%;">
     <section class="home-content"
         style="height: 100%; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 10px;">
         <div class="filter-bar d-flex justify-between"
@@ -7,15 +7,15 @@
                 <div class="pos-relative flex-1">
                     <i class="fa-solid fa-search pos-absolute left-12 top-50 translate-y-n50 text-muted"
                         style="left: 12px;"></i>
-                    <input type="text" id="inventorySearch" placeholder="Pesquisar item pelo nome..."
+                    <input type="text" id="totalInventorySearch" placeholder="Pesquisar item pelo nome..."
                         class="w-full p-l-36" style="padding-left: 36px;">
                 </div>
-                <button class="btn btn-primary d-flex align-center gap-8" onclick="applyFilters()">
+                <button class="btn btn-primary d-flex align-center gap-8" onclick="applyTotalInventoryFilters()">
                     <i class="fa-solid fa-search"></i> Buscar
                 </button>
             </div>
 
-            <button class="btn btn-primary d-flex align-center gap-8" onclick="openFilterModal()">
+            <button class="btn btn-primary d-flex align-center gap-8" onclick="openTotalInventoryFilterModal()">
                 <i class="fa-solid fa-sliders"></i> Filtrar
             </button>
         </div>
@@ -26,20 +26,20 @@
                 <thead>
                     <tr style="height: 60px;">
                         <th class="sortable" style="width: 25%; text-align: center;"
-                            onclick="handleSort('name')">ITEM <i class="fa-solid fa-sort sort-icon"
+                            onclick="handleTotalInventorySort('name')">ITEM <i class="fa-solid fa-sort sort-icon"
                                 id="sort-name"></i></th>
                         <th style="width: 17%; text-align: center;">TIPO</th>
                         <th style="width: 17%; text-align: center;">CATEGORIA</th>
                         <th class="sortable" style="width: 17%; text-align: center;"
-                            onclick="handleSort('quantity')">QUANTIDADE <i
+                            onclick="handleTotalInventorySort('quantity')">QUANTIDADE <i
                                 class="fa-solid fa-sort sort-icon" id="sort-quantity"></i></th>
                         <th class="sortable" style="width: 17%; text-align: center;"
-                            onclick="handleSort('expiration')">VALIDADE <i
+                            onclick="handleTotalInventorySort('expiration')">VALIDADE <i
                                 class="fa-solid fa-sort sort-icon" id="sort-expiration"></i></th>
                         <th style="width: 17%; text-align: center;">SITUAÇÃO</th>
                     </tr>
                 </thead>
-                <tbody id="inventoryBody">
+                <tbody id="totalInventoryBody">
                     <tr>
                         <td colspan="6" class="empty-msg" style="vertical-align: middle;">Defina seus filtros e clique em
                             <b>Buscar</b> para carregar os dados.
@@ -51,33 +51,33 @@
 
         <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm"
             style="border: 1px solid #e2e8f0; flex-shrink: 0;">
-            <span class="fs-14 text-muted">Mostrando <strong id="inventoryPageInfo">0-0 de 0</strong>
+            <span class="fs-14 text-muted">Mostrando <strong id="totalInventoryPageInfo">0-0 de 0</strong>
                 itens</span>
             <div class="d-flex gap-10">
-                <button class="btn btn-outline-secondary btn-sm" id="btnPrevInventory"
-                    onclick="prevInventoryPage()"><i class="fa-solid fa-chevron-left"></i>
+                <button class="btn btn-outline-secondary btn-sm" id="btnPrevTotalInventory"
+                    onclick="prevTotalInventoryPage()"><i class="fa-solid fa-chevron-left"></i>
                     Anterior</button>
                 <span class="fs-14 fw-600"
                     style="padding: 5px 10px; background: #eff6ff; color: #2563eb; border-radius: 4px;"
-                    id="inventoryCurrentPage">Pág 1</span>
-                <button class="btn btn-outline-secondary btn-sm" id="btnNextInventory"
-                    onclick="nextInventoryPage()">Próxima <i class="fa-solid fa-chevron-right"></i></button>
+                    id="totalInventoryCurrentPage">Pág 1</span>
+                <button class="btn btn-outline-secondary btn-sm" id="btnNextTotalInventory"
+                    onclick="nextTotalInventoryPage()">Próxima <i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
 
     <!-- Modal de Filtros Avançados -->
-    <div id="filterModal" class="modal-overlay">
+    <div id="totalInventoryFilterModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
                 <h3><i class="fa-solid fa-sliders mr-8"></i> Filtrar</h3>
-                <button class="modal-close" onclick="closeFilterModal()"><i
+                <button class="modal-close" onclick="closeTotalInventoryFilterModal()"><i
                         class="fa-solid fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="filter-group w-full">
                     <label>TIPO DE ITEM:</label>
-                    <select id="typeFilter" class="w-full">
+                    <select id="totalInventoryTypeFilter" class="w-full">
                         <option value="all">Todos os Tipos</option>
                         <option value="medicamento">Medicamentos</option>
                         <option value="medical">Médico</option>
@@ -87,7 +87,7 @@
 
                 <div class="filter-group w-full mt-10">
                     <label>STATUS DO ESTOQUE:</label>
-                    <select id="inventoryStatusFilter" class="w-full">
+                    <select id="totalInventoryStatusFilter" class="w-full">
                         <option value="all" selected>Todos os Status</option>
                         <option value="normal">Normal</option>
                         <option value="critico">Estoque Crítico</option>
@@ -99,7 +99,7 @@
 
                 <div class="filter-group w-full mt-10">
                     <label>MOSTRAR (POR PÁGINA):</label>
-                    <select id="inventoryPageSize" class="w-full">
+                    <select id="totalInventoryPageSize" class="w-full">
                         <option value="all">Mostrar Todos</option>
                         <option value="10">10 Itens</option>
                         <option value="25">25 Itens</option>
@@ -109,8 +109,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary min-w-100" onclick="resetFilters()">Limpar</button>
-                <button class="btn btn-primary" onclick="closeFilterModal()">Aplicar e Fechar</button>
+                <button class="btn btn-secondary min-w-100" onclick="resetTotalInventoryFilters()">Limpar</button>
+                <button class="btn btn-primary" onclick="closeTotalInventoryFilterModal()">Aplicar e Fechar</button>
             </div>
         </div>
     </div>

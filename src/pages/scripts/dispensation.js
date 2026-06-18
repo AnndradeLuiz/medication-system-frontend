@@ -109,10 +109,10 @@
         }
     }
 
-    let isDispensacaoModuleInitialized = false;
-    window.initDispensacaoModule = function () {
-        if (isDispensacaoModuleInitialized) return;
-        isDispensacaoModuleInitialized = true;
+    let isDispensationModuleInitialized = false;
+    window.initDispensationModule = function () {
+        if (isDispensationModuleInitialized) return;
+        isDispensationModuleInitialized = true;
 
         loggedpractitionerName = localStorage.getItem('sgdm_userName');
         loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');

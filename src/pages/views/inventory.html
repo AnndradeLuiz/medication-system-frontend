@@ -1,4 +1,4 @@
-<div id="view-estoque" class="view-section">
+<div id="view-inventory" class="view-section">
     <!-- Segmented Control para chavear tipo -->
     <div class="segmented-control">
         <div class="segment active-medicamentos" id="segMedicamentos" onclick="setMode('medicamentos')">
@@ -18,10 +18,10 @@
                 onclick="switchTab('tab-editar', this)">
                 Editar Cadastro
             </div>
-            <div class="tab" onclick="switchTab('tab-lote', this)">
+            <div class="tab" id="tab-link-lote" onclick="switchTab('tab-lote', this)">
                 <i class="fa-solid fa-circle-plus"></i> Entrada de Lote
             </div>
-            <div class="tab" id="tab-link-cadastro" onclick="switchTab('tab-cadastro-estoque', this)">
+            <div class="tab" id="tab-link-cadastro" onclick="switchTab('tab-cadastro-inventory', this)">
                 <i class="fa-solid fa-plus-circle"></i> Cadastrar Item
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <div class="form-row pos-relative">
                     <div class="form-group flex-1">
                         <label id="lblSearchName" class="fs-xs fw-700 text-muted">Nome do Insumo</label>
-                        <input type="text" id="estoqueSearchInput" placeholder="Ex: Seringa, Gaze..."
+                        <input type="text" id="inventorySearchInput" placeholder="Ex: Seringa, Gaze..."
                             autocomplete="off">
                         <ul id="searchSuggestions" class="suggestion-list"></ul>
                     </div>
@@ -241,7 +241,7 @@
             </div>
         </div>
 
-        <div id="tab-cadastro-estoque" class="tab-section">
+        <div id="tab-cadastro-inventory" class="tab-section">
             <div class="card">
                 <h3 class="mb-20"><i class="fa-solid fa-circle-plus" id="registerIcon"></i> <span
                         id="registerCardTitle">Cadastrar Novo Insumo no Catálogo</span></h3>

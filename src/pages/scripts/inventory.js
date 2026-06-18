@@ -7,10 +7,10 @@ let insumosList = [];
 let medicamentosList = [];
 
 // --- INICIALIZAÇÃO E SEGURANÇA ---
-let isEstoqueModuleInitialized = false;
-window.initEstoqueModule = async function() {
-    if (isEstoqueModuleInitialized) return;
-    isEstoqueModuleInitialized = true;
+let isInventoryModuleInitialized = false;
+window.initInventoryModule = async function() {
+    if (isInventoryModuleInitialized) return;
+    isInventoryModuleInitialized = true;
 
     await loadAllData();
     setupAutocomplete();
@@ -43,7 +43,7 @@ function handleQueryParams() {
             if (lotSelect) {
                 lotSelect.value = id;
                 // Ativa a aba de Entrada de Lote (caso o usuário tenha caído em outra por restrição)
-                const entryTab = document.getElementById('tab-link-entrada-estoque');
+                const entryTab = document.getElementById('tab-link-lote');
                 if (entryTab) entryTab.click();
                 
                 const card = lotSelect.closest('.card');
@@ -74,7 +74,7 @@ function setMode(mode) {
     closeEditCard();   // Fecha edição se estiver aberta para não cruzar dados
     
     // Limpa campos de busca
-    document.getElementById('estoqueSearchInput').value = '';
+    document.getElementById('inventorySearchInput').value = '';
     document.getElementById('searchSuggestions').style.display = 'none';
 
     // Sincroniza o seletor da entrada unificada com o modo atual (opcional, para conveniência)
@@ -115,7 +115,7 @@ function updateUILabels() {
     
     // Card Pesquisar
     document.getElementById('lblSearchName').innerText = searchLbl;
-    document.getElementById('estoqueSearchInput').placeholder = placeholder;
+    document.getElementById('inventorySearchInput').placeholder = placeholder;
     
     // Card Editar
     document.getElementById('lblEditName').innerText = searchLbl;
@@ -273,7 +273,7 @@ document.addEventListener('click', function(e) {
 
 // --- 2. CONSULTAR E EDITAR ---
 function setupAutocomplete() {
-    const input = document.getElementById('estoqueSearchInput');
+    const input = document.getElementById('inventorySearchInput');
     const listEl = document.getElementById('searchSuggestions');
     if (!input) return;
 

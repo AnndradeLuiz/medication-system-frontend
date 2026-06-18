@@ -87,13 +87,13 @@ async function switchView(viewId, pushState = true) {
         const titles = {
             'home': { title: 'Painel Geral', desc: 'Visão geral das operações e alertas do sistema' },
             'patient': { title: 'Gestão de Pacientes', desc: 'Busca, cadastros e atualizações de prontuário' },
-            'dispensacao': { title: 'Dispensa de Medicamentos', desc: 'Registro e histórico de dispensações de medicamentos a pacientes' },
-            'estoque': { title: 'Estoque Geral', desc: 'Entrada de lotes e cadastro de itens no catálogo' },
-            'inventory-list': { title: 'Inventário Total', desc: 'Listagem unificada de todos os itens do sistema' },
-            'funcionarios': { title: 'Gestão de Funcionários', desc: 'Cadastro, atualização e controle de acesso da equipe' },
-            'pedidos': { title: 'Pedidos e Requisições', desc: 'Geração e preenchimento de requisições de medicamentos e insumos para o Almoxarifado' },
-            'relatorios': { title: 'Painel de Relatórios', desc: 'Visão gerencial e extração dinâmica de dados' },
-            'audit': { title: 'Auditoria Geral do Sistema', desc: 'Rastreamento completo de ações e auditoria de logs' }
+            'dispensation': { title: 'Dispensa de Medicamentos', desc: 'Registro e histórico de dispensações de medicamentos a pacientes' },
+            'inventory': { title: 'Estoque Geral', desc: 'Entrada de lotes e cadastro de itens no catálogo' },
+            'total-inventory': { title: 'Inventário Geral', desc: 'Consulta, filtros e controle de saldo total de itens do catálogo' },
+            'practitioner': { title: 'Gestão de Funcionários', desc: 'Cadastro, atualização e controle de acesso da equipe' },
+            'request': { title: 'Pedidos e Requisições', desc: 'Geração e preenchimento de requisições de medicamentos e insumos para o Almoxarifado' },
+            'report': { title: 'Painel de Relatórios', desc: 'Visão gerencial e extração dinâmica de dados' },
+            'audit': { title: 'Auditoria do Sistema', desc: 'Registro de atividades, acessos e auditoria de dispensações' }
         };
         const info = titles[viewId] || { title: 'Assistência Farmacêutica', desc: 'Gerenciamento de Medicamentos e Insumos' };
         h1.innerText = info.title;
@@ -117,20 +117,21 @@ async function switchView(viewId, pushState = true) {
     } else if (viewId === 'patient') {
         if (typeof initPatientModule === 'function') initPatientModule();
         if (typeof renderPatientTable === 'function') renderPatientTable();
-    } else if (viewId === 'estoque') {
-        if (typeof initEstoqueModule === 'function') initEstoqueModule();
-        if (typeof loadAllData === 'function') loadAllData();
-    } else if (viewId === 'funcionarios') {
-        if (typeof loadpractitioners === 'function') loadpractitioners();
-    } else if (viewId === 'inventory-list') {
+    } else if (viewId === 'inventory') {
         if (typeof initInventoryModule === 'function') initInventoryModule();
-    } else if (viewId === 'dispensacao') {
-        if (typeof initDispensacaoModule === 'function') initDispensacaoModule();
+        if (typeof loadAllData === 'function') loadAllData();
+    } else if (viewId === 'total-inventory') {
+        if (typeof initTotalInventoryModule === 'function') initTotalInventoryModule();
+        if (typeof loadInventory === 'function') loadInventory(0);
+    } else if (viewId === 'practitioner') {
+        if (typeof loadpractitioners === 'function') loadpractitioners();
+    } else if (viewId === 'dispensation') {
+        if (typeof initDispensationModule === 'function') initDispensationModule();
         if (typeof loadMedications === 'function') loadMedications();
         if (typeof loadDispensations === 'function') loadDispensations();
-    } else if (viewId === 'pedidos') {
-        if (typeof initPedidosModule === 'function') initPedidosModule();
-    } else if (viewId === 'relatorios') {
+    } else if (viewId === 'request') {
+        if (typeof initRequestModule === 'function') initRequestModule();
+    } else if (viewId === 'report') {
         if (typeof switchReportTab === 'function') switchReportTab('dashboard');
     } else if (viewId === 'audit') {
         if (typeof loadAuditLogs === 'function') loadAuditLogs(0);
@@ -164,7 +165,7 @@ function initSpaRouter() {
         switchView('acs-restricted', false);
         return;
     }
-    if ((initialView === 'funcionarios' || initialView === 'audit') && !['ADM_TI', 'ENF_GERENTE'].includes(userRole)) {
+    if ((initialView === 'practitioner' || initialView === 'audit') && !['ADM_TI', 'ENF_GERENTE'].includes(userRole)) {
         switchView('home', false);
         return;
     }
@@ -178,16 +179,16 @@ function initSpaRouter() {
     }
 
     // RBAC: Ocultar menu de funcionários, relatórios e auditoria para usuários sem privilégio
-    const funcLi = document.getElementById('sidebarFuncLi');
-    const relatoriosLi = document.getElementById('sidebarRelatoriosLi');
+    const practitionerLi = document.getElementById('sidebarPractitionerLi');
+    const reportLi = document.getElementById('sidebarReportLi');
     const auditLi = document.getElementById('sidebarAuditLi');
     const isPrivileged = ['ADM_TI', 'ENF_GERENTE'].includes(userRole);
     
-    if (funcLi) {
-        funcLi.style.display = isPrivileged ? 'block' : 'none';
+    if (practitionerLi) {
+        practitionerLi.style.display = isPrivileged ? 'block' : 'none';
     }
-    if (relatoriosLi) {
-        relatoriosLi.style.display = isPrivileged ? 'block' : 'none';
+    if (reportLi) {
+        reportLi.style.display = isPrivileged ? 'block' : 'none';
     }
     if (auditLi) {
         auditLi.style.display = isPrivileged ? 'block' : 'none';

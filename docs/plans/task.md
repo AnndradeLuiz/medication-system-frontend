@@ -1,15 +1,17 @@
 | Status | Task Description | Target File |
 | :---: | :--- | :--- |
-| [x] | Renomear arquivos de home-screen para home | `src/pages/views/home-screen.html` |
-| [x] | Renomear arquivos do módulo patient para pacientes | `src/pages/views/patient.html`, `src/pages/scripts/patient.js`, `src/styles/patient.css` |
-| [x] | Renomear arquivos do módulo inventory-list para inventario | `src/pages/views/inventory-list.html`, `src/pages/scripts/inventory-list.js`, `src/styles/inventory-list.css` |
-| [x] | Renomear script de reports.js para relatorios.js | `src/pages/scripts/reports.js` |
-| [x] | Renomear arquivos do módulo audit para auditoria | `src/pages/views/audit.html`, `src/pages/scripts/audit.js`, `src/styles/audit.css` |
-| [x] | Renomear arquivos de acs-restricted para acs-restrito | `src/pages/views/acs-restricted.html`, `src/styles/acs-restricted.css` |
-| [x] | Renomear roteador router-spa.js para router.js | `src/components/router-spa.js` |
+| [x] | Renomear arquivos pacientes -> patient | `src/pages/views/pacientes.html`, `src/pages/scripts/pacientes.js`, `src/styles/pacientes.css` |
+| [x] | Renomear arquivos dispensacao -> dispensation | `src/pages/views/dispensacao.html`, `src/pages/scripts/dispensacao.js`, `src/styles/dispensacao.css` |
+| [x] | Renomear arquivos estoque -> inventory | `src/pages/views/estoque.html`, `src/pages/scripts/estoque.js`, `src/styles/estoque.css` |
+| [x] | Renomear arquivos funcionarios -> practitioner | `src/pages/views/funcionarios.html`, `src/pages/scripts/funcionarios.js`, `src/styles/funcionarios.css` |
+| [x] | Renomear arquivos pedidos -> request | `src/pages/views/pedidos.html`, `src/pages/scripts/pedidos.js`, `src/styles/pedidos.css` |
+| [x] | Renomear arquivos relatorios -> report | `src/pages/views/relatorios.html`, `src/styles/relatorios.css` |
 | [x] | Atualizar imports de scripts/estilos e switchView no index.html | `index.html` |
-| [x] | Atualizar components.js para usar router.js e remover redundâncias | `src/components/components.js` |
-| [x] | Atualizar mapeamento de rotas e chamadas de módulos no router.js | `src/components/router.js` |
-| [x] | Corrigir referências internas nos scripts de views atualizados | `src/pages/scripts/*` |
+| [x] | Atualizar roteador router.js | `src/components/router.js` |
+| [x] | Atualizar components.js | `src/components/components.js` |
 | [x] | Validar visualmente todo o fluxo de navegação no sistema | N/A |
-| [x] | Criar skill para geração de diagramas (SequenceDiagram.org) | `.agent/skills/creating-sequence-diagrams/SKILL.md` |
+| [x] | Renomear e refatorar arquivos de listagem de inventário para total-inventory | `src/pages/views/total-inventory.html`, `src/pages/scripts/total-inventory.js`, `src/styles/total-inventory.css` |
+| [x] | Mapear e adaptar o módulo de auditoria | `src/pages/views/audit.html`, `src/pages/scripts/audit.js`, `src/styles/audit.css` |
+| [x] | Atualizar menu lateral, estilos e scripts no index.html | `index.html` |
+| [x] | Atualizar roteador router.js com novas rotas e RBAC | `src/components/router.js` |
+| [x] | Validar visualmente os novos módulos integrados no sistema | N/A |

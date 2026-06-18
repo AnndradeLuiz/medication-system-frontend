@@ -225,10 +225,16 @@ function forceLogout() {
 document.addEventListener('DOMContentLoaded', () => {
     const loggedpractitionerId = localStorage.getItem('sgdm_practitionerId');
     const tokenExp = localStorage.getItem('sgdm_token_exp');
+    const currentTimestamp = Math.floor(Date.now() / 1000);
 
     if (!window.location.pathname.includes('login.html')) {
-        if (!loggedpractitionerId || !tokenExp) {
-            console.warn('[Auth] Sessão inválida no carregamento. Redirecionando para login.');
+        if (!loggedpractitionerId || !tokenExp || parseInt(tokenExp, 10) < currentTimestamp) {
+            console.warn('[Auth] Sessão inválida ou expirada no carregamento. Redirecionando silenciosamente para login.');
+            localStorage.removeItem('sgdm_userName');
+            localStorage.removeItem('sgdm_practitionerId');
+            localStorage.removeItem('sgdm_userRole');
+            localStorage.removeItem('sgdm_token_exp');
+            localStorage.removeItem('sgdm_practitionerRegistration');
             window.location.href = 'login.html';
             return;
         }

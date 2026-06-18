@@ -4,32 +4,32 @@
     let inventoryCurrentPage = 0;
     let inventoryTotalPages = 1;
 
-    let isInventoryModuleInitialized = false;
-    window.initInventoryModule = function () {
-        if (isInventoryModuleInitialized) return;
-        isInventoryModuleInitialized = true;
+    let isTotalInventoryModuleInitialized = false;
+    window.initTotalInventoryModule = function () {
+        if (isTotalInventoryModuleInitialized) return;
+        isTotalInventoryModuleInitialized = true;
 
         // Busca disparada apenas ao apertar Enter no input (opcional) ou clicar em Filtrar
-        const searchInput = document.getElementById('inventorySearch');
+        const searchInput = document.getElementById('totalInventorySearch');
         if (searchInput) {
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    applyFilters();
+                    applyTotalInventoryFilters();
                 }
             });
         }
 
         // Mensagem inicial de tela vazia até que o usuário filtre
-        const tbody = document.getElementById('inventoryBody');
+        const tbody = document.getElementById('totalInventoryBody');
         if (tbody && tbody.innerHTML.trim() === '') {
             tbody.innerHTML = `<tr><td colspan="6" class="text-center p-40 text-muted" style="vertical-align: middle;">Defina seus filtros e clique em <b>Filtrar</b> (ou digite e aperte Enter) para carregar os dados.</td></tr>`;
         }
 
-        const modal = document.getElementById('filterModal');
+        const modal = document.getElementById('totalInventoryFilterModal');
         if (modal) {
             modal.addEventListener('click', function (e) {
                 if (e.target === this) {
-                    closeFilterModal();
+                    closeTotalInventoryFilterModal();
                 }
             });
         }
@@ -42,14 +42,14 @@
 
     async function fetchPaginatedInventory() {
         setLoading(true);
-        const tbody = document.getElementById('inventoryBody');
+        const tbody = document.getElementById('totalInventoryBody');
 
-        const typeFilter = document.getElementById('typeFilter').value;
-        const statusFilter = document.getElementById('inventoryStatusFilter').value;
-        const searchFilter = document.getElementById('inventorySearch').value;
+        const typeFilter = document.getElementById('totalInventoryTypeFilter').value;
+        const statusFilter = document.getElementById('totalInventoryStatusFilter').value;
+        const searchFilter = document.getElementById('totalInventorySearch').value;
 
-        // Default size is 20, but the UI has "inventoryPageSize" which could be 'all', '10', '25', '50'.
-        let pageSize = document.getElementById('inventoryPageSize').value;
+        // Default size is 20, but the UI has "totalInventoryPageSize" which could be 'all', '10', '25', '50'.
+        let pageSize = document.getElementById('totalInventoryPageSize').value;
         if (pageSize === 'all') pageSize = 1000;
 
         try {
@@ -69,14 +69,14 @@
                 // Update pagination UI
                 const pageInfo = pageData.page || pageData;
                 inventoryTotalPages = pageInfo.totalPages || 1;
-                document.getElementById('inventoryCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${inventoryTotalPages}`;
+                document.getElementById('totalInventoryCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${inventoryTotalPages}`;
 
                 const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
                 const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
-                document.getElementById('inventoryPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
+                document.getElementById('totalInventoryPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
 
-                document.getElementById('btnPrevInventory').disabled = pageInfo.number === 0;
-                document.getElementById('btnNextInventory').disabled = pageInfo.number >= (inventoryTotalPages - 1);
+                document.getElementById('btnPrevTotalInventory').disabled = pageInfo.number === 0;
+                document.getElementById('btnNextTotalInventory').disabled = pageInfo.number >= (inventoryTotalPages - 1);
             } else {
                 throw new Error('Falha na API');
             }
@@ -89,20 +89,20 @@
         }
     }
 
-    window.prevInventoryPage = function () {
+    window.prevTotalInventoryPage = function () {
         if (inventoryCurrentPage > 0) {
             loadInventory(inventoryCurrentPage - 1);
         }
     };
 
-    window.nextInventoryPage = function () {
+    window.nextTotalInventoryPage = function () {
         if (inventoryCurrentPage < inventoryTotalPages - 1) {
             loadInventory(inventoryCurrentPage + 1);
         }
     };
 
     function renderInventoryPage(items) {
-        const tbody = document.getElementById('inventoryBody');
+        const tbody = document.getElementById('totalInventoryBody');
         tbody.innerHTML = '';
 
         if (!items || items.length === 0) {
@@ -152,11 +152,11 @@
         });
     }
 
-    function applyFilters() {
+    function applyTotalInventoryFilters() {
         loadInventory(0); // Trigger a API call at page 0 with new filters
     }
 
-    function handleSort(field) {
+    function handleTotalInventorySort(field) {
         if (currentSort.field === field) {
             currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
         } else {
@@ -182,27 +182,27 @@
     }
 
     // Lógica do Modal de Filtros Avançados
-    function openFilterModal() {
-        document.getElementById('filterModal').classList.add('active');
+    function openTotalInventoryFilterModal() {
+        document.getElementById('totalInventoryFilterModal').classList.add('active');
     }
 
-    function closeFilterModal() {
-        document.getElementById('filterModal').classList.remove('active');
-        applyFilters();
+    function closeTotalInventoryFilterModal() {
+        document.getElementById('totalInventoryFilterModal').classList.remove('active');
+        applyTotalInventoryFilters();
     }
 
-    function resetFilters() {
-        document.getElementById('typeFilter').value = 'all';
-        document.getElementById('inventoryStatusFilter').value = 'all';
-        document.getElementById('inventoryPageSize').value = 'all';
-        if (document.getElementById('inventorySearch')) document.getElementById('inventorySearch').value = '';
-        applyFilters();
+    function resetTotalInventoryFilters() {
+        document.getElementById('totalInventoryTypeFilter').value = 'all';
+        document.getElementById('totalInventoryStatusFilter').value = 'all';
+        document.getElementById('totalInventoryPageSize').value = 'all';
+        if (document.getElementById('totalInventorySearch')) document.getElementById('totalInventorySearch').value = '';
+        applyTotalInventoryFilters();
     }
 
     // Exports
-    window.applyFilters = applyFilters;
-    window.handleSort = handleSort;
-    window.openFilterModal = openFilterModal;
-    window.closeFilterModal = closeFilterModal;
-    window.resetFilters = resetFilters;
+    window.applyTotalInventoryFilters = applyTotalInventoryFilters;
+    window.handleTotalInventorySort = handleTotalInventorySort;
+    window.openTotalInventoryFilterModal = openTotalInventoryFilterModal;
+    window.closeTotalInventoryFilterModal = closeTotalInventoryFilterModal;
+    window.resetTotalInventoryFilters = resetTotalInventoryFilters;
 })();

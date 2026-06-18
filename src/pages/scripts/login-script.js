@@ -10,6 +10,13 @@ if (urlParams.get('expired') === 'true') {
         errorEl.classList.remove('d-none');
         errorEl.style.display = 'block';
     }
+    // Limpa o parâmetro da URL para que não reapareça ao recarregar a página manualmente
+    try {
+        const cleanUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+    } catch (e) {
+        console.error('[Login] Erro ao limpar parâmetro de expiração da URL:', e);
+    }
 }
 
 const loginInput = document.getElementById('loginDocument');

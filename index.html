@@ -14,14 +14,13 @@
     <link rel="stylesheet" href="src/styles/global.css">
     <link rel="stylesheet" href="src/styles/home.css">
     <link rel="stylesheet" href="src/styles/patient.css?v=1">
-    <link rel="stylesheet" href="src/styles/dispensacao.css">
-    <link rel="stylesheet" href="src/styles/estoque.css">
-    <link rel="stylesheet" href="src/styles/inventory-list.css">
-    <link rel="stylesheet" href="src/styles/pedidos.css">
-    <link rel="stylesheet" href="src/styles/relatorios.css">
-    <link rel="stylesheet" href="src/styles/funcionarios.css">
+    <link rel="stylesheet" href="src/styles/dispensation.css">
+    <link rel="stylesheet" href="src/styles/inventory.css">
+    <link rel="stylesheet" href="src/styles/request.css">
+    <link rel="stylesheet" href="src/styles/report.css">
+    <link rel="stylesheet" href="src/styles/practitioner.css">
+    <link rel="stylesheet" href="src/styles/total-inventory.css">
     <link rel="stylesheet" href="src/styles/audit.css">
-    <link rel="stylesheet" href="src/styles/acs-restricted.css">
 
     <script>
         if (['ADM_TI', 'ENF_GERENTE'].includes(localStorage.getItem('sgdm_userRole'))) {
@@ -68,13 +67,13 @@
                 <ul>
                     <li><a href="#home" onclick="switchView('home')"><i class="fa-solid fa-home"></i> Tela Inicial</a></li>
                     <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i> Pacientes</a></li>
-                    <li><a href="#dispensacao" onclick="switchView('dispensacao')"><i class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
-                    <li><a href="#estoque" onclick="switchView('estoque')"><i class="fa-solid fa-boxes-stacked"></i> Estoque Geral</a></li>
-                    <li><a href="#inventory-list" onclick="switchView('inventory-list')"><i class="fa-solid fa-file-medical"></i> Inventário Total</a></li>
-                    <li><a href="#pedidos" onclick="switchView('pedidos')"><i class="fa-solid fa-file-invoice"></i> Pedidos</a></li>
-                    <li id="sidebarRelatoriosLi" style="display: none;"><a href="#relatorios" onclick="switchView('relatorios')"><i class="fa-solid fa-chart-pie"></i> Relatórios</a></li>
-                    <li id="sidebarFuncLi" style="display: none;"><a href="#funcionarios" onclick="switchView('funcionarios')"><i class="fa-solid fa-user-shield"></i> Funcionários</a></li>
-                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i class="fa-solid fa-clock-rotate-left"></i> Auditoria Geral</a></li>
+                    <li><a href="#dispensation" onclick="switchView('dispensation')"><i class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
+                    <li><a href="#inventory" onclick="switchView('inventory')"><i class="fa-solid fa-boxes-stacked"></i> Estoque Geral</a></li>
+                    <li><a href="#total-inventory" onclick="switchView('total-inventory')"><i class="fa-solid fa-list-check"></i> Inventário Total</a></li>
+                    <li><a href="#request" onclick="switchView('request')"><i class="fa-solid fa-file-invoice"></i> Pedidos</a></li>
+                    <li id="sidebarReportLi" style="display: none;"><a href="#report" onclick="switchView('report')"><i class="fa-solid fa-chart-pie"></i> Relatórios</a></li>
+                    <li id="sidebarPractitionerLi" style="display: none;"><a href="#practitioner" onclick="switchView('practitioner')"><i class="fa-solid fa-user-shield"></i> Funcionários</a></li>
+                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i class="fa-solid fa-clock-rotate-left"></i> Auditoria</a></li>
                 </ul>
             </nav>
 
@@ -204,13 +203,12 @@
     <script type="module" src="src/components/components.js?v=2"></script>
     <script type="module" src="src/pages/scripts/home.js?v=2"></script>
     <script type="module" src="src/pages/scripts/patient.js?v=6"></script>
-    <script type="module" src="src/pages/scripts/dispensacao.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/estoque.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/funcionarios.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/inventory-list.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/pedidos.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/reports.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/audit.js?v=1"></script>
+    <script type="module" src="src/pages/scripts/dispensation.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/inventory.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/practitioner.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/request.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/total-inventory.js?v=2"></script>
+    <script type="module" src="src/pages/scripts/audit.js?v=2"></script>
     <script>
         // Configura proteção para datas futuras em campos de nascimento
         document.addEventListener('DOMContentLoaded', () => {
