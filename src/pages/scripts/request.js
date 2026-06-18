@@ -92,7 +92,7 @@
 
         if (reportType === 'saude-mulher') {
             medicationsList = allMedsRaw.filter(med =>
-                med.programCategories && (med.programCategories.includes('SAUDE_DA_MULHER') || med.programCategories.includes('WOMENS_HEALTH'))
+                med.programCategory && (med.programCategory === 'SAUDE_DA_MULHER' || med.programCategory === 'WOMENS_HEALTH')
             );
 
             suppliesList = allSuppliesRaw.filter(item =>
@@ -107,7 +107,7 @@
             }
         } else if (reportType === 'saude-mental') {
             medicationsList = allMedsRaw.filter(med =>
-                med.programCategories && (med.programCategories.includes('SAUDE_MENTAL') || med.programCategories.includes('MENTAL_HEALTH'))
+                med.programCategory && (med.programCategory === 'SAUDE_MENTAL' || med.programCategory === 'MENTAL_HEALTH')
             );
 
             suppliesList = [];
@@ -120,10 +120,10 @@
             }
         } else if (reportType === 'hiperdia') {
             medicationsList = allMedsRaw.filter(med =>
-                med.programCategories && (
-                    med.programCategories.includes('HIPERTENSAO') ||
-                    med.programCategories.includes('HYPERTENSION') ||
-                    med.programCategories.includes('DIABETES')
+                med.programCategory && (
+                    med.programCategory === 'HIPERTENSAO' ||
+                    med.programCategory === 'HYPERTENSION' ||
+                    med.programCategory === 'DIABETES'
                 )
             );
 
@@ -137,7 +137,7 @@
             }
         } else {
             medicationsList = allMedsRaw.filter(med =>
-                med.programCategories && (med.programCategories.includes('FARMACIA_BASICA') || med.programCategories.includes('BASIC_PHARMACY'))
+                med.programCategory && (med.programCategory === 'FARMACIA_BASICA' || med.programCategory === 'BASIC_PHARMACY')
             );
 
             suppliesList = allSuppliesRaw.filter(item =>

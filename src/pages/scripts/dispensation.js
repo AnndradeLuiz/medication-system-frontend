@@ -167,12 +167,12 @@
                 if (!allowedCategories) return true;
 
                 if (selectedPatientIsExternal) {
-                    return m.programCategories && (m.programCategories.includes('FARMACIA_BASICA') || m.programCategories.includes('BASIC_PHARMACY'));
+                    return m.programCategory && (m.programCategory === 'FARMACIA_BASICA' || m.programCategory === 'BASIC_PHARMACY');
                 }
 
-                if (!m.programCategories || m.programCategories.length === 0) return true;
+                if (!m.programCategory) return true;
 
-                return m.programCategories.some(cat => allowedCategories.has(cat));
+                return allowedCategories.has(m.programCategory);
             });
 
             if (list) {
@@ -425,8 +425,8 @@
             return;
         }
 
-        if (selectedPatientIsExternal && (!med.programCategories || (!med.programCategories.includes('FARMACIA_BASICA') && !med.programCategories.includes('BASIC_PHARMACY')))) {
-            const catStr = med.programCategories ? med.programCategories.join(', ') : 'Nenhuma';
+        if (selectedPatientIsExternal && (!med.programCategory || (med.programCategory !== 'FARMACIA_BASICA' && med.programCategory !== 'BASIC_PHARMACY'))) {
+            const catStr = med.programCategory || 'Nenhuma';
             showToast(`BLOQUEADO: Este paciente é de outra UBS.\nEle só tem permissão para retirar itens da Farmácia Básica.\n\nO medicamento '${med.activeIngredient} ${med.concentration}' pertence às categorias: ${catStr}.`, 'error');
             return;
         }
@@ -535,7 +535,7 @@
                     continue;
                 }
 
-                if (selectedPatientIsExternal && (!med.programCategories || (!med.programCategories.includes('FARMACIA_BASICA') && !med.programCategories.includes('BASIC_PHARMACY')))) {
+                if (selectedPatientIsExternal && (!med.programCategory || (med.programCategory !== 'FARMACIA_BASICA' && med.programCategory !== 'BASIC_PHARMACY'))) {
                     missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Bloqueado para paciente externo)`);
                     continue;
                 }
@@ -883,6 +883,28 @@
                 thirdPartyInput.title = thirdPartyTitle;
             }
 
+            // Preencher dados da prescrição, se existir
+            if (disp.prescription) {
+                if (disp.prescription.prescriptionDate) {
+                    const pd = new Date(disp.prescription.prescriptionDate);
+                    document.getElementById('editPrescriptionDate').value = pd.toISOString().split('T')[0];
+                } else {
+                    document.getElementById('editPrescriptionDate').value = '';
+                }
+                document.getElementById('editPrescriberName').value = disp.prescription.prescriberName || '';
+                document.getElementById('editPrescriberCpf').value = disp.prescription.prescriberCpf ? applyCpfMask(disp.prescription.prescriberCpf) : '';
+                document.getElementById('editPrescriberCouncil').value = disp.prescription.prescriberCouncil || '';
+                document.getElementById('editPrescriberCouncilUF').value = disp.prescription.prescriberCouncilUF || '';
+                document.getElementById('editPrescriberCouncilNumber').value = disp.prescription.prescriberCouncilNumber || '';
+            } else {
+                document.getElementById('editPrescriptionDate').value = '';
+                document.getElementById('editPrescriberName').value = '';
+                document.getElementById('editPrescriberCpf').value = '';
+                document.getElementById('editPrescriberCouncil').value = '';
+                document.getElementById('editPrescriberCouncilUF').value = '';
+                document.getElementById('editPrescriberCouncilNumber').value = '';
+            }
+
             const itemsResponse = await fetch(`${API_URL}/dispensations/${id}/items`, {
                 headers: getAuthHeaders()
             });
@@ -912,7 +934,9 @@
                         concentration: item.concentration || '',
                         quantity: item.quantity,
                         lotCode: item.lotCode,
-                        lotsDisplay: `${item.lotCode} (${item.quantity} unidades)`
+                        lotsDisplay: `${item.lotCode} (${item.quantity} unidades)`,
+                        duration: item.duration || '',
+                        instructions: item.instructions || ''
                     });
                 }
             });
@@ -944,15 +968,26 @@
                 ? `<span style="color: #6b7280; font-style: italic; font-size: 13px;">${item.lotsDisplay}</span>`
                 : `<span style="color: #0f766e; font-weight: 500; font-size: 14px;">${item.lotsDisplay}</span>`;
 
+            let posologyHtml = '';
+            if (item.duration || item.instructions) {
+                posologyHtml = `<div class="mt-5" style="font-size: 11px; color: #64748b; background: #f8fafc; padding: 4px; border-radius: 4px; border: 1px dashed #cbd5e1;">`;
+                if (item.duration) posologyHtml += `<i class="fa-regular fa-clock"></i> ${escapeHTML(item.duration)} dias `;
+                if (item.instructions) posologyHtml += `<br><i class="fa-solid fa-notes-medical"></i> ${escapeHTML(item.instructions)}`;
+                posologyHtml += `</div>`;
+            }
+
             const tr = document.createElement('tr');
             tr.style.borderBottom = '1px solid #f3f4f6';
             tr.innerHTML = `
             <td class="text-main text-left">
                 <span class="d-block fw-600 fs-15">${escapeHTML(item.name)}</span>
                 <span class="text-muted fs-13 fw-400">${escapeHTML(item.concentration || '')}</span>
+                ${posologyHtml}
             </td>
             <td class="fw-500 text-center">${loteFormatado}</td>
-            <td class="text-center">${item.quantity} unidades</td>
+            <td class="text-center">
+                <input type="number" class="form-input text-center" style="width: 70px; padding: 4px; margin: 0 auto;" min="1" value="${item.quantity}" onchange="window.updateEditItemQuantity(${index}, this.value)">
+            </td>
             <td class="text-center">
                 <button type="button" class="btn-danger-icon" onclick="removeEditDispItem(${index})" title="Remover item">
                     <i class="fa-solid fa-trash"></i>
@@ -968,6 +1003,55 @@
         currentEditDispItems.splice(index, 1);
         updateEditDispensationTable();
     }
+
+    window.updateEditItemQuantity = function(index, newQtyStr) {
+        const newQty = parseInt(newQtyStr);
+        if (isNaN(newQty) || newQty <= 0) {
+            showToast("Quantidade inválida.", "error");
+            updateEditDispensationTable(); // revert UI
+            return;
+        }
+
+        const item = currentEditDispItems[index];
+        const medId = item.medicationId;
+        const selectedMed = medicationList.find(m => m.id === medId);
+        
+        if (!selectedMed) {
+            // Can't recalculate FEFO preview without medication data, but we can update quantity and let backend handle it
+            item.quantity = newQty;
+            item.lotsDisplay = "(Automático/Recalculado no Servidor)";
+            updateEditDispensationTable();
+            return;
+        }
+
+        const availableLots = (selectedMed.lots || [])
+            .filter(lot => lot.currentQuantity > 0)
+            .sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate));
+
+        const originalQty = originalEditDispQuantities[medId] || 0;
+        const totalAvailable = availableLots.reduce((sum, lot) => sum + lot.currentQuantity, 0) + originalQty;
+
+        if (newQty > totalAvailable) {
+            showToast(`Estoque insuficiente! Só restam ${totalAvailable} un disponíveis no estoque.`);
+            updateEditDispensationTable(); // revert UI
+            return;
+        }
+
+        let remainingToFulfill = newQty;
+        let newLotsUsed = [];
+
+        for (const lot of availableLots) {
+            if (remainingToFulfill <= 0) break;
+            const takeFromLot = Math.min(lot.currentQuantity, remainingToFulfill);
+            newLotsUsed.push(`${lot.lotCode} (${takeFromLot} un)`);
+            remainingToFulfill -= takeFromLot;
+        }
+
+        item.quantity = newQty;
+        item.lotsDisplay = newLotsUsed.join(' + ');
+        if (!item.lotsDisplay) item.lotsDisplay = "(Recalculado)";
+        updateEditDispensationTable();
+    };
 
     function setupEditDispAddMedSearch() {
         const input = document.getElementById('inputBuscaMedEdicao');
@@ -1009,6 +1093,8 @@
         const medId = document.getElementById('inputOcultoMedIdEdicao').value;
         const medName = document.getElementById('inputBuscaMedEdicao').value;
         const qtyToAdd = parseInt(document.getElementById('inputNovaQuantidadeEdicao').value);
+        const duration = document.getElementById('inputNovaDuracaoEdicao').value;
+        const instructions = document.getElementById('inputNovaInstrucaoEdicao').value;
 
         if (!medId || !medName) { showToast("Selecione um medicamento válido."); return; }
         if (isNaN(qtyToAdd) || qtyToAdd <= 0) { showToast("Informe uma quantidade válida."); return; }
@@ -1019,7 +1105,7 @@
             return;
         }
 
-        const categories = selectedMed.programCategories || (selectedMed.programCategory ? [selectedMed.programCategory] : []);
+        const categories = selectedMed.programCategory ? [selectedMed.programCategory] : [];
 
         const normalizeCategory = cat => {
             if (!cat) return '';
@@ -1083,13 +1169,17 @@
                 medicationId: medId,
                 name: medName,
                 quantity: qtyToAdd,
-                lotsDisplay: newLotsDisplay
+                lotsDisplay: newLotsDisplay,
+                duration: duration || '',
+                instructions: instructions || ''
             });
         }
 
         document.getElementById('inputOcultoMedIdEdicao').value = "";
         document.getElementById('inputBuscaMedEdicao').value = "";
         document.getElementById('inputNovaQuantidadeEdicao').value = "1";
+        document.getElementById('inputNovaDuracaoEdicao').value = "";
+        document.getElementById('inputNovaInstrucaoEdicao').value = "";
 
         updateEditDispensationTable();
     }
@@ -1102,14 +1192,39 @@
             return;
         }
 
+        let prescriptionData = null;
+        const pDate = document.getElementById('editPrescriptionDate').value;
+        const pName = document.getElementById('editPrescriberName').value.trim();
+        const pCpf = document.getElementById('editPrescriberCpf').value.replace(/\D/g, '');
+        const pCouncil = document.getElementById('editPrescriberCouncil').value;
+        const pCouncilUF = document.getElementById('editPrescriberCouncilUF').value;
+        const pCouncilNum = document.getElementById('editPrescriberCouncilNumber').value.trim();
+
+        if (pDate || pName || pCouncil || pCouncilUF || pCouncilNum) {
+            prescriptionData = {
+                prescriptionDate: pDate ? new Date(pDate + 'T00:00:00').toISOString() : null,
+                prescriberName: pName || null,
+                prescriberCpf: pCpf || null,
+                prescriberCouncil: pCouncil || null,
+                prescriberCouncilUF: pCouncilUF || null,
+                prescriberCouncilNumber: pCouncilNum || null
+            };
+        }
+
         const payload = {
             practitionerId: currentEditDisppractitionerId,
             patientId: currentEditDispPatientId,
             thirdPerson: currentEditDispThirdPerson,
-            items: currentEditDispItems.map(item => ({
-                medicationId: item.medicationId,
-                quantity: item.quantity
-            }))
+            prescription: prescriptionData,
+            items: currentEditDispItems.map(item => {
+                let backendItem = {
+                    medicationId: item.medicationId,
+                    quantity: item.quantity
+                };
+                if (item.duration) backendItem.duration = parseInt(item.duration) || null;
+                if (item.instructions) backendItem.instructions = item.instructions;
+                return backendItem;
+            })
         };
 
         setLoading('btnUpdateDispensation', true);

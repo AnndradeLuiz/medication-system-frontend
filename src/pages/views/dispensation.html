@@ -242,6 +242,59 @@
                     </div>
                 </div>
 
+                <div id="editPrescriptionSection" class="section-highlight mt-20 mb-20"
+                    style="background-color: #f8fafc; border: 1px dashed #cbd5e1;">
+                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i
+                            class="fa-solid fa-user-doctor mr-10"></i> Dados da Prescrição Médica (Edição)
+                    </h4>
+                    <div class="form-row d-flex gap-15 mb-15">
+                        <div class="form-group flex-1 m-0">
+                            <label class="fs-xs fw-700 text-muted">Data da Prescrição</label>
+                            <input type="date" id="editPrescriptionDate">
+                        </div>
+                        <div class="form-group flex-2 m-0">
+                            <label class="fs-xs fw-700 text-muted">Nome do Prescritor</label>
+                            <input type="text" id="editPrescriberName" placeholder="Dr(a).">
+                        </div>
+                        <div class="form-group flex-1 m-0">
+                            <label class="fs-xs fw-700 text-muted">CPF DO PRESCRITOR</label>
+                            <input type="text" id="editPrescriberCpf" placeholder="000.000.000-00">
+                        </div>
+                    </div>
+                    <div class="form-row d-flex gap-15">
+                        <div class="form-group flex-1 m-0">
+                            <label class="fs-xs fw-700 text-muted">Conselho</label>
+                            <select id="editPrescriberCouncil" class="form-select">
+                                <option value="">Selecione</option>
+                                <option value="CRM">CRM</option>
+                                <option value="CRO">CRO</option>
+                                <option value="CRF">CRF</option>
+                                <option value="COREN">COREN</option>
+                                <option value="RMS">RMS</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1 m-0">
+                            <label class="fs-xs fw-700 text-muted">UF do Conselho</label>
+                            <select id="editPrescriberCouncilUF" class="form-select">
+                                <option value="">UF</option>
+                                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-2 m-0">
+                            <label class="fs-xs fw-700 text-muted">Nº do Conselho</label>
+                            <input type="text" id="editPrescriberCouncilNumber" placeholder="Ex: 123456">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-dashed">
                     <h4><i class="fa-solid fa-plus-circle"></i> Adicionar Medicamento a esta Dispensação</h4>
                     <div class="form-row">
@@ -255,6 +308,16 @@
                         <div class="form-group flex-1">
                             <label class="fs-xs fw-700 text-muted">Quantidade</label>
                             <input type="number" id="inputNovaQuantidadeEdicao" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="form-row align-bottom">
+                        <div class="form-group flex-1">
+                            <label class="fs-xs fw-700 text-muted">Duração (Dias)</label>
+                            <input type="number" id="inputNovaDuracaoEdicao" min="1" placeholder="Opcional">
+                        </div>
+                        <div class="form-group flex-2">
+                            <label class="fs-xs fw-700 text-muted">Orientações de Uso</label>
+                            <input type="text" id="inputNovaInstrucaoEdicao" placeholder="Ex: 1cp 8/8h (Opcional)">
                         </div>
                         <div class="form-group flex-1">
                             <label class="fs-xs fw-700 text-muted">&nbsp;</label>

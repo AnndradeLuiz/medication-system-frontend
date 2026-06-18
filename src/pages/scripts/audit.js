@@ -153,13 +153,43 @@
             };
             const entityLabel = entityLabels[log.entityType] || log.entityType || '-';
 
+            // Traduzir Detalhes (Formas Farmacêuticas e outros)
+            let translatedDetails = log.details || '';
+            const formTranslations = {
+                'TABLET_PREGNANT': 'Comprimido (Gestante)',
+                'BOTTLE_PREGNANT': 'Frasco (Gestante)',
+                'TRANSDERMAL_PATCH': 'Adesivo Transdérmico',
+                'TABLET': 'Comprimido',
+                'CAPSULE': 'Cápsula',
+                'SYRUP': 'Xarope',
+                'SUSPENSION': 'Suspensão',
+                'DROPS': 'Gotas',
+                'OINTMENT': 'Pomada',
+                'CREAM': 'Creme',
+                'INJECTABLE': 'Injetável',
+                'SUPPOSITORY': 'Supositório',
+                'LOTION': 'Loção',
+                'SOLUTION': 'Solução',
+                'ELIXIR': 'Elixir',
+                'GEL': 'Gel',
+                'PASTE': 'Pasta',
+                'POWDER': 'Pó',
+                'INHALER': 'Inalador',
+                'AMPOULE': 'Ampola'
+            };
+            
+            Object.keys(formTranslations).forEach(key => {
+                const regex = new RegExp(`\\b${key}\\b`, 'g');
+                translatedDetails = translatedDetails.replace(regex, formTranslations[key]);
+            });
+
             tr.innerHTML = `
                 <td class="font-data text-muted text-center" style="font-size: 13px;">${formattedDate}</td>
                 <td class="text-center"><span class="fw-600 text-main" style="font-size: 13.5px;">${escapeHTML(log.practitionerName || 'Sistema')}</span></td>
                 <td class="text-center"><span class="role-badge role-${log.practitionerRole || 'SISTEMA'}">${roleLabel}</span></td>
                 <td class="text-center">${actionBadge}</td>
                 <td class="text-center"><span class="fw-600" style="color: #64748b; font-size: 13px;">${entityLabel}</span></td>
-                <td style="font-size: 13.5px; color: var(--color-text-main); font-weight: 500; padding: 12px 16px;">${escapeHTML(log.details || '')}</td>
+                <td style="font-size: 13.5px; color: var(--color-text-main); font-weight: 500; padding: 12px 16px;">${escapeHTML(translatedDetails)}</td>
             `;
 
             fragment.appendChild(tr);

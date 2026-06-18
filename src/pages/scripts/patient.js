@@ -79,7 +79,7 @@
 
             const filtered = medicationList.filter(m =>
                 m.activeIngredient && m.activeIngredient.toLowerCase().includes(query) &&
-                (!selectedCategory || (m.programCategories && m.programCategories.includes(selectedCategory)))
+                (!selectedCategory || m.programCategory === selectedCategory || (m.programCategories && m.programCategories.includes(selectedCategory)))
             );
 
             listEl.innerHTML = '';
@@ -573,12 +573,10 @@
     }
 
     // --- INICIALIZAÇÃO DA PÁGINA ---
-    let isPatientModuleInitialized = false;
     window.initPatientModule = function () {
         loadMedications();
         loadAcsList();
-        if (isPatientModuleInitialized) return;
-        isPatientModuleInitialized = true;
+
 
         // Listeners para atualização de microárea do ACS
         const newSelect = document.getElementById('newPatientAcs');

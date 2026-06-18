@@ -199,7 +199,10 @@
                 document.getElementById('newEmpMicroareaGroup').style.display = 'none';
                 document.getElementById('newEmpMicroarea').value = '';
                 loadpractitioners();
-                switchTab('tab-lista', document.querySelector('.tab'));
+                const tabs = document.querySelectorAll('#view-practitioner .tabs-container .tab');
+                if (tabs.length > 0) {
+                    switchTab('tab-list-practitioner', tabs[0]);
+                }
             } else {
                 const err = await response.json().catch(() => ({}));
                 showToast(err.message || 'Erro ao cadastrar funcionário.', 'error');

@@ -4,21 +4,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION",
-            "BASIC_PHARMACY"
-        ],
-        "lots": [],
-        "_class": "com.luiz.medication_system.dominio.Medication"
-    },
-    {
-        "activeIngredient": "Acido Fólico",
-        "concentration": "5 mg",
-        "pharmaceuticalForm": "TABLET",
-        "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -27,9 +13,7 @@
         "concentration": "40 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -38,9 +22,7 @@
         "concentration": "400 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -49,9 +31,7 @@
         "concentration": "6 mg/mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -60,9 +40,7 @@
         "concentration": "3 mg/mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -71,9 +49,7 @@
         "concentration": "250 mg/5mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -82,9 +58,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -93,9 +67,7 @@
         "concentration": "50 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -104,9 +76,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -115,9 +85,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -126,9 +94,7 @@
         "concentration": "600 mg",
         "pharmaceuticalForm": "POWDER",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -137,9 +103,7 @@
         "concentration": "1.200.000 UI",
         "pharmaceuticalForm": "INJECTABLE",
         "administrationRoute": "INTRAMUSCULAR",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -148,9 +112,7 @@
         "concentration": null,
         "pharmaceuticalForm": "LOTION",
         "administrationRoute": "TOPICAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -159,9 +121,7 @@
         "concentration": "0,25 mg/mL",
         "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "INHALATIONAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -170,9 +130,7 @@
         "concentration": "250 mg/5mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -181,9 +139,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -192,9 +148,7 @@
         "concentration": "200 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -203,9 +157,7 @@
         "concentration": null,
         "pharmaceuticalForm": "CREAM",
         "administrationRoute": "TOPICAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -214,9 +166,7 @@
         "concentration": "150 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -225,9 +175,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -236,9 +184,7 @@
         "concentration": "150 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -247,9 +193,7 @@
         "concentration": "1%",
         "pharmaceuticalForm": "CREAM",
         "administrationRoute": "TOPICAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -258,9 +202,7 @@
         "concentration": "0,1 mg/mL",
         "pharmaceuticalForm": "ELIXIR",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -269,9 +211,7 @@
         "concentration": "0,4 mg/mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -280,9 +220,7 @@
         "concentration": "50 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -291,9 +229,7 @@
         "concentration": "15 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -302,9 +238,7 @@
         "concentration": "75 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -313,9 +247,7 @@
         "concentration": "50 mg/mL",
         "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -324,9 +256,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -335,9 +265,7 @@
         "concentration": "50 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -346,9 +274,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -357,20 +283,16 @@
         "concentration": "150 mg",
         "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Guaco (Mikania Glomerata)",
-        "concentration": null,
+        "concentration": "35 mg/mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -379,9 +301,7 @@
         "concentration": "60 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -390,9 +310,7 @@
         "concentration": "100 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -401,9 +319,7 @@
         "concentration": "600 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -412,20 +328,7 @@
         "concentration": "20 mg/mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
-        "lots": [],
-        "_class": "com.luiz.medication_system.dominio.Medication"
-    },
-    {
-        "activeIngredient": "Isoflavona de Soja",
-        "concentration": null,
-        "pharmaceuticalForm": "CAPSULE",
-        "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -434,9 +337,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -445,9 +346,7 @@
         "concentration": "20 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -456,9 +355,7 @@
         "concentration": "4 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -467,9 +364,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -478,9 +373,7 @@
         "concentration": "250 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -489,9 +382,7 @@
         "concentration": "40 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -500,9 +391,7 @@
         "concentration": "100 mg/g",
         "pharmaceuticalForm": "CREAM",
         "administrationRoute": "VAGINAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -511,20 +400,16 @@
         "concentration": "2%",
         "pharmaceuticalForm": "CREAM",
         "administrationRoute": "VAGINAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Neomicina + bacitracina",
+        "activeIngredient": "Neomicina + Bacitracina",
         "concentration": "5 mg",
         "pharmaceuticalForm": "OINTMENT",
         "administrationRoute": "TOPICAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -533,9 +418,7 @@
         "concentration": "100.000 UI/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -544,9 +427,7 @@
         "concentration": "100 mL",
         "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -555,9 +436,7 @@
         "concentration": "20 mg",
         "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -566,9 +445,7 @@
         "concentration": "200 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -577,9 +454,7 @@
         "concentration": "750 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -588,9 +463,7 @@
         "concentration": null,
         "pharmaceuticalForm": "PASTE",
         "administrationRoute": "TOPICAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -599,9 +472,7 @@
         "concentration": null,
         "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -610,9 +481,7 @@
         "concentration": "20 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -621,9 +490,7 @@
         "concentration": null,
         "pharmaceuticalForm": "POWDER",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -632,9 +499,7 @@
         "concentration": "0,4 mg/mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -643,31 +508,25 @@
         "concentration": "1000 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Sulfametoxazol+Trimetoprima",
-        "concentration": null,
+        "activeIngredient": "Sulfametoxazol + Trimetoprima",
+        "concentration": "400 mg + 80 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Sulfametoxazol+Trimetoprima",
-        "concentration": null,
+        "activeIngredient": "Sulfametoxazol + Trimetoprima",
+        "concentration": "200 mg/5 mL + 40 mg/5 mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -676,20 +535,16 @@
         "concentration": "25 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
         "activeIngredient": "Sulfato Ferroso",
         "concentration": "40 mg",
-        "pharmaceuticalForm": "TABLET",
+        "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -698,9 +553,7 @@
         "concentration": "50 mg/mL",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -709,9 +562,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "BASIC_PHARMACY"
-        ],
+        "programCategory": "BASIC_PHARMACY",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -720,9 +571,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -731,9 +580,7 @@
         "concentration": "50 mg/mL",
         "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -742,9 +589,7 @@
         "concentration": "150 mg/mL",
         "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -753,9 +598,7 @@
         "concentration": "0,2 mg/mL",
         "pharmaceuticalForm": "BOTTLE_PREGNANT",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -764,9 +607,7 @@
         "concentration": "(50 mg + 5 mg)/mL",
         "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -775,9 +616,7 @@
         "concentration": "0,03 mg + 0,15 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -786,9 +625,7 @@
         "concentration": "75 mg",
         "pharmaceuticalForm": "CAPSULE",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -797,9 +634,7 @@
         "concentration": "0,75 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -808,9 +643,7 @@
         "concentration": "1,5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -819,9 +652,7 @@
         "concentration": "0,35 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -830,9 +661,7 @@
         "concentration": "40 mg",
         "pharmaceuticalForm": "TABLET_PREGNANT",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "WOMENS_HEALTH"
-        ],
+        "programCategory": "WOMENS_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -841,9 +670,7 @@
         "concentration": "250 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -852,9 +679,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -863,9 +688,7 @@
         "concentration": "250 mg/5mL",
         "pharmaceuticalForm": "SYRUP",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -874,9 +697,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -885,9 +706,7 @@
         "concentration": "75 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -896,9 +715,7 @@
         "concentration": "2 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -907,9 +724,7 @@
         "concentration": "200 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -918,9 +733,7 @@
         "concentration": "400 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -929,9 +742,7 @@
         "concentration": "2%",
         "pharmaceuticalForm": "SUSPENSION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -940,9 +751,7 @@
         "concentration": "300 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -951,9 +760,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -962,9 +769,7 @@
         "concentration": "2 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -973,9 +778,7 @@
         "concentration": "0,5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -984,9 +787,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -995,9 +796,7 @@
         "concentration": "2,5 mg/mL",
         "pharmaceuticalForm": "DROPS",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1006,9 +805,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1017,9 +814,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1028,9 +823,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1039,9 +832,7 @@
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1050,9 +841,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1061,9 +850,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1072,9 +859,7 @@
         "concentration": "4%",
         "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1083,9 +868,7 @@
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1094,9 +877,7 @@
         "concentration": "20 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1105,9 +886,7 @@
         "concentration": "50 mg/mL",
         "pharmaceuticalForm": "AMPOULE",
         "administrationRoute": "INTRAMUSCULAR",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1116,9 +895,7 @@
         "concentration": "1 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1127,9 +904,7 @@
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1138,9 +913,7 @@
         "concentration": null,
         "pharmaceuticalForm": "SOLUTION",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1149,9 +922,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1160,9 +931,7 @@
         "concentration": "250 mg + 25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1171,9 +940,7 @@
         "concentration": "100 mg + 25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1182,9 +949,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1193,9 +958,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1204,9 +967,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "MENTAL_HEALTH"
-        ],
+        "programCategory": "MENTAL_HEALTH",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1215,9 +976,7 @@
         "concentration": "70 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1226,9 +985,7 @@
         "concentration": "100 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1237,9 +994,7 @@
         "concentration": "300 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1248,9 +1003,7 @@
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1259,9 +1012,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1270,9 +1021,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1281,9 +1030,7 @@
         "concentration": "50 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1292,9 +1039,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1303,9 +1048,7 @@
         "concentration": "3,125 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1314,9 +1057,7 @@
         "concentration": "6,25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1325,9 +1066,7 @@
         "concentration": "12,5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1336,9 +1075,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1347,9 +1084,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1358,9 +1093,7 @@
         "concentration": null,
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1369,9 +1102,7 @@
         "concentration": "200 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1380,9 +1111,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1391,9 +1120,7 @@
         "concentration": "40 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1402,9 +1129,7 @@
         "concentration": "0,25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1413,9 +1138,7 @@
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1424,9 +1147,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1435,9 +1156,7 @@
         "concentration": "40 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1446,9 +1165,7 @@
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "DIABETES"
-        ],
+        "programCategory": "DIABETES",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1457,9 +1174,7 @@
         "concentration": "30 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "DIABETES"
-        ],
+        "programCategory": "DIABETES",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1468,9 +1183,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1479,9 +1192,7 @@
         "concentration": "12,5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1490,9 +1201,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1501,9 +1210,7 @@
         "concentration": "50 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1512,9 +1219,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1523,9 +1228,7 @@
         "concentration": "20 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1534,9 +1237,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "DIABETES"
-        ],
+        "programCategory": "DIABETES",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1545,9 +1246,7 @@
         "concentration": "850 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "DIABETES"
-        ],
+        "programCategory": "DIABETES",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1556,9 +1255,7 @@
         "concentration": "250 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1567,9 +1264,7 @@
         "concentration": "500 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1578,9 +1273,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1589,9 +1282,7 @@
         "concentration": "20 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1600,9 +1291,7 @@
         "concentration": "10 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1611,9 +1300,7 @@
         "concentration": "20 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1622,9 +1309,7 @@
         "concentration": "25 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
@@ -1633,20 +1318,16 @@
         "concentration": "50 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     },
     {
-        "activeIngredient": "Valfarina Sódica",
+        "activeIngredient": "Varfarina Sódica",
         "concentration": "5 mg",
         "pharmaceuticalForm": "TABLET",
         "administrationRoute": "ORAL",
-        "programCategories": [
-            "HYPERTENSION"
-        ],
+        "programCategory": "HYPERTENSION",
         "lots": [],
         "_class": "com.luiz.medication_system.dominio.Medication"
     }

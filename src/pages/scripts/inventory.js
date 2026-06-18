@@ -9,12 +9,16 @@ let medicamentosList = [];
 // --- INICIALIZAÇÃO E SEGURANÇA ---
 let isInventoryModuleInitialized = false;
 window.initInventoryModule = async function() {
-    if (isInventoryModuleInitialized) return;
-    isInventoryModuleInitialized = true;
-
-    await loadAllData();
+    // Sempre executa para o HTML recém-injetado pelo SPA
     setupAutocomplete();
     handleQueryParams();
+
+    // Carrega dados do servidor na primeira carga de script
+    if (!isInventoryModuleInitialized) {
+        isInventoryModuleInitialized = true;
+        // Não usar await para não bloquear o resto da UI
+        loadAllData();
+    }
 
     // Trava de validade (permitir apenas datas a partir de amanhã)
     const lotExpiration = document.getElementById('lotExpiration');
@@ -381,20 +385,15 @@ async function selectItemToEdit(id) {
             }
             
             // PharmaceuticalForm é retornado pelo backend
-            const pharmForm = item.pharmaceuticalForm || item.PharmaceuticalForm || '';
-            const editMedPharmForm = document.getElementById('editPharmaceuticalForm');
-            if (editMedPharmForm) editMedPharmForm.value = pharmForm;
+            document.getElementById('editPharmaceuticalForm').value = item.pharmaceuticalForm || '';
+            document.getElementById('editAdministrationRoute').value = item.administrationRoute || '';
             
-            const editMedAdminRoute = document.getElementById('editAdministrationRoute');
-            if (editMedAdminRoute) editMedAdminRoute.value = item.administrationRoute || '';
-            
-            document.querySelectorAll('input[id^="editMedProg"]').forEach(cb => cb.checked = false);
-            if (item.programCategories && Array.isArray(item.programCategories)) {
-                item.programCategories.forEach(cat => {
-                    // Converter enum para camelCase para achar o id do checkbox, ou checar pelo value
-                    const cb = document.querySelector(`input[id^="editMedProg"][value="${cat}"]`);
-                    if (cb) cb.checked = true;
-                });
+            if (item.programCategory) {
+                document.getElementById('editProgramCategory').value = item.programCategory;
+            } else if (item.programCategories && item.programCategories.length > 0) {
+                document.getElementById('editProgramCategory').value = item.programCategories[0];
+            } else {
+                document.getElementById('editProgramCategory').value = 'BASIC_PHARMACY';
             }
         } else {
             // Exibe os campos genéricos e oculta os de medicamento
@@ -601,13 +600,10 @@ async function saveEdit() {
 
         const editMedPharmForm = document.getElementById('editPharmaceuticalForm');
         const editMedAdminRoute = document.getElementById('editAdministrationRoute');
-        const programCategories = [];
-        document.querySelectorAll('input[id^="editMedProg"]:checked').forEach(cb => {
-            programCategories.push(cb.value);
-        });
+        const programCategory = document.getElementById('editProgramCategory').value;
 
-        if (programCategories.length === 0) {
-            showToast("O medicamento deve estar vinculado a pelo menos um Programa.", 'warning');
+        if (!programCategory) {
+            showToast("O medicamento deve estar vinculado a um Programa Clínico.", 'warning');
             return;
         }
 
@@ -616,7 +612,7 @@ async function saveEdit() {
             concentration: concentration,
             pharmaceuticalForm: editMedPharmForm ? editMedPharmForm.value : '',
             administrationRoute: editMedAdminRoute ? editMedAdminRoute.value : '',
-            programCategories: programCategories,
+            programCategory: programCategory,
             lots: updatedLots
         };
     } else {
@@ -820,13 +816,10 @@ async function saveNewItem() {
         concentration = formatConcentration(concentration);
         itemTitle = `${activeIngredient} ${concentration}`;
 
-        const programCategories = [];
-        document.querySelectorAll('input[id^="newMedProg"]:checked').forEach(cb => {
-            programCategories.push(cb.value);
-        });
+        const programCategory = document.getElementById('newProgramCategory').value;
 
-        if (programCategories.length === 0) {
-            showToast("O medicamento deve estar vinculado a pelo menos um Programa.", 'warning');
+        if (!programCategory) {
+            showToast("O medicamento deve estar vinculado a um Programa Clínico.", 'warning');
             return;
         }
 
@@ -835,7 +828,7 @@ async function saveNewItem() {
             concentration: concentration,
             pharmaceuticalForm: document.getElementById('newMedForm').value,
             administrationRoute: document.getElementById('newMedRoute').value,
-            programCategories: programCategories,
+            programCategory: programCategory,
             lots: []
         };
     } else {
