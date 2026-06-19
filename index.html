@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="src/styles/practitioner.css">
     <link rel="stylesheet" href="src/styles/total-inventory.css">
     <link rel="stylesheet" href="src/styles/audit.css">
+    <link rel="stylesheet" href="src/styles/womens-health.css">
 
     <script>
         if (['ADM_TI', 'ENF_GERENTE'].includes(sessionStorage.getItem('sgdm_userRole'))) {
@@ -65,6 +66,8 @@
                     </li>
                     <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i>
                             Pacientes</a></li>
+                    <li><a href="#womens-health" onclick="switchView('womens-health')"><i class="fa-solid fa-venus"></i>
+                            Saúde da Mulher</a></li>
                     <li><a href="#dispensation" onclick="switchView('dispensation')"><i
                                 class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
                     <li><a href="#inventory" onclick="switchView('inventory')"><i class="fa-solid fa-boxes-stacked"></i>
@@ -215,6 +218,7 @@
     <script type="module" src="src/pages/scripts/total-inventory.js?v=3"></script>
     <script type="module" src="src/pages/scripts/audit.js?v=3"></script>
     <script type="module" src="src/pages/scripts/report.js?v=3"></script>
+    <script type="module" src="src/pages/scripts/womens-health.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];

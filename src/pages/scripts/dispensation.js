@@ -218,21 +218,104 @@
                         selectedPatientIsExternal = p.external === true;
                         currentDispensePatientData = p;
 
-                        let countMeds = 0;
+                        // Agrupar receitas recorrentes
+                        let uniqueRecipes = [];
                         if (p.enrollments && p.enrollments.length > 0) {
                             p.enrollments.forEach(enr => {
-                                if (enr.medications) countMeds += enr.medications.length;
+                                if (enr.medications) {
+                                    enr.medications.forEach(med => {
+                                        const prescription = med.prescription;
+                                        if (prescription && prescription.prescriptionDate) {
+                                            const key = `${prescription.prescriberName || ''}_${prescription.prescriberCouncilNumber || ''}_${prescription.prescriberCouncilUF || ''}_${prescription.prescriptionDate}`;
+                                            let existing = uniqueRecipes.find(r => r.key === key);
+                                            if (!existing) {
+                                                existing = {
+                                                    key: key,
+                                                    prescription: prescription,
+                                                    medications: []
+                                                };
+                                                uniqueRecipes.push(existing);
+                                            }
+                                            if (med.items) {
+                                                med.items.forEach(item => {
+                                                    existing.medications.push({
+                                                        medicationId: item.medicationId,
+                                                        medicationName: item.medicationName,
+                                                        concentration: item.concentration,
+                                                        quantity: item.quantity,
+                                                        doseQuantity: item.doseQuantity,
+                                                        doseUnit: item.doseUnit,
+                                                        frequency: item.frequency,
+                                                        timesPerDay: item.timesPerDay,
+                                                        administrationInstructions: item.administrationInstructions
+                                                    });
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
                             });
                         }
 
-                        const containerAutoFill = document.getElementById('autoFillProgramsContainer');
-                        const countSpan = document.getElementById('autoFillMedCount');
-                        if (containerAutoFill && countSpan) {
-                            if (countMeds > 0) {
-                                countSpan.innerText = countMeds;
-                                containerAutoFill.style.display = 'block';
+                        // Adicionar anticoncepcional ativo de estoque como receita recorrente
+                        if (p.contraceptiveInfo && p.contraceptiveInfo.active && p.contraceptiveInfo.medicationId) {
+                            const rxDate = p.contraceptiveInfo.appliedDate || new Date().toISOString();
+                            const key = `ANTICONCEPCIONAL_${p.contraceptiveInfo.medicationId}_${rxDate}`;
+                            
+                            let medName = p.contraceptiveInfo.medicationName || 'Anticoncepcional';
+                            let concentration = '';
+                            const match = medName.match(/^(.*?)\s*\((.*?)\)$/);
+                            if (match) {
+                                medName = match[1];
+                                concentration = match[2];
+                            }
+
+                            uniqueRecipes.push({
+                                key: key,
+                                prescription: {
+                                    prescriptionDate: rxDate,
+                                    prescriberName: "Saúde da Mulher (UBS)",
+                                    prescriberCpf: "",
+                                    prescriberCouncil: "CRM",
+                                    prescriberCouncilUF: "UF",
+                                    prescriberCouncilNumber: "12345"
+                                },
+                                medications: [{
+                                    medicationId: p.contraceptiveInfo.medicationId,
+                                    medicationName: medName,
+                                    concentration: concentration,
+                                    quantity: p.contraceptiveInfo.quantity || 1,
+                                    doseQuantity: 1,
+                                    doseUnit: "comprimido(s)",
+                                    frequency: "1 vez ao dia",
+                                    timesPerDay: 1,
+                                    administrationInstructions: "Uso contínuo (Anticoncepcional)"
+                                }]
+                            });
+                        }
+
+                        const recurrentContainer = document.getElementById('autoFillRecurrentContainer');
+                        const recurrentSelect = document.getElementById('selectRecurrentPrescription');
+                        if (recurrentContainer && recurrentSelect) {
+                            recurrentSelect.innerHTML = '<option value="">Selecione uma receita...</option>';
+                            if (uniqueRecipes.length > 0) {
+                                window.currentPatientRecipes = uniqueRecipes;
+                                uniqueRecipes.forEach((recipe, idx) => {
+                                    const rx = recipe.prescription;
+                                    const rxDate = new Date(rx.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                                    const opt = document.createElement('option');
+                                    opt.value = idx;
+                                    if (rx.prescriberName === "Saúde da Mulher (UBS)") {
+                                        opt.innerText = `Método Contraceptivo: ${recipe.medications[0].medicationName} (${recipe.medications[0].concentration}) - Qtd: ${recipe.medications[0].quantity} un`;
+                                    } else {
+                                        opt.innerText = `Dr(a). ${rx.prescriberName} - ${rx.prescriberCouncil}/${rx.prescriberCouncilUF} ${rx.prescriberCouncilNumber} (Receita de ${rxDate})`;
+                                    }
+                                    recurrentSelect.appendChild(opt);
+                                });
+                                recurrentContainer.style.display = 'block';
                             } else {
-                                containerAutoFill.style.display = 'none';
+                                recurrentContainer.style.display = 'none';
+                                window.currentPatientRecipes = [];
                             }
                         }
 
@@ -270,6 +353,11 @@
         currentDispensePatientData = null;
         const containerAutoFill = document.getElementById('autoFillProgramsContainer');
         if (containerAutoFill) containerAutoFill.style.display = 'none';
+        const recurrentContainer = document.getElementById('autoFillRecurrentContainer');
+        const recurrentSelect = document.getElementById('selectRecurrentPrescription');
+        if (recurrentContainer) recurrentContainer.style.display = 'none';
+        if (recurrentSelect) recurrentSelect.innerHTML = '<option value="">Selecione uma receita...</option>';
+        window.currentPatientRecipes = [];
 
         // Desabilita e limpa os campos de medicamento
         document.getElementById('dispenseMedInput').disabled = true;
@@ -476,6 +564,80 @@
         updateTable();
     }
 
+    window.autoFillRecurrentPrescription = async function () {
+        const select = document.getElementById('selectRecurrentPrescription');
+        if (!select || select.value === "") return;
+
+        const recipeIdx = parseInt(select.value);
+        if (isNaN(recipeIdx) || !window.currentPatientRecipes || !window.currentPatientRecipes[recipeIdx]) return;
+
+        const selectedRecipe = window.currentPatientRecipes[recipeIdx];
+        const rx = selectedRecipe.prescription;
+
+        // Preenche dados do prescritor
+        if (rx.prescriptionDate) {
+            document.getElementById('prescriptionDate').value = rx.prescriptionDate.substring(0, 10);
+        } else {
+            document.getElementById('prescriptionDate').value = '';
+        }
+        document.getElementById('prescriberName').value = rx.prescriberName || '';
+        document.getElementById('prescriberCpf').value = rx.prescriberCpf ? window.applyCpfMask(rx.prescriberCpf) : '';
+        document.getElementById('prescriberCouncil').value = rx.prescriberCouncil || '';
+        document.getElementById('prescriberCouncilUF').value = rx.prescriberCouncilUF || '';
+        document.getElementById('prescriberCouncilNumber').value = rx.prescriberCouncilNumber || '';
+
+        // Limpa a lista de itens atual
+        requestItems = [];
+        let totalAdded = 0;
+        let missingMeds = [];
+
+        for (const enrMed of selectedRecipe.medications) {
+            const medId = enrMed.medicationId;
+            const quantity = enrMed.quantity;
+
+            if (!medId || !quantity || quantity <= 0) continue;
+
+            const med = await fetchMedicationDetails(medId) || medicationList.find(m => m.id === medId);
+
+            if (!med) {
+                missingMeds.push(`Medicamento (ID: ${medId}) não encontrado`);
+                continue;
+            }
+
+            if (selectedPatientIsExternal && (!med.programCategory || (med.programCategory !== 'FARMACIA_BASICA' && med.programCategory !== 'BASIC_PHARMACY'))) {
+                missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Bloqueado para paciente externo)`);
+                continue;
+            }
+
+            const fefoResult = calculateFEFOPreview(med, quantity);
+
+            if (!fefoResult.success) {
+                missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Estoque: ${fefoResult.stock}, Precisa: ${quantity})`);
+                continue;
+            }
+
+            requestItems.push({
+                medicationId: medId,
+                medicationActiveIngredient: med.activeIngredient,
+                medicationConcentration: med.concentration,
+                quantity: quantity,
+                previewLots: fefoResult.previewString,
+                instructions: enrMed.administrationInstructions || ""
+            });
+            totalAdded++;
+        }
+
+        updateTable();
+
+        if (totalAdded > 0) {
+            showToast(`${totalAdded} medicamento(s) da receita de uso contínuo carregado(s) com sucesso.`);
+        }
+
+        if (missingMeds.length > 0) {
+            showToast(`Alguns itens não puderam ser carregados:\n` + missingMeds.join('\n'), 'error');
+        }
+    }
+
     window.autoFillPatientPrograms = async function () {
         if (!currentDispensePatientData || !currentDispensePatientData.enrollments) return;
 
@@ -488,41 +650,44 @@
         for (const enr of currentDispensePatientData.enrollments) {
             if (!enr.medications) continue;
             for (const enrMed of enr.medications) {
-                const medId = enrMed.medicationId;
-                const quantity = enrMed.quantity;
+                const items = enrMed.items || [];
+                for (const item of items) {
+                    const medId = item.medicationId;
+                    const quantity = item.quantity;
 
-                if (!medId || !quantity || quantity <= 0) continue;
+                    if (!medId || !quantity || quantity <= 0) continue;
 
-                const med = await fetchMedicationDetails(medId) || medicationList.find(m => m.id === medId);
+                    const med = await fetchMedicationDetails(medId) || medicationList.find(m => m.id === medId);
 
-                if (!med) {
-                    missingMeds.push(`Medicamento (ID: ${medId}) não encontrado`);
-                    continue;
+                    if (!med) {
+                        missingMeds.push(`Medicamento (ID: ${medId}) não encontrado`);
+                        continue;
+                    }
+
+                    if (selectedPatientIsExternal && (!med.programCategory || (med.programCategory !== 'FARMACIA_BASICA' && med.programCategory !== 'BASIC_PHARMACY'))) {
+                        missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Bloqueado para paciente externo)`);
+                        continue;
+                    }
+
+                    const fefoResult = calculateFEFOPreview(med, quantity);
+
+                    if (!fefoResult.success) {
+                        missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Estoque: ${fefoResult.stock}, Precisa: ${quantity})`);
+                        continue;
+                    }
+
+                    const alreadyAdded = requestItems.find(it => it.medicationId === medId);
+                    if (alreadyAdded) continue;
+
+                    requestItems.push({
+                        medicationId: medId,
+                        medicationActiveIngredient: med.activeIngredient,
+                        medicationConcentration: med.concentration,
+                        quantity: quantity,
+                        previewLots: fefoResult.previewString
+                    });
+                    totalAdded++;
                 }
-
-                if (selectedPatientIsExternal && (!med.programCategory || (med.programCategory !== 'FARMACIA_BASICA' && med.programCategory !== 'BASIC_PHARMACY'))) {
-                    missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Bloqueado para paciente externo)`);
-                    continue;
-                }
-
-                const fefoResult = calculateFEFOPreview(med, quantity);
-
-                if (!fefoResult.success) {
-                    missingMeds.push(`'${med.activeIngredient} ${med.concentration}' (Estoque: ${fefoResult.stock}, Precisa: ${quantity})`);
-                    continue;
-                }
-
-                const alreadyAdded = requestItems.find(item => item.medicationId === medId);
-                if (alreadyAdded) continue;
-
-                requestItems.push({
-                    medicationId: medId,
-                    medicationActiveIngredient: med.activeIngredient,
-                    medicationConcentration: med.concentration,
-                    quantity: quantity,
-                    previewLots: fefoResult.previewString
-                });
-                totalAdded++;
             }
         }
 

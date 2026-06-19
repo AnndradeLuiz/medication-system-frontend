@@ -1,0 +1,135 @@
+/* Tema Saúde da Mulher (Rosa Claro / Pink) */
+body.theme-womens-health {
+    --color-primary: #ec4899; /* Rosa Claro moderno */
+    --color-primary-dark: #db2777;
+    --color-primary-light: #fce7f3;
+    
+    /* Substituições de paletas azuis por rosa */
+    --color-blue-soft: #fce7f3;
+    --color-blue-text: #9d174d;
+    
+    /* Adicionando transição suave para mudança de cor */
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estilos específicos da tela de Saúde da Mulher */
+.wh-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.wh-metric-card {
+    background: var(--color-surface);
+    padding: 24px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wh-metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.wh-metric-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.wh-pink-soft {
+    background-color: #fce7f3;
+    color: #db2777;
+}
+
+.wh-orange-soft {
+    background-color: #ffedd5;
+    color: #d97706;
+}
+
+.wh-red-soft {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.wh-metric-info h3 {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wh-metric-info p {
+    font-size: 28px;
+    color: var(--color-text-main);
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Cards com bordas de alerta */
+.wh-metric-card.alert-warning-card {
+    border-left: 4px solid var(--color-warning);
+}
+.wh-metric-card.alert-danger-card {
+    border-left: 4px solid var(--color-danger);
+}
+
+/* Badge de Status de Anticoncepcional */
+.badge-wh {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-wh-regular {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.badge-wh-expiring {
+    background-color: #ffedd5;
+    color: #c2410c;
+}
+
+.badge-wh-expired {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Estilo adicional no formulário de paciente */
+.contraceptive-section-box {
+    background-color: #fdf2f8;
+    border: 1px dashed #fbcfe8;
+    border-radius: var(--radius-sm);
+    padding: 15px;
+    margin-top: 10px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.kpi-pink {
+    background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%) !important;
+    color: #db2777 !important;
+}

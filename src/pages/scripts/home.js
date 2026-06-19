@@ -22,7 +22,8 @@ window.loadDashboardMetrics = async function(period = "7days") {
         patients: document.getElementById('metricPatients'),
         dispensations: document.getElementById('metricDispensations'),
         lowStock: document.getElementById('metricLowStock'),
-        expiring: document.getElementById('metricExpiring')
+        expiring: document.getElementById('metricExpiring'),
+        contraceptives: document.getElementById('metricContraceptiveAlerts')
     };
 
     try {
@@ -116,6 +117,15 @@ window.loadDashboardMetrics = async function(period = "7days") {
                 elements.patients.innerText = pageInfo.totalElements !== undefined ? pageInfo.totalElements : (pageData.content ? pageData.content.length : 0);
             } catch (e) {
                 elements.patients.innerText = '0';
+            }
+        }
+
+        if (elements.contraceptives) {
+            try {
+                const whRes = await window.apiClient.get('/patients/contraceptives/monitoring');
+                elements.contraceptives.innerText = (whRes.data.expiredCount || 0) + (whRes.data.expiringSoonCount || 0);
+            } catch (e) {
+                elements.contraceptives.innerText = '0';
             }
         }
     } catch (error) {

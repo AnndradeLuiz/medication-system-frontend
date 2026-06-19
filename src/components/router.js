@@ -77,6 +77,13 @@ const routeLifecycleRegistry = {
         onMount: () => {
             if (typeof loadAuditLogs === 'function') loadAuditLogs(0);
         }
+    },
+    'womens-health': {
+        onMount: () => {
+            if (window.WomensHealthController && typeof window.WomensHealthController.init === 'function') {
+                window.WomensHealthController.init();
+            }
+        }
     }
 };
 
@@ -91,6 +98,11 @@ async function switchView(viewId, pushState = true) {
         return;
     }
     console.log(`[SPA Router] Carregando a visão: ${viewId}`);
+    
+    // Remover o tema de Saúde da Mulher se estiver saindo da rota correspondente
+    if (viewId !== 'womens-health') {
+        document.body.classList.remove('theme-womens-health');
+    }
     
     showGlobalLoader();
 
@@ -154,7 +166,8 @@ async function switchView(viewId, pushState = true) {
             'practitioner': { title: 'Gestão de Funcionários', desc: 'Cadastro, atualização e controle de acesso da equipe' },
             'request': { title: 'Pedidos e Requisições', desc: 'Geração e preenchimento de requisições de medicamentos e insumos para o Almoxarifado' },
             'report': { title: 'Painel de Relatórios', desc: 'Visão gerencial e extração dinâmica de dados' },
-            'audit': { title: 'Auditoria do Sistema', desc: 'Registro de atividades, acessos e auditoria de dispensações' }
+            'audit': { title: 'Auditoria do Sistema', desc: 'Registro de atividades, acessos e auditoria de dispensações' },
+            'womens-health': { title: 'Saúde da Mulher', desc: 'Acompanhamento do uso de métodos contraceptivos e alertas de vencimento' }
         };
         const info = titles[viewId] || { title: 'Assistência Farmacêutica', desc: 'Gerenciamento de Medicamentos e Insumos' };
         h1.innerText = info.title;

@@ -145,6 +145,16 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Seção de Receitas Recorrentes -->
+                <div id="autoFillRecurrentContainer" class="form-row mb-15 p-15 radius-8" style="display: none; background-color: #fdf2f8; border: 1.5px dashed #ec4899; margin-bottom: 20px;">
+                    <div class="form-group w-full m-0">
+                        <label class="fs-xs fw-700" style="color: #be185d;"><i class="fa-solid fa-magic"></i> Paciente possui receitas recorrentes cadastradas. Deseja carregar?</label>
+                        <select id="selectRecurrentPrescription" class="form-select bg-white w-full mt-4" style="height: 42px;" onchange="autoFillRecurrentPrescription()">
+                            <option value="">Selecione uma receita...</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-row align-bottom mb-15">
                     <div class="form-group flex-3 pos-relative mb-0">
                         <label class="fs-xs fw-700 text-muted">Medicamento</label>
