@@ -29,58 +29,8 @@ const PROGRAM_LABELS = {
     MENTAL_HEALTH: 'Saúde Mental'
 };
 
-function escapeHTML(str) {
-    if (str === null || str === undefined || str === '') return '';
-    return String(str).replace(/[&<>'"`=\/]/g,
-        tag => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            "'": '&#39;',
-            '"': '&quot;',
-            '`': '&#x60;',
-            '=': '&#x3D;',
-            '/': '&#x2F;'
-        }[tag] || tag)
-    );
-}
-
-
-async function fetchWithTimeout(resource, options = {}) {
-    const { timeout = 10000 } = options;
-
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-
-    const signal = options.signal || controller.signal;
-
-    try {
-        const response = await window.originalFetch(resource, {
-            ...options,
-            signal: signal
-        });
-        clearTimeout(id);
-        return response;
-    } catch (error) {
-        clearTimeout(id);
-        if (error.name === 'AbortError') {
-            throw new Error('Tempo limite de conexão excedido. O servidor demorou muito para responder.');
-        }
-        if (error.message && (error.message.toLowerCase().includes('failed to fetch') || error.message.toLowerCase().includes('networkerror'))) {
-            throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão com a internet ou se o servidor está online.');
-        }
-        throw error;
-    }
-}
-
-if (!window.originalFetch) {
-    window.originalFetch = window.fetch;
-    window.fetch = fetchWithTimeout;
-}
-
 window.API_URL = API_URL;
-window.escapeHTML = escapeHTML;
-window.fetchWithTimeout = fetchWithTimeout;
+window.fetchWithTimeout = window.fetch;
 window.ROLE_LABELS = ROLE_LABELS;
 window.PROGRAM_LABELS = PROGRAM_LABELS;
 

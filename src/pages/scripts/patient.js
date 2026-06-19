@@ -10,15 +10,10 @@
     // carregar ACS
     async function loadAcsList() {
         try {
-            const response = await fetch(`${API_URL}/practitioners?size=1000`, {
-                headers: getAuthHeaders()
-            });
-            if (response.ok) {
-                const pageData = await response.json();
-                const practitioners = pageData.content || [];
-                acsList = practitioners.filter(emp => emp.status && emp.role === 'ACS');
-                populateAcsDropdowns();
-            }
+            const { data: pageData } = await window.apiClient.get('/practitioners?size=1000');
+            const practitioners = pageData.content || [];
+            acsList = practitioners.filter(emp => emp.status && emp.role === 'ACS');
+            populateAcsDropdowns();
         } catch (error) {
             console.error("Erro ao carregar lista de ACS:", error);
         }
@@ -50,12 +45,8 @@
     // carregar medicamentos
     async function loadMedications() {
         try {
-            const response = await fetch(`${API_URL}/medications`, {
-                headers: getAuthHeaders()
-            });
-            if (response.ok) {
-                medicationList = await response.json();
-            }
+            const { data } = await window.apiClient.get('/medications');
+            medicationList = data || [];
         } catch (error) {
             console.error("Erro ao carregar medicamentos:", error);
         }
@@ -84,15 +75,12 @@
 
             listEl.innerHTML = '';
             if (filtered.length === 0) {
-                listEl.innerHTML = '<li style="padding: 10px 15px; color: #ef4444; font-size: 14px;">Medicamento não encontrado.</li>';
+                listEl.innerHTML = '<li class="medication-not-found">Medicamento não encontrado.</li>';
             } else {
                 filtered.forEach(m => {
                     const li = document.createElement('li');
-                    li.style.cssText = 'padding: 10px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; transition: background 0.2s;';
-                    li.innerHTML = `<span style="font-weight: 600; color: #1f2937;">${escapeHTML(m.activeIngredient)}</span> <span style="font-size: 13px; color: #6b7280;">(${escapeHTML(m.concentration)})</span>`;
-
-                    li.onmouseover = () => li.style.backgroundColor = '#e0e7ff';
-                    li.onmouseout = () => li.style.backgroundColor = 'transparent';
+                    li.className = 'medication-suggestion-item';
+                    li.innerHTML = `<span class="medication-suggestion-name">${escapeHTML(m.activeIngredient)}</span> <span class="medication-suggestion-concentration">(${escapeHTML(m.concentration)})</span>`;
 
                     li.onclick = () => {
                         inputEl.value = `${m.activeIngredient} (${m.concentration})`;
@@ -252,7 +240,7 @@
         listEl.innerHTML = '';
 
         if (targetList.length === 0) {
-            listEl.innerHTML = '<div style="text-align: center; color: #6b7280; font-size: 14px; padding: 10px; border: 1px dashed #d1d5db; border-radius: 6px;">Nenhum programa adicionado.</div>';
+            listEl.innerHTML = '<div class="no-programs-alert">Nenhum programa adicionado.</div>';
             return;
         }
 
@@ -264,21 +252,21 @@
             const dateStr = prog.prescriptionDate ? new Date(prog.prescriptionDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '-';
 
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-bottom: 8px;';
+            div.className = 'program-card-item';
             
             const btnAction = isEdit ? `removeProgramFromEditBuilder(${index})` : `removeProgramFromBuilder(${index})`;
 
             div.innerHTML = `
             <div>
-                <div style="font-weight: 600; color: #111827; font-size: 14px;">${catName}</div>
-                <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">
-                    <i class="fa-solid fa-pills" style="color: #0f766e; margin-right: 4px;"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b style="color: #ea580c;">${prog.quantity} un</b>
+                <div class="program-card-title">${catName}</div>
+                <div class="program-card-med">
+                    <i class="fa-solid fa-pills"></i> <b>${prog.medicationName} (${prog.concentration})</b> - <b>${prog.quantity} un</b>
                 </div>
-                <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
+                <div class="program-card-meta">
                     Posologia: ${prog.doseQuantity} ${prog.doseUnit}, ${prog.frequency} (${isCont}). Receita: ${dateStr}.
                 </div>
             </div>
-            <button type="button" onclick="${btnAction}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 5px;">
+            <button type="button" onclick="${btnAction}" class="program-card-delete-btn">
                 <i class="fa-solid fa-trash"></i>
             </button>
         `;
@@ -303,6 +291,7 @@
 
     function renderBuilderPrograms() { renderProgramsList(false); }
     function renderEditBuilderPrograms() { renderProgramsList(true); }
+
 
     function updateBuilderOptions(selectId, checkboxPrefix) {
         const selectEl = document.getElementById(selectId);
@@ -436,7 +425,7 @@
         const errors = [];
 
         // 1. Validação avançada de Nome Completo
-        const nameValidation = validatePatientName(nomeInput);
+        const nameValidation = window.validateFullName(nomeInput);
         if (!nameValidation.valid) {
             errors.push({ message: nameValidation.message, type: 'warning' });
         } else {
@@ -447,7 +436,7 @@
         if (!cpfInput && !cnsInput) {
             errors.push({ message: "É obrigatório informar pelo menos um documento (CPF ou CNS).", type: 'warning' });
         } else {
-            if (cpfInput && !isValidCPF(cpfInput)) {
+            if (cpfInput && !window.isValidCPF(cpfInput)) {
                 errors.push({ message: "O CPF informado é inválido. Por favor, verifique os números.", type: 'error' });
             }
             if (cnsInput && !isValidCNS(cnsInput)) {
@@ -529,44 +518,30 @@
 
         setLoading('btnSaveNewPatient', true);
         try {
-            const response = await fetch(`${API_URL}/patients`, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(payload)
-            });
+            const response = await window.apiClient.post('/patients', payload);
+            showToast('Paciente cadastrado com sucesso!');
+            window.dispatchEvent(new Event('patientsChanged'));
+            clearNewPatientForm();
 
-            if (response.ok) {
-                showToast('Paciente cadastrado com sucesso!');
-                window.dispatchEvent(new Event('patientsChanged'));
-                clearNewPatientForm();
-
-                const tabs = document.querySelectorAll('.tab');
-                if (tabs.length > 0) {
-                    switchTab('tab-busca', tabs[0]);
-                }
-                searchPatients();
-            } else if (response.status === 422) {
-                try {
-                    const errorData = await response.json();
-                    if (errorData.errors && errorData.errors.length > 0) {
-                        // Mostra apenas o primeiro erro para não poluir
-                        showToast(errorData.errors[0].message, 'error');
-                    } else {
-                        showToast(errorData.message || 'Existem campos inválidos no formulário.', 'error');
-                    }
-                } catch (e) {
-                    showToast('Erro de validação no servidor.', 'error');
-                }
-            } else {
-                try {
-                    const errorData = await response.json();
-                    showToast(errorData.message || 'Erro ao cadastrar. Verifique se o CPF ou CNS já estão cadastrados no sistema.', 'error');
-                } catch (e) {
-                    showToast('Erro ao cadastrar. Verifique se o CPF ou CNS já estão cadastrados no sistema.', 'error');
-                }
+            const tabs = document.querySelectorAll('.tab');
+            if (tabs.length > 0) {
+                switchTab('tab-busca', tabs[0]);
             }
+            searchPatients();
         } catch (error) {
-            showToast('Erro de conexão com o servidor.', 'error');
+            const status = error.status;
+            if (status === 422 && error.data) {
+                const errorData = error.data;
+                if (errorData.errors && errorData.errors.length > 0) {
+                    showToast(errorData.errors[0].message, 'error');
+                } else {
+                    showToast(errorData.message || 'Existem campos inválidos no formulário.', 'error');
+                }
+            } else if (error.data && error.data.message) {
+                showToast(error.data.message, 'error');
+            } else {
+                showToast('Erro ao cadastrar. Verifique se o CPF ou CNS já estão cadastrados no sistema ou se há erro de conexão.', 'error');
+            }
         } finally {
             setLoading('btnSaveNewPatient', false);
         }
@@ -687,34 +662,25 @@
 
         setLoading('btnSearchPatients', true);
         try {
-            const response = await fetch(`${API_URL}/patients?query=${encodeURIComponent(cleanQuery)}&status=${statusFiltro}&program=${encodeURIComponent(programFiltro)}&page=${patientCurrentPage}&size=${pageSize}`, {
-                headers: getAuthHeaders(),
-                cache: 'no-store'
-            });
+            const { data: pageData } = await window.apiClient.get(`/patients?query=${encodeURIComponent(cleanQuery)}&status=${statusFiltro}&program=${encodeURIComponent(programFiltro)}&page=${patientCurrentPage}&size=${pageSize}`);
+            currentPatients = pageData.content || [];
 
-            if (response.ok) {
-                const pageData = await response.json();
-                currentPatients = pageData.content || [];
+            // Update pagination UI
+            const pageInfo = pageData.page || pageData;
+            patientTotalPages = pageInfo.totalPages || 1;
+            document.getElementById('patientCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${patientTotalPages}`;
 
-                // Update pagination UI
-                const pageInfo = pageData.page || pageData;
-                patientTotalPages = pageInfo.totalPages || 1;
-                document.getElementById('patientCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${patientTotalPages}`;
+            const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
+            const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
+            document.getElementById('patientPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
 
-                const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
-                const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
-                document.getElementById('patientPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
+            document.getElementById('btnPrevPatient').disabled = pageInfo.number === 0;
+            document.getElementById('btnNextPatient').disabled = pageInfo.number >= (patientTotalPages - 1);
 
-                document.getElementById('btnPrevPatient').disabled = pageInfo.number === 0;
-                document.getElementById('btnNextPatient').disabled = pageInfo.number >= (patientTotalPages - 1);
-
-                renderPatientTable();
-            } else {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-msg" style="color: red;">Erro ao buscar pacientes.</td></tr>';
-            }
+            renderPatientTable();
         } catch (error) {
-            console.error("API off, erro na requisição.", error);
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-msg" style="color: red;">Erro de conexão com o servidor.</td></tr>';
+            console.error("Erro ao carregar dados dos pacientes:", error);
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-msg" style="color: red;">Erro ao buscar pacientes.</td></tr>';
         } finally {
             setLoading('btnSearchPatients', false);
         }
@@ -821,7 +787,7 @@
 
         // Preenchimento dos dados básicos
         const patientAge = formatPatientAge(patient.birthDate);
-        document.getElementById('viewPatientNameHeader').innerHTML = `<span style="color: black;">${escapeHTML(patient.name)}</span><br><span style="font-size: 16px; font-weight: 500; color: #64748b;">${patientAge}</span>`;
+        document.getElementById('viewPatientNameHeader').innerHTML = `<span class="patient-header-name">${escapeHTML(patient.name)}</span><br><span class="patient-header-age">${patientAge}</span>`;
         
         document.getElementById('viewCpf').innerText = patient.cpf ? applyCpfMask(patient.cpf) : '-';
 
@@ -839,12 +805,12 @@
         document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-id-card"></i> Prontuário do Paciente`;
 
         document.getElementById('viewStatus').innerHTML = patient.status
-            ? '<span style="color: #10b981; font-weight: 600;">Ativo</span>'
-            : '<span style="color: #ef4444; font-weight: 600;">Inativo</span>';
+            ? '<span class="patient-status-active">Ativo</span>'
+            : '<span class="patient-status-inactive">Inativo</span>';
 
         document.getElementById('viewExternal').innerHTML = patient.external
-            ? '<span style="color: #ea580c; font-weight: 600;">Externo</span>'
-            : '<span style="color: #3b82f6; font-weight: 600;">UBS Local</span>';
+            ? '<span class="patient-origin-external">Externo</span>'
+            : '<span class="patient-origin-local">UBS Local</span>';
 
         // ACS Responsável
         const viewAcsBox = document.getElementById('viewAcsBox');
@@ -854,7 +820,7 @@
             } else {
                 viewAcsBox.style.display = 'block';
                 document.getElementById('viewAcs').innerHTML = patient.acsName
-                    ? `${escapeHTML(patient.acsName)}<br><span style="font-size: 13px; color: var(--color-text-muted); font-weight: 500;">Microárea ${patient.microarea}</span>`
+                    ? `${escapeHTML(patient.acsName)}<br><span class="patient-acs-meta">Microárea ${patient.microarea}</span>`
                     : 'Não associado';
             }
         }
@@ -892,7 +858,7 @@
                 .join(', ');
 
             if (catNames) {
-                programsHtml += `<div style="margin-bottom: 12px; padding: 8px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; color: #166534;">
+                programsHtml += `<div class="patient-enrolled-program-badge">
                 <i class="fa-solid fa-check-circle"></i> <b>Inscrito em:</b> ${catNames}
             </div>`;
             }
@@ -906,7 +872,7 @@
 
                 let posologiaHtml = '';
                 if (prog.doseQuantity || prog.doseUnit || prog.frequency) {
-                    posologiaHtml += `<div style="font-size: 13px; color: #475569; margin-top: 6px; padding-left: 15px; border-left: 2px solid #cbd5e1; margin-left: 5px;">`;
+                    posologiaHtml += `<div class="patient-medication-details">`;
                     let parts = [];
                     if (prog.doseQuantity && prog.doseUnit) {
                         parts.push(`Dose: <b>${prog.doseQuantity} ${prog.doseUnit}</b>`);
@@ -938,22 +904,22 @@
                         const expiryStr = expiryDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
                         const badge = isExpired
-                            ? `<span style="background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-circle-xmark"></i> RECEITA VENCIDA (Venceu em ${expiryStr})</span>`
-                            : `<span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-circle-check"></i> Receita Válida até ${expiryStr}</span>`;
+                            ? `<span class="prescription-badge-expired"><i class="fa-solid fa-circle-xmark"></i> RECEITA VENCIDA (Venceu em ${expiryStr})</span>`
+                            : `<span class="prescription-badge-valid"><i class="fa-solid fa-circle-check"></i> Receita Válida até ${expiryStr}</span>`;
 
-                        posologiaHtml += `<br><span style="font-size: 12px; color: #64748b;">Receita: ${pDateStr}</span> ${badge}`;
+                        posologiaHtml += `<br><span class="prescription-meta-text">Receita: ${pDateStr}</span> ${badge}`;
                     }
 
                     if (prog.administrationInstructions) {
-                        posologiaHtml += `<br><span style="font-size: 12px; color: #64748b; font-style: italic;"><i class="fa-solid fa-info-circle"></i> Instruções: ${escapeHTML(prog.administrationInstructions)}</span>`;
+                        posologiaHtml += `<br><span class="prescription-instructions"><i class="fa-solid fa-info-circle"></i> Instruções: ${escapeHTML(prog.administrationInstructions)}</span>`;
                     }
                     posologiaHtml += `</div>`;
                 }
 
-                programsHtml += `<div style="margin-bottom: 12px; border-left: 3px solid #e2e8f0; padding-left: 10px;">
-                <b style="font-size: 13px; color: #64748b;">${catName}</b><br>
-                <span style="font-size: 14px; color: #1e293b;">
-                    <i class="fa-solid fa-pills" style="font-size: 12px; color: #0f766e;"></i> <b>${escapeHTML(prog.medicationName)} (${escapeHTML(prog.concentration)})</b> - <b style="color:#ea580c;">${prog.quantity} un</b>
+                programsHtml += `<div class="patient-medication-block">
+                <b class="patient-medication-category">${catName}</b><br>
+                <span class="patient-medication-name">
+                    <i class="fa-solid fa-pills"></i> <b>${escapeHTML(prog.medicationName)} (${escapeHTML(prog.concentration)})</b> - <b>${prog.quantity} un</b>
                 </span>
                 ${posologiaHtml}
             </div>`;
@@ -1087,7 +1053,7 @@
         const errors = [];
 
         // 1. Validação avançada de Nome Completo
-        const nameValidation = validatePatientName(nomeEdit);
+        const nameValidation = window.validateFullName(nomeEdit);
         if (!nameValidation.valid) {
             errors.push({ message: nameValidation.message, type: 'warning' });
         } else {
@@ -1098,7 +1064,7 @@
         if (!cpfEdit && !cnsEdit) {
             errors.push({ message: "É obrigatório informar pelo menos um documento (CPF ou CNS).", type: 'warning' });
         } else {
-            if (cpfEdit && !isValidCPF(cpfEdit)) {
+            if (cpfEdit && !window.isValidCPF(cpfEdit)) {
                 errors.push({ message: "O CPF informado é inválido. Por favor, verifique os números.", type: 'error' });
             }
             if (cnsEdit && !isValidCNS(cnsEdit)) {
@@ -1201,39 +1167,25 @@
 
         setLoading('btnUpdatePatient', true);
         try {
-            const response = await fetch(`${API_URL}/patients/${id}`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                showToast('Prontuário atualizado com sucesso!');
-                window.dispatchEvent(new Event('patientsChanged'));
-                closeModal();
-                searchPatients();
-            } else if (response.status === 422) {
-                try {
-                    const errorData = await response.json();
-                    if (errorData.errors && errorData.errors.length > 0) {
-                        showToast(errorData.errors[0].message, 'error');
-                    } else {
-                        showToast(errorData.message || 'Existem campos inválidos no formulário.', 'error');
-                    }
-                } catch (e) {
-                    showToast('Erro de validação no servidor.', 'error');
-                }
-            } else {
-                try {
-                    const errorData = await response.json();
-                    showToast(errorData.message || 'Erro ao atualizar. Verifique se o CPF ou CNS já estão em uso por outro paciente.', 'error');
-                } catch (e) {
-                    showToast('Erro ao atualizar. Verifique se o CPF ou CNS já estão em uso por outro paciente.', 'error');
-                }
-            }
+            await window.apiClient.put(`/patients/${id}`, payload);
+            showToast('Prontuário atualizado com sucesso!');
+            window.dispatchEvent(new Event('patientsChanged'));
+            closeModal();
+            searchPatients();
         } catch (error) {
-            console.error(error);
-            showToast('Erro na comunicação com o servidor.', 'error');
+            const status = error.status;
+            if (status === 422 && error.data) {
+                const errorData = error.data;
+                if (errorData.errors && errorData.errors.length > 0) {
+                    showToast(errorData.errors[0].message, 'error');
+                } else {
+                    showToast(errorData.message || 'Existem campos inválidos no formulário.', 'error');
+                }
+            } else if (error.data && error.data.message) {
+                showToast(error.data.message, 'error');
+            } else {
+                showToast('Erro ao atualizar. Verifique se o CPF ou CNS já estão em uso por outro paciente ou se há erro de conexão.', 'error');
+            }
         } finally {
             setLoading('btnUpdatePatient', false);
         }
@@ -1243,20 +1195,13 @@
         if (!confirm('Tem a certeza que deseja alterar o status deste paciente?')) return;
 
         try {
-            const response = await fetch(`${API_URL}/patients/${id}/status`, {
-                method: 'PATCH',
-                headers: getAuthHeaders()
-            });
-
-            if (response.ok) {
-                showToast('Status atualizado com sucesso!');
-                window.dispatchEvent(new Event('patientsChanged'));
-                searchPatients();
-            } else {
-                showToast('Erro ao alterar o status no servidor.', 'error');
-            }
-        } catch (e) {
-            console.error(e);
+            await window.apiClient.patch(`/patients/${id}/status`);
+            showToast('Status atualizado com sucesso!');
+            window.dispatchEvent(new Event('patientsChanged'));
+            searchPatients();
+        } catch (error) {
+            console.error(error);
+            showToast('Erro ao alterar o status no servidor.', 'error');
         }
     }
 
@@ -1274,13 +1219,7 @@
     }
 
     function applyCpfMask(value) {
-        if (!value) return '';
-        return value
-            .replace(/\D/g, '')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-            .replace(/(-\d{2})\d+?$/, '$1');
+        return window.applyCpfMask(value);
     }
 
     function applyCnsMask(value) {
@@ -1383,58 +1322,48 @@
 
         try {
             const cleanQuery = /^[\d.\-]+$/.test(query) ? query.replace(/\D/g, '') : query;
-            const response = await fetch(`${API_URL}/patients?query=${encodeURIComponent(cleanQuery)}&status=${statusFiltro}`, {
-                headers: getAuthHeaders(),
-                cache: 'no-store'
-            });
+            const { data: pageData } = await window.apiClient.get(`/patients?query=${encodeURIComponent(cleanQuery)}&status=${statusFiltro}`);
+            const patients = pageData.content || [];
+            suggestionsList.innerHTML = '';
 
-            if (response.ok) {
-                const pageData = await response.json();
-                const patients = pageData.content || [];
-                suggestionsList.innerHTML = '';
+            if (patients.length === 0) {
+                suggestionsList.innerHTML = '<li class="floating-suggestion-empty">Nenhum paciente encontrado.</li>';
+            } else {
+                patients.forEach(p => {
+                    const li = document.createElement('li');
+                    li.className = 'floating-suggestion-item';
 
-                if (patients.length === 0) {
-                    suggestionsList.innerHTML = '<li style="padding: 12px 15px; color: #ef4444; font-size: 14px;">Nenhum paciente encontrado.</li>';
-                } else {
-                    patients.forEach(p => {
-                        const li = document.createElement('li');
-                        li.style.cssText = 'padding: 12px 15px; border-bottom: 1px solid #f3f4f6; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;';
+                    const cpfBonito = p.cpf ? applyCpfMask(p.cpf) : 'Sem CPF';
 
-                        const cpfBonito = p.cpf ? applyCpfMask(p.cpf) : 'Sem CPF';
+                    li.innerHTML = `
+                    <span class="floating-suggestion-name">${escapeHTML(p.name)}</span>
+                    <span class="floating-suggestion-cpf">CPF: ${escapeHTML(cpfBonito)}</span>
+                `;
 
-                        li.innerHTML = `
-                        <span style="font-weight: 600; color: #1f2937;">${escapeHTML(p.name)}</span>
-                        <span style="font-size: 13px; color: #6b7280; background: #f3f4f6; padding: 2px 8px; border-radius: 4px;">CPF: ${escapeHTML(cpfBonito)}</span>
-                    `;
+                    li.onclick = () => {
+                        document.getElementById('searchInput').value = p.name;
+                        suggestionsList.style.display = 'none';
 
-                        li.onmouseover = () => li.style.backgroundColor = '#f0fdf4';
-                        li.onmouseout = () => li.style.backgroundColor = 'transparent';
+                        currentPatients = [p];
+                        
+                        // Update pagination UI explicitly for single selection
+                        const pageInfoEl = document.getElementById('patientPageInfo');
+                        const currentPgEl = document.getElementById('patientCurrentPage');
+                        const btnPrev = document.getElementById('btnPrevPatient');
+                        const btnNext = document.getElementById('btnNextPatient');
+                        
+                        if (pageInfoEl) pageInfoEl.innerText = `1-1 de 1`;
+                        if (currentPgEl) currentPgEl.innerText = `Pág 1 de 1`;
+                        if (btnPrev) btnPrev.disabled = true;
+                        if (btnNext) btnNext.disabled = true;
 
-                        li.onclick = () => {
-                            document.getElementById('searchInput').value = p.name;
-                            suggestionsList.style.display = 'none';
-
-                            currentPatients = [p];
-                            
-                            // Update pagination UI explicitly for single selection
-                            const pageInfoEl = document.getElementById('patientPageInfo');
-                            const currentPgEl = document.getElementById('patientCurrentPage');
-                            const btnPrev = document.getElementById('btnPrevPatient');
-                            const btnNext = document.getElementById('btnNextPatient');
-                            
-                            if (pageInfoEl) pageInfoEl.innerText = `1-1 de 1`;
-                            if (currentPgEl) currentPgEl.innerText = `Pág 1 de 1`;
-                            if (btnPrev) btnPrev.disabled = true;
-                            if (btnNext) btnNext.disabled = true;
-
-                            renderPatientTable();
-                            openPatientModal(String(p.id));
-                        };
-                        suggestionsList.appendChild(li);
-                    });
-                }
-                suggestionsList.style.display = 'block';
+                        renderPatientTable();
+                        openPatientModal(String(p.id));
+                    };
+                    suggestionsList.appendChild(li);
+                });
             }
+            suggestionsList.style.display = 'block';
         } catch (error) {
             console.error("Erro na busca flutuante:", error);
         }
@@ -1475,23 +1404,8 @@
         }
     }
 
-    /**
-     * Validação de CPF (Algoritmo Oficial Módulo 11)
-     */
     function isValidCPF(cpf) {
-        cpf = cpf.replace(/\D/g, '');
-        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-        let sum = 0, remainder;
-        for (let i = 1; i <= 9; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
-        remainder = (sum * 10) % 11;
-        if ((remainder === 10) || (remainder === 11)) remainder = 0;
-        if (remainder !== parseInt(cpf.substring(9, 10))) return false;
-        sum = 0;
-        for (let i = 1; i <= 10; i++) sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
-        remainder = (sum * 10) % 11;
-        if ((remainder === 10) || (remainder === 11)) remainder = 0;
-        if (remainder !== parseInt(cpf.substring(10, 11))) return false;
-        return true;
+        return window.isValidCPF(cpf);
     }
 
     /**
@@ -1575,43 +1489,20 @@
         }
 
         try {
-            const response = await fetch(`${API_URL}/patients/${id}`, {
-                method: 'DELETE',
-                headers: getAuthHeaders()
-            });
-
-            if (response.ok) {
-                showToast(`Paciente "${name}" excluído com sucesso!`);
-                closeModal();
-                window.dispatchEvent(new Event('patientsChanged'));
-                searchPatients(); // Recarrega a lista de pacientes
-            } else {
-                const err = await response.json().catch(() => ({}));
-                showToast(err.message || 'Erro ao excluir paciente.', 'error');
-            }
+            await window.apiClient.delete(`/patients/${id}`);
+            showToast(`Paciente "${name}" excluído com sucesso!`);
+            closeModal();
+            window.dispatchEvent(new Event('patientsChanged'));
+            searchPatients(); // Recarrega a lista de pacientes
         } catch (error) {
             console.error(error);
-            showToast('Erro de conexão ao excluir paciente.', 'error');
+            if (error.data && error.data.message) {
+                showToast(error.data.message, 'error');
+            } else {
+                showToast('Erro ao excluir paciente. Verifique sua conexão com o servidor.', 'error');
+            }
         }
     };
-
-    function validatePatientName(name) {
-        if (!name) return { valid: false, message: "O nome é obrigatório." };
-
-        let formattedName = name.replace(/\s+/g, ' ').trim();
-
-        // Regex otimizada do padrão SUS (Regras 1, 2, 3, 5, 6, 7 e 8)
-        const regexSus = /^(?=.{3,}$)(?!.* {2})(?!^[a-zà-öø-ÿ'] [a-zà-öø-ÿ'](?: |$))(?!^[a-zà-öø-ÿ']{2} [a-zà-öø-ÿ']{2}$)^[a-zà-öø-ÿ']+(?: (?:[a-zà-öø-ÿ']{2,}|e|y))+$/i;
-
-        if (!regexSus.test(formattedName)) {
-            return {
-                valid: false,
-                message: "O nome informado não atende aos padrões do SUS. Verifique letras soltas, termos muito curtos ou caracteres inválidos."
-            };
-        }
-
-        return { valid: true, formattedName: formattedName };
-    }
 
     window.togglePatientFilters = function () {
         const section = document.getElementById('patientFiltersSection');

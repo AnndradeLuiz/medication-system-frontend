@@ -13,15 +13,7 @@ async function initComponents() {
         if (statusEl) {
             let displayRole = 'Funcionário';
             if (practitionerRoleRaw && practitionerRoleRaw !== 'undefined') {
-                const roleMap = window.ROLE_LABELS || {
-                    'ADM_TI': 'Administrador de TI',
-                    'ENF_GERENTE': 'Enfermeiro(a) Gerente',
-                    'ENF': 'Enfermeiro(a)',
-                    'TRIAGEM': 'Triagem',
-                    'TEC_ENFERMAGEM': 'Técnico(a) de Enfermagem',
-                    'FARMACEUTICO': 'Farmacêutico',
-                    'ADMINISTRATIVO': 'Administrativo'
-                };
+                const roleMap = window.ROLE_LABELS || {};
                 displayRole = roleMap[practitionerRoleRaw.toUpperCase()] ||
                     practitionerRoleRaw.charAt(0).toUpperCase() + practitionerRoleRaw.slice(1).toLowerCase();
             }
@@ -72,19 +64,12 @@ function highlightActiveLink() {
 
 document.addEventListener('DOMContentLoaded', initComponents);
 
-function setLoading(buttonId, isLoading, originalHtml = '') {
-    if (typeof buttonId === 'boolean') {
-        if (buttonId) showGlobalLoader();
-        else hideGlobalLoader();
-        return;
-    }
-
+function setButtonLoading(buttonId, isLoading, originalHtml = '') {
     const btn = document.getElementById(buttonId);
     if (!btn) return;
 
     if (isLoading) {
         if (!originalHtml) btn.dataset.originalHtml = btn.innerHTML;
-
         btn.classList.add('btn-loading');
         btn.disabled = true;
     } else {
@@ -99,26 +84,44 @@ function setLoading(buttonId, isLoading, originalHtml = '') {
     }
 }
 
+function setGlobalLoading(isLoading) {
+    if (isLoading) {
+        showGlobalLoader();
+    } else {
+        hideGlobalLoader();
+    }
+}
+
+function setLoading(buttonId, isLoading, originalHtml = '') {
+    if (typeof buttonId === 'boolean') {
+        setGlobalLoading(buttonId);
+    } else {
+        setButtonLoading(buttonId, isLoading, originalHtml);
+    }
+}
+
 function showGlobalLoader() {
     const loader = document.getElementById('globalLoader');
     if (loader) loader.classList.remove('d-none');
 }
-
 
 function hideGlobalLoader() {
     const loader = document.getElementById('globalLoader');
     if (loader) loader.classList.add('d-none');
 }
 
+
+// Temporizador de fallback de segurança para garantir que a página fique visível caso o roteador ou outro script falhe
 setTimeout(() => {
     document.body.classList.add('ready');
-}, 200);
-
-
+}, 500);
 
 window.setLoading = setLoading;
+window.setButtonLoading = setButtonLoading;
+window.setGlobalLoading = setGlobalLoading;
 window.showGlobalLoader = showGlobalLoader;
 window.hideGlobalLoader = hideGlobalLoader;
+
 
 
 function initCustomScrollbars() {
@@ -216,4 +219,123 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.initCustomScrollbars = initCustomScrollbars;
+
+// ================= LAYOUT E NOTIFICAÇÕES GLOBAIS =================
+
+window.toggleSidebar = function () {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (sidebar) {
+        sidebar.classList.toggle('open');
+    }
+    if (overlay) {
+        overlay.classList.toggle('active');
+    }
+};
+
+window.setupMobileMenu = function () {
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+
+    if (!menuBtn || !sidebar) return;
+
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        if (overlay) overlay.classList.toggle('active');
+    });
+
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Fechar sidebar ao clicar em um link de navegação
+    sidebar.querySelectorAll('.sidebar-nav a').forEach(link => {
+        link.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('active');
+        });
+    });
+};
+
+window.injectOfflineOverlay = function () {
+    if (document.getElementById('server-offline-overlay')) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'server-offline-overlay';
+
+    overlay.innerHTML = `
+        <div class="offline-card">
+            <div class="offline-icon">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <p class="offline-title">Erro ao comunicar-se com o servidor.</p>
+            <div class="offline-status">
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                <span>Tentando reconectar...</span>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+};
+
+window.showOfflineOverlay = function () {
+    const overlay = document.getElementById('server-offline-overlay');
+    if (overlay) overlay.style.display = 'flex';
+};
+
+window.hideOfflineOverlay = function () {
+    const overlay = document.getElementById('server-offline-overlay');
+    if (overlay) overlay.style.display = 'none';
+};
+
+window.showToast = function (message, type = 'success') {
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        document.body.appendChild(toastContainer);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    let icon = 'fa-check-circle';
+    if (type === 'error') {
+        icon = 'fa-circle-xmark';
+    } else if (type === 'warning') {
+        icon = 'fa-triangle-exclamation';
+    } else if (type === 'info') {
+        icon = 'fa-circle-info';
+    }
+
+    const iconEl = document.createElement('i');
+    iconEl.className = `fa-solid ${icon}`;
+
+    const spanEl = document.createElement('span');
+    spanEl.textContent = message;
+
+    toast.appendChild(iconEl);
+    toast.appendChild(spanEl);
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = 'toast-fade-out 0.3s ease-out forwards';
+        setTimeout(() => {
+            if (toastContainer.contains(toast)) {
+                toastContainer.removeChild(toast);
+            }
+        }, 300);
+    }, 4000);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.injectOfflineOverlay();
+    window.setupMobileMenu();
+});
+
 

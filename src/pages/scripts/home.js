@@ -27,17 +27,16 @@ window.loadDashboardMetrics = async function(period = "7days") {
 
     try {
         const [dispRes, medRes] = await Promise.allSettled([
-            fetch(`${API_URL}/dispensations?size=200`, { headers: getAuthHeaders() }),
-            fetch(`${API_URL}/medications`, { headers: getAuthHeaders() })
+            window.apiClient.get('/dispensations?size=200'),
+            window.apiClient.get('/medications')
         ]);
         
         let categoryData = {};
         let trendData = {};
         let dispensationsTodayCount = 0;
 
-        const dispData = dispRes.status === 'fulfilled' && dispRes.value.ok ? await dispRes.value.json() : { content: [] };
-        const dispensations = dispData.content || [];
-        const medications = medRes.status === 'fulfilled' && medRes.value.ok ? await medRes.value.json() : [];
+        const dispensations = dispRes.status === 'fulfilled' ? dispRes.value.data.content : [];
+        const medications = medRes.status === 'fulfilled' ? medRes.value.data : [];
 
         const now = new Date();
         const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
@@ -111,13 +110,11 @@ window.loadDashboardMetrics = async function(period = "7days") {
         initCharts(categoryData, trendData);
 
         if (elements.patients) {
-            const patientsRes = await fetch(`${API_URL}/patients?status=ativos`, {
-                headers: getAuthHeaders()
-            });
-            if (patientsRes.ok) {
-                const patientsData = await patientsRes.json();
-                elements.patients.innerText = patientsData.length || 0;
-            } else {
+            try {
+                const { data: pageData } = await window.apiClient.get('/patients?size=1');
+                const pageInfo = pageData.page || pageData;
+                elements.patients.innerText = pageInfo.totalElements !== undefined ? pageInfo.totalElements : (pageData.content ? pageData.content.length : 0);
+            } catch (e) {
                 elements.patients.innerText = '0';
             }
         }
@@ -134,24 +131,17 @@ window.loadRecentActivities = async function() {
 
     try {
         // Buscamos as últimas dispensações
-        const response = await fetch(`${API_URL}/dispensations?size=20`, {
-            headers: getAuthHeaders()
+        const { data: pageData } = await window.apiClient.get('/dispensations?size=20');
+        const dispensations = pageData.content || [];
+        
+        // Ordena por data decrescente de forma robusta
+        dispensations.sort((a, b) => {
+            const dateA = a.moment ? new Date(a.moment).getTime() : 0;
+            const dateB = b.moment ? new Date(b.moment).getTime() : 0;
+            return dateB - dateA;
         });
         
-        if (response.ok) {
-            const pageData = await response.json();
-            const dispensations = pageData.content || [];
-            // Ordena por data decrescente de forma robusta
-            dispensations.sort((a, b) => {
-                const dateA = a.moment ? new Date(a.moment).getTime() : 0;
-                const dateB = b.moment ? new Date(b.moment).getTime() : 0;
-                return dateB - dateA;
-            });
-            
-            renderActivityFeed(dispensations.slice(0, 5));
-        } else {
-            container.innerHTML = `<div class="activity-placeholder">Sem atividades recentes.</div>`;
-        }
+        renderActivityFeed(dispensations.slice(0, 5));
     } catch (error) {
         console.error("Erro ao carregar atividades:", error);
         container.innerHTML = `<div class="activity-placeholder">Erro ao carregar.</div>`;
@@ -195,14 +185,14 @@ window.loadCriticalStock = async function() {
 
     try {
         const [medRes, supplyRes, facRes] = await Promise.allSettled([
-            fetch(`${API_URL}/medications`, { headers: getAuthHeaders() }),
-            fetch(`${API_URL}/supplies`, { headers: getAuthHeaders() }),
-            fetch(`${API_URL}/supply-facilities`, { headers: getAuthHeaders() })
+            window.apiClient.get('/medications'),
+            window.apiClient.get('/supplies'),
+            window.apiClient.get('/supply-facilities')
         ]);
 
-        let medications = medRes.status === 'fulfilled' && medRes.value.ok ? await medRes.value.json() : [];
-        let supplies = supplyRes.status === 'fulfilled' && supplyRes.value.ok ? await supplyRes.value.json() : [];
-        let facilities = facRes.status === 'fulfilled' && facRes.value.ok ? await facRes.value.json() : [];
+        let medications = medRes.status === 'fulfilled' ? medRes.value.data : [];
+        let supplies = supplyRes.status === 'fulfilled' ? supplyRes.value.data : [];
+        let facilities = facRes.status === 'fulfilled' ? facRes.value.data : [];
 
         let criticalItems = [];
 
@@ -214,7 +204,7 @@ window.loadCriticalStock = async function() {
                     id: med.id,
                     mode: 'medicamentos',
                     type: 'Medicamento',
-                    icon: '<i class="fa-solid fa-pills" style="color: #2563eb; font-size: 18px;"></i>',
+                    icon: '<i class="fa-solid fa-pills icon-critical-med"></i>',
                     name: `${med.activeIngredient} (${med.concentration})`,
                     stock: totalStock
                 });
@@ -229,7 +219,7 @@ window.loadCriticalStock = async function() {
                     id: s.id,
                     mode: 'insumos',
                     type: 'Insumo',
-                    icon: '<i class="fa-solid fa-syringe" style="color: #0ea5e9; font-size: 18px;"></i>',
+                    icon: '<i class="fa-solid fa-syringe icon-critical-supply"></i>',
                     name: s.name,
                     stock: totalStock
                 });
@@ -244,7 +234,7 @@ window.loadCriticalStock = async function() {
                     id: f.id,
                     mode: 'materiais',
                     type: 'Material',
-                    icon: '<i class="fa-solid fa-box-archive" style="color: #1e40af; font-size: 18px;"></i>',
+                    icon: '<i class="fa-solid fa-box-archive icon-critical-material"></i>',
                     name: f.name,
                     stock: totalStock
                 });

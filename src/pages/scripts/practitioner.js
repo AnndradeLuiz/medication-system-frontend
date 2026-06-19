@@ -10,13 +10,7 @@
         let pageSize = 20;
 
         try {
-            const response = await fetch(`${API_URL}/practitioners?page=${practitionerCurrentPage}&size=${pageSize}`, {
-                headers: getAuthHeaders(),
-                cache: 'no-store'
-            });
-            if (!response.ok) throw new Error('Erro ao carregar funcionários');
-
-            const pageData = await response.json();
+            const { data: pageData } = await window.apiClient.get(`/practitioners?page=${practitionerCurrentPage}&size=${pageSize}`);
             allpractitioners = pageData.content || [];
 
             const pageInfo = pageData.page || pageData;
@@ -80,7 +74,7 @@
                 ${isMe ? '<span class="status-indicator status-active fs-2xs ml-10">VOCÊ</span>' : ''}
             </td>
             <td class="font-data text-muted text-center">${emp.registration || '-'}</td>
-            <td class="font-data text-muted text-center">${formatCPF(emp.cpf)}</td>
+            <td class="font-data text-muted text-center">${window.formatCPF(emp.cpf)}</td>
             <td class="text-center">
                 <span class="role-badge ${badgeClass}">${roleLabel}</span>
             </td>
@@ -125,21 +119,7 @@
         renderpractitionerTable(filtered);
     }
 
-    function validatepractitionerName(name) {
-        if (!name) return { valid: false, message: "O nome é obrigatório." };
-
-        let formattedName = name.replace(/\s+/g, ' ').trim();
-        const regexName = /^(?=.{3,}$)(?!.* {2})(?!^[a-zà-öø-ÿ'] [a-zà-öø-ÿ'](?: |$))(?!^[a-zà-öø-ÿ']{2} [a-zà-öø-ÿ']{2}$)^[a-zà-öø-ÿ']+(?: (?:[a-zà-öø-ÿ']{2,}|e|y))+$/i;
-
-        if (!regexName.test(formattedName)) {
-            return {
-                valid: false,
-                message: "O nome informado não atende aos padrões. Verifique letras soltas, termos muito curtos ou caracteres inválidos."
-            };
-        }
-
-        return { valid: true, formattedName: formattedName };
-    }
+    // A validação de nome agora é herdada centralizadamente de window.validateFullName
 
     async function saveNewpractitioner() {
         const rawName = document.getElementById('newEmpName').value;
@@ -164,14 +144,14 @@
             return;
         }
 
-        const nameValidation = validatepractitionerName(rawName);
+        const nameValidation = window.validateFullName(rawName);
         if (!nameValidation.valid) {
             showToast(`Erro: ${nameValidation.message}`, 'error');
             return;
         }
         const name = nameValidation.formattedName;
 
-        if (!isValidCPF(cpf)) {
+        if (!window.isValidCPF(cpf)) {
             showToast('Erro: O CPF informado é inválido.', 'error');
             return;
         }
@@ -182,33 +162,23 @@
 
         setLoading('btnSaveNewpractitioner', true);
         try {
-            const response = await fetch(`${API_URL}/practitioners`, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok || response.status === 201) {
-                showToast(`Funcionário "${name}" cadastrado com sucesso!`);
-                window.dispatchEvent(new Event('practitionersChanged'));
-                document.getElementById('newEmpName').value = '';
-                document.getElementById('newEmpRegistration').value = '';
-                document.getElementById('newEmpCpf').value = '';
-                document.getElementById('newEmpPassword').value = '';
-                document.getElementById('newEmpRole').value = 'TEC_ENFERMAGEM';
-                document.getElementById('newEmpMicroareaGroup').style.display = 'none';
-                document.getElementById('newEmpMicroarea').value = '';
-                loadpractitioners();
-                const tabs = document.querySelectorAll('#view-practitioner .tabs-container .tab');
-                if (tabs.length > 0) {
-                    switchTab('tab-list-practitioner', tabs[0]);
-                }
-            } else {
-                const err = await response.json().catch(() => ({}));
-                showToast(err.message || 'Erro ao cadastrar funcionário.', 'error');
+            await window.apiClient.post('/practitioners', payload);
+            showToast(`Funcionário "${name}" cadastrado com sucesso!`);
+            window.dispatchEvent(new Event('practitionersChanged'));
+            document.getElementById('newEmpName').value = '';
+            document.getElementById('newEmpRegistration').value = '';
+            document.getElementById('newEmpCpf').value = '';
+            document.getElementById('newEmpPassword').value = '';
+            document.getElementById('newEmpRole').value = 'TEC_ENFERMAGEM';
+            document.getElementById('newEmpMicroareaGroup').style.display = 'none';
+            document.getElementById('newEmpMicroarea').value = '';
+            loadpractitioners();
+            const tabs = document.querySelectorAll('#view-practitioner .tabs-container .tab');
+            if (tabs.length > 0) {
+                switchTab('tab-list-practitioner', tabs[0]);
             }
         } catch (e) {
-            showToast('Erro de conexão com o servidor.', 'error');
+            showToast(e.message || 'Erro ao cadastrar funcionário.', 'error');
         } finally {
             setLoading('btnSaveNewpractitioner', false);
         }
@@ -273,14 +243,14 @@
             return;
         }
 
-        const nameValidation = validatepractitionerName(rawName);
+        const nameValidation = window.validateFullName(rawName);
         if (!nameValidation.valid) {
             showToast(`Erro: ${nameValidation.message}`, 'error');
             return;
         }
         const name = nameValidation.formattedName;
 
-        if (!isValidCPF(cpf)) {
+        if (!window.isValidCPF(cpf)) {
             showToast('Erro: O CPF informado é inválido.', 'error');
             return;
         }
@@ -294,23 +264,13 @@
 
         setLoading('btnUpdatepractitioner', true);
         try {
-            const response = await fetch(`${API_URL}/practitioners/${id}`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                showToast(`Funcionário "${name}" atualizado com sucesso!`);
-                window.dispatchEvent(new Event('practitionersChanged'));
-                closeEditModal();
-                loadpractitioners();
-            } else {
-                const err = await response.json().catch(() => ({}));
-                showToast(err.message || 'Erro ao atualizar os dados.', 'error');
-            }
+            await window.apiClient.put(`/practitioners/${id}`, payload);
+            showToast(`Funcionário "${name}" atualizado com sucesso!`);
+            window.dispatchEvent(new Event('practitionersChanged'));
+            closeEditModal();
+            loadpractitioners();
         } catch (e) {
-            showToast('Erro de conexão com o servidor.', 'error');
+            showToast(e.message || 'Erro ao atualizar os dados.', 'error');
         } finally {
             setLoading('btnUpdatepractitioner', false);
         }
@@ -341,22 +301,13 @@
 
     async function confirmDeletepractitioner(id, name) {
         try {
-            const response = await fetch(`${API_URL}/practitioners/${id}`, {
-                method: 'DELETE',
-                headers: getAuthHeaders()
-            });
-
-            if (response.ok || response.status === 204) {
-                showToast(`Funcionário "${name}" excluído com sucesso.`);
-                window.dispatchEvent(new Event('practitionersChanged'));
-                loadpractitioners();
-            } else {
-                const errData = await response.json().catch(() => ({}));
-                const msg = errData.message || 'Verifique se o funcionário não possui registros ativos (dispensações, etc).';
-                showToast(`Erro ao excluir: ${msg}`, 'error');
-            }
+            await window.apiClient.delete(`/practitioners/${id}`);
+            showToast(`Funcionário "${name}" excluído com sucesso.`);
+            window.dispatchEvent(new Event('practitionersChanged'));
+            loadpractitioners();
         } catch (e) {
-            showToast('Erro de conexão ao tentar excluir.', 'error');
+            const msg = e.message || 'Verifique se o funcionário não possui registros ativos (dispensações, etc).';
+            showToast(`Erro ao excluir: ${msg}`, 'error');
         }
     }
 

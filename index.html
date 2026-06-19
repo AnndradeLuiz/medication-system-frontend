@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-Farma SUS</title>
 
-    <!-- Icons and Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Design System CSS -->
     <link rel="stylesheet" href="src/styles/global-tokens.css">
     <link rel="stylesheet" href="src/styles/global.css">
     <link rel="stylesheet" href="src/styles/home.css">
@@ -28,9 +26,8 @@
         }
     </script>
     <link rel="icon" href="src/assets/img/logo-sem-fundo.svg">
-    
+
     <style>
-        /* Ocultar e transicionar seções */
         .view-section {
             display: none;
             opacity: 0;
@@ -46,7 +43,6 @@
             opacity: 1;
         }
 
-        /* Otimizar altura do iframe/container em tela única */
         .app-section-wrapper {
             width: 100%;
             height: 100%;
@@ -65,15 +61,25 @@
 
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#home" onclick="switchView('home')"><i class="fa-solid fa-home"></i> Tela Inicial</a></li>
-                    <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i> Pacientes</a></li>
-                    <li><a href="#dispensation" onclick="switchView('dispensation')"><i class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
-                    <li><a href="#inventory" onclick="switchView('inventory')"><i class="fa-solid fa-boxes-stacked"></i> Estoque Geral</a></li>
-                    <li><a href="#total-inventory" onclick="switchView('total-inventory')"><i class="fa-solid fa-list-check"></i> Inventário Total</a></li>
-                    <li><a href="#request" onclick="switchView('request')"><i class="fa-solid fa-file-invoice"></i> Pedidos</a></li>
-                    <li id="sidebarReportLi" style="display: none;"><a href="#report" onclick="switchView('report')"><i class="fa-solid fa-chart-pie"></i> Relatórios</a></li>
-                    <li id="sidebarPractitionerLi" style="display: none;"><a href="#practitioner" onclick="switchView('practitioner')"><i class="fa-solid fa-user-shield"></i> Funcionários</a></li>
-                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i class="fa-solid fa-clock-rotate-left"></i> Auditoria</a></li>
+                    <li><a href="#home" onclick="switchView('home')"><i class="fa-solid fa-home"></i> Tela Inicial</a>
+                    </li>
+                    <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i>
+                            Pacientes</a></li>
+                    <li><a href="#dispensation" onclick="switchView('dispensation')"><i
+                                class="fa-solid fa-hand-holding-medical"></i> Dispensa</a></li>
+                    <li><a href="#inventory" onclick="switchView('inventory')"><i class="fa-solid fa-boxes-stacked"></i>
+                            Estoque Geral</a></li>
+                    <li><a href="#total-inventory" onclick="switchView('total-inventory')"><i
+                                class="fa-solid fa-list-check"></i> Inventário Total</a></li>
+                    <li><a href="#request" onclick="switchView('request')"><i class="fa-solid fa-file-invoice"></i>
+                            Pedidos</a></li>
+                    <li id="sidebarReportLi" style="display: none;"><a href="#report" onclick="switchView('report')"><i
+                                class="fa-solid fa-chart-pie"></i> Relatórios</a></li>
+                    <li id="sidebarPractitionerLi" style="display: none;"><a href="#practitioner"
+                            onclick="switchView('practitioner')"><i class="fa-solid fa-user-shield"></i>
+                            Funcionários</a></li>
+                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i
+                                class="fa-solid fa-clock-rotate-left"></i> Auditoria</a></li>
                 </ul>
             </nav>
 
@@ -113,15 +119,13 @@
                 <img src="src/assets/img/logo-sem-fundo.svg" alt="Carregando...">
             </div>
 
-            <!-- CONTAINER PARA INJEÇÃO DINÂMICA DE VIEWS (SPA) -->
-            <div id="app-content-container" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0;">
-                <!-- O conteúdo das views (.view-section) será injetado aqui via router-spa.js -->
+            <div id="app-content-container"
+                style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0;">
             </div>
 
         </main>
     </div>
 
-    <!-- Modal de Créditos / Sobre -->
     <div id="creditsModal" class="modal-overlay">
         <div class="modal-container"
             style="max-width: 550px; width: 95%; margin: auto; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;">
@@ -194,12 +198,13 @@
             }
         });
     </script>
-    
+
     <script type="module" src="src/services/store.js"></script>
     <script type="module" src="src/config/config.js?v=2"></script>
     <script type="module" src="src/services/auth.js?v=2"></script>
     <script type="module" src="src/services/api.js"></script>
     <script type="module" src="src/utils/formatters.js"></script>
+    <script type="module" src="src/utils/exporter.js"></script>
     <script type="module" src="src/components/components.js?v=2"></script>
     <script type="module" src="src/pages/scripts/home.js?v=3"></script>
     <script type="module" src="src/pages/scripts/patient.js?v=3"></script>
@@ -211,7 +216,6 @@
     <script type="module" src="src/pages/scripts/audit.js?v=3"></script>
     <script type="module" src="src/pages/scripts/report.js?v=3"></script>
     <script>
-        // Configura proteção para datas futuras em campos de nascimento
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];
             const newBirthDate = document.getElementById('newBirthDate');

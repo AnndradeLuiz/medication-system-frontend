@@ -34,3 +34,75 @@
     background-color: white;
     box-shadow: 0 0 0 3px var(--color-primary-light);
 }
+
+/* Sub-abas de Relatório */
+.report-tab-btn {
+    background-color: white;
+    color: #475569;
+    border: 1.5px solid #cbd5e1;
+    transition: var(--transition);
+}
+
+.report-tab-btn.active {
+    background-color: var(--color-primary) !important;
+    color: white !important;
+    border-color: var(--color-primary) !important;
+}
+
+/* Linhas e Badges de Alerta */
+.report-row-expired {
+    background-color: #fff5f5 !important;
+}
+
+.report-row-critical {
+    background-color: #fffbeb !important;
+}
+
+.badge-warning-light {
+    background-color: #ffedd5 !important;
+    color: #ea580c !important;
+    border-color: #fed7aa !important;
+}
+
+.badge-alert-light {
+    background-color: #fef9c3 !important;
+    color: #a16207 !important;
+    border-color: #fef08a !important;
+}
+
+.badge-zero-light {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.badge-critical-red {
+    background-color: #fee2e2 !important;
+    color: #b91c1c !important;
+    border-color: #fca5a5 !important;
+}
+
+/* Tabela de Retiradas por Terceiros */
+.third-party-name {
+    font-weight: 600;
+    color: var(--color-text-main);
+}
+.third-party-cpf,
+.patient-cpf {
+    font-size: 11px;
+    color: var(--color-text-muted);
+}
+.patient-name {
+    font-weight: 500;
+    color: var(--color-text-main);
+}
+.medication-name {
+    font-weight: 600;
+    color: #0f766e;
+}
+.medication-qty {
+    font-size: 12px;
+    color: var(--color-text-muted);
+}
+
+

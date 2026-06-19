@@ -147,3 +147,96 @@
     background-color: #f3e8ff;
     color: #6b21a8;
 }
+
+/* Badges e estilos inline de logs de auditoria */
+.audit-badge-create {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+}
+
+.audit-badge-read {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+}
+
+.audit-badge-update {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+}
+
+.audit-badge-delete {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+}
+
+.audit-badge-login-ok {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+    width: 85px;
+    text-align: center;
+}
+
+.audit-badge-login-error {
+    background-color: #fff1f2;
+    color: #be123c;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+    width: 85px;
+    text-align: center;
+}
+
+.audit-badge-default {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: none;
+    padding: 4px 10px;
+    font-weight: 700;
+}
+
+.audit-table-empty-row {
+    height: 400px;
+}
+
+.audit-table-empty-cell {
+    vertical-align: middle;
+}
+
+.audit-table-details-cell {
+    font-size: 13.5px;
+    color: var(--color-text-main);
+    font-weight: 500;
+    padding: 12px 16px;
+}
+
+.audit-table-error-msg {
+    color: #ef4444;
+}
+
+.audit-table-date-cell {
+    font-size: 13px;
+}
+
+.audit-table-practitioner-name {
+    font-size: 13.5px;
+}
+
+.audit-table-entity-label {
+    color: #64748b;
+    font-size: 13px;
+}

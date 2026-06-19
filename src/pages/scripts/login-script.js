@@ -8,7 +8,6 @@ if (urlParams.get('expired') === 'true') {
     if (errorEl) {
         errorEl.innerText = 'Sua sessão expirou por inatividade ou acesso inválido. Por favor, entre novamente.';
         errorEl.classList.remove('d-none');
-        errorEl.style.display = 'block';
     }
     // Limpa o parâmetro da URL para que não reapareça ao recarregar a página manualmente
     try {
@@ -51,7 +50,6 @@ loginInput.addEventListener('input', function (e) {
 
 loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
-    errorMessage.style.display = 'none';
     errorMessage.classList.add('d-none');
 
     let rawLogin = loginInput.value;
@@ -86,7 +84,6 @@ loginForm.addEventListener('submit', async function (e) {
             if (data.status === false) {
                 errorMessage.innerText = 'Acesso negado. Este usuário está desativado.';
                 errorMessage.classList.remove('d-none');
-                errorMessage.style.display = 'block';
                 return;
             }
 
@@ -119,7 +116,6 @@ loginForm.addEventListener('submit', async function (e) {
             // Rate Limiting — muitas tentativas de login
             errorMessage.innerText = data.message || 'Muitas tentativas de login. Aguarde alguns minutos antes de tentar novamente.';
             errorMessage.classList.remove('d-none');
-            errorMessage.style.display = 'block';
             // Desabilita o botão pelo tempo do bloqueio (2 min)
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             if (submitBtn) {
@@ -152,13 +148,11 @@ loginForm.addEventListener('submit', async function (e) {
                 errorMessage.innerText = data.message || 'Usuário ou senha inválidos.';
             }
             errorMessage.classList.remove('d-none');
-            errorMessage.style.display = 'block';
         }
     } catch (error) {
         console.error("Erro de conexão:", error);
         errorMessage.innerText = 'Não foi possível conectar ao servidor. Verifique se o backend está rodando.';
         errorMessage.classList.remove('d-none');
-        errorMessage.style.display = 'block';
     }
 });
 

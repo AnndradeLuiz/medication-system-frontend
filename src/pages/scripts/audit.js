@@ -37,22 +37,10 @@
         if (entityType) queryParams.push(`entityType=${encodeURIComponent(entityType)}`);
         if (keyword) queryParams.push(`keyword=${encodeURIComponent(keyword)}`);
 
-        const url = `${API_URL}/audit-logs?${queryParams.join('&')}`;
+        const url = `/audit-logs?${queryParams.join('&')}`;
 
         try {
-            const response = await fetch(url, {
-                headers: getAuthHeaders(),
-                cache: 'no-store'
-            });
-
-            if (!response.ok) {
-                if (response.status === 403) {
-                    throw new Error('Acesso negado. Apenas administradores ou enfermeiros gerentes podem visualizar a auditoria.');
-                }
-                throw new Error('Erro ao carregar logs de auditoria.');
-            }
-
-            const pageData = await response.json();
+            const { data: pageData } = await window.apiClient.get(url);
             const logs = pageData.content || [];
 
             // Extrai as informações de paginação (suporta Spring Boot 2.x e 3.3+)
@@ -80,7 +68,11 @@
         } catch (e) {
             console.error(e);
             if (tableBody) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="empty-msg" style="color:#ef4444;"><i class="fa-solid fa-circle-exclamation"></i> ${e.message}</td></tr>`;
+                let errorMsg = e.message || 'Erro ao carregar logs de auditoria.';
+                if (e.status === 403) {
+                    errorMsg = 'Acesso negado. Apenas administradores ou enfermeiros gerentes podem visualizar a auditoria.';
+                }
+                tableBody.innerHTML = `<tr><td colspan="6" class="empty-msg audit-table-error-msg"><i class="fa-solid fa-circle-exclamation"></i> ${errorMsg}</td></tr>`;
             }
         }
     }
@@ -92,7 +84,7 @@
         tbody.innerHTML = '';
 
         if (!logs || logs.length === 0) {
-            tbody.innerHTML = '<tr style="height: 400px;"><td colspan="6" class="empty-msg" style="vertical-align: middle;">Nenhum evento de auditoria registrado para os filtros aplicados.</td></tr>';
+            tbody.innerHTML = '<tr class="audit-table-empty-row"><td colspan="6" class="empty-msg audit-table-empty-cell">Nenhum evento de auditoria registrado para os filtros aplicados.</td></tr>';
             return;
         }
 
@@ -118,25 +110,25 @@
             let actionBadge = '';
             switch (log.action) {
                 case 'CREATE':
-                    actionBadge = '<span class="status-indicator status-active" style="background-color: #d1fae5; color: #065f46; border: none; padding: 4px 10px; font-weight: 700;">CREATE</span>';
+                    actionBadge = '<span class="status-indicator status-active audit-badge-create">CREATE</span>';
                     break;
                 case 'READ':
-                    actionBadge = '<span class="status-indicator status-active" style="background-color: #dbeafe; color: #1e40af; border: none; padding: 4px 10px; font-weight: 700;">READ</span>';
+                    actionBadge = '<span class="status-indicator status-active audit-badge-read">READ</span>';
                     break;
                 case 'UPDATE':
-                    actionBadge = '<span class="status-indicator status-active" style="background-color: #fef3c7; color: #92400e; border: none; padding: 4px 10px; font-weight: 700;">UPDATE</span>';
+                    actionBadge = '<span class="status-indicator status-active audit-badge-update">UPDATE</span>';
                     break;
                 case 'DELETE':
-                    actionBadge = '<span class="status-indicator status-inactive" style="background-color: #fee2e2; color: #991b1b; border: none; padding: 4px 10px; font-weight: 700;">DELETE</span>';
+                    actionBadge = '<span class="status-indicator status-inactive audit-badge-delete">DELETE</span>';
                     break;
                 case 'LOGIN_SUCCESS':
-                    actionBadge = '<span class="status-indicator status-active" style="background-color: #ecfdf5; color: #047857; border: none; padding: 4px 10px; font-weight: 700; width: 85px; text-align: center;">LOGIN OK</span>';
+                    actionBadge = '<span class="status-indicator status-active audit-badge-login-ok">LOGIN OK</span>';
                     break;
                 case 'LOGIN_FAILURE':
-                    actionBadge = '<span class="status-indicator status-inactive" style="background-color: #fff1f2; color: #be123c; border: none; padding: 4px 10px; font-weight: 700; width: 85px; text-align: center;">LOGIN ERRO</span>';
+                    actionBadge = '<span class="status-indicator status-inactive audit-badge-login-error">LOGIN ERRO</span>';
                     break;
                 default:
-                    actionBadge = `<span class="status-indicator" style="background-color: #f1f5f9; color: #475569; border: none; padding: 4px 10px; font-weight: 700;">${log.action || 'EVENTO'}</span>`;
+                    actionBadge = `<span class="status-indicator audit-badge-default">${log.action || 'EVENTO'}</span>`;
             }
 
             // Traduzir Entidades do Módulo
@@ -184,12 +176,12 @@
             });
 
             tr.innerHTML = `
-                <td class="font-data text-muted text-center" style="font-size: 13px;">${formattedDate}</td>
-                <td class="text-center"><span class="fw-600 text-main" style="font-size: 13.5px;">${escapeHTML(log.practitionerName || 'Sistema')}</span></td>
+                <td class="font-data text-muted text-center audit-table-date-cell">${formattedDate}</td>
+                <td class="text-center"><span class="fw-600 text-main audit-table-practitioner-name">${window.escapeHTML(log.practitionerName || 'Sistema')}</span></td>
                 <td class="text-center"><span class="role-badge role-${log.practitionerRole || 'SISTEMA'}">${roleLabel}</span></td>
                 <td class="text-center">${actionBadge}</td>
-                <td class="text-center"><span class="fw-600" style="color: #64748b; font-size: 13px;">${entityLabel}</span></td>
-                <td style="font-size: 13.5px; color: var(--color-text-main); font-weight: 500; padding: 12px 16px;">${escapeHTML(translatedDetails)}</td>
+                <td class="text-center"><span class="fw-600 audit-table-entity-label">${entityLabel}</span></td>
+                <td class="audit-table-details-cell">${window.escapeHTML(translatedDetails)}</td>
             `;
 
             fragment.appendChild(tr);

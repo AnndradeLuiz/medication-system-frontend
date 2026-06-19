@@ -9,6 +9,9 @@
 | [x] | Atualizar imports de scripts/estilos e switchView no index.html | `index.html` |
 | [x] | Atualizar roteador router.js | `src/components/router.js` |
 | [x] | Atualizar components.js | `src/components/components.js` |
+| [x] | Refatorar `report.js` (desacoplamento de exportações com ExporterUtils, apiClient e remoção de estilos inline) | `src/pages/scripts/report.js` |
+| [x] | Refatorar `practitioner.js` (uso de apiClient, validação de nome compartilhada e chamadas de window explícitas) | `src/pages/scripts/practitioner.js` |
+| [x] | Refatorar os scripts de páginas restantes (`patient.js`, etc.) para usar apiClient e remover inline CSS | Vários arquivos |
 | [x] | Validar visualmente todo o fluxo de navegação no sistema | N/A |
 | [x] | Renomear e refatorar arquivos de listagem de inventário para total-inventory | `src/pages/views/total-inventory.html`, `src/pages/scripts/total-inventory.js`, `src/styles/total-inventory.css` |
 | [x] | Mapear e adaptar o módulo de auditoria | `src/pages/views/audit.html`, `src/pages/scripts/audit.js`, `src/styles/audit.css` |

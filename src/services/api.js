@@ -1,7 +1,39 @@
-window.apiFetch = async function (path, options = {}) {
-    const url = path.startsWith('http') ? path : `${window.API_URL || 'http://localhost:8080/api'}${path}`;
+let authHeaderProvider = () => ({});
+let onAuthFailure = () => {};
 
-    const defaultHeaders = window.getAuthHeaders ? window.getAuthHeaders() : {};
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+function onRefreshed(success) {
+    refreshSubscribers.forEach(cb => cb(success));
+    refreshSubscribers = [];
+}
+
+const DEFAULT_TIMEOUT_MS = 10000;
+
+async function fetchInterceptor(resource, options = {}) {
+    const { timeout = DEFAULT_TIMEOUT_MS } = options;
+    const controller = new AbortController();
+    const timerId = setTimeout(() => controller.abort(), timeout);
+
+    const signal = options.signal || controller.signal;
+    let url = typeof resource === 'string' ? resource : (resource && resource.url ? resource.url : String(resource));
+
+    // Resoluções de URL base (apenas para chamadas de API, não para assets/views locais do frontend)
+    const isLocalAsset = url.endsWith('.html') || url.startsWith('src/') || url.startsWith('./src/');
+    if (!url.startsWith('http') && !isLocalAsset) {
+        url = `${window.API_URL || 'http://localhost:8080/api'}${url}`;
+    }
+
+
+    // Configuração base (inclui credenciais de cookie)
+    const config = {
+        ...options,
+        signal,
+        credentials: 'include'
+    };
+
+    const defaultHeaders = window.getAuthHeaders ? window.getAuthHeaders() : authHeaderProvider();
     const headers = new Headers(defaultHeaders);
 
     if (options.headers) {
@@ -11,29 +43,118 @@ window.apiFetch = async function (path, options = {}) {
         }
     }
 
-    if (options.body instanceof FormData) {
+    if (config.body instanceof FormData) {
         headers.delete('Content-Type');
-    } else if (!headers.has('Content-Type') && options.body && typeof options.body === 'string') {
+    } else if (!headers.has('Content-Type') && config.body && typeof config.body === 'string') {
         headers.set('Content-Type', 'application/json');
     }
 
-    const config = {
-        ...options,
-        headers
-    };
+    config.headers = headers;
 
-    const response = await fetch(url, config);
+    try {
+        let response = await window.originalFetch(url, config);
+        clearTimeout(timerId);
 
-    if (response.status === 401) {
-        if (window.handleTokenExpiration) {
-            window.handleTokenExpiration();
+        // Interceptação de autenticação expirada (401/403)
+        if ((response.status === 401 || response.status === 403)
+            && !window.location.pathname.includes('login.html')
+            && !url.includes('/auth/login')
+            && !url.includes('/auth/refresh')) {
+
+            if (!isRefreshing) {
+                isRefreshing = true;
+                try {
+                    console.warn('[API Interceptor] Token expirado. Tentando renovação silenciosa...');
+                    const apiUrl = window.API_URL || 'http://localhost:8080/api';
+                    const refreshRes = await window.originalFetch(`${apiUrl}/auth/refresh`, {
+                        method: 'POST',
+                        credentials: 'include'
+                    });
+
+                    if (refreshRes.ok) {
+                        const data = await refreshRes.json();
+                        if (data.token) {
+                            try {
+                                const payloadBase64 = data.token.split('.')[1];
+                                const payloadJson = JSON.parse(atob(payloadBase64));
+                                sessionStorage.setItem('sgdm_token_exp', payloadJson.exp);
+                            } catch (e) { }
+                        }
+
+                        isRefreshing = false;
+                        onRefreshed(true);
+                        console.log('[API Interceptor] Token renovado com sucesso.');
+
+                        // Re-executa com cabeçalhos novos
+                        return await window.originalFetch(url, config);
+                    } else {
+                        isRefreshing = false;
+                        onRefreshed(false);
+                        if (window.logout) window.logout(true);
+                        return response;
+                    }
+                } catch (err) {
+                    isRefreshing = false;
+                    onRefreshed(false);
+                    if (window.logout) window.logout(true);
+                    return response;
+                }
+            } else {
+                return new Promise(resolve => {
+                    refreshSubscribers.push(async (success) => {
+                        if (success) {
+                            resolve(await window.originalFetch(url, config));
+                        } else {
+                            resolve(response);
+                        }
+                    });
+                });
+            }
         }
-    }
 
-    return response;
+        if (window.hideOfflineOverlay) window.hideOfflineOverlay();
+        return response;
+
+    } catch (error) {
+        clearTimeout(timerId);
+        
+        if (error.name === 'AbortError') {
+            throw new Error('Tempo limite de conexão excedido. O servidor demorou muito para responder.');
+        }
+        
+        if (error.message && (error.message.toLowerCase().includes('failed to fetch') || error.message.toLowerCase().includes('networkerror') || error.message.includes('fetch'))) {
+            if (window.showOfflineOverlay) window.showOfflineOverlay();
+            throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
+        }
+
+        throw error;
+    }
+}
+
+// Injetar uma única vez como global
+if (!window.originalFetch) {
+    window.originalFetch = window.fetch;
+    window.fetch = fetchInterceptor;
+}
+
+window.apiFetch = async function (path, options = {}) {
+    return window.fetch(path, options);
 };
 
+function prepareBody(body, options) {
+    const config = { ...options };
+    if (body) {
+        config.body = body instanceof FormData ? body : JSON.stringify(body);
+    }
+    return config;
+}
+
 window.apiClient = {
+    configure(options = {}) {
+        if (options.getAuthHeaders) authHeaderProvider = options.getAuthHeaders;
+        if (options.handleTokenExpiration) onAuthFailure = options.handleTokenExpiration;
+    },
+
     async request(endpoint, options = {}) {
         try {
             const response = await window.apiFetch(endpoint, options);
@@ -72,19 +193,11 @@ window.apiClient = {
     },
 
     post(endpoint, body, options = {}) {
-        const config = { ...options, method: 'POST' };
-        if (body) {
-            config.body = body instanceof FormData ? body : JSON.stringify(body);
-        }
-        return this.request(endpoint, config);
+        return this.request(endpoint, { ...prepareBody(body, options), method: 'POST' });
     },
 
     put(endpoint, body, options = {}) {
-        const config = { ...options, method: 'PUT' };
-        if (body) {
-            config.body = body instanceof FormData ? body : JSON.stringify(body);
-        }
-        return this.request(endpoint, config);
+        return this.request(endpoint, { ...prepareBody(body, options), method: 'PUT' });
     },
 
     delete(endpoint, options = {}) {

@@ -23,8 +23,69 @@ async function fetchViewHtml(viewId) {
     }
 }
 
+// Registro centralizado do ciclo de vida das rotas (onMount) para respeitar o Princípio Aberto/Fechado (OCP)
+const routeLifecycleRegistry = {
+    'home': {
+        onMount: () => {
+            if (typeof initHomeModule === 'function') initHomeModule();
+            if (typeof loadDashboardMetrics === 'function') loadDashboardMetrics("7days");
+            if (typeof loadCriticalStock === 'function') loadCriticalStock();
+            if (typeof loadRecentActivities === 'function') loadRecentActivities();
+        }
+    },
+    'patient': {
+        onMount: () => {
+            if (typeof initPatientModule === 'function') initPatientModule();
+            if (typeof renderPatientTable === 'function') renderPatientTable();
+        }
+    },
+    'inventory': {
+        onMount: () => {
+            if (typeof initInventoryModule === 'function') initInventoryModule();
+            if (typeof loadAllData === 'function') loadAllData();
+        }
+    },
+    'total-inventory': {
+        onMount: () => {
+            if (typeof initTotalInventoryModule === 'function') initTotalInventoryModule();
+            if (typeof loadInventory === 'function') loadInventory(0);
+        }
+    },
+    'practitioner': {
+        onMount: () => {
+            if (typeof loadpractitioners === 'function') loadpractitioners();
+        }
+    },
+    'dispensation': {
+        onMount: () => {
+            if (typeof initDispensationModule === 'function') initDispensationModule();
+            if (typeof loadMedications === 'function') loadMedications();
+            if (typeof loadDispensations === 'function') loadDispensations();
+        }
+    },
+    'request': {
+        onMount: () => {
+            if (typeof initRequestModule === 'function') initRequestModule();
+        }
+    },
+    'report': {
+        onMount: () => {
+            if (typeof switchReportTab === 'function') switchReportTab('dashboard');
+        }
+    },
+    'audit': {
+        onMount: () => {
+            if (typeof loadAuditLogs === 'function') loadAuditLogs(0);
+        }
+    }
+};
+
+window.registerRouteLifecycle = function (viewId, callbacks) {
+    routeLifecycleRegistry[viewId] = callbacks;
+};
+
 async function switchView(viewId, pushState = true) {
-    const userRole = sessionStorage.getItem('sgdm_userRole');
+    const userRole = window.getCurrentRole ? window.getCurrentRole() : sessionStorage.getItem('sgdm_userRole');
     if (userRole && userRole.toUpperCase() === 'ACS' && viewId !== 'acs-restricted') {
         switchView('acs-restricted', false);
         return;
@@ -108,33 +169,10 @@ async function switchView(viewId, pushState = true) {
     // 7. Garantir o efeito de fade-in pronto
     document.body.classList.add('ready');
 
-    // 8. Executar re-inicialização de dados específicos do JS de cada módulo
-    if (viewId === 'home') {
-        if (typeof initHomeModule === 'function') initHomeModule();
-        if (typeof loadDashboardMetrics === 'function') loadDashboardMetrics("7days");
-        if (typeof loadCriticalStock === 'function') loadCriticalStock();
-        if (typeof loadRecentActivities === 'function') loadRecentActivities();
-    } else if (viewId === 'patient') {
-        if (typeof initPatientModule === 'function') initPatientModule();
-        if (typeof renderPatientTable === 'function') renderPatientTable();
-    } else if (viewId === 'inventory') {
-        if (typeof initInventoryModule === 'function') initInventoryModule();
-        if (typeof loadAllData === 'function') loadAllData();
-    } else if (viewId === 'total-inventory') {
-        if (typeof initTotalInventoryModule === 'function') initTotalInventoryModule();
-        if (typeof loadInventory === 'function') loadInventory(0);
-    } else if (viewId === 'practitioner') {
-        if (typeof loadpractitioners === 'function') loadpractitioners();
-    } else if (viewId === 'dispensation') {
-        if (typeof initDispensationModule === 'function') initDispensationModule();
-        if (typeof loadMedications === 'function') loadMedications();
-        if (typeof loadDispensations === 'function') loadDispensations();
-    } else if (viewId === 'request') {
-        if (typeof initRequestModule === 'function') initRequestModule();
-    } else if (viewId === 'report') {
-        if (typeof switchReportTab === 'function') switchReportTab('dashboard');
-    } else if (viewId === 'audit') {
-        if (typeof loadAuditLogs === 'function') loadAuditLogs(0);
+    // 8. Executar re-inicialização através do registro de ciclo de vida das rotas (OCP)
+    const lifecycle = routeLifecycleRegistry[viewId];
+    if (lifecycle && typeof lifecycle.onMount === 'function') {
+        lifecycle.onMount();
     }
 
     hideGlobalLoader();
@@ -154,7 +192,9 @@ function initSpaRouter() {
     const initialView = window.location.hash.substring(1) || 'home';
     
     // Tratamento de segurança para privilégios de Administrador
-    const userRole = sessionStorage.getItem('sgdm_userRole');
+    const userRole = window.getCurrentRole ? window.getCurrentRole() : sessionStorage.getItem('sgdm_userRole');
+    const userIsPrivileged = window.isPrivileged ? window.isPrivileged() : ['ADM_TI', 'ENF_GERENTE'].includes(userRole);
+
     if (userRole && userRole.toUpperCase() === 'ACS') {
         const sidebar = document.querySelector('.sidebar');
         const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
@@ -165,7 +205,7 @@ function initSpaRouter() {
         switchView('acs-restricted', false);
         return;
     }
-    if ((initialView === 'practitioner' || initialView === 'audit') && !['ADM_TI', 'ENF_GERENTE'].includes(userRole)) {
+    if ((initialView === 'practitioner' || initialView === 'audit') && !userIsPrivileged) {
         switchView('home', false);
         return;
     }
@@ -182,53 +222,21 @@ function initSpaRouter() {
     const practitionerLi = document.getElementById('sidebarPractitionerLi');
     const reportLi = document.getElementById('sidebarReportLi');
     const auditLi = document.getElementById('sidebarAuditLi');
-    const isPrivileged = ['ADM_TI', 'ENF_GERENTE'].includes(userRole);
     
     if (practitionerLi) {
-        practitionerLi.style.display = isPrivileged ? 'block' : 'none';
+        practitionerLi.style.display = userIsPrivileged ? 'block' : 'none';
     }
     if (reportLi) {
-        reportLi.style.display = isPrivileged ? 'block' : 'none';
+        reportLi.style.display = userIsPrivileged ? 'block' : 'none';
     }
     if (auditLi) {
-        auditLi.style.display = isPrivileged ? 'block' : 'none';
+        auditLi.style.display = userIsPrivileged ? 'block' : 'none';
     }
 }
 
-// Inicializa quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
-    // Restaurar nome do usuário no cabeçalho
-    const loggedpractitionerName = sessionStorage.getItem('sgdm_userName');
-    const loggedUserEl = document.getElementById('loggedUser');
-    if (loggedUserEl && loggedpractitionerName) {
-        loggedUserEl.innerText = loggedpractitionerName;
-    }
+// Inicializa quando o DOM estiver pronto (o renderizador de dados do usuário roda em components.js)
+document.addEventListener('DOMContentLoaded', initSpaRouter);
 
-    // Cargo formatado
-    const statusEl = document.querySelector('.user-status');
-    const practitionerRoleRaw = sessionStorage.getItem('sgdm_userRole');
-    if (statusEl) {
-        let displayRole = 'Funcionário';
-        if (practitionerRoleRaw && practitionerRoleRaw !== 'undefined') {
-            const roleMap = {
-                'ADM_TI': 'Administrador de TI',
-                'ENF_GERENTE': 'Enfermeiro(a) Gerente',
-                'ENF': 'Enfermeiro(a)',
-                'TRIAGEM': 'Triagem',
-                'TEC_ENFERMAGEM': 'Técnico(a) de Enfermagem',
-                'FARMACEUTICO': 'Farmacêutico',
-                'ADMINISTRATIVO': 'Administrativo',
-                'ACS': 'ACS'
-            };
-            displayRole = roleMap[practitionerRoleRaw.toUpperCase()] ||
-                roleMap[practitionerRoleRaw.toUpperCase()] ||
-                practitionerRoleRaw.charAt(0).toUpperCase() + practitionerRoleRaw.slice(1).toLowerCase();
-        }
-        statusEl.innerText = displayRole;
-    }
-
-    initSpaRouter();
-});
 
 // Expõe globalmente para botões/links inline
 window.switchView = switchView;

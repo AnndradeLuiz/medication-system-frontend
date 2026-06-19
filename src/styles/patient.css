@@ -679,3 +679,236 @@ input:disabled, select:disabled, textarea:disabled {
     background-color: #f1f5f9 !important;
     color: #94a3b8 !important;
 }
+
+/* Classes para estilização dinâmica inserida via JavaScript */
+.medication-not-found {
+    padding: 10px 15px;
+    color: #ef4444;
+    font-size: 14px;
+}
+
+.medication-suggestion-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.medication-suggestion-item:hover {
+    background-color: #e0e7ff;
+}
+
+.medication-suggestion-name {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.medication-suggestion-concentration {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.program-card-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-bottom: 8px;
+}
+
+.program-card-title {
+    font-weight: 600;
+    color: #111827;
+    font-size: 14px;
+}
+
+.program-card-med {
+    font-size: 13px;
+    color: #4b5563;
+    margin-top: 4px;
+}
+
+.program-card-med i {
+    color: #0f766e;
+    margin-right: 4px;
+}
+
+.program-card-med b {
+    color: #ea580c;
+}
+
+.program-card-meta {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.program-card-delete-btn {
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.no-programs-alert {
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px dashed #d1d5db;
+    border-radius: 6px;
+}
+
+.patient-header-name {
+    color: black;
+}
+
+.patient-header-age {
+    font-size: 16px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.patient-status-active {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.patient-status-inactive {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.patient-origin-external {
+    color: #ea580c;
+    font-weight: 600;
+}
+
+.patient-origin-local {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.patient-acs-meta {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.patient-enrolled-program-badge {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 6px;
+    color: #166534;
+}
+
+.patient-medication-details {
+    font-size: 13px;
+    color: #475569;
+    margin-top: 6px;
+    padding-left: 15px;
+    border-left: 2px solid #cbd5e1;
+    margin-left: 5px;
+}
+
+.prescription-badge-expired {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.prescription-badge-valid {
+    background: #dcfce7;
+    color: #166534;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.prescription-meta-text {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.prescription-instructions {
+    font-size: 12px;
+    color: #64748b;
+    font-style: italic;
+}
+
+.patient-medication-block {
+    margin-bottom: 12px;
+    border-left: 3px solid #e2e8f0;
+    padding-left: 10px;
+}
+
+.patient-medication-category {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.patient-medication-name {
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.patient-medication-name i {
+    font-size: 12px;
+    color: #0f766e;
+}
+
+.patient-medication-name b {
+    color: #ea580c;
+}
+
+.floating-suggestion-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.floating-suggestion-item:hover {
+    background-color: #f0fdf4;
+}
+
+.floating-suggestion-name {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.floating-suggestion-cpf {
+    font-size: 13px;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.floating-suggestion-empty {
+    padding: 12px 15px;
+    color: #ef4444;
+    font-size: 14px;
+}

@@ -1,5 +1,4 @@
 (function () {
-    // Referências dos gráficos para podermos destruir instâncias anteriores e evitar bugs do Chart.js
     let programsChartInstance = null;
     let topMedsChartInstance = null;
     let hiperdiaAgeChartInstance = null;
@@ -7,24 +6,18 @@
     let productivityChartInstance = null;
     let weekdayChartInstance = null;
 
-    // Cache local dos dados dos relatórios analíticos para busca rápida/filtragem local
     let currentThirdPartyData = [];
-
-    // ================= ALTERNAR SUB-ABAS DE RELATÓRIO =================
     window.switchReportTab = function (tabId) {
         const tabs = ['dashboard', 'custom', 'analytics'];
         tabs.forEach(t => {
             const btn = document.getElementById(`tab-rep-${t}`);
             const sec = document.getElementById(`rep-sub-${t}`);
             if (btn) {
+                btn.classList.add('report-tab-btn');
                 if (t === tabId) {
-                    btn.style.backgroundColor = 'var(--color-primary)';
-                    btn.style.color = 'white';
-                    btn.style.borderColor = 'var(--color-primary)';
+                    btn.classList.add('active');
                 } else {
-                    btn.style.backgroundColor = 'white';
-                    btn.style.color = '#475569';
-                    btn.style.borderColor = '#cbd5e1';
+                    btn.classList.remove('active');
                 }
             }
             if (sec) {
@@ -43,12 +36,7 @@
     // ================= ABA 1: DASHBOARD GERENCIAL =================
     async function loadDashboardStats() {
         try {
-            const response = await fetch(`${API_URL}/reports/dashboard-stats`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error("Erro ao carregar estatísticas do dashboard.");
-            const stats = await response.json();
-
+            const { data: stats } = await window.apiClient.get('/reports/dashboard-stats');
             renderProgramsPieChart(stats.programsDistribution || {});
             renderTopMedsBarChart(stats.topMedications || {});
         } catch (error) {
@@ -166,12 +154,7 @@
     window.exportStandardPDF = async function () {
         try {
             showGlobalLoader();
-            const response = await fetch(`${API_URL}/reports/export/pdf`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error("Erro ao gerar PDF consolidado.");
-
-            const blob = await response.blob();
+            const { data: blob } = await window.apiClient.get('/reports/export/pdf');
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -199,17 +182,8 @@
 
         try {
             showGlobalLoader();
-            const response = await fetch(`${API_URL}/reports/export/custom`, {
-                method: 'POST',
-                headers: {
-                    ...getAuthHeaders(),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(selectedCols)
-            });
-
-            if (!response.ok) throw new Error("Erro ao obter dados customizados do servidor.");
-            return await response.json();
+            const { data } = await window.apiClient.post('/reports/export/custom', selectedCols);
+            return data;
         } catch (error) {
             alert(error.message);
             return null;
@@ -225,12 +199,7 @@
             return;
         }
 
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Dispensacoes");
-
-        // Exportar como CSV
-        XLSX.writeFile(workbook, "relatorio_dinamico.csv", { bookType: 'csv' });
+        window.ExporterUtils.toCSV(data, "relatorio_dinamico.csv", "Dispensacoes");
     };
 
     window.exportDynamicExcel = async function () {
@@ -240,12 +209,7 @@
             return;
         }
 
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Dispensacoes");
-
-        // Exportar como XLSX
-        XLSX.writeFile(workbook, "relatorio_dinamico.xlsx");
+        window.ExporterUtils.toExcel(data, "relatorio_dinamico.xlsx", "Dispensacoes");
     };
 
 
@@ -285,36 +249,31 @@
     async function loadInventoryAlerts() {
         const tbody = document.querySelector('#table-inventory-alerts tbody');
         if (!tbody) return;
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="cell-center p-20"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
 
         try {
-            const response = await fetch(`${API_URL}/reports/inventory-alerts`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error();
-            const alerts = await response.json();
+            const { data: alerts } = await window.apiClient.get('/reports/inventory-alerts');
 
             tbody.innerHTML = '';
             if (alerts.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Nenhum alerta de lote ou validade registrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="cell-center p-20">Nenhum alerta de lote ou validade registrado.</td></tr>';
                 return;
             }
 
             alerts.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.style.borderBottom = '1px solid #e2e8f0';
 
                 let statusBadge = '';
                 if (item.status === 'VENCIDO') {
                     statusBadge = '<span class="status-badge badge-inactive">Vencido</span>';
-                    tr.style.backgroundColor = '#fff5f5';
+                    tr.classList.add('report-row-expired');
                 } else if (item.status === 'CRITICO') {
-                    statusBadge = '<span class="status-badge badge-inactive" style="background-color: #ffedd5; color: #ea580c; border-color: #fed7aa;">Crítico (<30d)</span>';
-                    tr.style.backgroundColor = '#fffbeb';
+                    statusBadge = '<span class="status-badge badge-warning-light">Crítico (<30d)</span>';
+                    tr.classList.add('report-row-critical');
                 } else if (item.status === 'ALERTA') {
-                    statusBadge = '<span class="status-badge" style="background-color: #fef9c3; color: #a16207; border-color: #fef08a; padding: 4px 8px; border-radius: 12px; font-size: 11px;">Alerta (<90d)</span>';
+                    statusBadge = '<span class="status-badge badge-alert-light">Alerta (<90d)</span>';
                 } else if (item.status === 'ZERADO') {
-                    statusBadge = '<span class="status-badge" style="background-color: #f1f5f9; color: #475569; border-color: #cbd5e1; padding: 4px 8px; border-radius: 12px; font-size: 11px;">Zerado</span>';
+                    statusBadge = '<span class="status-badge badge-zero-light">Zerado</span>';
                 } else {
                     statusBadge = '<span class="status-badge badge-active">Regular</span>';
                 }
@@ -323,18 +282,18 @@
                 const daysLeft = item.daysToExpiration !== 9999 ? item.daysToExpiration : '-';
 
                 tr.innerHTML = `
-                    <td style="padding: 12px 8px; font-weight: 600; color: #1e293b;">${item.activeIngredient}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${item.concentration}</td>
-                    <td style="padding: 12px 8px; text-align: center; font-family: monospace;">${item.lotCode}</td>
-                    <td style="padding: 12px 8px; text-align: center; font-weight: 700;">${item.quantity}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${expDate}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${daysLeft}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${statusBadge}</td>
+                    <td class="cell-bold">${item.activeIngredient}</td>
+                    <td class="cell-center">${item.concentration}</td>
+                    <td class="cell-center font-mono">${item.lotCode}</td>
+                    <td class="cell-center cell-strong">${item.quantity}</td>
+                    <td class="cell-center">${expDate}</td>
+                    <td class="cell-center">${daysLeft}</td>
+                    <td class="cell-center">${statusBadge}</td>
                 `;
                 tbody.appendChild(tr);
             });
         } catch (error) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: red; padding: 20px;">Falha ao carregar controle de validades.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="cell-center text-danger p-20">Falha ao carregar controle de validades.</td></tr>';
         }
     }
 
@@ -342,60 +301,51 @@
     async function loadConsumptionProjection() {
         const tbody = document.querySelector('#table-consumption-projection tbody');
         if (!tbody) return;
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="cell-center p-20"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
 
         try {
-            const response = await fetch(`${API_URL}/reports/consumption-projection`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error();
-            const data = await response.json();
+            const { data } = await window.apiClient.get('/reports/consumption-projection');
 
             tbody.innerHTML = '';
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Sem dados de consumo registrados.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="cell-center p-20">Sem dados de consumo registrados.</td></tr>';
                 return;
             }
 
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                tr.style.borderBottom = '1px solid #e2e8f0';
 
                 let statusBadge = '';
                 if (item.status === 'ESGOTADO') {
                     statusBadge = '<span class="status-badge badge-inactive">Esgotado</span>';
-                    tr.style.backgroundColor = '#fff5f5';
+                    tr.classList.add('report-row-expired');
                 } else if (item.status === 'CRITICO') {
-                    statusBadge = '<span class="status-badge badge-inactive" style="background-color: #fee2e2; color: #b91c1c; border-color: #fca5a5;">Crítico (<15d)</span>';
+                    statusBadge = '<span class="status-badge badge-critical-red">Crítico (<15d)</span>';
                 } else if (item.status === 'ALERTA') {
-                    statusBadge = '<span class="status-badge" style="background-color: #ffedd5; color: #ea580c; border-color: #fed7aa; padding: 4px 8px; border-radius: 12px; font-size: 11px;">Alerta (<45d)</span>';
+                    statusBadge = '<span class="status-badge badge-warning-light">Alerta (<45d)</span>';
                 } else {
                     statusBadge = '<span class="status-badge badge-active">Seguro</span>';
                 }
 
                 tr.innerHTML = `
-                    <td style="padding: 12px 8px; font-weight: 600; color: #1e293b;">${item.activeIngredient}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${item.concentration}</td>
-                    <td style="padding: 12px 8px; text-align: center; font-weight: 700;">${item.totalStock}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${item.cmm}</td>
-                    <td style="padding: 12px 8px; text-align: center; font-weight: 600;">${item.autonomyDays}</td>
-                    <td style="padding: 12px 8px; text-align: center;">${statusBadge}</td>
+                    <td class="cell-bold">${item.activeIngredient}</td>
+                    <td class="cell-center">${item.concentration}</td>
+                    <td class="cell-center cell-strong">${item.totalStock}</td>
+                    <td class="cell-center">${item.cmm}</td>
+                    <td class="cell-center cell-bold">${item.autonomyDays}</td>
+                    <td class="cell-center">${statusBadge}</td>
                 `;
                 tbody.appendChild(tr);
             });
         } catch (error) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red; padding: 20px;">Falha ao carregar projeção de consumo.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="cell-center text-danger p-20">Falha ao carregar projeção de consumo.</td></tr>';
         }
     }
 
     // 3. Perfil Epidemiológico - Hiperdia
     async function loadEpidemiologyHiperdia() {
         try {
-            const response = await fetch(`${API_URL}/reports/epidemiology-hiperdia`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error();
-            const data = await response.json();
+            const { data } = await window.apiClient.get('/reports/epidemiology-hiperdia');
 
             document.getElementById('hiperdia-total').innerText = data.totalHiperdia || 0;
             document.getElementById('hiperdia-diabetes').innerText = data.countDiabeteOnly || 0;
@@ -466,18 +416,14 @@
     async function loadThirdPartyDispensations() {
         const tbody = document.querySelector('#table-third-party tbody');
         if (!tbody) return;
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="cell-center p-20"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
 
         try {
-            const response = await fetch(`${API_URL}/reports/third-party-dispensations`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error();
-            currentThirdPartyData = await response.json();
-
+            const { data } = await window.apiClient.get('/reports/third-party-dispensations');
+            currentThirdPartyData = data;
             filterThirdPartyTable();
         } catch (error) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: red; padding: 20px;">Falha ao carregar auditoria de terceiros.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" class="cell-center text-danger p-20">Falha ao carregar auditoria de terceiros.</td></tr>';
         }
     }
 
@@ -498,29 +444,27 @@
 
         tbody.innerHTML = '';
         if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Nenhuma retirada por retirante correspondente encontrada.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" class="cell-center p-20">Nenhuma retirada por retirante correspondente encontrada.</td></tr>';
             return;
         }
 
         filtered.forEach(item => {
             const tr = document.createElement('tr');
-            tr.style.borderBottom = '1px solid #e2e8f0';
-
             const momentFormatted = item.dataEntrega ? new Date(item.dataEntrega).toLocaleString('pt-BR') : '-';
 
             tr.innerHTML = `
-                <td style="padding: 12px 8px; text-align: center; font-size: 13px;">${momentFormatted}</td>
-                <td style="padding: 12px 8px; text-align: center;">
-                    <div style="font-weight: 600; color: #1e293b;">${item.terceiroNome}</div>
-                    <div style="font-size: 11px; color: #64748b;">CPF: ${item.terceiroCpf || '-'}</div>
+                <td class="cell-center fs-13">${momentFormatted}</td>
+                <td class="cell-center">
+                    <div class="third-party-name">${item.terceiroNome}</div>
+                    <div class="third-party-cpf">CPF: ${item.terceiroCpf || '-'}</div>
                 </td>
-                <td style="padding: 12px 8px; text-align: center;">
-                    <div style="font-weight: 500; color: #334155;">${item.pacienteNome}</div>
-                    <div style="font-size: 11px; color: #64748b;">CPF: ${item.pacienteCpf || '-'}</div>
+                <td class="cell-center">
+                    <div class="patient-name">${item.pacienteNome}</div>
+                    <div class="patient-cpf">CPF: ${item.pacienteCpf || '-'}</div>
                 </td>
-                <td style="padding: 12px 8px; text-align: center;">
-                    <div style="font-weight: 600; color: #0f766e;">${item.medicamento}</div>
-                    <div style="font-size: 12px; color: #64748b;">Qtd: ${item.quantidade} | por: ${item.dispensador}</div>
+                <td class="cell-center">
+                    <div class="medication-name">${item.medicamento}</div>
+                    <div class="medication-qty">Qtd: ${item.quantidade} | por: ${item.dispensador}</div>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -530,11 +474,7 @@
     // 5. Produtividade e Fluxo da Equipe
     async function loadProductivityStats() {
         try {
-            const response = await fetch(`${API_URL}/reports/productivity-stats`, {
-                headers: getAuthHeaders()
-            });
-            if (!response.ok) throw new Error();
-            const data = await response.json();
+            const { data } = await window.apiClient.get('/reports/productivity-stats');
 
             // Computar tempo médio com base em um cálculo razoável ou mock, se necessário
             const totalDispensations = Object.values(data.PractitionerProductivity || {}).reduce((a, b) => a + b, 0);
@@ -553,7 +493,7 @@
         const practitionerCtx = document.getElementById('productivitypractitionerChart');
         if (practitionerCtx) {
             if (productivityChartInstance) productivityChartInstance.destroy();
-            
+
             const labels = Object.keys(practitioners);
             const data = Object.values(practitioners);
 
@@ -623,18 +563,16 @@
     window.exportAnalyticsExcel = async function (reportType) {
         try {
             showGlobalLoader();
-            
-            let url = `${API_URL}/reports/${reportType}`;
-            const response = await fetch(url, { headers: getAuthHeaders() });
-            if (!response.ok) throw new Error("Erro ao buscar dados analíticos");
-            let data = await response.json();
+
+            const { data } = await window.apiClient.get(`/reports/${reportType}`);
+            let exportData = data;
 
             // Tratamento especial se o retorno for objeto aninhado
             if (reportType === 'epidemiology-hiperdia') {
                 const ageDist = data.ageDistribution || {};
                 const therapy = data.therapyType || {};
                 const originalData = data;
-                data = [
+                exportData = [
                     { Métrica: "Total Hiperdia", Valor: originalData.totalHiperdia || 0 },
                     { Métrica: "Apenas Diabetes", Valor: originalData.countDiabeteOnly || 0 },
                     { Métrica: "Apenas Hipertensão", Valor: originalData.countHipertensaoOnly || 0 },
@@ -647,23 +585,19 @@
                 const prod = data.PractitionerProductivity || {};
                 const days = data.weekdayDistribution || {};
                 const flow = data.hourlyFlow || {};
-                data = [
+                exportData = [
                     ...Object.entries(prod).map(([k, v]) => ({ Categoria: "Por Funcionário", Item: k, Atendimentos: v })),
                     ...Object.entries(days).map(([k, v]) => ({ Categoria: "Por Dia da Semana", Item: k, Atendimentos: v })),
                     ...Object.entries(flow).map(([k, v]) => ({ Categoria: "Fluxo Horário", Item: k, Atendimentos: v }))
                 ];
             }
 
-            if (!data || data.length === 0) {
+            if (!exportData || exportData.length === 0) {
                 alert("Nenhum dado disponível para exportar.");
                 return;
             }
 
-            const worksheet = XLSX.utils.json_to_sheet(data);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Dados");
-
-            XLSX.writeFile(workbook, `relatorio_${reportType}.xlsx`);
+            window.ExporterUtils.toExcel(exportData, `relatorio_${reportType}.xlsx`, "Dados");
         } catch (error) {
             alert(error.message);
         } finally {
@@ -673,10 +607,8 @@
 
     // Inicialização automática para a SPA
     if (window.location.hash === '#report' || document.getElementById('rep-sub-dashboard')) {
-        setTimeout(() => {
-            if (typeof window.switchReportTab === 'function') {
-                window.switchReportTab('dashboard');
-            }
-        }, 200);
+        if (typeof window.switchReportTab === 'function') {
+            window.switchReportTab('dashboard');
+        }
     }
 })();

@@ -152,23 +152,23 @@ function updateUILabels() {
 async function loadAllData() {
     try {
         const [suppliesRes, materialsRes, medsRes] = await Promise.all([
-            fetch(`${API_URL}/supplies`, { headers: getAuthHeaders() }),
-            fetch(`${API_URL}/supply-facilities`, { headers: getAuthHeaders() }),
-            fetch(`${API_URL}/medications`, { headers: getAuthHeaders() })
+            window.apiClient.get('/supplies'),
+            window.apiClient.get('/supply-facilities'),
+            window.apiClient.get('/medications')
         ]);
 
         insumosList = [];
-        if (suppliesRes.ok) {
-            const list = await suppliesRes.json();
+        if (suppliesRes.data) {
+            const list = suppliesRes.data;
             list.forEach(i => i.supplyType = 'medical');
             insumosList.push(...list);
         }
-        if (materialsRes.ok) {
-            const list = await materialsRes.json();
+        if (materialsRes.data) {
+            const list = materialsRes.data;
             list.forEach(i => i.supplyType = 'facility');
             insumosList.push(...list);
         }
-        if (medsRes.ok) medicamentosList = await medsRes.json();
+        if (medsRes.data) medicamentosList = medsRes.data;
 
         populateSelects();
     } catch (error) {
@@ -333,11 +333,7 @@ async function selectItemToEdit(id) {
     const endpoint = getActiveEndpoint(supplyType);
     
     try {
-        const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
-            headers: getAuthHeaders()
-        });
-        if (!response.ok) return;
-        const item = await response.json();
+        const { data: item } = await window.apiClient.get(`/${endpoint}/${id}`);
         currentEditingItem = item; // Guardamos para uso no saveEdit
 
         document.getElementById('editItemId').value = item.id;
@@ -523,19 +519,13 @@ async function deleteItem() {
     }
 
     try {
-        const response = await fetch(`${API_URL}/${endpoint}/${id}`, { 
-            method: 'DELETE',
-            headers: getAuthHeaders()
-        });
-        if (response.ok || response.status === 204) {
-            showToast(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} "${name}" excluído com sucesso.`);
-            closeEditCard();
-            loadAllData();
-        } else {
-            showToast(`Erro ao excluir. Verifique se o ${tipo} não está vinculado a registros ativos.`);
-        }
+        await window.apiClient.delete(`/${endpoint}/${id}`);
+        showToast(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} "${name}" excluído com sucesso.`);
+        closeEditCard();
+        loadAllData();
     } catch (e) {
-        showToast('Erro de conexão ao tentar excluir.', 'error');
+        console.error(e);
+        showToast(`Erro ao excluir. Verifique se o ${tipo} não está vinculado a registros ativos.`, 'error');
     }
 }
 
@@ -639,20 +629,13 @@ async function saveEdit() {
 
     setLoading('btnUpdateItem', true);
     try {
-        const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
-            method: 'PUT',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-            showToast("Atualização salva com sucesso!");
-            closeEditCard();
-            loadAllData();
-        } else {
-            showToast("Erro ao atualizar os dados.", 'error');
-        }
-    } catch (e) { showToast("Erro de conexão.", 'error'); } finally {
+        await window.apiClient.put(`/${endpoint}/${id}`, payload);
+        showToast("Atualização salva com sucesso!");
+        closeEditCard();
+        loadAllData();
+    } catch (e) { 
+        showToast("Erro de conexão.", 'error'); 
+    } finally {
         setLoading('btnUpdateItem', false);
     }
 }
@@ -701,25 +684,16 @@ async function saveLot() {
 
     setLoading('btnSaveLot', true);
     try {
-        const response = await fetch(`${API_URL}/${endpoint}/${itemId}/lots`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify([lotPayload])
-        });
-
-        if (response.ok || response.status === 201 || response.status === 204) {
-            showToast(`Lote ${lote} registrado com sucesso.`);
-            document.getElementById('lotSelectId').value = "";
-            document.getElementById('lotSelectSearch').value = "";
-            document.getElementById('lotCode').value = "";
-            document.getElementById('lotQuantity').value = "";
-            document.getElementById('lotExpiration').value = "";
-            loadAllData();
-        } else {
-            showToast("Erro ao salvar lote no servidor.", 'error');
-        }
+        await window.apiClient.post(`/${endpoint}/${itemId}/lots`, [lotPayload]);
+        showToast(`Lote ${lote} registrado com sucesso.`);
+        document.getElementById('lotSelectId').value = "";
+        document.getElementById('lotSelectSearch').value = "";
+        document.getElementById('lotCode').value = "";
+        document.getElementById('lotQuantity').value = "";
+        document.getElementById('lotExpiration').value = "";
+        loadAllData();
     } catch (error) {
-        showToast("Erro de conexão com o servidor.", 'error');
+        showToast("Erro ao registrar lote no servidor.", 'error');
     } finally {
         setLoading('btnSaveLot', false);
     }
@@ -855,31 +829,22 @@ async function saveNewItem() {
 
     setLoading('btnSaveNewCatalogItem', true);
     try {
-        const response = await fetch(`${API_URL}/${endpoint}`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(payload)
-        });
-
-        if (response.ok || response.status === 201) {
-            showToast(`'${itemTitle}' cadastrado com sucesso.`);
-            if (isMed) {
-                if (document.getElementById('newItemName')) document.getElementById('newItemName').value = "";
-                if (document.getElementById('newMedConcentrationValue')) document.getElementById('newMedConcentrationValue').value = "";
-                // Selects voltam para a primeira opção
-                if (document.getElementById('newMedForm')) document.getElementById('newMedForm').selectedIndex = 0;
-                if (document.getElementById('newMedRoute')) document.getElementById('newMedRoute').selectedIndex = 0;
-                document.querySelectorAll('input[id^="newMedProg"]').forEach(cb => cb.checked = false);
-            } else {
-                if (document.getElementById('newItemName')) document.getElementById('newItemName').value = "";
-                if (document.getElementById('newInsumoUnit')) document.getElementById('newInsumoUnit').value = "";
-            }
-            loadAllData();
+        await window.apiClient.post(`/${endpoint}`, payload);
+        showToast(`'${itemTitle}' cadastrado com sucesso.`);
+        if (isMed) {
+            if (document.getElementById('newItemName')) document.getElementById('newItemName').value = "";
+            if (document.getElementById('newMedConcentrationValue')) document.getElementById('newMedConcentrationValue').value = "";
+            // Selects voltam para a primeira opção
+            if (document.getElementById('newMedForm')) document.getElementById('newMedForm').selectedIndex = 0;
+            if (document.getElementById('newMedRoute')) document.getElementById('newMedRoute').selectedIndex = 0;
+            document.querySelectorAll('input[id^="newMedProg"]').forEach(cb => cb.checked = false);
         } else {
-            showToast("Erro ao cadastrar os dados.", 'error');
+            if (document.getElementById('newItemName')) document.getElementById('newItemName').value = "";
+            if (document.getElementById('newInsumoUnit')) document.getElementById('newInsumoUnit').value = "";
         }
+        loadAllData();
     } catch (error) {
-        showToast("Erro de comunicação com o servidor.", 'error');
+        showToast("Erro ao cadastrar os dados.", 'error');
     } finally {
         setLoading('btnSaveNewCatalogItem', false);
     }

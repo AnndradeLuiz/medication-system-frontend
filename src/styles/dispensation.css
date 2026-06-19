@@ -123,3 +123,126 @@
 .btn-danger-icon:active {
     transform: translateY(0);
 }
+
+/* Classes para remoção de estilos inline dinâmicos em dispensation.js */
+.medication-not-found-item {
+    padding: 10px 15px;
+    color: #ef4444;
+    font-size: 14px;
+}
+
+.medication-suggestion-li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.medication-suggestion-li:hover {
+    background-color: #e0e7ff;
+}
+
+.medication-suggestion-name {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.medication-suggestion-concentration {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.patient-not-found-item {
+    padding: 12px 15px;
+    color: #ef4444;
+    font-size: 14px;
+}
+
+.patient-suggestion-li {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.patient-suggestion-li:hover {
+    background-color: #f0fdf4;
+}
+
+.patient-card-info-title {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 15px;
+}
+
+.patient-card-info-cpf {
+    font-size: 13px;
+    color: #6b7280;
+    background: #e5e7eb;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.medication-lots-recalculated {
+    color: #6b7280;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.medication-lots-normal {
+    color: #0f766e;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.edit-dispensation-row {
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.edit-dispensation-qty-input {
+    width: 70px;
+    padding: 4px;
+    margin: 0 auto;
+}
+
+.summary-medication-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: left;
+}
+
+.summary-medication-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0284c7;
+}
+
+.summary-medication-name {
+    font-weight: 600;
+    color: var(--color-text-main);
+}
+
+.summary-medication-concentration {
+    font-size: 13px;
+    color: var(--color-text-light);
+}
+
+.summary-medication-qty-badge {
+    font-weight: 700;
+    color: #166534;
+    background-color: #dcfce7;
+    border-radius: 12px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+

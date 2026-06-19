@@ -89,3 +89,32 @@ th.sortable:hover {
     background-color: var(--color-primary-light) !important;
     color: var(--color-primary);
 }
+
+/* Classes para evitar estilos inline nas tabelas */
+.inventory-row {
+    height: 55px;
+}
+
+.cell-center {
+    text-align: center;
+}
+
+.cell-bold {
+    font-weight: 600;
+}
+
+.cell-strong {
+    font-weight: 700;
+}
+
+.cell-data {
+    font-family: var(--font-data);
+}
+
+.empty-state-cell {
+    text-align: center;
+    vertical-align: middle;
+    padding: 40px;
+    color: var(--color-text-muted);
+}
+

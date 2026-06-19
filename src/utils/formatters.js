@@ -2,20 +2,25 @@
  * formatters.js - Funções utilitárias globais de formatação e validação
  */
 
-window.applyCpfMask = function (valOrEvent) {
-    let value = typeof valOrEvent === 'string' ? valOrEvent : valOrEvent.target.value;
-    value = value.replace(/\D/g, "");
+window.formatCpfString = function (value) {
+    if (!value) return '';
+    value = String(value).replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
 
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-
-    if (typeof valOrEvent === 'object') {
-        valOrEvent.target.value = value;
-    }
     return value;
 };
+
+window.applyCpfMask = function (valOrEvent) {
+    if (typeof valOrEvent === 'object' && valOrEvent && valOrEvent.target) {
+        valOrEvent.target.value = window.formatCpfString(valOrEvent.target.value);
+        return valOrEvent.target.value;
+    }
+    return window.formatCpfString(valOrEvent);
+};
+
 
 window.formatCPF = function (cpf) {
     if (!cpf) return '-';
@@ -45,3 +50,37 @@ window.isValidCPF = function (cpf) {
 
     return true;
 };
+
+window.escapeHTML = function (str) {
+    if (str === null || str === undefined || str === '') return '';
+    return String(str).replace(/[&<>'"`=\/]/g,
+        tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;',
+            '`': '&#x60;',
+            '=': '&#x3D;',
+            '/': '&#x2F;'
+        }[tag] || tag)
+    );
+};
+
+window.validateFullName = function (name) {
+    if (!name) return { valid: false, message: "O nome é obrigatório." };
+
+    let formattedName = String(name).replace(/\s+/g, ' ').trim();
+    const regexName = /^(?=.{3,}$)(?!.* {2})(?!^[a-zà-öø-ÿ'] [a-zà-öø-ÿ'](?: |$))(?!^[a-zà-öø-ÿ']{2} [a-zà-öø-ÿ']{2}$)^[a-zà-öø-ÿ']+(?: (?:[a-zà-öø-ÿ']{2,}|e|y))+$/i;
+
+    if (!regexName.test(formattedName)) {
+        return {
+            valid: false,
+            message: "O nome informado não atende aos padrões. Verifique letras soltas, termos muito curtos ou caracteres inválidos."
+        };
+    }
+
+    return { valid: true, formattedName: formattedName };
+};
+
+

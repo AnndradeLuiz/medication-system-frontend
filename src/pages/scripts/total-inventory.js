@@ -22,7 +22,7 @@
         // Mensagem inicial de tela vazia até que o usuário filtre
         const tbody = document.getElementById('totalInventoryBody');
         if (tbody && tbody.innerHTML.trim() === '') {
-            tbody.innerHTML = `<tr><td colspan="6" class="text-center p-40 text-muted" style="vertical-align: middle;">Defina seus filtros e clique em <b>Filtrar</b> (ou digite e aperte Enter) para carregar os dados.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state-cell">Defina seus filtros e clique em <b>Filtrar</b> (ou digite e aperte Enter) para carregar os dados.</td></tr>`;
         }
 
         const modal = document.getElementById('totalInventoryFilterModal');
@@ -82,7 +82,7 @@
             }
         } catch (error) {
             console.error("Erro ao buscar inventário:", error);
-            tbody.innerHTML = `<tr><td colspan="6" class="text-center p-40 text-danger">Erro de conexão.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state-cell text-danger">Erro de conexão.</td></tr>`;
             showToast("Erro ao processar dados do inventário.", "error");
         } finally {
             setLoading(false);
@@ -106,7 +106,7 @@
         tbody.innerHTML = '';
 
         if (!items || items.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; vertical-align: middle; padding: 40px; color: var(--color-text-muted);">Nenhum item encontrado com os filtros atuais.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state-cell">Nenhum item encontrado com os filtros atuais.</td></tr>`;
             return;
         }
 
@@ -140,13 +140,13 @@
             }
 
             tbody.innerHTML += `
-            <tr style="height: 55px;">
-                <td style="font-weight: 600; text-align: center;">${escapeHTML(item.name || '')}</td>
-                <td style="text-align: center;"><span class="type-badge">${escapeHTML(item.type || '')}</span></td>
-                <td style="text-align: center;">${escapeHTML(categoryLabel)}</td>
-                <td style="text-align: center; font-family: var(--font-data); font-weight: 700;">${item.currentStock}</td>
-                <td style="text-align: center; font-family: var(--font-data);">${expDateHtml}</td>
-                <td style="text-align: center;">${statusHtml}</td>
+            <tr class="inventory-row">
+                <td class="cell-bold cell-center">${escapeHTML(item.name || '')}</td>
+                <td class="cell-center"><span class="type-badge">${escapeHTML(item.type || '')}</span></td>
+                <td class="cell-center">${escapeHTML(categoryLabel)}</td>
+                <td class="cell-center cell-data cell-strong">${item.currentStock}</td>
+                <td class="cell-center cell-data">${expDateHtml}</td>
+                <td class="cell-center">${statusHtml}</td>
             </tr>
         `;
         });

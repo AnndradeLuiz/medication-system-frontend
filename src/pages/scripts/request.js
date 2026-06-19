@@ -60,14 +60,14 @@
 
         try {
             const [medsRes, suppliesRes, cleaningRes] = await Promise.all([
-                fetch(`${API_URL}/medications`, { headers: getAuthHeaders() }),
-                fetch(`${API_URL}/supplies`, { headers: getAuthHeaders() }),
-                fetch(`${API_URL}/supply-facilities`, { headers: getAuthHeaders() })
+                window.apiClient.get('/medications'),
+                window.apiClient.get('/supplies'),
+                window.apiClient.get('/supply-facilities')
             ]);
 
-            allMedsRaw = medsRes.ok ? await medsRes.json() : [];
-            allSuppliesRaw = suppliesRes.ok ? await suppliesRes.json() : [];
-            allCleaningRaw = cleaningRes.ok ? await cleaningRes.json() : [];
+            allMedsRaw = medsRes.data || [];
+            allSuppliesRaw = suppliesRes.data || [];
+            allCleaningRaw = cleaningRes.data || [];
 
             applyReportFiltering();
 
@@ -202,23 +202,25 @@
                     formFriendly = getFriendlyPharmForm(item.pharmaceuticalForm || item.PharmaceuticalForm);
                 }
                 const formSuffix = formFriendly ? ` – ${formFriendly}.` : '';
-                displayName = `${escapeHTML(item.activeIngredient)} ${escapeHTML(item.concentration)}${formSuffix}`;
+                displayName = `${window.escapeHTML(item.activeIngredient)} ${window.escapeHTML(item.concentration)}${formSuffix}`;
             } else {
                 const unit = item.unit ? ` (${item.unit})` : '';
-                displayName = `${escapeHTML(item.name)}${unit}`;
+                displayName = `${window.escapeHTML(item.name)}${unit}`;
             }
 
             const itemKey = `${itemKeyPrefix}_${item.id}`;
             const currentVal = solicitQuantities[itemKey] || 0;
 
+            const stockColorClass = totalStock === 0 ? 'text-danger fw-700 text-center' : 'fw-700 text-center';
+
             tbody.innerHTML += `
                 <tr>
-                    <td style="text-align: center; font-weight: bold;">${index + 1}</td>
-                    <td style="font-weight: 500;">${displayName}</td>
-                    <td style="text-align: center; font-weight: 700; font-family: var(--font-data); color: ${totalStock === 0 ? 'var(--color-danger)' : 'var(--color-text-main)'};">
+                    <td class="text-center fw-600">${index + 1}</td>
+                    <td class="fw-500">${displayName}</td>
+                    <td class="${stockColorClass}">
                         ${totalStock}
                     </td>
-                    <td style="text-align: center;">
+                    <td class="text-center">
                         <input type="number" class="input-solicitada" value="${currentVal}" min="0" 
                             data-key="${itemKey}" 
                             data-name="${displayName}" 
@@ -337,20 +339,9 @@
         try {
             showToast("Gerando PDF, aguarde...", "info");
 
-            const response = await fetch(`${API_URL}/reports/pedidos`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...getAuthHeaders()
-                },
-                body: JSON.stringify(payload)
-            });
+            const response = await window.apiClient.post('/reports/pedidos', payload, { responseType: 'blob' });
 
-            if (!response.ok) {
-                throw new Error("Falha ao gerar o PDF pelo backend.");
-            }
-
-            const blob = await response.blob();
+            const blob = response.data;
             const url = window.URL.createObjectURL(blob);
 
             const a = document.createElement('a');
@@ -404,22 +395,6 @@
             "PO": "Pó"
         };
         return mapping[form] || formatEnum(form);
-    }
-
-    function escapeHTML(str) {
-        if (str === null || str === undefined || str === '') return '';
-        return String(str).replace(/[&<>'"`=\/]/g,
-            tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;',
-                '`': '&#x60;',
-                '=': '&#x3D;',
-                '/': '&#x2F;'
-            }[tag] || tag)
-        );
     }
 
 })();
