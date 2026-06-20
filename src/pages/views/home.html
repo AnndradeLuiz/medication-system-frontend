@@ -1,116 +1,116 @@
-            <div id="view-home" class="view-section">
-                <section class="home-content">
-                    <div class="kpi-grid">
-                        <div class="kpi-card clickable" onclick="switchView('patient')">
-                            <div class="kpi-icon kpi-blue"><i class="fa-solid fa-users"></i></div>
-                            <div class="kpi-info">
-                                <h3>Pacientes Cadastrados</h3>
-                                <p id="metricPatients">-</p>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card clickable" onclick="switchView('dispensation')">
-                            <div class="kpi-icon kpi-green"><i class="fa-solid fa-hand-holding-medical"></i></div>
-                            <div class="kpi-info">
-                                <h3>Dispensações Hoje</h3>
-                                <p id="metricDispensations">-</p>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card clickable" onclick="switchView('inventory')">
-                            <div class="kpi-icon kpi-orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                            <div class="kpi-info">
-                                <h3>Estoque Baixo (Itens)</h3>
-                                <p id="metricLowStock">-</p>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card clickable" onclick="switchView('inventory')">
-                            <div class="kpi-icon kpi-red"><i class="fa-solid fa-calendar-xmark"></i></div>
-                            <div class="kpi-info">
-                                <h3>Lotes Vencendo</h3>
-                                <p id="metricExpiring">-</p>
-                            </div>
-                        </div>
-
-                        <div class="kpi-card clickable" onclick="switchView('womens-health')">
-                            <div class="kpi-icon kpi-pink"><i class="fa-solid fa-venus"></i></div>
-                            <div class="kpi-info">
-                                <h3>Alertas Anticoncepcionais</h3>
-                                <p id="metricContraceptiveAlerts">-</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="quick-actions-section card mt-20">
-                        <h3><i class="fa-solid fa-bolt"></i> Ações Rápidas</h3>
-                        <div class="quick-actions-grid">
-                            <button class="action-btn" onclick="switchView('dispensation')">
-                                <div class="action-icon bg-blue-soft"><i class="fa-solid fa-pills"></i></div>
-                                <span>Nova Dispensação</span>
-                            </button>
-                            <button class="action-btn" onclick="switchView('patient')">
-                                <div class="action-icon bg-green-soft"><i class="fa-solid fa-user-plus"></i></div>
-                                <span>Cadastrar Paciente</span>
-                            </button>
-                            <button class="action-btn" onclick="switchView('inventory')">
-                                <div class="action-icon bg-orange-soft"><i class="fa-solid fa-box-archive"></i></div>
-                                <span>Entrada de Estoque</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-grid-main mt-20">
-                        <div class="dashboard-charts-column">
-                            <div class="charts-grid">
-                                <div class="chart-card card">
-                                    <div class="chart-header">
-                                        <h4><i class="fa-solid fa-chart-pie"></i> Dispensações por Categoria</h4>
-                                        <select id="categoryPeriodSelect" class="period-select">
-                                            <option value="all">Todo o Período</option>
-                                            <option value="7days" selected>Últimos 7 dias</option>
-                                            <option value="today">Somente Hoje</option>
-                                        </select>
-                                    </div>
-                                    <div class="chart-container">
-                                        <canvas id="categoryChart"></canvas>
-                                    </div>
-                                </div>
-                                <div class="chart-card card">
-                                    <h4><i class="fa-solid fa-chart-line"></i> Tendência de Atendimento</h4>
-                                    <div class="chart-container">
-                                        <canvas id="trendChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <section class="dashboard-content mt-20">
-                        <div class="card full-width-card">
-                            <h3 class="critical-alert-title">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                Alertas de Estoque Crítico
-                            </h3>
-
-                            <table class="data-table w-full border-collapse">
-                                <thead>
-                                    <tr class="bg-light border-b-2 text-left">
-                                        <th class="p-12 w-120">TIPO</th>
-                                        <th class="p-12">ITEM</th>
-                                        <th class="p-12 text-center w-150">QUANTIDADE ATUAL</th>
-                                        <th class="p-12 text-center w-150">STATUS</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="criticalStockBody">
-                                    <tr>
-                                        <td colspan="4" class="text-center p-20 text-muted">
-                                            <i class="fa-solid fa-spinner fa-spin"></i> Carregando dados do estoque...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-                </section>
+<div id="view-home" class="view-section">
+    <section class="home-content">
+        <div class="kpi-grid">
+            <div class="kpi-card clickable" onclick="switchView('patient')">
+                <div class="kpi-icon kpi-blue"><i class="fa-solid fa-users"></i></div>
+                <div class="kpi-info">
+                    <h3>Pacientes Cadastrados</h3>
+                    <p id="metricPatients">-</p>
+                </div>
             </div>
+
+            <div class="kpi-card clickable" onclick="switchView('dispensation')">
+                <div class="kpi-icon kpi-green"><i class="fa-solid fa-hand-holding-medical"></i></div>
+                <div class="kpi-info">
+                    <h3>Dispensações Hoje</h3>
+                    <p id="metricDispensations">-</p>
+                </div>
+            </div>
+
+            <div class="kpi-card clickable" onclick="switchView('inventory')">
+                <div class="kpi-icon kpi-orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="kpi-info">
+                    <h3>Estoque Baixo (Itens)</h3>
+                    <p id="metricLowStock">-</p>
+                </div>
+            </div>
+
+            <div class="kpi-card clickable" onclick="switchView('inventory')">
+                <div class="kpi-icon kpi-red"><i class="fa-solid fa-calendar-xmark"></i></div>
+                <div class="kpi-info">
+                    <h3>Lotes Vencendo</h3>
+                    <p id="metricExpiring">-</p>
+                </div>
+            </div>
+
+            <div class="kpi-card clickable" onclick="switchView('womens-health')">
+                <div class="kpi-icon kpi-pink"><i class="fa-solid fa-venus"></i></div>
+                <div class="kpi-info">
+                    <h3>Mulheres que precisam de Atenção</h3>
+                    <p id="metricContraceptiveAlerts">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-actions-section card mt-20">
+            <h3><i class="fa-solid fa-bolt"></i> Ações Rápidas</h3>
+            <div class="quick-actions-grid">
+                <button class="action-btn" onclick="switchView('dispensation')">
+                    <div class="action-icon bg-blue-soft"><i class="fa-solid fa-pills"></i></div>
+                    <span>Nova Dispensação</span>
+                </button>
+                <button class="action-btn" onclick="switchView('patient')">
+                    <div class="action-icon bg-green-soft"><i class="fa-solid fa-user-plus"></i></div>
+                    <span>Cadastrar Paciente</span>
+                </button>
+                <button class="action-btn" onclick="switchView('inventory')">
+                    <div class="action-icon bg-orange-soft"><i class="fa-solid fa-box-archive"></i></div>
+                    <span>Entrada de Estoque</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid-main mt-20">
+            <div class="dashboard-charts-column">
+                <div class="charts-grid">
+                    <div class="chart-card card">
+                        <div class="chart-header">
+                            <h4><i class="fa-solid fa-chart-pie"></i> Dispensações por Categoria</h4>
+                            <select id="categoryPeriodSelect" class="period-select">
+                                <option value="all">Todo o Período</option>
+                                <option value="7days" selected>Últimos 7 dias</option>
+                                <option value="today">Somente Hoje</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card card">
+                        <h4><i class="fa-solid fa-chart-line"></i> Tendência de Atendimento</h4>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="dashboard-content mt-20">
+            <div class="card full-width-card">
+                <h3 class="critical-alert-title">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Alertas de Estoque Crítico
+                </h3>
+
+                <table class="data-table w-full border-collapse">
+                    <thead>
+                        <tr class="bg-light border-b-2 text-left">
+                            <th class="p-12 w-120">TIPO</th>
+                            <th class="p-12">ITEM</th>
+                            <th class="p-12 text-center w-150">QUANTIDADE ATUAL</th>
+                            <th class="p-12 text-center w-150">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="criticalStockBody">
+                        <tr>
+                            <td colspan="4" class="text-center p-20 text-muted">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Carregando dados do estoque...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </section>
+</div>

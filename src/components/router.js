@@ -99,9 +99,13 @@ async function switchView(viewId, pushState = true) {
     }
     console.log(`[SPA Router] Carregando a visão: ${viewId}`);
     
-    // Remover o tema de Saúde da Mulher se estiver saindo da rota correspondente
-    if (viewId !== 'womens-health') {
+    // Alternar o tema e logo de Saúde da Mulher
+    const sidebarLogo = document.getElementById('sidebarLogo');
+    if (viewId === 'womens-health') {
+        if (sidebarLogo) sidebarLogo.src = 'src/assets/img/logo-completa-secao-mulheres.svg';
+    } else {
         document.body.classList.remove('theme-womens-health');
+        if (sidebarLogo) sidebarLogo.src = 'src/assets/img/logo-barra-de-secao.svg';
     }
     
     showGlobalLoader();
