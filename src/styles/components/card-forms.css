@@ -1,0 +1,165 @@
+/* ================= CARDS E FORMULÁRIOS ================= */
+.card {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: var(--transition);
+}
+
+.card h3 {
+    font-size: 18px;
+    color: var(--color-text-main);
+    margin-bottom: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card h3 i {
+    color: var(--color-primary);
+}
+
+.kpi-card.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Inputs e Grupos */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    color: var(--color-text-main);
+    background-color: rgba(255, 255, 255, 0.5);
+    outline: none;
+    transition: var(--transition);
+    box-sizing: border-box;
+    height: 48px;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+.checkbox-group {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--color-bg);
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    width: fit-content;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--color-success);
+}
+
+.checkbox-group label {
+    margin-bottom: 0 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: var(--color-success) !important;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#prescriptionSection select.form-select {
+    height: 48px !important;
+}
+
+/* --- RESPONSIVIDADE DE CARDS E FORMULÁRIOS --- */
+@media (max-width: 1024px) {
+    .card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Forms empilham verticalmente */
+    .form-row {
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+
+    .form-group {
+        width: 100% !important;
+    }
+
+    .card {
+        padding: 20px 16px;
+    }
+
+    .card h3 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 16px 12px;
+        border-radius: var(--radius-md);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="password"],
+    select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    /* Checkbox em telas pequenas */
+    .checkbox-group {
+        width: 100%;
+    }
+}
