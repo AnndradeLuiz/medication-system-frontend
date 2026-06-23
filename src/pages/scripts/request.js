@@ -84,19 +84,13 @@
         const cleaningTabBtn = document.getElementById('tab-cleaning');
         const suppliesTabBtn = document.getElementById('tab-supplies');
 
-        const saudeMulherInsumos = [
-            "fixador de células", "kit papanicolau", "lençol descartável",
-            "preservativo feminino", "preservativo masculino", "gel condutor",
-            "teste rápido de gravidez", "teste rápido de proteinúria"
-        ];
-
         if (reportType === 'saude-mulher') {
             medicationsList = allMedsRaw.filter(med =>
                 med.programCategory && (med.programCategory === 'SAUDE_DA_MULHER' || med.programCategory === 'WOMENS_HEALTH')
             );
 
             suppliesList = allSuppliesRaw.filter(item =>
-                item.name && saudeMulherInsumos.some(si => item.name.toLowerCase().includes(si))
+                item.programCategory && (item.programCategory === 'SAUDE_DA_MULHER' || item.programCategory === 'WOMENS_HEALTH')
             );
             cleaningList = [];
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'none';
@@ -110,12 +104,14 @@
                 med.programCategory && (med.programCategory === 'SAUDE_MENTAL' || med.programCategory === 'MENTAL_HEALTH')
             );
 
-            suppliesList = [];
+            suppliesList = allSuppliesRaw.filter(item =>
+                item.programCategory && (item.programCategory === 'SAUDE_MENTAL' || item.programCategory === 'MENTAL_HEALTH')
+            );
             cleaningList = [];
-            if (suppliesTabBtn) suppliesTabBtn.style.display = 'none';
+            if (suppliesTabBtn) suppliesTabBtn.style.display = 'inline-flex';
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'none';
 
-            if (activeTab !== 'medications') {
+            if (activeTab === 'cleaning') {
                 switchRequestTab('medications');
             }
         } else if (reportType === 'hiperdia') {
@@ -127,12 +123,18 @@
                 )
             );
 
-            suppliesList = [];
+            suppliesList = allSuppliesRaw.filter(item =>
+                item.programCategory && (
+                    item.programCategory === 'HIPERTENSAO' ||
+                    item.programCategory === 'HYPERTENSION' ||
+                    item.programCategory === 'DIABETES'
+                )
+            );
             cleaningList = [];
-            if (suppliesTabBtn) suppliesTabBtn.style.display = 'none';
+            if (suppliesTabBtn) suppliesTabBtn.style.display = 'inline-flex';
             if (cleaningTabBtn) cleaningTabBtn.style.display = 'none';
 
-            if (activeTab !== 'medications') {
+            if (activeTab === 'cleaning') {
                 switchRequestTab('medications');
             }
         } else {
@@ -141,7 +143,7 @@
             );
 
             suppliesList = allSuppliesRaw.filter(item =>
-                !item.name || !saudeMulherInsumos.some(si => item.name.toLowerCase().includes(si))
+                !item.programCategory || item.programCategory === 'BASIC_PHARMACY' || item.programCategory === 'FARMACIA_BASICA'
             );
 
             cleaningList = allCleaningRaw;
@@ -328,12 +330,17 @@
             };
         });
 
+        const practitionerName = sessionStorage.getItem('sgdm_userName') || 'Profissional';
+        const phone = sessionStorage.getItem('sgdm_practitionerPhone') || '';
+
         const payload = {
             reportType: reportType,
             requestDate: formattedDate,
             medications: medicationsPayload,
             supplies: suppliesPayload,
-            cleaningItems: cleaningPayload
+            cleaningItems: cleaningPayload,
+            practitionerName: practitionerName,
+            phone: phone
         };
 
         try {
@@ -362,7 +369,7 @@
                 window.URL.revokeObjectURL(url);
             }, 100);
 
-            showToast("PDF oficial gerado com sucesso!", "success");
+            showToast("PDF oficial gerado e enviado ao seu WhatsApp com sucesso!", "success");
 
         } catch (error) {
             console.error("Erro na geração do PDF:", error);

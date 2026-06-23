@@ -409,6 +409,9 @@ async function selectItemToEdit(id) {
             
             const editInsumoUnit = document.getElementById('editInsumoUnit');
             if (editInsumoUnit) editInsumoUnit.value = item.unit || '';
+
+            const editInsumoProg = document.getElementById('editInsumoProgramCategory');
+            if (editInsumoProg) editInsumoProg.value = item.programCategory || 'BASIC_PHARMACY';
         }
 
         document.getElementById('displayItemName').innerText = mainText;
@@ -618,11 +621,13 @@ async function saveEdit() {
         let uppercaseType = supplyTypeStr === 'facility' ? 'FACILITY' : 'MEDICAL';
         
         const editInsumoUnit = document.getElementById('editInsumoUnit');
+        const editInsumoProg = document.getElementById('editInsumoProgramCategory');
         
         payload = {
             name: itemName,
             type: uppercaseType,
             unit: editInsumoUnit ? editInsumoUnit.value.trim() : '',
+            programCategory: editInsumoProg ? editInsumoProg.value : 'BASIC_PHARMACY',
             lots: updatedLots
         };
     }
@@ -817,12 +822,15 @@ async function saveNewItem() {
         nome = nome.toLowerCase().replace(/(?:^|\s)\S/g, a => a.toUpperCase());
         const unitInput = document.getElementById('newInsumoUnit');
         const unit = unitInput ? unitInput.value.trim() : '';
+        const programCategoryInput = document.getElementById('newInsumoProgramCategory');
+        const programCategory = programCategoryInput ? programCategoryInput.value : 'BASIC_PHARMACY';
         
         itemTitle = nome;
 
         payload = {
             name: nome,
             unit: unit || null,
+            programCategory: programCategory,
             lots: []
         };
     }

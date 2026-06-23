@@ -60,45 +60,28 @@
 <body class="theme-medicamentos ready">
     <div class="app-container">
         <aside class="sidebar">
-            <div class="sidebar-header" style="justify-content: center;">
-                <img id="sidebarLogo" src="src/assets/img/logo-barra-de-secao.svg" alt="e-Farma SUS Logo"
-                    style="max-height: 180px; width: auto; max-width: 100%; object-fit: contain; cursor: pointer;"
-                    onclick="switchView('home')" title="Voltar à Tela Inicial">
-            </div>
-
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#home" onclick="switchView('home')"><i class="fa-solid fa-home"></i> Tela Inicial</a>
-                    </li>
-                    <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i>
-                            Pacientes</a></li>
-                    <li><a href="#womens-health" onclick="switchView('womens-health')"><i class="fa-solid fa-venus"></i>
-                            Saúde da Mulher</a></li>
-                    <li><a href="#dispensation" onclick="switchView('dispensation')"><i
-                                class="fa-solid fa-hand-holding-medical"></i> Dispensação</a></li>
-                    <li><a href="#inventory" onclick="switchView('inventory')"><i class="fa-solid fa-boxes-stacked"></i>
-                            Estoque Geral</a></li>
-                    <li><a href="#total-inventory" onclick="switchView('total-inventory')"><i
-                                class="fa-solid fa-list-check"></i> Inventário Total</a></li>
-                    <li><a href="#request" onclick="switchView('request')"><i class="fa-solid fa-file-invoice"></i>
-                            Pedidos</a></li>
-                    <li id="sidebarReportLi" style="display: none;"><a href="#report" onclick="switchView('report')"><i
-                                class="fa-solid fa-chart-pie"></i> Relatórios</a></li>
-                    <li id="sidebarPractitionerLi" style="display: none;"><a href="#practitioner"
-                            onclick="switchView('practitioner')"><i class="fa-solid fa-user-shield"></i>
-                            Funcionários</a></li>
-                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i
-                                class="fa-solid fa-clock-rotate-left"></i> Auditoria</a></li>
+                    <li><a href="#home" onclick="switchView('home')"><i class="fa-solid fa-home"></i> <span>Tela Inicial</span></a></li>
+                    <li><a href="#patient" onclick="switchView('patient')"><i class="fa-solid fa-user-friends"></i> <span>Pacientes</span></a></li>
+                    <li><a href="#womens-health" onclick="switchView('womens-health')"><i class="fa-solid fa-venus"></i> <span>Saúde da Mulher</span></a></li>
+                    <li><a href="#dispensation" onclick="switchView('dispensation')"><i class="fa-solid fa-hand-holding-medical"></i> <span>Dispensação</span></a></li>
+                    <li><a href="#inventory" onclick="switchView('inventory')"><i class="fa-solid fa-boxes-stacked"></i> <span>Estoque Geral</span></a></li>
+                    <li><a href="#total-inventory" onclick="switchView('total-inventory')"><i class="fa-solid fa-list-check"></i> <span>Inventário Total</span></a></li>
+                    <li><a href="#request" onclick="switchView('request')"><i class="fa-solid fa-file-invoice"></i> <span>Pedidos</span></a></li>
+                    <li id="sidebarReportLi" style="display: none;"><a href="#report" onclick="switchView('report')"><i class="fa-solid fa-chart-pie"></i> <span>Relatórios</span></a></li>
+                    <li id="sidebarPractitionerLi" style="display: none;"><a href="#practitioner" onclick="switchView('practitioner')"><i class="fa-solid fa-user-shield"></i> <span>Funcionários</span></a></li>
+                    <li id="sidebarAuditLi" style="display: none;"><a href="#audit" onclick="switchView('audit')"><i class="fa-solid fa-clock-rotate-left"></i> <span>Auditoria</span></a></li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
                 <a href="#" class="logout-btn" onclick="openCreditsModal()"
                     style="background: rgba(14, 165, 233, 0.1); color: var(--color-primary); border-color: rgba(14, 165, 233, 0.2); margin-bottom: 8px;">
-                    <i class="fa-solid fa-circle-info"></i> Sobre / Créditos
+                    <i class="fa-solid fa-circle-info"></i> <span>Sobre / Créditos</span>
                 </a>
                 <a href="login.html" class="logout-btn" onclick="sessionStorage.clear()">
-                    <i class="fa-solid fa-sign-out-alt"></i> Sair do Sistema
+                    <i class="fa-solid fa-sign-out-alt"></i> <span>Sair do Sistema</span>
                 </a>
             </div>
         </aside>

@@ -98,6 +98,9 @@ loginForm.addEventListener('submit', async function (e) {
             if (data.registration) {
                 sessionStorage.setItem('sgdm_practitionerRegistration', data.registration);
             }
+            if (data.phone) {
+                sessionStorage.setItem('sgdm_practitionerPhone', data.phone);
+            }
             // O Token JWT agora vem no Cookie HttpOnly (segurança contra XSS)
             // Lemos o token da resposta apenas para extrair a data de expiração e salvar no sessionStorage
             if (data.token) {
