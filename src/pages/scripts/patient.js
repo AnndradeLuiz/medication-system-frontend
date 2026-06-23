@@ -281,7 +281,7 @@
 
             const div = document.createElement('div');
             div.className = 'program-card-item';
-            
+
             const btnAction = isEdit ? `removeProgramFromEditBuilder(${index})` : `removeProgramFromBuilder(${index})`;
 
             div.innerHTML = `
@@ -362,7 +362,7 @@
 
         const genderSelect = document.getElementById('newGender');
         if (genderSelect) genderSelect.value = '';
-        
+
         const usesCheckbox = document.getElementById('newUsesContraceptive');
         if (usesCheckbox) {
             usesCheckbox.checked = false;
@@ -461,18 +461,18 @@
         const isExt = document.getElementById('editExternal').checked;
         const secao = document.getElementById('secaoProgramasEdit');
         const acsContainer = document.getElementById('editPatientAcsContainer');
-        
+
         if (acsContainer) {
             acsContainer.style.display = isExt ? 'none' : 'flex';
         }
-        
+
         if (isExt) {
             const acsSelect = document.getElementById('editPatientAcs');
             if (acsSelect) acsSelect.value = "";
             const microareaInput = document.getElementById('editPatientMicroarea');
             if (microareaInput) microareaInput.value = "";
         }
-        
+
         if (secao) {
             if (isExt) {
                 secao.style.display = 'none';
@@ -593,7 +593,7 @@
             const selectedOption = methodSelect.options[methodSelect.selectedIndex];
             const unit = selectedOption ? selectedOption.getAttribute('data-unit') : 'days';
             const rawDuration = parseInt(document.getElementById('newContraceptiveDurationDays').value) || 0;
-            
+
             let durationInDays = rawDuration;
             if (unit === 'years') {
                 durationInDays = rawDuration * 365;
@@ -716,12 +716,12 @@
         currentPatients = [];
         const searchInput = document.getElementById('searchInput');
         if (searchInput) searchInput.value = '';
-        
+
         const pageInfoEl = document.getElementById('patientPageInfo');
         const currentPgEl = document.getElementById('patientCurrentPage');
         const btnPrev = document.getElementById('btnPrevPatient');
         const btnNext = document.getElementById('btnNextPatient');
-        
+
         if (pageInfoEl) pageInfoEl.innerText = '0-0 de 0';
         if (currentPgEl) currentPgEl.innerText = 'Pág 1 de 1';
         if (btnPrev) btnPrev.disabled = true;
@@ -938,6 +938,12 @@
     }
 
     function openPatientModal(id) {
+        // Redimensiona o modal para a largura padrão de visualização (600px)
+        const modalContent = document.querySelector('#patientModal .modal-content');
+        if (modalContent) {
+            modalContent.style.maxWidth = '600px';
+        }
+
         // Busca o paciente no array carregado na tabela
         const patient = currentPatients.find(p => String(p.id) === String(id));
         if (!patient) return;
@@ -973,7 +979,7 @@
         // Preenchimento dos dados básicos
         const patientAge = formatPatientAge(patient.birthDate);
         document.getElementById('viewPatientNameHeader').innerHTML = `<span class="patient-header-name">${escapeHTML(patient.name)}</span><br><span class="patient-header-age">${patientAge}</span>`;
-        
+
         document.getElementById('viewCpf').innerText = patient.cpf ? window.applyCpfMask(patient.cpf) : '-';
 
         // CORREÇÃO 1: Atribuição do CNS que estava solta
@@ -1002,8 +1008,22 @@
             const info = patient.contraceptiveInfo;
             if (info && info.active) {
                 contraceptiveBox.style.display = 'block';
-                document.getElementById('viewContraceptiveMethod').innerText = info.medicationName || '-';
-                
+                let methodTitle = '-';
+                if (info.medicationId) {
+                    if (info.durationDays === 28 || info.durationDays === 21) {
+                        methodTitle = 'Pílula Oral';
+                    } else if (info.durationDays === 30) {
+                        methodTitle = 'Anticoncepcional Injetável Mensal';
+                    } else if (info.durationDays === 90) {
+                        methodTitle = 'Anticoncepcional Injetável Trimestral';
+                    } else {
+                        methodTitle = 'Método Contraceptivo';
+                    }
+                } else {
+                    methodTitle = info.medicationName || '-';
+                }
+                document.getElementById('viewContraceptiveMethod').innerText = methodTitle;
+
                 let appDateFormatted = '-';
                 let expDateFormatted = '-';
                 if (info.appliedDate) {
@@ -1015,10 +1035,10 @@
                         expDateFormatted = expDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
                     }
                 }
-                
+
                 document.getElementById('viewContraceptiveAppliedDate').innerText = appDateFormatted;
-                document.getElementById('viewContraceptiveDuration').innerText = info.durationDays 
-                    ? `${info.durationDays} dias (Vence em ${expDateFormatted})` 
+                document.getElementById('viewContraceptiveDuration').innerText = info.durationDays
+                    ? `${info.durationDays} dias (Vence em ${expDateFormatted})`
                     : '-';
 
                 const stockMedBox = document.getElementById('viewContraceptiveStockMedBox');
@@ -1038,7 +1058,7 @@
                 if (stockMedBox) stockMedBox.style.display = 'none';
             }
         }
-        
+
         document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-id-card"></i> Prontuário do Paciente`;
 
         document.getElementById('viewStatus').innerHTML = patient.status
@@ -1178,6 +1198,11 @@
     }
 
     async function enableEditMode() {
+        const modalContent = document.querySelector('#patientModal .modal-content');
+        if (modalContent) {
+            modalContent.style.maxWidth = '850px';
+        }
+
         await loadMedications();
         const id = document.getElementById('editId').value;
         const patient = currentPatients.find(p => String(p.id) === String(id));
@@ -1202,7 +1227,7 @@
             if (info && info.active) {
                 usesCheckbox.checked = true;
                 document.getElementById('editContraceptiveDetails').style.display = 'block';
-                
+
                 let detectedMethod = '';
                 let detectedUnit = 'days';
                 if (info.medicationId) {
@@ -1216,11 +1241,11 @@
                     } else {
                         detectedMethod = 'Outro';
                     }
-                    
+
                     document.getElementById('editContraceptiveMethod').value = detectedMethod;
                     document.getElementById('editContraceptiveMedId').value = info.medicationId || '';
                     document.getElementById('editContraceptiveMedSearch').value = info.medicationName || '';
-                    
+
                     const match = info.medicationName ? info.medicationName.match(/^(.*?)\s*\((.*?)\)$/) : null;
                     if (match) {
                         document.getElementById('editContraceptiveMedName').value = match[1] || '';
@@ -1230,29 +1255,29 @@
                         document.getElementById('editContraceptiveMedConcentration').value = '';
                     }
                     document.getElementById('editContraceptiveQuantity').value = info.quantity || '';
-                    
+
                     const stockRow = document.getElementById('editContraceptiveStockMedRow');
                     if (stockRow) stockRow.style.display = 'flex';
                 } else {
                     document.getElementById('editContraceptiveMethod').value = info.medicationName || '';
-                    
+
                     const method = info.medicationName;
                     if (['DIU de Cobre', 'DIU Mirena', 'Implante Contraceptivo (Implanon)'].includes(method)) {
                         detectedUnit = 'years';
                     } else if (method === 'Injetável Trimestral') {
                         detectedUnit = 'months';
                     }
-                    
+
                     document.getElementById('editContraceptiveMedId').value = '';
                     document.getElementById('editContraceptiveMedSearch').value = '';
                     document.getElementById('editContraceptiveMedName').value = '';
                     document.getElementById('editContraceptiveMedConcentration').value = '';
                     document.getElementById('editContraceptiveQuantity').value = '';
-                    
+
                     const stockRow = document.getElementById('editContraceptiveStockMedRow');
                     if (stockRow) stockRow.style.display = 'none';
                 }
-                
+
                 const labelEl = document.getElementById('editContraceptiveDurationLabel');
                 const durationInput = document.getElementById('editContraceptiveDurationDays');
                 if (labelEl && durationInput) {
@@ -1270,7 +1295,7 @@
                         durationInput.value = info.durationDays || '';
                     }
                 }
-                
+
                 document.getElementById('editContraceptiveAppliedDate').value = info.appliedDate ? info.appliedDate.split('T')[0] : '';
                 updateContraceptiveExpiryPreview('edit');
             } else {
@@ -1284,7 +1309,7 @@
                 document.getElementById('editContraceptiveMedName').value = '';
                 document.getElementById('editContraceptiveMedConcentration').value = '';
                 document.getElementById('editContraceptiveQuantity').value = '';
-                
+
                 const stockRow = document.getElementById('editContraceptiveStockMedRow');
                 if (stockRow) stockRow.style.display = 'none';
             }
@@ -1347,7 +1372,7 @@
                 });
             });
         }
-        
+
         const editPrescriberFields = [
             'editBuilderPrescriberName', 'editBuilderPrescriberCpf', 'editBuilderPrescriberCouncil',
             'editBuilderPrescriberCouncilUF', 'editBuilderPrescriberCouncilNumber', 'editBuilderPrescriptionDate',
@@ -1446,7 +1471,7 @@
                 if (domCategories.includes(category) && !checkedCategories.includes(category)) {
                     return;
                 }
-                
+
                 const categoryPrograms = currentEditPatientPrograms.filter(p => p.category === category);
                 const groupedByRx = {};
 
@@ -1511,7 +1536,7 @@
             const selectedOption = methodSelect.options[methodSelect.selectedIndex];
             const unit = selectedOption ? selectedOption.getAttribute('data-unit') : 'days';
             const rawDuration = parseInt(document.getElementById('editContraceptiveDurationDays').value) || 0;
-            
+
             let durationInDays = rawDuration;
             if (unit === 'years') {
                 durationInDays = rawDuration * 365;
@@ -1683,10 +1708,10 @@
     document.addEventListener('input', function (e) {
         if (e.target.id === 'searchInput') {
             let val = e.target.value;
-            
+
             clearTimeout(floatingSearchTimeout);
             suggestionsList = document.getElementById('patientPageSuggestions');
-            
+
             if (val.length >= 3) {
                 floatingSearchTimeout = setTimeout(() => fetchFloatingSuggestions(val), 400);
             } else {
@@ -1726,13 +1751,13 @@
                         suggestionsList.style.display = 'none';
 
                         currentPatients = [p];
-                        
+
                         // Update pagination UI explicitly for single selection
                         const pageInfoEl = document.getElementById('patientPageInfo');
                         const currentPgEl = document.getElementById('patientCurrentPage');
                         const btnPrev = document.getElementById('btnPrevPatient');
                         const btnNext = document.getElementById('btnNextPatient');
-                        
+
                         if (pageInfoEl) pageInfoEl.innerText = `1-1 de 1`;
                         if (currentPgEl) currentPgEl.innerText = `Pág 1 de 1`;
                         if (btnPrev) btnPrev.disabled = true;
@@ -1852,7 +1877,7 @@
         const dateInput = document.getElementById(`${prefix}ContraceptiveAppliedDate`);
         const durationInput = document.getElementById(`${prefix}ContraceptiveDurationDays`);
         const previewDiv = document.getElementById(`${prefix}ContraceptiveExpiryPreview`);
-        
+
         if (!methodSelect || !dateInput || !durationInput || !previewDiv) return;
 
         const selectedOption = methodSelect.options[methodSelect.selectedIndex];
@@ -1919,7 +1944,7 @@
         const progMulher = document.getElementById(prefix === 'new' ? 'regProgMulher' : 'editProgMulher');
         const isMulherChecked = progMulher ? progMulher.checked : false;
         const section = document.getElementById(`${prefix}ContraceptiveSection`);
-        
+
         if (!genderSelect || !section) return;
 
         if (genderSelect.value === 'FEMININO' && isMulherChecked) {
@@ -1956,7 +1981,7 @@
         const methodSelect = document.getElementById(`${prefix}ContraceptiveMethod`);
         const durationInput = document.getElementById(`${prefix}ContraceptiveDurationDays`);
         const labelEl = document.getElementById(`${prefix}ContraceptiveDurationLabel`);
-        
+
         if (!methodSelect || !durationInput || !labelEl) return;
 
         const selectedOption = methodSelect.options[methodSelect.selectedIndex];

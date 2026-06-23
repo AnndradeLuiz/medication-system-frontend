@@ -349,11 +349,7 @@
     text-align: center;
 }
 
-.data-table td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
 
 /* --- SCROLLBAR --- */
 .modal-content::-webkit-scrollbar {

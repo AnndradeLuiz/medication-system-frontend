@@ -512,7 +512,7 @@
 
     <!-- Modal de Detalhes e Edição do Paciente -->
     <div id="patientModal" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header">
                 <h3 id="modalTitle"><i class="fa-solid fa-id-card"></i> Prontuário do Paciente</h3>
                 <button class="btn-close" onclick="closeModal()"><i class="fa-solid fa-times"></i></button>
@@ -598,12 +598,15 @@
                     </div>
                 </div>
 
-                <div class="modal-footer text-right border-t pt-15 mt-20 d-flex justify-between align-center">
-                    <button class="btn-danger-solid w-auto d-flex align-center gap-8"
-                        onclick="deletePatientFromModal()">
-                        <i class="fa-solid fa-trash"></i> Excluir Paciente
+                <div class="modal-footer text-right border-t pt-15 mt-20 d-flex justify-end align-center"
+                    style="display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
+                    <button type="button" class="btn-danger-solid d-inline-flex align-center gap-8"
+                        onclick="closeModal()"
+                        style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-circle-xmark"></i> Fechar
                     </button>
-                    <button class="btn-primary w-auto d-flex align-center gap-8" onclick="enableEditMode()">
+                    <button class="btn-primary d-flex align-center gap-8" onclick="enableEditMode()"
+                        style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
                         <i class="fa-solid fa-pen"></i> Editar Informações
                     </button>
                 </div>
@@ -628,8 +631,8 @@
 
                 <div class="form-row">
                     <div class="form-group flex-1"><label>CPF</label><input type="text" id="editCpf" maxlength="14"
-                            oninput="this.value = applyCpfMask(this.value)"></div>
-                    <div class="form-group flex-1"><label>CNS</label><input type="text" id="editCns"></div>
+                            placeholder="000.000.000-00" oninput="this.value = applyCpfMask(this.value)"></div>
+                    <div class="form-group flex-1"><label>CNS</label><input type="text" id="editCns" placeholder="000.0000.0000.0000"></div>
                     <div class="form-group flex-1"><label>Nascimento</label><input type="date" id="editBirthDate"
                             max=""></div>
                 </div>
@@ -729,7 +732,7 @@
                     <!-- Seção Condicional de Anticoncepcional (Edição) -->
                     <div id="editContraceptiveSection" class="contraceptive-section-box mb-20" style="display: none;">
                         <div class="d-flex align-center justify-center gap-12"
-                            style="align-items: center; justify-content: center;">
+                            style="display: flex; align-items: center; justify-content: center; width: 100%; margin: 0 auto;">
                             <input type="checkbox" id="editUsesContraceptive" class="m-0 cursor-pointer"
                                 style="width: 20px; height: 20px;" onchange="toggleContraceptiveDetails('edit')">
                             <label for="editUsesContraceptive" class="fw-700 text-pink m-0 cursor-pointer"
@@ -785,7 +788,7 @@
                                     </ul>
                                 </div>
                                 <div class="form-group flex-1">
-                                    <label>Qtd. Dispensada Mensal</label>
+                                    <label>Quantidade</label>
                                     <input type="number" id="editContraceptiveQuantity" min="1" placeholder="Ex: 21"
                                         class="w-full h-42">
                                 </div>
@@ -1003,11 +1006,17 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer text-right mt-20 d-flex justify-end border-t pt-15 gap-10">
-                        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                        <button id="btnUpdatePatient" class="btn-success w-auto d-inline-flex"
-                            onclick="savePatientEdit()">
-                            <i class="fa-solid fa-save mr-10"></i> Atualizar Prontuário
+                    <div class="modal-footer text-right mt-20 d-flex justify-end border-t pt-15 gap-10"
+                        style="display: flex; gap: 12px; align-items: center; justify-content: flex-end;">
+                        <button type="button" class="btn-danger-solid d-inline-flex align-center gap-8"
+                            onclick="closeModal()"
+                            style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-circle-xmark"></i> Cancelar
+                        </button>
+                        <button id="btnUpdatePatient" class="btn-success d-inline-flex align-center gap-8"
+                            onclick="savePatientEdit()"
+                            style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-save"></i> Atualizar Prontuário
                         </button>
                     </div>
                 </div>

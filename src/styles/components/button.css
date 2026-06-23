@@ -109,3 +109,25 @@ button {
         font-size: 14px;
     }
 }
+/* Botão de Fechar nos rodapés de modais com estilo vermelho sólido tipo pílula */
+.btn-close-modal {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600;
+    padding: 12px 28px !important;
+    border-radius: 50px !important;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2) !important;
+    transition: all 0.2s ease-in-out !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-close-modal:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 15px rgba(239, 68, 68, 0.3) !important;
+    background: linear-gradient(135deg, #f87171, #ef4444) !important;
+}

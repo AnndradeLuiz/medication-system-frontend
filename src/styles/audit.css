@@ -222,6 +222,7 @@
     color: var(--color-text-main);
     font-weight: 500;
     padding: 12px 16px;
+    text-align: left !important;
 }
 
 .audit-table-error-msg {
@@ -239,4 +240,8 @@
 .audit-table-entity-label {
     color: #64748b;
     font-size: 13px;
+}
+
+#auditTableBody tr {
+    cursor: pointer;
 }

@@ -169,7 +169,7 @@
                 'INHALER': 'Inalador',
                 'AMPOULE': 'Ampola'
             };
-            
+
             Object.keys(formTranslations).forEach(key => {
                 const regex = new RegExp(`\\b${key}\\b`, 'g');
                 translatedDetails = translatedDetails.replace(regex, formTranslations[key]);
@@ -178,11 +178,10 @@
             tr.innerHTML = `
                 <td class="font-data text-muted text-center audit-table-date-cell">${formattedDate}</td>
                 <td class="text-center"><span class="fw-600 text-main audit-table-practitioner-name">${window.escapeHTML(log.practitionerName || 'Sistema')}</span></td>
-                <td class="text-center"><span class="role-badge role-${log.practitionerRole || 'SISTEMA'}">${roleLabel}</span></td>
                 <td class="text-center">${actionBadge}</td>
-                <td class="text-center"><span class="fw-600 audit-table-entity-label">${entityLabel}</span></td>
-                <td class="audit-table-details-cell">${window.escapeHTML(translatedDetails)}</td>
             `;
+
+            tr.addEventListener('click', () => showAuditDetails(log));
 
             fragment.appendChild(tr);
         });
@@ -206,13 +205,99 @@
         if (auditCurrentPage > 0) loadAuditLogs(auditCurrentPage - 1);
     };
 
+    // --- PRÓXIMA PÁGINA ---
     window.nextAuditPage = function () {
         if (auditCurrentPage < auditTotalPages - 1) loadAuditLogs(auditCurrentPage + 1);
     };
 
+    // --- DETALHES NO MODAL ---
+    function showAuditDetails(log) {
+        const modal = document.getElementById('auditDetailsModal');
+        if (!modal) return;
+
+        let formattedDate = '-';
+        if (log.moment) {
+            try {
+                formattedDate = new Date(log.moment).toLocaleString('pt-BR');
+            } catch (e) {
+                formattedDate = log.moment;
+            }
+        }
+
+        const roleLabel = window.ROLE_LABELS ? (window.ROLE_LABELS[log.practitionerRole] || log.practitionerRole || 'Sistema') : (log.practitionerRole || 'Sistema');
+
+        const entityLabels = {
+            Patient: 'Paciente',
+            practitioner: 'Funcionário',
+            Practitioner: 'Funcionário',
+            Medication: 'Medicamento',
+            Dispensation: 'Dispensação',
+            FacilitySupply: 'Insumo Infraestrutura',
+            MedicalSupply: 'Insumo Médico',
+            MedicationLot: 'Lote de Medicamento',
+            SupplyLot: 'Lote de Insumo'
+        };
+        const entityLabel = entityLabels[log.entityType] || log.entityType || '-';
+
+        let translatedDetails = log.details || '';
+        const formTranslations = {
+            'TABLET_PREGNANT': 'Comprimido (Gestante)',
+            'BOTTLE_PREGNANT': 'Frasco (Gestante)',
+            'TRANSDERMAL_PATCH': 'Adesivo Transdérmico',
+            'TABLET': 'Comprimido',
+            'CAPSULE': 'Cápsula',
+            'SYRUP': 'Xarope',
+            'SUSPENSION': 'Suspensão',
+            'DROPS': 'Gotas',
+            'OINTMENT': 'Pomada',
+            'CREAM': 'Creme',
+            'INJECTABLE': 'Injetável',
+            'SUPPOSITORY': 'Supositório',
+            'LOTION': 'Loção',
+            'SOLUTION': 'Solução',
+            'ELIXIR': 'Elixir',
+            'GEL': 'Gel',
+            'PASTE': 'Pasta',
+            'POWDER': 'Pó',
+            'INHALER': 'Inalador',
+            'AMPOULE': 'Ampola'
+        };
+        
+        Object.keys(formTranslations).forEach(key => {
+            const regex = new RegExp(`\\b${key}\\b`, 'g');
+            translatedDetails = translatedDetails.replace(regex, formTranslations[key]);
+        });
+
+        let actionBadgeClass = 'audit-badge-default';
+        let actionText = log.action || 'EVENTO';
+        switch (log.action) {
+            case 'CREATE': actionBadgeClass = 'audit-badge-create'; break;
+            case 'READ': actionBadgeClass = 'audit-badge-read'; break;
+            case 'UPDATE': actionBadgeClass = 'audit-badge-update'; break;
+            case 'DELETE': actionBadgeClass = 'audit-badge-delete'; break;
+            case 'LOGIN_SUCCESS': actionBadgeClass = 'audit-badge-login-ok'; actionText = 'LOGIN OK'; break;
+            case 'LOGIN_FAILURE': actionBadgeClass = 'audit-badge-login-error'; actionText = 'LOGIN ERRO'; break;
+        }
+        const actionHtml = `<span class="status-indicator ${actionBadgeClass}">${actionText}</span>`;
+
+        document.getElementById('audit-detail-date').innerText = formattedDate;
+        document.getElementById('audit-detail-practitioner').innerText = log.practitionerName || 'Sistema';
+        document.getElementById('audit-detail-role').innerHTML = `<span class="role-badge role-${log.practitionerRole || 'SISTEMA'}">${roleLabel}</span>`;
+        document.getElementById('audit-detail-action').innerHTML = actionHtml;
+        document.getElementById('audit-detail-module').innerText = entityLabel;
+        document.getElementById('audit-detail-description').innerText = translatedDetails;
+
+        modal.classList.add('active');
+    }
+
+    function closeAuditDetailsModal() {
+        const modal = document.getElementById('auditDetailsModal');
+        if (modal) modal.classList.remove('active');
+    }
 
     // Exportar para escopo global do roteador e inicialização
     window.loadAuditLogs = loadAuditLogs;
+    window.closeAuditDetailsModal = closeAuditDetailsModal;
 
 })();
 

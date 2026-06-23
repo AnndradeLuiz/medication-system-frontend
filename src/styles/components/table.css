@@ -9,45 +9,105 @@
     border-right: none;
 }
 
-.data-table {
+.data-table,
+table.table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 24px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-}
-
-.data-table th {
-    background-color: rgba(248, 250, 252, 0.6);
-    padding: 14px 16px;
-    text-align: left;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    border-bottom: 2px solid var(--color-border);
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background-color: var(--color-surface);
+    margin-top: 0 !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    overflow: hidden !important;
 }
 
 .data-table th,
-.data-table td {
-    padding: 14px 16px;
-    text-align: left;
-    border-bottom: 1px solid var(--color-border);
+table.table th {
+    height: 60px !important;
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 16px !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    border-right: 1px solid var(--color-border) !important;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    text-align: center;
     vertical-align: middle;
+    white-space: nowrap !important;
 }
 
-.data-table td {
+.data-table td,
+table.table td {
+    height: 60px !important;
+    padding: 8px 16px !important;
+    font-size: 14px;
     color: var(--color-text-main);
-    font-size: 15px;
+    border-bottom: 1px solid var(--color-border) !important;
+    border-right: 1px solid var(--color-border) !important;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    transition: background-color 0.15s ease-in-out;
 }
 
-.data-table tr:last-child td {
-    border-bottom: none;
+.data-table th:last-child,
+table.table th:last-child,
+.data-table td:last-child,
+table.table td:last-child {
+    border-right: none !important;
 }
 
-.data-table tr:hover td {
-    background-color: rgba(37, 99, 235, 0.04);
+.data-table tr:last-child td,
+table.table tr:last-child td {
+    border-bottom: none !important;
+}
+
+.table-responsive table.table,
+.table-responsive .data-table {
+    margin-top: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+.table-responsive table.table th,
+.table-responsive .data-table th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: inset 0 -1px 0 var(--color-border);
+    /* Garante que a borda inferior do th fique visível ao rolar */
+}
+
+.data-table tr:hover td,
+table.table tr:hover td {
+    background-color: var(--color-bg-hover) !important;
+}
+
+/* Arredondamento individual dos cantos para evitar que o background "vaze" nas bordas arredondadas do container */
+.table-responsive table.table tr:first-child th:first-child,
+.table-responsive .data-table tr:first-child th:first-child {
+    border-top-left-radius: var(--radius-md) !important;
+}
+
+.table-responsive table.table tr:first-child th:last-child,
+.table-responsive .data-table tr:first-child th:last-child {
+    border-top-right-radius: var(--radius-md) !important;
+}
+
+.table-responsive table.table tr:last-child td:first-child,
+.table-responsive .data-table tr:last-child td:first-child {
+    border-bottom-left-radius: var(--radius-md) !important;
+}
+
+.table-responsive table.table tr:last-child td:last-child,
+.table-responsive .data-table tr:last-child td:last-child {
+    border-bottom-right-radius: var(--radius-md) !important;
 }
 
 .table-responsive {
@@ -59,6 +119,7 @@
 
 /* --- RESPONSIVIDADE DE TABELAS --- */
 @media (max-width: 768px) {
+
     /* Tabelas: scroll horizontal */
     .table-responsive {
         overflow-x: auto;

@@ -133,3 +133,7 @@ body.theme-womens-health {
     background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%) !important;
     color: #db2777 !important;
 }
+
+#womensHealthTableBody tr {
+    cursor: pointer;
+}

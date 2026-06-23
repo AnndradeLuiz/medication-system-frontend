@@ -108,7 +108,7 @@
         tbody.innerHTML = '';
 
         if (!list || list.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="empty-msg">Nenhuma paciente encontrada com o filtro selecionado.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-msg">Nenhuma paciente encontrada com o filtro selecionado.</td></tr>`;
             return;
         }
 
@@ -120,9 +120,6 @@
 
             const appliedDateFormatted = info.appliedDate ? formatDate(info.appliedDate) : '-';
             const expirationDate = calculateExpirationDate(info.appliedDate, info.durationDays);
-            const expirationDateFormatted = expirationDate ? formatDate(expirationDate) : '-';
-            const daysLeft = calculateDaysLeft(expirationDate);
-            const daysLeftText = formatDaysLeftFriendly(daysLeft);
 
             // Status badge e cor da linha
             let statusBadge = '';
@@ -140,8 +137,6 @@
 
             if (rowClass) tr.className = rowClass;
 
-            const primaryPhone = patient.phones && patient.phones[0] ? patient.phones[0] : '';
-
             tr.innerHTML = `
                 <td>
                     <div class="fw-600">${escapeHTML(patient.name)}</div>
@@ -149,24 +144,12 @@
                 </td>
                 <td>${escapeHTML(info.medicationName || 'Método não especificado')}</td>
                 <td style="text-align: center;">${appliedDateFormatted}</td>
-                <td style="text-align: center;">${expirationDateFormatted}</td>
-                <td style="text-align: center;">${daysLeftText}</td>
                 <td style="text-align: center;">${statusBadge}</td>
-                <td style="text-align: center;">
-                    ${notifiedPatients.has(patient.id)
-                    ? `<button type="button" disabled
-                                style="padding: 6px 12px; margin: 0; display: inline-flex; align-items: center; gap: 6px;
-                                       background-color: #6b7280; border: 1px solid #6b7280; color: #fff;
-                                       border-radius: var(--radius-md); font-size: 13px; cursor: not-allowed; opacity: 0.75;">
-                               <i class="fa-solid fa-check"></i> Já Notificado
-                           </button>`
-                    : `<button type="button" id="btn-notify-${patient.id}" class="btn-success btn-sm d-inline-flex align-center gap-6"
-                               onclick="sendContraceptiveNotification('${patient.id}', '${escapeJS(patient.name)}', '${escapeJS(info.medicationName)}', '${expirationDateFormatted}', '${primaryPhone}', ${info.durationDays || 0})"
-                               style="padding: 6px 12px; margin: 0; background-color: var(--color-primary); border-color: var(--color-primary);"</i> Notificar
-                           </button>`
-                }
-                </td>
             `;
+
+            tr.addEventListener('click', () => {
+                showWomensHealthDetails(patient);
+            });
 
             tbody.appendChild(tr);
         });
@@ -243,16 +226,26 @@
         if (!expirationDate || !info) return 'regular';
         const daysLeft = calculateDaysLeft(expirationDate);
         if (daysLeft === null) return 'regular';
+        
+        // Se já venceu (e passou da data limite)
         if (daysLeft < 0) return 'expired';
 
         const durationDays = info.durationDays || 0;
+        
+        // Anual (DIU, Implante, etc >= 365 dias)
         if (durationDays >= 365) {
-            if (daysLeft <= 365) return 'expiring';
-        } else if (durationDays > 28) {
+            if (daysLeft <= 90) return 'expiring';
+        } 
+        // Trimestral (Injetável trimestral ~90 dias)
+        else if (durationDays >= 80 && durationDays <= 100) {
             if (daysLeft <= 30) return 'expiring';
-        } else {
-            if (daysLeft <= 7) return 'expiring';
         }
+        // Mensal (Pílulas de 21 ou 28 dias ou injetável mensal)
+        else {
+            // Se for de 21 dias, alerta "quando acabar", que é em zero dias (daysLeft <= 0)
+            if (daysLeft <= 0) return 'expiring';
+        }
+        
         return 'regular';
     }
 
@@ -270,13 +263,31 @@
             return;
         }
 
+        const daysLeft = calculateDaysLeft(new Date(expDate.split('/').reverse().join('-')));
         let message = '';
+        
         if (durationDays >= 365) {
-            message = `Olá, ${patientName}! Lembramos que o período de eficácia do seu dispositivo contraceptivo está se aproximando do fim, expira dia ${expDate}. Por favor, entre em contato com a UBS para agendar a consulta médica de renovação ou substituição.`;
-        } else if (durationDays > 28) {
-            message = `Olá, ${patientName}! Lembramos que a data da próxima aplicação do seu anticoncepcional injetável está se aproximando, vence em ${expDate}. Por favor, compareça à UBS para realizar a nova aplicação dentro do prazo indicado.`;
+            if (daysLeft <= 30) {
+                message = `Olá! Aqui é da UBS. Falta apenas 1 mês para o vencimento do seu método contraceptivo (${contraceptiveName}). Por favor, agende seu retorno com a enfermagem.`;
+            } else if (daysLeft <= 90) {
+                message = `Olá! Aqui é da UBS. Faltam 3 meses para o vencimento do seu método contraceptivo (${contraceptiveName}). Comece a planejar seu retorno para avaliação.`;
+            } else {
+                message = `Olá, ${patientName}! Lembramos que o período de eficácia do seu dispositivo contraceptivo (${contraceptiveName}) está se aproximando do fim, expira dia ${expDate}. Por favor, entre em contato com a UBS para agendar a consulta médica de renovação ou substituição.`;
+            }
+        } else if (durationDays >= 80 && durationDays <= 100) {
+            if (daysLeft <= 7) {
+                message = `Olá! A data da sua injeção contraceptiva trimestral (${contraceptiveName}) é daqui a 1 semana. Não se esqueça de comparecer à UBS!`;
+            } else if (daysLeft <= 30) {
+                message = `Olá! Falta 1 mês para a sua próxima injeção contraceptiva trimestral (${contraceptiveName}). Programe-se para buscar na UBS.`;
+            } else {
+                message = `Olá, ${patientName}! Lembramos que a data da próxima aplicação do seu anticoncepcional injetável (${contraceptiveName}) está se aproximando, vence em ${expDate}. Por favor, compareça à UBS para realizar a nova aplicação dentro do prazo indicado.`;
+            }
         } else {
-            message = `Olá, ${patientName}! Lembramos que a sua cartela de anticoncepcional está chegando ao fim. Lembre-se de comparecer à UBS do seu bairro para retirar sua próxima cartela.`;
+            if (daysLeft <= 0) {
+                message = `Olá! O ciclo da sua pílula contraceptiva (${contraceptiveName}) acabou. Lembre-se de fazer a pausa (se houver) e buscar a nova cartela na UBS!`;
+            } else {
+                message = `Olá, ${patientName}! Lembramos que a sua cartela de anticoncepcional (${contraceptiveName}) está chegando ao fim. Lembre-se de comparecer à UBS do seu bairro para retirar sua próxima cartela.`;
+            }
         }
 
         try {
@@ -336,6 +347,84 @@
     function destroyWomensHealth() {
         document.body.classList.remove('theme-womens-health');
     }
+
+    function showWomensHealthDetails(patient) {
+        const modal = document.getElementById('whDetailsModal');
+        if (!modal) return;
+
+        const info = patient.contraceptiveInfo;
+        if (!info) return;
+
+        const appliedDateFormatted = info.appliedDate ? formatDate(info.appliedDate) : '-';
+        const expirationDate = calculateExpirationDate(info.appliedDate, info.durationDays);
+        const expirationDateFormatted = expirationDate ? formatDate(expirationDate) : '-';
+        const daysLeft = calculateDaysLeft(expirationDate);
+        const daysLeftText = formatDaysLeftFriendly(daysLeft);
+
+        let statusBadge = '';
+        const statusType = determineStatusType(expirationDate, info);
+        if (statusType === 'expired') {
+            statusBadge = `<span class="badge-wh badge-wh-expired">Vencido</span>`;
+        } else if (statusType === 'expiring') {
+            statusBadge = `<span class="badge-wh badge-wh-expiring">A vencer</span>`;
+        } else {
+            statusBadge = `<span class="badge-wh badge-wh-regular">Regular</span>`;
+        }
+
+        document.getElementById('wh-detail-patient-name').textContent = patient.name || '-';
+        document.getElementById('wh-detail-patient-cpf').textContent = patient.cpf ? window.formatCPF(patient.cpf) : '-';
+        document.getElementById('wh-detail-patient-cns').textContent = patient.cns ? window.applyCnsMask(patient.cns) : '-';
+        
+        const primaryPhone = patient.phones && patient.phones[0] ? patient.phones[0] : '';
+        document.getElementById('wh-detail-patient-phone').textContent = primaryPhone ? window.formatPhoneString(primaryPhone) : '-';
+        
+        document.getElementById('wh-detail-method').textContent = info.medicationName || 'Método não especificado';
+        document.getElementById('wh-detail-applied-date').textContent = appliedDateFormatted;
+        document.getElementById('wh-detail-expiration-date').textContent = expirationDateFormatted;
+        document.getElementById('wh-detail-days-left').textContent = daysLeftText;
+        document.getElementById('wh-detail-status').innerHTML = statusBadge;
+
+        const actionContainer = document.getElementById('wh-modal-action-container');
+        if (actionContainer) {
+            actionContainer.innerHTML = '';
+            if (notifiedPatients.has(patient.id)) {
+                actionContainer.innerHTML = `
+                    <button type="button" disabled
+                        style="padding: 10px 20px; margin: 0; display: inline-flex; align-items: center; gap: 8px;
+                               background-color: #6b7280; border: 1px solid #6b7280; color: #fff;
+                               border-radius: var(--radius-md); font-size: 14px; cursor: not-allowed; opacity: 0.75;">
+                        <i class="fa-solid fa-check"></i> Já Notificado
+                    </button>
+                `;
+            } else {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = `btn-notify-${patient.id}`;
+                btn.className = 'btn-success d-inline-flex align-center gap-8';
+                btn.style.padding = '10px 20px';
+                btn.style.margin = '0';
+                btn.style.fontSize = '14px';
+                btn.style.backgroundColor = 'var(--color-primary)';
+                btn.style.borderColor = 'var(--color-primary)';
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Notificar`;
+                btn.onclick = () => {
+                    sendContraceptiveNotification(patient.id, patient.name, info.medicationName, expirationDateFormatted, primaryPhone, info.durationDays || 0);
+                };
+                actionContainer.appendChild(btn);
+            }
+        }
+
+        modal.classList.add('active');
+    }
+
+    function closeWomensHealthDetailsModal() {
+        const modal = document.getElementById('whDetailsModal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
+    }
+
+    window.closeWomensHealthDetailsModal = closeWomensHealthDetailsModal;
 
     window.WomensHealthController = {
         init: initWomensHealth,
