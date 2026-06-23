@@ -83,4 +83,28 @@ window.validateFullName = function (name) {
     return { valid: true, formattedName: formattedName };
 };
 
+window.formatPhoneString = function (value) {
+    if (!value) return '';
+    let numbers = String(value).replace(/\D/g, "");
+    if (numbers.length > 11) numbers = numbers.slice(0, 11);
+
+    if (numbers.length > 10) {
+        return numbers.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    } else if (numbers.length > 6) {
+        return numbers.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    } else if (numbers.length > 2) {
+        return numbers.replace(/^(\d{2})(\d{0,4})/, '($1) $2');
+    } else {
+        return numbers.length > 0 ? `(${numbers}` : '';
+    }
+};
+
+window.applyPhoneMask = function (valOrEvent) {
+    if (typeof valOrEvent === 'object' && valOrEvent && valOrEvent.target) {
+        valOrEvent.target.value = window.formatPhoneString(valOrEvent.target.value);
+        return valOrEvent.target.value;
+    }
+    return window.formatPhoneString(valOrEvent);
+};
+
 

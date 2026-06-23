@@ -67,11 +67,14 @@
                 ? '<span class="status-indicator status-active">ATIVO</span>'
                 : '<span class="status-indicator status-inactive">INATIVO</span>';
 
+            const phoneHtml = emp.phone ? `<br><span class="fs-3xs text-muted" style="font-size: 11px;"><i class="fa-solid fa-phone" style="font-size: 9px; margin-right: 4px;"></i>${window.formatPhoneString(emp.phone)}</span>` : '';
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
             <td class="text-center">
                 <span class="fw-600 text-main">${escapeHTML(emp.name)}</span>
                 ${isMe ? '<span class="status-indicator status-active fs-2xs ml-10">VOCÊ</span>' : ''}
+                ${phoneHtml}
             </td>
             <td class="font-data text-muted text-center">${emp.registration || '-'}</td>
             <td class="font-data text-muted text-center">${window.formatCPF(emp.cpf)}</td>
@@ -128,6 +131,7 @@
         const cpf = document.getElementById('newEmpCpf').value.trim();
         const password = document.getElementById('newEmpPassword').value;
         const role = document.getElementById('newEmpRole').value;
+        const phone = document.getElementById('newEmpPhone').value.trim();
         const status = true; // Novos funcionários sempre ativos por padrão
 
         let microarea = null;
@@ -140,7 +144,24 @@
         }
 
         if (!rawName || !cpf || !password || !role) {
-            showToast('Erro: Todos os campos (exceto Matrícula) são obrigatórios.', 'error');
+            showToast('Erro: Todos os campos (exceto Matrícula e Celular de cargos comuns) são obrigatórios.', 'error');
+            return;
+        }
+
+        let normalizedPhone = null;
+        if (phone) {
+            const phoneDigits = phone.replace(/\D/g, '');
+            if (phoneDigits.length !== 11) {
+                showToast('Erro: O celular deve conter exatamente 11 dígitos (DDD + número com 9).', 'error');
+                return;
+            }
+            if (phoneDigits.charAt(2) !== '9') {
+                showToast('Erro: O número de celular deve iniciar com o dígito 9.', 'error');
+                return;
+            }
+            normalizedPhone = phoneDigits;
+        } else if (role === 'ADM_TI' || role === 'ENF_GERENTE') {
+            showToast('Erro: O telefone celular é obrigatório para cargos de acesso total (ADM_TI e ENF_GERENTE).', 'error');
             return;
         }
 
@@ -158,7 +179,16 @@
 
         const normalizedCpf = cpf.replace(/\D/g, "");
 
-        const payload = { name, registration, cpf: normalizedCpf, password, role, status, microarea: microarea ? parseInt(microarea) : null };
+        const payload = {
+            name,
+            registration,
+            cpf: normalizedCpf,
+            password,
+            role,
+            phone: normalizedPhone,
+            status,
+            microarea: microarea ? parseInt(microarea) : null
+        };
 
         setLoading('btnSaveNewpractitioner', true);
         try {
@@ -170,6 +200,8 @@
             document.getElementById('newEmpCpf').value = '';
             document.getElementById('newEmpPassword').value = '';
             document.getElementById('newEmpRole').value = 'TEC_ENFERMAGEM';
+            document.getElementById('newEmpPhone').value = '';
+            toggleMicroareaField('new');
             document.getElementById('newEmpMicroareaGroup').style.display = 'none';
             document.getElementById('newEmpMicroarea').value = '';
             loadpractitioners();
@@ -201,15 +233,14 @@
         cpfInput.dispatchEvent(new Event('input'));
 
         document.getElementById('editEmpPassword').value = '';
+        document.getElementById('editEmpOldPassword').value = '';
         document.getElementById('editEmpRole').value = emp.role;
         document.getElementById('editEmpStatus').checked = (emp.status === true);
+        document.getElementById('editEmpPhone').value = emp.phone ? window.formatPhoneString(emp.phone) : '';
 
+        toggleMicroareaField('edit');
         if (emp.role === 'ACS') {
-            document.getElementById('editEmpMicroareaGroup').style.display = 'block';
             document.getElementById('editEmpMicroarea').value = emp.microarea || '';
-        } else {
-            document.getElementById('editEmpMicroareaGroup').style.display = 'none';
-            document.getElementById('editEmpMicroarea').value = '';
         }
 
         document.getElementById('editpractitionerModal').classList.add('active');
@@ -226,7 +257,9 @@
         if (!registration) registration = "S/M";
         const cpf = document.getElementById('editEmpCpf').value.trim();
         const password = document.getElementById('editEmpPassword').value;
+        const oldPassword = document.getElementById('editEmpOldPassword').value;
         const role = document.getElementById('editEmpRole').value;
+        const phone = document.getElementById('editEmpPhone').value.trim();
         const status = document.getElementById('editEmpStatus').checked;
 
         let microarea = null;
@@ -240,6 +273,23 @@
 
         if (!rawName || !cpf || !role) {
             showToast('Erro: Nome, CPF e Cargo são obrigatórios.', 'error');
+            return;
+        }
+
+        let normalizedPhone = null;
+        if (phone) {
+            const phoneDigits = phone.replace(/\D/g, '');
+            if (phoneDigits.length !== 11) {
+                showToast('Erro: O celular deve conter exatamente 11 dígitos (DDD + número com 9).', 'error');
+                return;
+            }
+            if (phoneDigits.charAt(2) !== '9') {
+                showToast('Erro: O número de celular deve iniciar com o dígito 9.', 'error');
+                return;
+            }
+            normalizedPhone = phoneDigits;
+        } else if (role === 'ADM_TI' || role === 'ENF_GERENTE') {
+            showToast('Erro: O telefone celular é obrigatório para cargos de acesso total (ADM_TI e ENF_GERENTE).', 'error');
             return;
         }
 
@@ -257,9 +307,22 @@
 
         const normalizedCpf = cpf.replace(/\D/g, "");
 
-        const payload = { name, cpf: normalizedCpf, registration, role, status, microarea: microarea ? parseInt(microarea) : null };
+        const payload = {
+            name,
+            cpf: normalizedCpf,
+            registration,
+            role,
+            phone: normalizedPhone,
+            status,
+            microarea: microarea ? parseInt(microarea) : null
+        };
         if (password && password.trim() !== "") {
+            if (!oldPassword || oldPassword.trim() === "") {
+                showToast('Erro: A senha antiga é obrigatória para atualizar a senha.', 'error');
+                return;
+            }
             payload.password = password;
+            payload.oldPassword = oldPassword;
         }
 
         setLoading('btnUpdatepractitioner', true);
@@ -331,6 +394,20 @@
                 group.style.display = 'none';
                 const select = document.getElementById(`${prefix}EmpMicroarea`);
                 if (select) select.value = '';
+            }
+        }
+
+        const asterisk = document.getElementById(`${prefix}EmpPhoneAsterisk`);
+        const phoneInput = document.getElementById(`${prefix}EmpPhone`);
+        
+        if (role === 'ADM_TI' || role === 'ENF_GERENTE') {
+            if (asterisk) asterisk.style.display = 'inline';
+            if (phoneInput) phoneInput.disabled = false;
+        } else {
+            if (asterisk) asterisk.style.display = 'none';
+            if (phoneInput) {
+                phoneInput.disabled = true;
+                phoneInput.value = '';
             }
         }
     }

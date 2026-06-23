@@ -1,14 +1,10 @@
-# Lista de Tarefas: Descentralização do CSS Global
+# Lista de Tarefas: Celular Obrigatório para Cargos de Acesso Total
 
 | Status | Descrição |
 |---|---|
-| [x] | Criar nova pasta `src/styles/components/` |
-| [x] | Extrair botões para `src/styles/components/button.css` |
-| [x] | Extrair tabelas para `src/styles/components/table.css` |
-| [x] | Extrair modais para `src/styles/components/modal.css` |
-| [x] | Extrair cards e formulários para `src/styles/components/card-forms.css` |
-| [x] | Extrair abas (tabs) para `src/styles/components/tabs.css` |
-| [x] | Extrair overlays e notificações para `src/styles/components/overlays.css` |
-| [x] | Otimizar e limpar o `src/styles/global.css` |
-| [x] | Atualizar `index.html` para carregar as novas folhas de estilo |
-| [x] | Validar o visual do sistema |
+| [x] | Modificar modelo e DTOs no Backend (`Practitioner.java`, `PractitionerRequestDTO.java`, `PractitionerResponseDTO.java`) |
+| [x] | Implementar validação e normalização do celular no `PractitionerService.java` |
+| [x] | Adicionar máscara utilitária de celular em `formatters.js` |
+| [x] | Incluir campos de celular no HTML (`practitioner.html`) com asteriscos dinâmicos |
+| [x] | Implementar lógica de manipulação e validação no frontend (`practitioner.js`) |
+| [x] | Testar e validar cadastro e edição |

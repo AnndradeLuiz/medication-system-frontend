@@ -79,26 +79,24 @@
             style="height: 100%; overflow-y: auto; padding-bottom: 20px;">
             <div class="card">
                 <h3><i class="fa-solid fa-id-badge"></i> Dados do Novo Funcionário</h3>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="form-group" style="grid-column: span 2; margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted">Nome Completo</label>
+                        <label class="fs-xs fw-700 text-muted mb-8">Nome Completo</label>
                         <input type="text" id="newEmpName" placeholder="Nome do funcionário">
                     </div>
+                    
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted">Matrícula (Opcional)</label>
-                        <input type="text" id="newEmpRegistration" placeholder="Ex: MAT2027">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted">CPF</label>
+                        <label class="fs-xs fw-700 text-muted mb-8">CPF</label>
                         <input type="text" id="newEmpCpf" placeholder="Ex: 000.000.000-00" maxlength="14"
                             oninput="this.value = applyCpfMask(this.value)">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted">Senha</label>
-                        <input type="password" id="newEmpPassword" placeholder="Senha inicial">
+                        <label class="fs-xs fw-700 text-muted mb-8">Matrícula (Opcional)</label>
+                        <input type="text" id="newEmpRegistration" placeholder="Ex: MAT2027">
                     </div>
+                    
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted">Cargo</label>
+                        <label class="fs-xs fw-700 text-muted mb-8">Cargo</label>
                         <select id="newEmpRole" onchange="toggleMicroareaField('new')">
                             <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
                             <option value="ENF">Enfermeiro(a)</option>
@@ -110,9 +108,15 @@
                             <option value="ACS">ACS</option>
                         </select>
                     </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Telefone Celular <span id="newEmpPhoneAsterisk" style="color: red; display: none;">*</span></label>
+                        <input type="text" id="newEmpPhone" placeholder="Ex: (00) 00000-0000" maxlength="15"
+                            oninput="this.value = applyPhoneMask(this.value)">
+                    </div>
+
                     <div class="form-group" id="newEmpMicroareaGroup"
-                        style="margin-bottom: 0; display: none;">
-                        <label class="fs-xs fw-700 text-muted">Microárea</label>
+                        style="grid-column: span 2; margin-bottom: 0; display: none;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Microárea</label>
                         <select id="newEmpMicroarea">
                             <option value="">Selecione...</option>
                             <option value="1">Microárea 1</option>
@@ -122,6 +126,11 @@
                             <option value="5">Microárea 5</option>
                             <option value="6">Microárea 6</option>
                         </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2; margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Senha Inicial</label>
+                        <input type="password" id="newEmpPassword" placeholder="Senha inicial">
                     </div>
                 </div>
 
@@ -150,27 +159,26 @@
             <div class="modal-body">
                 <input type="hidden" id="editEmpId">
 
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="form-group" style="grid-column: span 2; margin-bottom: 0;">
                         <label class="fs-xs fw-700 text-muted mb-8">Nome Completo</label>
                         <input type="text" id="editEmpName" placeholder="Nome do funcionário">
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted mb-8">Matrícula (Opcional)</label>
-                        <input type="text" id="editEmpRegistration" placeholder="Ex: MAT2027">
-                    </div>
+
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="fs-xs fw-700 text-muted mb-8">CPF</label>
                         <input type="text" id="editEmpCpf" placeholder="000.000.000-00" maxlength="14"
                             oninput="this.value = applyCpfMask(this.value)">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label class="fs-xs fw-700 text-muted mb-8">Nova Senha (opcional)</label>
-                        <input type="password" id="editEmpPassword" placeholder="Deixar em branco">
+                        <label class="fs-xs fw-700 text-muted mb-8">Matrícula (Opcional)</label>
+                        <input type="text" id="editEmpRegistration" placeholder="Ex: MAT2027">
                     </div>
+
                     <div class="form-group" style="margin-bottom: 0;">
                         <label class="fs-xs fw-700 text-muted mb-8">Cargo</label>
-                        <select id="editEmpRole" class="h-42" onchange="toggleMicroareaField('edit')">
+                        <select id="editEmpRole" onchange="toggleMicroareaField('edit')">
                             <option value="TEC_ENFERMAGEM">Téc. Enfermagem</option>
                             <option value="ENF">Enfermeiro(a)</option>
                             <option value="TRIAGEM">Triagem</option>
@@ -181,10 +189,16 @@
                             <option value="ACS">ACS</option>
                         </select>
                     </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Telefone Celular <span id="editEmpPhoneAsterisk" style="color: red; display: none;">*</span></label>
+                        <input type="text" id="editEmpPhone" placeholder="Ex: (00) 00000-0000" maxlength="15"
+                            oninput="this.value = applyPhoneMask(this.value)">
+                    </div>
+
                     <div class="form-group" id="editEmpMicroareaGroup"
-                        style="margin-bottom: 0; display: none;">
+                        style="grid-column: span 2; margin-bottom: 0; display: none;">
                         <label class="fs-xs fw-700 text-muted mb-8">Microárea</label>
-                        <select id="editEmpMicroarea" class="h-42">
+                        <select id="editEmpMicroarea">
                             <option value="">Selecione...</option>
                             <option value="1">Microárea 1</option>
                             <option value="2">Microárea 2</option>
@@ -194,18 +208,31 @@
                             <option value="6">Microárea 6</option>
                         </select>
                     </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Senha Antiga</label>
+                        <input type="password" id="editEmpOldPassword" placeholder="Para atualizar senha">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="fs-xs fw-700 text-muted mb-8">Nova Senha</label>
+                        <input type="password" id="editEmpPassword" placeholder="Deixar em branco">
+                    </div>
                 </div>
 
-                <div class="d-flex flex-column align-center mt-30 mb-10 gap-12">
-                    <label for="editEmpStatus" class="d-flex align-center gap-12 cursor-pointer m-0">
-                        <input type="checkbox" id="editEmpStatus" class="w-20 h-20 cursor-pointer">
-                        <span class="text-success fw-700 fs-sm text-uppercase">Funcionário Ativo no
-                            Sistema</span>
-                    </label>
-                    <p class="text-muted fs-xs text-center max-w-400">
-                        Desmarque para bloquear o acesso e ocultar o funcionário das listagens
-                        principais do
-                        sistema.
+                <div class="mt-30 mb-10">
+                    <div class="w-full p-12 text-center d-flex justify-center align-center"
+                        style="background-color: #f0fdf4; border: 1.5px dashed #22c55e; gap: 15px; border-radius: 12px; width: 100%;">
+                        <div class="d-flex align-items-center gap-12 cursor-pointer">
+                            <input type="checkbox" id="editEmpStatus" class="m-0 cursor-pointer"
+                                style="width: 24px; height: 24px;">
+                            <label for="editEmpStatus" class="fw-700 text-success cursor-pointer m-0 fs-16"
+                                style="color: #16a34a; text-transform: none !important; letter-spacing: normal !important;">
+                                FUNCIONÁRIO ATIVO NO SISTEMA
+                            </label>
+                        </div>
+                    </div>
+                    <p class="text-muted fs-xs text-center mt-10 mb-0">
+                        Desmarque para bloquear o acesso e ocultar o funcionário das listagens principais do sistema.
                     </p>
                 </div>
             </div>

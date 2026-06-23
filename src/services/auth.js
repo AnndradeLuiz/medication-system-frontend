@@ -150,9 +150,7 @@ function getAuthHeaders() {
 async function logout(isExpired = false) {
     try {
         if (typeof API_URL !== 'undefined') {
-            await fetch(`${API_URL}/auth/logout`, {
-                method: 'POST'
-            });
+            await window.apiClient.post('/auth/logout');
         }
     } catch (e) {
         console.error("Erro ao invalidar cookie no logout:", e);

@@ -57,29 +57,23 @@
             if (currentSort.field) {
                 sortParam = `&sort=${currentSort.field},${currentSort.direction}`;
             }
-            const url = `${API_URL}/inventory?page=${inventoryCurrentPage}&size=${pageSize}&query=${encodeURIComponent(searchFilter)}&type=${typeFilter}&status=${statusFilter}${sortParam}`;
-            const response = await fetch(url, { headers: getAuthHeaders() });
+            const endpoint = `/inventory?page=${inventoryCurrentPage}&size=${pageSize}&query=${encodeURIComponent(searchFilter)}&type=${typeFilter}&status=${statusFilter}${sortParam}`;
+            const { data: pageData } = await window.apiClient.get(endpoint);
 
-            if (response.ok) {
-                const pageData = await response.json();
+            // Render table
+            renderInventoryPage(pageData.content);
 
-                // Render table
-                renderInventoryPage(pageData.content);
+            // Update pagination UI
+            const pageInfo = pageData.page || pageData;
+            inventoryTotalPages = pageInfo.totalPages || 1;
+            document.getElementById('totalInventoryCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${inventoryTotalPages}`;
 
-                // Update pagination UI
-                const pageInfo = pageData.page || pageData;
-                inventoryTotalPages = pageInfo.totalPages || 1;
-                document.getElementById('totalInventoryCurrentPage').innerText = `Pág ${pageInfo.number + 1} de ${inventoryTotalPages}`;
+            const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
+            const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
+            document.getElementById('totalInventoryPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
 
-                const startItem = pageInfo.totalElements === 0 ? 0 : (pageInfo.number * pageInfo.size) + 1;
-                const endItem = Math.min((pageInfo.number + 1) * pageInfo.size, pageInfo.totalElements);
-                document.getElementById('totalInventoryPageInfo').innerText = `${startItem}-${endItem} de ${pageInfo.totalElements}`;
-
-                document.getElementById('btnPrevTotalInventory').disabled = pageInfo.number === 0;
-                document.getElementById('btnNextTotalInventory').disabled = pageInfo.number >= (inventoryTotalPages - 1);
-            } else {
-                throw new Error('Falha na API');
-            }
+            document.getElementById('btnPrevTotalInventory').disabled = pageInfo.number === 0;
+            document.getElementById('btnNextTotalInventory').disabled = pageInfo.number >= (inventoryTotalPages - 1);
         } catch (error) {
             console.error("Erro ao buscar inventário:", error);
             tbody.innerHTML = `<tr><td colspan="6" class="empty-state-cell text-danger">Erro de conexão.</td></tr>`;
