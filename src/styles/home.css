@@ -138,8 +138,8 @@
 }
 
 /* Ajustes na Tabela Crítica */
-.full-width-card {
-    border-radius: 20px !important;
+.card.full-width-card {
+    border-radius: var(--radius-md);
 }
 
 .critical-alert-title {

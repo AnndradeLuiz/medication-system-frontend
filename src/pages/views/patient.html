@@ -1,4 +1,4 @@
-<div id="view-patient" class="view-section" style="overflow: hidden; height: 100%;">
+<div id="view-patient" class="view-section">
     <div class="tabs-wrapper">
         <div class="tabs-container">
             <div class="tab active" onclick="switchTab('tab-busca', this)">
@@ -10,32 +10,29 @@
         </div>
     </div>
 
-    <section class="form-content max-w-1200"
-        style="height: calc(100% - 60px); display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 10px;">
-        <div id="tab-busca" class="tab-section active-section" style="display: flex; flex-direction: column;">
+    <section class="form-content max-w-1200 patient-content">
+        <div id="tab-busca" class="tab-section active-section patient-tab-section">
             <div class="card search-card mb-20">
                 <h3><i class="fa-solid fa-magnifying-glass"></i> Localizar Prontuário</h3>
                 <div class="mt-15">
-                    <div class="d-flex gap-12 mb-15 align-center" style="width: 100%;">
-                        <div class="search-bar-container pos-relative" style="flex: 1; margin-bottom: 0;">
+                    <div class="d-flex gap-12 mb-15 align-center w-full">
+                        <div class="search-bar-container pos-relative flex-1 mb-0">
                             <i class="fa-solid fa-magnifying-glass search-icon text-muted"></i>
                             <input type="text" id="searchInput" placeholder="Buscar por Nome, CPF ou CNS..."
                                 autocomplete="off">
                             <ul id="patientPageSuggestions" class="suggestion-list"></ul>
                         </div>
-                        <button type="button" class="btn-cancel d-flex align-center gap-8 h-42"
-                            onclick="togglePatientFilters()"
-                            style="margin: 0; background-color: #fff; border-color: #cbd5e1;">
+                        <button type="button" class="btn-cancel d-flex align-center gap-8 h-42 m-0"
+                            onclick="togglePatientFilters()">
                             <i class="fa-solid fa-sliders"></i> Filtros
                         </button>
-                        <button type="button" id="btnSearchPatients" class="btn-primary h-42 d-flex align-center gap-8"
-                            onclick="searchPatients()" style="margin: 0;">
+                        <button type="button" id="btnSearchPatients" class="btn-primary h-42 d-flex align-center gap-8 m-0"
+                            onclick="searchPatients()">
                             <i class="fa-solid fa-magnifying-glass"></i> Buscar
                         </button>
                     </div>
 
-                    <div id="patientFiltersSection" class="filters-row mb-15"
-                        style="display: none; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div id="patientFiltersSection" class="filters-row patient-filter-box mb-15">
                         <div class="filter-group">
                             <label for="statusFilter">STATUS:</label>
                             <select id="statusFilter" class="form-select bg-white">
@@ -67,18 +64,17 @@
                 </div>
             </div>
 
-            <div class="card" style="margin-bottom: 0;">
+            <div class="card mb-0">
                 <h3 class="mb-20"><i class="fa-solid fa-table-list"></i> Prontuários Encontrados</h3>
-                <div class="table-responsive"
-                    style="border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <div class="table-responsive table-border-wrapper">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Nome Completo</th>
-                                <th style="width: 160px; text-align: center;">CPF</th>
-                                <th style="width: 180px; text-align: center;">CNS (Cartão SUS)</th>
-                                <th style="width: 150px; text-align: center;">Status na UBS</th>
-                                <th style="width: 140px; text-align: center;">Vínculo</th>
+                                <th>CPF</th>
+                                <th>CNS (Cartão SUS)</th>
+                                <th>Status na UBS</th>
+                                <th>Vínculo</th>
                             </tr>
                         </thead>
                         <tbody id="patientsTableBody">
@@ -89,16 +85,14 @@
                     </table>
                 </div>
 
-                <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm"
-                    style="border: 1px solid #e2e8f0; flex-shrink: 0;">
+                <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm pagination-border">
                     <span class="fs-14 text-muted">Mostrando <strong id="patientPageInfo">0-0 de 0</strong>
                         pacientes</span>
                     <div class="d-flex gap-10">
                         <button class="btn btn-outline-secondary btn-sm" id="btnPrevPatient"
                             onclick="prevPatientPage()"><i class="fa-solid fa-chevron-left"></i>
                             Anterior</button>
-                        <span class="fs-14 fw-600"
-                            style="padding: 5px 10px; background: #eff6ff; color: #2563eb; border-radius: 4px;"
+                        <span class="page-indicator fs-14 fw-600"
                             id="patientCurrentPage">Pág 1</span>
                         <button class="btn btn-outline-secondary btn-sm" id="btnNextPatient"
                             onclick="nextPatientPage()">Próxima <i class="fa-solid fa-chevron-right"></i></button>
@@ -107,8 +101,7 @@
             </div>
         </div>
 
-        <div id="tab-cadastro-paciente" class="tab-section"
-            style="height: 100%; overflow-y: auto; padding-bottom: 20px;">
+        <div id="tab-cadastro-paciente" class="tab-section patient-tab-register">
             <div class="card">
                 <h3><i class="fa-solid fa-address-card"></i> Dados do Novo Paciente</h3>
 
@@ -119,7 +112,7 @@
                     </div>
                     <div class="form-group flex-1">
                         <label>Sexo</label>
-                        <select id="newGender" class="form-select bg-white w-full" style="height: 48px;"
+                        <select id="newGender" class="form-select bg-white w-full h-48"
                             onchange="toggleContraceptiveFields('new')">
                             <option value="" disabled selected>Selecione uma opção</option>
                             <option value="MASCULINO">Masculino</option>
@@ -166,14 +159,12 @@
                     </div>
                 </div>
 
-                <div class="form-row mt-15 mb-20" style="display: block;">
-                    <div class="w-full text-center d-flex justify-center align-center"
-                        style="background-color: #fffbeb; border: 1.5px dashed #f59e0b; gap: 15px; border-radius: 12px; padding: 15px;">
+                <div class="form-row mt-15 mb-20 d-block">
+                    <div class="w-full text-center d-flex justify-center align-center patient-warning-banner">
                         <div class="d-flex align-items-center gap-12 cursor-pointer">
                             <input type="checkbox" id="newIsExternal" onchange="toggleProgramasCadastro()"
-                                class="m-0 cursor-pointer" style="width: 20px; height: 20px;">
-                            <label for="newIsExternal" class="fw-700 text-orange cursor-pointer m-0 fs-16"
-                                style="color: #d97706; font-size: 15px; display: inline-flex; align-items: center; text-transform: uppercase;">
+                                class="m-0 cursor-pointer w-20 h-20">
+                            <label for="newIsExternal" class="fw-700 text-orange cursor-pointer m-0 fs-16 patient-warning-label">
                                 PACIENTE DE OUTRA UBS (EXTERNO)
                             </label>
                         </div>
@@ -192,8 +183,8 @@
                     <div class="form-group flex-1">
                         <label for="newPatientMicroarea"><i class="fa-solid fa-map-location-dot"></i>
                             Microárea</label>
-                        <input type="text" id="newPatientMicroarea" readonly class="form-control"
-                            style="background-color: #f1f5f9; cursor: not-allowed;" placeholder="Selecione um ACS">
+                        <input type="text" id="newPatientMicroarea" readonly class="form-control disabled-input"
+                            placeholder="Selecione um ACS">
                     </div>
                 </div>
 
@@ -227,12 +218,10 @@
 
                     <!-- Seção Condicional de Anticoncepcional (Novo) -->
                     <div id="newContraceptiveSection" class="contraceptive-section-box mb-20" style="display: none;">
-                        <div class="d-flex align-center justify-center gap-12"
-                            style="align-items: center; justify-content: center;">
-                            <input type="checkbox" id="newUsesContraceptive" class="m-0 cursor-pointer"
-                                style="width: 20px; height: 20px;" onchange="toggleContraceptiveDetails('new')">
-                            <label for="newUsesContraceptive" class="fw-700 text-pink cursor-pointer m-0 fs-16"
-                                style="color: #db2777; font-size: 15px; display: inline-flex; align-items: center; text-transform: uppercase;">FAZ
+                        <div class="d-flex align-center justify-center gap-12">
+                            <input type="checkbox" id="newUsesContraceptive" class="m-0 cursor-pointer w-20 h-20"
+                                onchange="toggleContraceptiveDetails('new')">
+                            <label for="newUsesContraceptive" class="fw-700 text-pink cursor-pointer m-0 fs-16 patient-pink-label">FAZ
                                 USO DE ALGUM MÉTODO CONTRACEPTIVO?</label>
                         </div>
                         <div id="newContraceptiveDetails" class="mt-15" style="display: none;">
@@ -267,7 +256,7 @@
                                     <input type="number" id="newContraceptiveDurationDays" class="w-full h-42" min="1"
                                         placeholder="Ex: 90" oninput="updateContraceptiveExpiryPreview('new')">
                                     <div id="newContraceptiveExpiryPreview" class="text-pink fs-13 mt-5 fw-600"
-                                        style="display: none; color: #db2777;"></div>
+                                        style="display: none;"></div>
                                 </div>
                             </div>
                             <div class="form-row mt-10" id="newContraceptiveStockMedRow" style="display: none;">
@@ -297,23 +286,21 @@
                         Selecionados:
                     </label>
 
-                    <div class="program-builder-container radius-8 mb-15"
-                        style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="program-builder-container radius-8 mb-15">
 
                         <!-- Sub-seção: Dados da Prescrição -->
-                        <div class="form-row-title text-muted fs-xs fw-700"
-                            style="text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                        <div class="form-row-title text-muted fs-xs fw-700">
                             <i class="fa-solid fa-file-prescription text-main"></i> 1. Dados da Receita (Emissor e
                             Emissão)
                         </div>
 
                         <!-- Linha 1: Dados do Prescritor (Nome e CPF) -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
-                            <div class="form-group flex-2" style="margin: 0;">
+                        <div class="form-row">
+                            <div class="form-group flex-2">
                                 <label>Nome do Prescritor</label>
                                 <input type="text" id="builderPrescriberName" placeholder="Dr(a)." class="w-full h-42">
                             </div>
-                            <div class="form-group flex-1" style="margin: 0;">
+                            <div class="form-group flex-1">
                                 <label>CPF do Prescritor</label>
                                 <input type="text" id="builderPrescriberCpf" placeholder="000.000.000-00"
                                     class="w-full h-42" maxlength="14" oninput="this.value = applyCpfMask(this.value)">
@@ -321,8 +308,8 @@
                         </div>
 
                         <!-- Linha 2: Dados do Conselho do Prescritor -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%; margin-top: 10px;">
-                            <div class="form-group flex-1" style="margin: 0;">
+                        <div class="form-row mt-10">
+                            <div class="form-group flex-1">
                                 <label>Conselho</label>
                                 <select id="builderPrescriberCouncil" class="form-select bg-white w-full h-42">
                                     <option value="">Selecione</option>
@@ -333,7 +320,7 @@
                                     <option value="RMS">RMS</option>
                                 </select>
                             </div>
-                            <div class="form-group flex-1" style="margin: 0;">
+                            <div class="form-group flex-1">
                                 <label>UF do Conselho</label>
                                 <select id="builderPrescriberCouncilUF" class="form-select bg-white w-full h-42">
                                     <option value="">UF</option>
@@ -366,7 +353,7 @@
                                     <option value="TO">TO</option>
                                 </select>
                             </div>
-                            <div class="form-group flex-1" style="margin: 0;">
+                            <div class="form-group flex-1">
                                 <label>Nº do Conselho</label>
                                 <input type="text" id="builderPrescriberCouncilNumber" placeholder="Ex: 123456"
                                     class="w-full h-42">
@@ -374,27 +361,25 @@
                         </div>
 
                         <!-- Linha 3: Data da Receita -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%; margin-top: 10px;">
-                            <div class="form-group flex-1" style="margin: 0;">
+                        <div class="form-row mt-10">
+                            <div class="form-group flex-1">
                                 <label>Data da Receita</label>
                                 <input type="date" id="builderPrescriptionDate" class="w-full h-42">
                             </div>
-                            <div class="form-group flex-2" style="margin: 0; visibility: hidden; pointer-events: none;">
+                            <div class="form-group flex-2 visibility-hidden">
                                 <!-- Espaçador visual -->
                             </div>
                         </div>
 
-                        <div class="form-row-divider"
-                            style="height: 1px; background-color: var(--color-border); margin: 10px 0;"></div>
+                        <div class="divider"></div>
 
                         <!-- Sub-seção: Dados do Medicamento -->
-                        <div class="form-row-title text-muted fs-xs fw-700"
-                            style="text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                        <div class="form-row-title text-muted fs-xs fw-700">
                             <i class="fa-solid fa-pills text-main"></i> 2. Medicamento e Posologia
                         </div>
 
                         <!-- Linha 4: Programa, Medicamento e Qtd Mensal -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
+                        <div class="form-row">
                             <div class="form-group flex-2">
                                 <label>Programa</label>
                                 <select id="builderCategory" class="w-full h-42">
@@ -412,7 +397,7 @@
                                     class="suggestion-list d-none pos-absolute top-100 left-0 right-0 bg-white border-slate radius-6 shadow-sm max-h-200 overflow-y-auto z-50 p-0 m-0 mt-4 no-list">
                                 </ul>
                             </div>
-                            <div class="form-group" style="width: 140px; flex: none;">
+                            <div class="form-group w-140 flex-none">
                                 <label>Quantidade Mensal</label>
                                 <input type="number" id="builderQuantity" min="1" placeholder="Ex: 60"
                                     class="w-full h-42">
@@ -420,7 +405,7 @@
                         </div>
 
                         <!-- Linha 5: Quantidade por Dose e Unidade Dose -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
+                        <div class="form-row">
                             <div class="form-group flex-1">
                                 <label>Quantidade por Dose</label>
                                 <input type="number" id="builderDoseQty" step="0.1" min="0.1" placeholder="Ex: 1"
@@ -440,7 +425,7 @@
                         </div>
 
                         <!-- Linha 6: Frequência / Horário e Frequência Especial -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
+                        <div class="form-row">
                             <div class="form-group flex-1">
                                 <label>Frequência / Horário</label>
                                 <select id="builderFrequency" class="w-full h-42"
@@ -461,13 +446,13 @@
                                     <option value="custom">Outra (digitar...)</option>
                                 </select>
                             </div>
-                            <div class="form-group flex-1" id="builderFrequencyCustomGroup" style="margin: 0;">
+                            <div class="form-group flex-1" id="builderFrequencyCustomGroup">
                                 <label>Frequência Especial</label>
                                 <input type="text" id="builderFrequencyCustom" placeholder="Ex: Dia sim, dia não"
                                     class="w-full h-42" disabled>
                             </div>
                             <!-- Campo invisível no layout -->
-                            <div class="form-group" id="builderTimesPerDayGroup" style="display: none; margin: 0;">
+                            <div class="form-group" id="builderTimesPerDayGroup" style="display: none;">
                                 <label>Vezes ao Dia</label>
                                 <input type="number" id="builderTimesPerDay" min="0" placeholder="Ex: 2"
                                     class="w-full h-42" value="1">
@@ -475,8 +460,8 @@
                         </div>
 
                         <!-- Linha 7: Instruções de Uso -->
-                        <div class="form-row" style="margin: 0; width: 100%;">
-                            <div class="form-group flex-1" style="margin: 0;">
+                        <div class="form-row">
+                            <div class="form-group flex-1">
                                 <label>Instruções de Uso</label>
                                 <input type="text" id="builderInstructions" placeholder="Ex: Tomar após o café da manhã"
                                     class="w-full h-42">
@@ -484,8 +469,8 @@
                         </div>
 
                         <!-- Linha 8: Botão Adicionar (alinhado à direita) -->
-                        <div class="form-row" style="margin: 0; width: 100%; justify-content: flex-end;">
-                            <div class="form-group" style="width: 150px; flex: none; margin: 0;">
+                        <div class="form-row justify-end">
+                            <div class="form-group w-150 flex-none">
                                 <button type="button" id="builderAddBtn" onclick="addProgramToBuilder()"
                                     class="btn-primary w-full h-42 d-flex align-center justify-center gap-6">
                                     <i class="fa-solid fa-plus"></i> Adicionar
@@ -502,8 +487,8 @@
             </div>
 
             <div class="text-right mt-25 border-t pt-20">
-                <button id="btnSaveNewPatient" class="btn-success w-auto d-flex align-center gap-8 ml-auto"
-                    onclick="saveNewPatient()" style="margin-right: 16px;">
+                <button id="btnSaveNewPatient" class="btn-success w-auto d-flex align-center gap-8 ml-auto mr-15"
+                    onclick="saveNewPatient()">
                     <i class="fa-solid fa-save"></i> Registrar Paciente
                 </button>
             </div>
@@ -512,17 +497,15 @@
 
     <!-- Modal de Detalhes e Edição do Paciente -->
     <div id="patientModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-content max-w-600">
             <div class="modal-header">
                 <h3 id="modalTitle"><i class="fa-solid fa-id-card"></i> Prontuário do Paciente</h3>
                 <button class="btn-close" onclick="closeModal()"><i class="fa-solid fa-times"></i></button>
             </div>
 
             <div id="viewMode">
-                <div class="patient-header-badge mb-20"
-                    style="padding-bottom: 15px; border-bottom: 1px solid var(--color-border);">
-                    <h2 id="viewPatientNameHeader"
-                        style="margin: 0; font-size: 24px; color: #1e293b; font-weight: 700;">-</h2>
+                <div class="patient-header-badge patient-modal-header-badge mb-20">
+                    <h2 id="viewPatientNameHeader" class="patient-modal-name">-</h2>
                 </div>
                 <div class="patient-info-grid">
                     <div class="info-box">
@@ -568,7 +551,7 @@
 
                 <!-- Box de Visualização de Anticoncepcionais -->
                 <div id="viewContraceptiveBox" class="contraceptive-section-box mt-15" style="display: none;">
-                    <h4 style="color: #db2777; font-size: 14px; margin-bottom: 8px;"><i class="fa-solid fa-venus"></i>
+                    <h4 class="patient-pink-title"><i class="fa-solid fa-venus"></i>
                         Monitoramento Contraceptivo</h4>
                     <div class="patient-info-grid">
                         <div class="info-box">
@@ -586,10 +569,9 @@
                     </div>
                     <div class="patient-info-grid mt-10 border-t pt-10" id="viewContraceptiveStockMedBox"
                         style="display: none;">
-                        <div class="info-box" style="grid-column: span 2;">
+                        <div class="info-box grid-span-2">
                             <p>Medicamento Utilizado</p>
-                            <div id="viewContraceptiveMed" class="info-value"
-                                style="font-weight: bold; color: #db2777;">-</div>
+                            <div id="viewContraceptiveMed" class="info-value text-pink fw-700">-</div>
                         </div>
                         <div class="info-box">
                             <p>Quantidade Dispensada</p>
@@ -598,15 +580,12 @@
                     </div>
                 </div>
 
-                <div class="modal-footer text-right border-t pt-15 mt-20 d-flex justify-end align-center"
-                    style="display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
-                    <button type="button" class="btn-danger-solid d-inline-flex align-center gap-8"
-                        onclick="closeModal()"
-                        style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                <div class="modal-footer text-right border-t pt-15 mt-20 d-flex justify-end align-center gap-12">
+                    <button type="button" class="btn-danger-solid btn-modal-action d-inline-flex align-center gap-8"
+                        onclick="closeModal()">
                         <i class="fa-solid fa-circle-xmark"></i> Fechar
                     </button>
-                    <button class="btn-primary d-flex align-center gap-8" onclick="enableEditMode()"
-                        style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                    <button class="btn-primary btn-modal-action d-flex align-center gap-8" onclick="enableEditMode()">
                         <i class="fa-solid fa-pen"></i> Editar Informações
                     </button>
                 </div>
@@ -619,7 +598,7 @@
                     <div class="form-group flex-2"><label>Nome Completo</label><input type="text" id="editName"></div>
                     <div class="form-group flex-1">
                         <label>Sexo</label>
-                        <select id="editGender" class="form-select bg-white w-full" style="height: 48px;"
+                        <select id="editGender" class="form-select bg-white w-full h-48"
                             onchange="toggleContraceptiveFields('edit')">
                             <option value="" disabled selected>Selecione uma opção</option>
                             <option value="MASCULINO">Masculino</option>
@@ -659,26 +638,21 @@
                     </div>
                 </div>
 
-                <div class="form-row mt-20 mb-20 d-flex flex-column gap-12" style="display: flex; width: 100%;">
-                    <div class="w-full text-center d-flex justify-center align-center"
-                        style="background-color: #fffbeb; border: 1.5px dashed #f59e0b; gap: 15px; border-radius: 12px; width: 100%; padding: 24px;">
+                <div class="form-row mt-20 mb-20 d-flex flex-column gap-12 w-full">
+                    <div class="w-full text-center d-flex justify-center align-center patient-warning-banner p-24">
                         <div class="d-flex align-items-center gap-12 cursor-pointer">
                             <input type="checkbox" id="editExternal" onchange="toggleProgramasEdit()"
-                                class="m-0 cursor-pointer" style="width: 20px; height: 20px;">
-                            <label for="editExternal" class="fw-700 text-orange cursor-pointer m-0 fs-16"
-                                style="color: #d97706; text-transform: none !important; letter-spacing: normal !important; font-size: 15px;">
+                                class="m-0 cursor-pointer w-20 h-20">
+                            <label for="editExternal" class="fw-700 text-orange cursor-pointer m-0 fs-16 patient-warning-label-edit">
                                 PACIENTE DE OUTRA UBS (EXTERNO)
                             </label>
                         </div>
                     </div>
 
-                    <div class="w-full p-12 text-center d-flex justify-center align-center"
-                        style="background-color: #f0fdf4; border: 1.5px dashed #22c55e; gap: 15px; border-radius: 12px; width: 100%;">
+                    <div class="w-full text-center d-flex justify-center align-center patient-success-banner">
                         <div class="d-flex align-items-center gap-12 cursor-pointer">
-                            <input type="checkbox" id="editStatus" class="m-0 cursor-pointer"
-                                style="width: 24px; height: 24px;">
-                            <label for="editStatus" class="fw-700 text-success cursor-pointer m-0 fs-16"
-                                style="color: #16a34a; text-transform: none !important; letter-spacing: normal !important;">
+                            <input type="checkbox" id="editStatus" class="m-0 cursor-pointer w-24 h-24">
+                            <label for="editStatus" class="fw-700 text-success cursor-pointer m-0 fs-16 patient-success-label">
                                 PACIENTE ATIVO NO SISTEMA
                             </label>
                         </div>
@@ -696,8 +670,8 @@
                     <div class="form-group flex-1">
                         <label for="editPatientMicroarea"><i class="fa-solid fa-map-location-dot"></i>
                             Microárea</label>
-                        <input type="text" id="editPatientMicroarea" readonly class="form-control"
-                            style="background-color: #f1f5f9; cursor: not-allowed;" placeholder="Selecione um ACS">
+                        <input type="text" id="editPatientMicroarea" readonly class="form-control disabled-input"
+                            placeholder="Selecione um ACS">
                     </div>
                 </div>
 
@@ -731,12 +705,10 @@
 
                     <!-- Seção Condicional de Anticoncepcional (Edição) -->
                     <div id="editContraceptiveSection" class="contraceptive-section-box mb-20" style="display: none;">
-                        <div class="d-flex align-center justify-center gap-12"
-                            style="display: flex; align-items: center; justify-content: center; width: 100%; margin: 0 auto;">
-                            <input type="checkbox" id="editUsesContraceptive" class="m-0 cursor-pointer"
-                                style="width: 20px; height: 20px;" onchange="toggleContraceptiveDetails('edit')">
-                            <label for="editUsesContraceptive" class="fw-700 text-pink m-0 cursor-pointer"
-                                style="color: #db2777; font-size: 15px; display: inline-flex; align-items: center; text-transform: uppercase;">FAZ
+                        <div class="d-flex align-center justify-center gap-12 w-full m-auto">
+                            <input type="checkbox" id="editUsesContraceptive" class="m-0 cursor-pointer w-20 h-20"
+                                onchange="toggleContraceptiveDetails('edit')">
+                            <label for="editUsesContraceptive" class="fw-700 text-pink m-0 cursor-pointer patient-pink-label">FAZ
                                 USO DE ANTICONCEPCIONAL?</label>
                         </div>
                         <div id="editContraceptiveDetails" class="mt-15" style="display: none;">
@@ -771,7 +743,7 @@
                                     <input type="number" id="editContraceptiveDurationDays" class="w-full h-42" min="1"
                                         placeholder="Ex: 90" oninput="updateContraceptiveExpiryPreview('edit')">
                                     <div id="editContraceptiveExpiryPreview" class="text-pink fs-13 mt-5 fw-600"
-                                        style="display: none; color: #db2777;"></div>
+                                        style="display: none;"></div>
                                 </div>
                             </div>
                             <div class="form-row mt-10" id="editContraceptiveStockMedRow" style="display: none;">
@@ -799,24 +771,22 @@
                         <i class="fa-solid fa-pills"></i> 2. Vincular Medicamento a um Programa:
                     </label>
 
-                    <div class="program-builder-container radius-8 mb-15"
-                        style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="program-builder-container radius-8 mb-15">
 
                         <!-- Sub-seção: Dados da Prescrição -->
-                        <div class="form-row-title text-muted fs-xs fw-700"
-                            style="text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                        <div class="form-row-title text-muted fs-xs fw-700">
                             <i class="fa-solid fa-file-prescription text-main"></i> 1. Dados da Receita (Emissor e
                             Emissão)
                         </div>
 
                         <!-- Linha 1: Dados do Prescritor (Nome e CPF) -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
-                            <div class="form-group flex-2" style="margin: 0;">
+                        <div class="form-row">
+                            <div class="form-group flex-2">
                                 <label>Nome do Prescritor</label>
                                 <input type="text" id="editBuilderPrescriberName" placeholder="Dr(a)."
                                     class="w-full h-42">
                             </div>
-                            <div class="form-group flex-1" style="margin: 0;">
+                            <div class="form-group flex-1">
                                 <label>CPF do Prescritor</label>
                                 <input type="text" id="editBuilderPrescriberCpf" placeholder="000.000.000-00"
                                     class="w-full h-42" maxlength="14" oninput="this.value = applyCpfMask(this.value)">
@@ -824,8 +794,8 @@
                         </div>
 
                         <!-- Linha 2: Dados do Conselho do Prescritor -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%; margin-top: 10px;">
-                            <div class="form-group flex-1" style="margin: 0;">
+                        <div class="form-row mt-10">
+                            <div class="form-group flex-1">
                                 <label>Conselho</label>
                                 <select id="editBuilderPrescriberCouncil" class="form-select bg-white w-full h-42">
                                     <option value="">Selecione</option>
@@ -836,7 +806,7 @@
                                     <option value="RMS">RMS</option>
                                 </select>
                             </div>
-                            <div class="form-group flex-1" style="margin: 0;">
+                            <div class="form-group flex-1">
                                 <label>UF do Conselho</label>
                                 <select id="editBuilderPrescriberCouncilUF" class="form-select bg-white w-full h-42">
                                     <option value="">UF</option>
@@ -869,7 +839,7 @@
                                     <option value="TO">TO</option>
                                 </select>
                             </div>
-                            <div class="form-group flex-1" style="margin: 0;">
+                            <div class="form-group flex-1">
                                 <label>Nº do Conselho</label>
                                 <input type="text" id="editBuilderPrescriberCouncilNumber" placeholder="Ex: 123456"
                                     class="w-full h-42">
@@ -877,27 +847,25 @@
                         </div>
 
                         <!-- Linha 3: Data da Receita -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%; margin-top: 10px;">
-                            <div class="form-group flex-1" style="margin: 0;">
+                        <div class="form-row mt-10">
+                            <div class="form-group flex-1">
                                 <label>Data da Receita</label>
                                 <input type="date" id="editBuilderPrescriptionDate" class="w-full h-42">
                             </div>
-                            <div class="form-group flex-2" style="margin: 0; visibility: hidden; pointer-events: none;">
+                            <div class="form-group flex-2 visibility-hidden">
                                 <!-- Espaçador visual -->
                             </div>
                         </div>
 
-                        <div class="form-row-divider"
-                            style="height: 1px; background-color: var(--color-border); margin: 10px 0;"></div>
+                        <div class="divider"></div>
 
                         <!-- Sub-seção: Dados do Medicamento -->
-                        <div class="form-row-title text-muted fs-xs fw-700"
-                            style="text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+                        <div class="form-row-title text-muted fs-xs fw-700">
                             <i class="fa-solid fa-pills text-main"></i> 2. Medicamento e Posologia
                         </div>
 
                         <!-- Linha 4: Programa e Medicamento -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
+                        <div class="form-row">
                             <div class="form-group flex-1">
                                 <label>Programa</label>
                                 <select id="editBuilderCategory" class="w-full h-42">
@@ -918,7 +886,7 @@
                         </div>
 
                         <!-- Linha 5: Quantidade Mensal e Quantidade por Dose -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
+                        <div class="form-row">
                             <div class="form-group flex-1">
                                 <label>Quantidade Mensal</label>
                                 <input type="number" id="editBuilderQuantity" min="1" placeholder="Ex: 60"
@@ -932,7 +900,7 @@
                         </div>
 
                         <!-- Linha 6: Unidade Dose e Frequência / Horário -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
+                        <div class="form-row">
                             <div class="form-group flex-1">
                                 <label>Unidade Dose</label>
                                 <select id="editBuilderDoseUnit" class="w-full h-42">
@@ -971,14 +939,14 @@
                         </div>
 
                         <!-- Linha 7: Frequência Especial -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%;">
-                            <div class="form-group flex-1" id="editBuilderFrequencyCustomGroup" style="margin: 0;">
+                        <div class="form-row">
+                            <div class="form-group flex-1" id="editBuilderFrequencyCustomGroup">
                                 <label>Frequência Especial</label>
                                 <input type="text" id="editBuilderFrequencyCustom" placeholder="Ex: Dia sim, dia não"
                                     class="w-full h-42" disabled>
                             </div>
                             <!-- Campo invisível no layout -->
-                            <div class="form-group" id="editBuilderTimesPerDayGroup" style="display: none; margin: 0;">
+                            <div class="form-group" id="editBuilderTimesPerDayGroup" style="display: none;">
                                 <label>Vezes ao Dia</label>
                                 <input type="number" id="editBuilderTimesPerDay" min="0" placeholder="Ex: 2"
                                     class="w-full h-42" value="1">
@@ -986,13 +954,13 @@
                         </div>
 
                         <!-- Linha 8: Instruções de Uso e Botão Adicionar -->
-                        <div class="form-row" style="margin: 0; gap: 15px; width: 100%; align-items: flex-end;">
-                            <div class="form-group flex-1" style="margin: 0;">
+                        <div class="form-row">
+                            <div class="form-group flex-1">
                                 <label>Instruções de Uso</label>
                                 <input type="text" id="editBuilderInstructions"
                                     placeholder="Ex: Tomar após o café da manhã" class="w-full h-42">
                             </div>
-                            <div class="form-group" style="width: 150px; flex: none; margin: 0;">
+                            <div class="form-group w-150 flex-none">
                                 <button type="button" id="editBuilderAddBtn" onclick="addProgramToEditBuilder()"
                                     class="btn-primary w-full h-42 d-flex align-center justify-center gap-6">
                                     <i class="fa-solid fa-plus"></i> Adicionar
@@ -1006,19 +974,17 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer text-right mt-20 d-flex justify-end border-t pt-15 gap-10"
-                        style="display: flex; gap: 12px; align-items: center; justify-content: flex-end;">
-                        <button type="button" class="btn-danger-solid d-inline-flex align-center gap-8"
-                            onclick="closeModal()"
-                            style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                    <div class="modal-footer text-right mt-20 d-flex justify-end border-t pt-15 gap-12">
+                        <button type="button" class="btn-danger-solid btn-modal-action d-inline-flex align-center gap-8"
+                            onclick="closeModal()">
                             <i class="fa-solid fa-circle-xmark"></i> Cancelar
                         </button>
-                        <button id="btnUpdatePatient" class="btn-success d-inline-flex align-center gap-8"
-                            onclick="savePatientEdit()"
-                            style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                        <button id="btnUpdatePatient" class="btn-success btn-modal-action d-inline-flex align-center gap-8"
+                            onclick="savePatientEdit()">
                             <i class="fa-solid fa-save"></i> Atualizar Prontuário
                         </button>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

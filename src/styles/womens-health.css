@@ -137,3 +137,100 @@ body.theme-womens-health {
 #womensHealthTableBody tr {
     cursor: pointer;
 }
+
+/* ================= CLASSES DE ESTRUTURA E LAYOUT (PÓS-REFATORAÇÃO) ================= */
+.wh-view {
+    overflow: hidden;
+    height: 100%;
+}
+
+.wh-content {
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.wh-tab-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.wh-alert-card {
+    border-left: 4px solid var(--color-primary);
+    background-color: rgba(233, 30, 99, 0.03);
+    padding: 15px 20px;
+}
+
+.wh-alert-title {
+    margin: 0 0 8px 0;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+}
+
+.wh-alert-desc {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.wh-alert-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--color-text-main);
+}
+
+.wh-alert-method-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wh-alert-badge {
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.wh-table-wrapper {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.wh-table th {
+    text-align: center;
+}
+
+.wh-table th:nth-child(1),
+.wh-table td:nth-child(1) {
+    text-align: left;
+}
+
+.wh-table th:nth-child(2),
+.wh-table td:nth-child(2) {
+    text-align: left;
+}
+
+.wh-table th:nth-child(3) {
+    width: 180px;
+}
+
+.wh-table th:nth-child(4) {
+    width: 150px;
+}
+
+.wh-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+

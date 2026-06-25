@@ -908,3 +908,184 @@ input:disabled, select:disabled, textarea:disabled {
     color: #ef4444;
     font-size: 14px;
 }
+
+/* ================= CLASSES DE ESTRUTURA E LAYOUT ADICIONADAS ================= */
+#view-patient {
+    overflow: hidden;
+    height: 100%;
+}
+
+.patient-content {
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+.patient-tab-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.patient-tab-register {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.patient-filter-box {
+    display: none;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Larguras específicas para cabeçalho da tabela de prontuários */
+#view-patient .table th:nth-child(2) {
+    width: 160px;
+    text-align: center;
+}
+#view-patient .table th:nth-child(3) {
+    width: 180px;
+    text-align: center;
+}
+#view-patient .table th:nth-child(4) {
+    width: 150px;
+    text-align: center;
+}
+#view-patient .table th:nth-child(5) {
+    width: 140px;
+    text-align: center;
+}
+#view-patient .table td:nth-child(2),
+#view-patient .table td:nth-child(3),
+#view-patient .table td:nth-child(4),
+#view-patient .table td:nth-child(5) {
+    text-align: center;
+}
+
+.table-border-wrapper {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.pagination-border {
+    border: 1px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+/* Banners de Aviso e Sucesso */
+.patient-warning-banner {
+    background-color: #fffbeb;
+    border: 1.5px dashed #f59e0b;
+    gap: 15px;
+    border-radius: 12px;
+    padding: 15px;
+}
+.patient-warning-banner.p-24 {
+    padding: 24px;
+}
+.patient-warning-label {
+    color: #d97706;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+.patient-warning-label-edit {
+    color: #d97706;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.patient-success-banner {
+    background-color: #f0fdf4;
+    border: 1.5px dashed #22c55e;
+    gap: 15px;
+    border-radius: 12px;
+    padding: 12px;
+}
+.patient-success-label {
+    color: #16a34a;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Monitoramento Contraceptivo */
+.contraceptive-section-box {
+    background-color: #fdf2f8;
+    border: 1px dashed #fbcfe8;
+    border-radius: var(--radius-sm);
+    padding: 15px;
+    margin-top: 10px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.patient-pink-label {
+    color: #db2777;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.patient-pink-title {
+    color: #db2777;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.text-pink {
+    color: #db2777 !important;
+}
+
+/* Modal Detalhes do Paciente */
+.patient-modal-header-badge {
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.patient-modal-name {
+    margin: 0;
+    font-size: 24px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.btn-modal-action {
+    padding: 10px 20px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Program Builder Flex */
+.program-builder-container {
+    background-color: #f8fafc !important;
+    padding: 24px 28px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row-title {
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

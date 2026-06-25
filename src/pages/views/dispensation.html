@@ -61,8 +61,7 @@
                     </div>
                 </div>
 
-                <div id="prescriptionSection" class="section-highlight mt-20"
-                    style="background-color: #f8fafc; border: 1px dashed #cbd5e1;">
+                <div id="prescriptionSection" class="section-highlight mt-20 section-dashed">
                     <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i class="fa-solid fa-user-doctor mr-10"></i> Dados da
                         Prescrição Médica
                     </h4>
@@ -145,13 +144,13 @@
                 </div>
 
                 <!-- Seção de Receitas Recorrentes -->
-                <div id="autoFillRecurrentContainer" class="form-row mb-15 p-15 radius-8"
-                    style="display: none; background-color: #fdf2f8; border: 1.5px dashed #ec4899; margin-bottom: 20px;">
+                <div id="autoFillRecurrentContainer" class="form-row mb-15 p-15 radius-8 recurrent-prescription-banner"
+                    style="display: none;">
                     <div class="form-group w-full m-0">
-                        <label class="fs-xs fw-700" style="color: #be185d;"><i class="fa-solid fa-magic"></i> Paciente
+                        <label class="fs-xs fw-700"><i class="fa-solid fa-magic"></i> Paciente
                             possui receitas recorrentes cadastradas. Deseja carregar?</label>
                         <select id="selectRecurrentPrescription" class="form-select bg-white w-full mt-4"
-                            style="height: 42px;" onchange="autoFillRecurrentPrescription()">
+                            onchange="autoFillRecurrentPrescription()">
                             <option value="">Selecione uma receita...</option>
                         </select>
                     </div>
@@ -169,8 +168,7 @@
                         <input type="number" id="medQuantity" min="1" value="1" disabled>
                     </div>
                 </div>
-                <div class="form-row align-bottom mb-20 p-10 radius-6"
-                    style="background: #f8fafc; border: 1px dashed #cbd5e1;">
+                <div class="form-row align-bottom mb-20 p-10 radius-6 section-dashed">
                     <div class="form-group flex-1 mb-0">
                         <label class="fs-xs fw-700 text-muted">Duração (Dias)</label>
                         <input type="number" id="medDuration" min="1" placeholder="Dias (Opc.)" disabled>
@@ -181,7 +179,7 @@
                     </div>
                     <div class="form-group flex-1 mb-0">
                         <label class="fs-xs fw-700 text-muted">&nbsp;</label>
-                        <button type="button" class="btn-primary w-full" style="height: 48px;" id="btnAddItem"
+                        <button type="button" class="btn-primary w-full" id="btnAddItem"
                             onclick="addItemDispensation()" disabled>
                             <i class="fa-solid fa-plus"></i> Adicionar
                         </button>
@@ -199,7 +197,7 @@
                     </thead>
                     <tbody id="itemsBody">
                         <tr>
-                            <td colspan="4" class="empty-msg text-center" style="vertical-align: middle;">
+                            <td colspan="4" class="empty-msg text-center">
                                 Nenhum medicamento adicionado à lista ainda.</td>
                         </tr>
                     </tbody>
@@ -253,8 +251,7 @@
                     </div>
                 </div>
 
-                <div id="editPrescriptionSection" class="section-highlight mt-20 mb-20"
-                    style="background-color: #f8fafc; border: 1px dashed #cbd5e1;">
+                <div id="editPrescriptionSection" class="section-highlight mt-20 mb-20 section-dashed">
                     <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i class="fa-solid fa-user-doctor mr-10"></i> Dados da
                         Prescrição Médica (Edição)
                     </h4>
@@ -350,7 +347,7 @@
                         </div>
                         <div class="form-group flex-1">
                             <label class="fs-xs fw-700 text-muted">&nbsp;</label>
-                            <button type="button" class="btn-primary w-full" style="height: 48px;"
+                            <button type="button" class="btn-primary w-full"
                                 onclick="addMedToEditDispensation()">Adicionar</button>
                         </div>
                     </div>
@@ -369,23 +366,18 @@
                         </thead>
                         <tbody id="editDispensationItemsBody">
                             <tr>
-                                <td colspan="4" class="empty-msg text-center" style="vertical-align: middle;">Nenhum
+                                <td colspan="4" class="empty-msg text-center">Nenhum
                                     medicamento adicionado à lista ainda.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="mt-25 d-flex justify-end p-20"
-                    style="border-top: 1px solid var(--color-border); padding: 20px; gap: 16px;">
-                    <button type="button" class="d-flex align-center gap-8"
-                        style="flex: 1; max-width: 250px; justify-content: center; background-color: #ffffff; border: 2px solid #22c55e; color: #15803d; border-radius: 15px; height: 55px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
-                        onclick="reprintDispensation()">
+                <div class="dispense-action-footer dispense-action-buttons">
+                    <button type="button" class="btn-success-outline d-flex align-center gap-8" onclick="reprintDispensation()">
                         <i class="fa-solid fa-print"></i> Reimprimir Recibo
                     </button>
-                    <button id="btnUpdateDispensation" class="btn-success d-flex align-center gap-8"
-                        style="flex: 1; max-width: 250px; justify-content: center; height: 55px; border-radius: 15px;"
-                        onclick="saveDispensationEdit()">
+                    <button id="btnUpdateDispensation" class="btn-success d-flex align-center gap-8" onclick="saveDispensationEdit()">
                         <i class="fa-solid fa-save"></i> Atualizar Dispensação
                     </button>
                 </div>
@@ -395,7 +387,7 @@
 
     <!-- Modal de Resumo de Dispensação -->
     <div id="dispensationSummaryModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px; padding: 24px; border-radius: 24px;">
+        <div class="modal-container dispensation-summary-modal-content">
             <div class="modal-header">
                 <h2>Resumo da Dispensação</h2>
                 <button class="summary-modal-close-btn" onclick="closeDispensationSummary()" title="Fechar">
@@ -407,13 +399,13 @@
                     <p style="margin: 0;">A dispensação foi registrada
                         com sucesso. Retire os seguintes itens do estoque (seguindo os respectivos lotes listados):</p>
                 </div>
-                <div class="table-responsive" style="border-radius: var(--radius-md); max-height: 400px; overflow-y: auto;">
-                    <table class="summary-meds-table">
+                <div class="table-responsive dispense-summary-table-wrapper">
+                    <table class="summary-meds-table dispense-summary-table">
                         <thead>
                             <tr>
-                                <th style="width: 40%;">Medicamento</th>
-                                <th style="width: 30%;">Lote</th>
-                                <th style="width: 30%;">Quantidade</th>
+                                <th>Medicamento</th>
+                                <th>Lote</th>
+                                <th>Quantidade</th>
                             </tr>
                         </thead>
                         <tbody id="dispensationSummaryBody">

@@ -92,8 +92,8 @@
                             <label class="fs-xs fw-700 text-muted">Concentração</label>
                             <div class="d-flex gap-10">
                                 <input type="number" step="any" id="editConcentrationValue"
-                                    placeholder="Valor" style="flex: 1.5; min-width: 0;">
-                                <select id="editConcentrationUnit" style="flex: 1; min-width: 0;">
+                                    placeholder="Valor" class="med-concentration-val">
+                                <select id="editConcentrationUnit" class="med-concentration-unit">
                                     <option value="mg">mg</option>
                                     <option value="g">g</option>
                                     <option value="mcg">mcg</option>
@@ -160,16 +160,15 @@
 
                 <div class="mt-30 border-t pt-25">
                     <h3><i class="fa-solid fa-cubes"></i> Lotes Registrados</h3>
-                    <div class="table-responsive"
-                        style="max-height: 250px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
-                        <table class="table">
+                    <div class="table-responsive inventory-lote-table-wrapper">
+                        <table class="table inventory-lote-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 300px; text-align: center;">Código Lote</th>
-                                    <th style="width: 250px; text-align: center;">Validade</th>
-                                    <th class="text-center" style="width: 150px; text-align: center;"
+                                    <th>Código Lote</th>
+                                    <th>Validade</th>
+                                    <th class="text-center"
                                         id="thQty1">Qtd. Inicial</th>
-                                    <th class="text-center" style="width: 150px; text-align: center;"
+                                    <th class="text-center"
                                         id="thQty2">Qtd. Restante</th>
                                 </tr>
                             </thead>
@@ -278,8 +277,8 @@
                             <label class="fs-xs fw-700 text-muted">Concentração</label>
                             <div class="d-flex gap-10">
                                 <input type="number" step="any" id="newMedConcentrationValue"
-                                    placeholder="Valor" style="flex: 1.5; min-width: 0;">
-                                <select id="newMedConcentrationUnit" style="flex: 1; min-width: 0;">
+                                    placeholder="Valor" class="med-concentration-val">
+                                <select id="newMedConcentrationUnit" class="med-concentration-unit">
                                     <option value="mg">mg</option>
                                     <option value="g">g</option>
                                     <option value="mcg">mcg</option>

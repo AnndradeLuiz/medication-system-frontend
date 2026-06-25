@@ -1108,3 +1108,69 @@ html.is-privileged .sidebar-nav li#sidebarFuncLi {
     color: #1e40af;
     font-size: 18px;
 }
+
+/* ================= LAYOUT E TRANSIÇÕES SPA ================= */
+.view-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.view-section.active {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+}
+
+.app-section-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* Classes Auxiliares para Padronização de Views */
+.divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 10px 0;
+}
+
+.visibility-hidden {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.disabled-input {
+    background-color: #f1f5f9 !important;
+    cursor: not-allowed !important;
+}
+
+.h-48 {
+    height: 48px !important;
+}
+
+.m-auto {
+    margin: auto !important;
+}
+
+.p-24 {
+    padding: 24px !important;
+}
+
+.flex-none {
+    flex: none !important;
+}
+
+.w-140 {
+    width: 140px !important;
+}
+
+.max-w-600 {
+    max-width: 600px !important;
+}
+
+.grid-span-2 {
+    grid-column: span 2 !important;
+}

@@ -55,3 +55,31 @@ body.theme-insumos .sidebar-nav li a.active {
     cursor: not-allowed;
     border: 1px solid #e5e7eb;
 }
+
+/* ================= CLASSES DE ESTRUTURA E LAYOUT (PÓS-REFATORAÇÃO) ================= */
+.med-concentration-val {
+    flex: 1.5 !important;
+    min-width: 0 !important;
+}
+
+.med-concentration-unit {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.inventory-lote-table-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.inventory-lote-table th {
+    text-align: center;
+}
+
+.inventory-lote-table th:nth-child(1) { width: 300px; }
+.inventory-lote-table th:nth-child(2) { width: 250px; }
+.inventory-lote-table th:nth-child(3) { width: 150px; }
+.inventory-lote-table th:nth-child(4) { width: 150px; }
+

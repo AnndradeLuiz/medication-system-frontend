@@ -65,38 +65,6 @@
     border: 1px dashed #cbd5e1;
 }
 
-.btn-cancel {
-    background-color: #f1f5f9;
-    color: var(--color-text-main);
-    border: 1px solid var(--color-border);
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-cancel:hover {
-    background-color: #e2e8f0;
-}
-
-.btn-danger {
-    background-color: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fca5a5;
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-danger:hover {
-    background-color: #fca5a5;
-}
-
 .btn-danger-icon {
     display: inline-flex;
     align-items: center;
@@ -400,3 +368,71 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(16, 185, 129, 0.35);
 }
+
+/* ================= CLASSES DE ESTRUTURA E LAYOUT (PÓS-REFATORAÇÃO) ================= */
+.section-dashed {
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.recurrent-prescription-banner {
+    background-color: var(--color-pink-soft);
+    border: 1.5px dashed var(--color-danger);
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    border-radius: var(--radius-md);
+}
+
+.recurrent-prescription-banner label {
+    color: #be185d !important;
+}
+
+.dispense-action-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 20px 0;
+    gap: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dispense-action-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.dispense-action-buttons button {
+    flex: 1;
+    max-width: 250px;
+    justify-content: center;
+}
+
+.dispense-summary-table-wrapper {
+    border-radius: var(--radius-md);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.dispense-summary-table th {
+    text-align: center;
+}
+
+.dispense-summary-table th:nth-child(1) { width: 40%; text-align: left; }
+.dispense-summary-table th:nth-child(2) { width: 30%; }
+.dispense-summary-table th:nth-child(3) { width: 30%; }
+
+.dispense-summary-table td:nth-child(1) { text-align: left; }
+.dispense-summary-table td { text-align: center; }
+
+.dispensation-summary-modal-content {
+    max-width: 600px;
+    padding: 24px;
+    border-radius: 24px;
+    background: var(--color-surface);
+}
+
+

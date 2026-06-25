@@ -1,14 +1,11 @@
-<div id="view-total-inventory" class="view-section" style="overflow: hidden; height: 100%;">
-    <section class="home-content"
-        style="height: 100%; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 10px;">
-        <div class="filter-bar d-flex justify-between"
-            style="padding:15px; border: 1px solid var(--color-border); margin-bottom: 24px; gap: 20px; flex-wrap: wrap; flex-shrink: 0;">
+<div id="view-total-inventory" class="view-section total-inventory-view">
+    <section class="total-inventory-content">
+        <div class="filter-bar d-flex justify-between total-inventory-filter-bar">
             <div class="filter-group flex-1 max-w-500 d-flex gap-8">
                 <div class="pos-relative flex-1">
-                    <i class="fa-solid fa-search pos-absolute left-12 top-50 translate-y-n50 text-muted"
-                        style="left: 12px;"></i>
+                    <i class="fa-solid fa-search pos-absolute left-12 top-50 translate-y-n50 text-muted"></i>
                     <input type="text" id="totalInventorySearch" placeholder="Pesquisar item pelo nome..."
-                        class="w-full p-l-36" style="padding-left: 36px;">
+                        class="w-full p-l-36">
                 </div>
                 <button class="btn btn-primary d-flex align-center gap-8" onclick="applyTotalInventoryFilters()">
                     <i class="fa-solid fa-search"></i> Buscar
@@ -20,28 +17,24 @@
             </button>
         </div>
 
-        <div class="table-responsive"
-            style="flex: 1; min-height: 480px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
-            <table class="table" style="table-layout: fixed; width: 100%; height: 100%;">
+        <div class="table-responsive total-inventory-table-wrapper">
+            <table class="table total-inventory-table">
                 <thead>
                     <tr style="height: 60px;">
-                        <th class="sortable" style="width: 25%; text-align: center;"
-                            onclick="handleTotalInventorySort('name')">ITEM <i class="fa-solid fa-sort sort-icon"
+                        <th class="sortable" onclick="handleTotalInventorySort('name')">ITEM <i class="fa-solid fa-sort sort-icon"
                                 id="sort-name"></i></th>
-                        <th style="width: 17%; text-align: center;">TIPO</th>
-                        <th style="width: 17%; text-align: center;">CATEGORIA</th>
-                        <th class="sortable" style="width: 17%; text-align: center;"
-                            onclick="handleTotalInventorySort('quantity')">QUANTIDADE <i
+                        <th>TIPO</th>
+                        <th>CATEGORIA</th>
+                        <th class="sortable" onclick="handleTotalInventorySort('quantity')">QUANTIDADE <i
                                 class="fa-solid fa-sort sort-icon" id="sort-quantity"></i></th>
-                        <th class="sortable" style="width: 17%; text-align: center;"
-                            onclick="handleTotalInventorySort('expiration')">VALIDADE <i
+                        <th class="sortable" onclick="handleTotalInventorySort('expiration')">VALIDADE <i
                                 class="fa-solid fa-sort sort-icon" id="sort-expiration"></i></th>
-                        <th style="width: 17%; text-align: center;">SITUAÇÃO</th>
+                        <th>SITUAÇÃO</th>
                     </tr>
                 </thead>
                 <tbody id="totalInventoryBody">
                     <tr>
-                        <td colspan="6" class="empty-msg" style="vertical-align: middle;">Defina seus filtros e clique em
+                        <td colspan="6" class="empty-msg empty-state-cell">Defina seus filtros e clique em
                             <b>Buscar</b> para carregar os dados.
                         </td>
                     </tr>
@@ -49,17 +42,14 @@
             </table>
         </div>
 
-        <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm"
-            style="border: 1px solid #e2e8f0; flex-shrink: 0;">
+        <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm total-inventory-pagination">
             <span class="fs-14 text-muted">Mostrando <strong id="totalInventoryPageInfo">0-0 de 0</strong>
                 itens</span>
             <div class="d-flex gap-10">
                 <button class="btn btn-outline-secondary btn-sm" id="btnPrevTotalInventory"
                     onclick="prevTotalInventoryPage()"><i class="fa-solid fa-chevron-left"></i>
                     Anterior</button>
-                <span class="fs-14 fw-600"
-                    style="padding: 5px 10px; background: #eff6ff; color: #2563eb; border-radius: 4px;"
-                    id="totalInventoryCurrentPage">Pág 1</span>
+                <span class="fs-14 fw-600 page-indicator" id="totalInventoryCurrentPage">Pág 1</span>
                 <button class="btn btn-outline-secondary btn-sm" id="btnNextTotalInventory"
                     onclick="nextTotalInventoryPage()">Próxima <i class="fa-solid fa-chevron-right"></i></button>
             </div>

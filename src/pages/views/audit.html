@@ -12,29 +12,25 @@
         </div>
 
         <!-- Filtros de Auditoria -->
-        <div class="card bg-light p-20 mb-20 border-slate" style="border-radius: 8px;">
+        <div class="card bg-light p-20 mb-20 border-slate audit-filter-card">
             <h4 class="fs-sm fw-700 text-main mb-15"><i class="fa-solid fa-sliders"></i> Filtros de
                 Rastreamento</h4>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+            <div class="audit-filters-grid">
                 <div class="form-group mb-0">
                     <label class="fs-2xs fw-700 text-muted mb-6">DATA INICIAL</label>
-                    <input type="date" id="auditFilterStart"
-                        style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
+                    <input type="date" id="auditFilterStart">
                 </div>
                 <div class="form-group mb-0">
                     <label class="fs-2xs fw-700 text-muted mb-6">DATA FINAL</label>
-                    <input type="date" id="auditFilterEnd"
-                        style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
+                    <input type="date" id="auditFilterEnd">
                 </div>
                 <div class="form-group mb-0">
                     <label class="fs-2xs fw-700 text-muted mb-6">FUNCIONÁRIO</label>
-                    <input type="text" id="auditFilterUser" placeholder="Buscar por nome..."
-                        style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
+                    <input type="text" id="auditFilterUser" placeholder="Buscar por nome...">
                 </div>
                 <div class="form-group mb-0">
                     <label class="fs-2xs fw-700 text-muted mb-6">MÓDULO</label>
-                    <select id="auditFilterEntity"
-                        style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
+                    <select id="auditFilterEntity">
                         <option value="">Todos os Módulos</option>
                         <option value="Patient">Paciente</option>
                         <option value="practitioner">Funcionário</option>
@@ -46,8 +42,7 @@
                 </div>
                 <div class="form-group mb-0">
                     <label class="fs-2xs fw-700 text-muted mb-6">AÇÃO</label>
-                    <select id="auditFilterAction"
-                        style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
+                    <select id="auditFilterAction">
                         <option value="">Todas as Ações</option>
                         <option value="CREATE">Criação</option>
                         <option value="READ">Consulta</option>
@@ -59,12 +54,11 @@
                 </div>
                 <div class="form-group mb-0">
                     <label class="fs-2xs fw-700 text-muted mb-6">PALAVRA-CHAVE</label>
-                    <input type="text" id="auditFilterKeyword" placeholder="Detalhes, ID, etc..."
-                        style="height: 40px; font-size: 13.5px; width: 100%; padding: 0 12px; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); outline: none; background: #fff; color: var(--color-text-main);">
+                    <input type="text" id="auditFilterKeyword" placeholder="Detalhes, ID, etc...">
                 </div>
             </div>
 
-            <div class="d-flex justify-end align-center mt-15 pt-15" style="border-top: 1px dashed #cbd5e1; gap: 10px;">
+            <div class="d-flex justify-end align-center mt-15 pt-15 audit-filter-footer">
                 <button type="button" class="btn btn-secondary h-38 fs-xs px-15" onclick="clearAuditFilters()"><i
                         class="fa-solid fa-eraser mr-6"></i> Limpar
                     Filtros</button>
@@ -75,19 +69,18 @@
         </div>
 
         <!-- Tabela de Auditoria -->
-        <div class="table-responsive"
-            style="height: 510px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
-            <table class="table">
+        <div class="table-responsive audit-table-wrapper">
+            <table class="table audit-table">
                 <thead>
                     <tr>
-                        <th style="width: 30%; text-align: center;">Data / Hora</th>
-                        <th style="width: 40%; text-align: center;">Funcionário</th>
-                        <th style="width: 30%; text-align: center;">Ação</th>
+                        <th>Data / Hora</th>
+                        <th>Funcionário</th>
+                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody id="auditTableBody">
-                    <tr style="height: 400px;">
-                        <td colspan="3" class="empty-msg" style="vertical-align: middle;">
+                    <tr class="audit-table-empty-row">
+                        <td colspan="3" class="empty-msg audit-table-empty-cell">
                             <i class="fa-solid fa-spinner fa-spin"></i> Carregando logs de auditoria...
                         </td>
                     </tr>
@@ -96,16 +89,13 @@
         </div>
 
         <!-- Paginação de Auditoria -->
-        <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm"
-            style="border: 1px solid #e2e8f0;">
+        <div class="pagination-controls d-flex justify-between align-center mt-20 p-10 bg-white radius-8 shadow-sm audit-pagination">
             <span class="fs-14 text-muted">Mostrando <strong id="auditPageInfo">0-0 de 0</strong>
                 eventos</span>
             <div class="d-flex gap-10">
                 <button class="btn btn-outline-secondary btn-sm" id="btnPrevAudit" onclick="prevAuditPage()"><i
                         class="fa-solid fa-chevron-left"></i> Anterior</button>
-                <span class="fs-14 fw-600"
-                    style="padding: 5px 10px; background: #eff6ff; color: #2563eb; border-radius: 4px;"
-                    id="auditCurrentPage">Pág 1</span>
+                <span class="fs-14 fw-600 page-indicator" id="auditCurrentPage">Pág 1</span>
                 <button class="btn btn-outline-secondary btn-sm" id="btnNextAudit" onclick="nextAuditPage()">Próxima <i
                         class="fa-solid fa-chevron-right"></i></button>
             </div>
@@ -114,78 +104,52 @@
 
     <!-- Modal de Detalhes de Auditoria (Embutido na própria view para encapsulamento) -->
     <div id="auditDetailsModal" class="modal-overlay">
-        <div class="modal-content"
-            style="max-width: 600px; margin: 30px auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); overflow: hidden;">
-            <div class="modal-header"
-                style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--color-border);">
-                <h3 style="margin: 0; font-size: 18px; color: var(--color-text-main); font-weight: 700;"><i
-                        class="fa-solid fa-list-check"></i> Detalhes da Auditoria</h3>
-                <button type="button" class="btn-close" onclick="closeAuditDetailsModal()">
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-list-check"></i> Detalhes da Auditoria</h3>
+                <button type="button" class="modal-close" onclick="closeAuditDetailsModal()">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
 
-            <div style="padding: 24px;">
-                <h4
-                    style="margin: 0 0 15px 0; color: var(--color-text-main); font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px;">
-                    <i class="fa-solid fa-circle-info" style="color: var(--color-primary); margin-right: 6px;"></i>
+            <div class="modal-body">
+                <h4 class="modal-section-title">
+                    <i class="fa-solid fa-circle-info text-primary mr-6"></i>
                     Informações Gerais do Evento
                 </h4>
-                <div class="patient-info-grid"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Data / Hora</p>
-                        <div id="audit-detail-date" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                <div class="audit-details-grid">
+                    <div class="info-box">
+                        <p>Data / Hora</p>
+                        <div id="audit-detail-date">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Funcionário</p>
-                        <div id="audit-detail-practitioner" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                    <div class="info-box">
+                        <p>Funcionário</p>
+                        <div id="audit-detail-practitioner">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Cargo</p>
-                        <div id="audit-detail-role" style="margin-top: 4px;">-</div>
+                    <div class="info-box">
+                        <p>Cargo</p>
+                        <div id="audit-detail-role">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Ação Executada</p>
-                        <div id="audit-detail-action" style="margin-top: 4px;">-</div>
+                    <div class="info-box">
+                        <p>Ação Executada</p>
+                        <div id="audit-detail-action">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border); grid-column: span 2;">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Módulo / Área do Sistema</p>
-                        <div id="audit-detail-module" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                    <div class="info-box" style="grid-column: span 2;">
+                        <p>Módulo / Área do Sistema</p>
+                        <div id="audit-detail-module">-</div>
                     </div>
                 </div>
 
-                <h4
-                    style="margin: 0 0 15px 0; color: var(--color-text-main); font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px;">
-                    <i class="fa-solid fa-list-check" style="color: var(--color-primary); margin-right: 6px;"></i>
+                <h4 class="modal-section-title">
+                    <i class="fa-solid fa-list-check text-primary mr-6"></i>
                     Detalhes do Evento
                 </h4>
-                <div style="background: var(--color-bg); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--color-border); max-height: 200px; overflow-y: auto; font-size: 13.5px; color: var(--color-text-main); font-weight: 500; line-height: 1.5; white-space: pre-wrap; word-break: break-all;"
-                    id="audit-detail-description">
+                <div class="audit-detail-desc-box" id="audit-detail-description">
                     -
                 </div>
             </div>
-            <div class="modal-footer"
-                style="text-align: right; padding: 16px 24px; border-top: 1px solid var(--color-border); background: var(--color-bg); display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
-                <button type="button" class="btn-danger-solid d-inline-flex align-center gap-8" onclick="closeAuditDetailsModal()" style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+            <div class="modal-footer">
+                <button type="button" class="btn-danger-solid btn-sm d-inline-flex align-center gap-8" onclick="closeAuditDetailsModal()">
                     <i class="fa-solid fa-circle-xmark"></i> Fechar
                 </button>
             </div>

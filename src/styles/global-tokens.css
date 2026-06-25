@@ -206,6 +206,13 @@ h4 {
     display: none !important;
 }
 
+.page-indicator {
+    padding: 5px 10px;
+    background: var(--color-blue-soft);
+    color: var(--color-primary);
+    border-radius: 4px;
+}
+
 /* ================== IDENTIDADE VISUAL ================== */
 
 /* 3. Global Loader (Spinner Pulsante) */

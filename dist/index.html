@@ -8,31 +8,17 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="src/styles/global-tokens.css">
-    <link rel="stylesheet" href="src/styles/global.css">
-    <link rel="stylesheet" href="src/styles/components/button.css">
-    <link rel="stylesheet" href="src/styles/components/table.css">
-    <link rel="stylesheet" href="src/styles/components/modal.css">
-    <link rel="stylesheet" href="src/styles/components/card-forms.css">
-    <link rel="stylesheet" href="src/styles/components/tabs.css">
-    <link rel="stylesheet" href="src/styles/components/overlays.css">
-    <link rel="stylesheet" href="src/styles/home.css">
-    <link rel="stylesheet" href="src/styles/patient.css?v=1">
-    <link rel="stylesheet" href="src/styles/dispensation.css">
-    <link rel="stylesheet" href="src/styles/inventory.css">
-    <link rel="stylesheet" href="src/styles/request.css">
-    <link rel="stylesheet" href="src/styles/report.css">
-    <link rel="stylesheet" href="src/styles/practitioner.css">
-    <link rel="stylesheet" href="src/styles/total-inventory.css">
-    <link rel="stylesheet" href="src/styles/audit.css">
-    <link rel="stylesheet" href="src/styles/womens-health.css">
 
     <script>
         if (['ADM_TI', 'ENF_GERENTE'].includes(sessionStorage.getItem('sgdm_userRole'))) {
             document.documentElement.classList.add('is-privileged');
         }
     </script>
-    <link rel="icon" href="src/assets/img/logo-sem-fundo.svg">
+    <link rel="icon" href="/medication-system-frontend/assets/logo-sem-fundo-DJ9CEPHC.svg">
+  <script type="module" crossorigin src="/medication-system-frontend/assets/main-DyyXIPGM.js"></script>
+  <link rel="modulepreload" crossorigin href="/medication-system-frontend/assets/api-CxjfzaMG.js">
+  <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/api-CUJPL-QF.css">
+  <link rel="stylesheet" crossorigin href="/medication-system-frontend/assets/main-SioTFgeh.css">
 </head>
 
 <body class="theme-medicamentos ready">
@@ -97,7 +83,7 @@
             </header>
 
             <div id="globalLoader" class="global-loader d-none">
-                <img src="src/assets/img/logo-sem-fundo.svg" alt="Carregando...">
+                <img src="data:image/svg+xml,%3csvg%20width='100%25'%20height='100%25'%20viewBox='15%2020%20166%20158'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M38%20125C33.5817%20125%2030%20121.418%2030%20117L30%2091C30%2086.5817%2033.5817%2083%2038%2083L176%2083L176%20117C176%20121.418%20172.418%20125%20168%20125L38%20125Z'%20fill='%2303469B'/%3e%3cpath%20d='M53%2077C53%2072.5817%2056.5817%2069%2061%2069H168C172.418%2069%20176%2072.5817%20176%2077V89H53V77Z'%20fill='%2303469B'/%3e%3cpath%20d='M76%2033C76%2028.5817%2079.5817%2025%2084%2025H125C129.418%2025%20133%2028.5817%20133%2033V75H76V33Z'%20fill='%2303469B'/%3e%3cpath%20d='M76%20125H133V165C133%20169.418%20129.418%20173%20125%20173H84C79.5817%20173%2076%20169.418%2076%20165V125Z'%20fill='%233B8FE6'/%3e%3crect%20x='56.8146'%20y='122.712'%20width='86.0632'%20height='48.8557'%20rx='24.4279'%20transform='rotate(-50%2056.8146%20122.712)'%20fill='%2303459A'/%3e%3crect%20x='64.4238'%20y='122.583'%20width='76.156'%20height='37.3561'%20rx='18.6781'%20transform='rotate(-50%2064.4238%20122.583)'%20fill='white'/%3e%3cpath%20d='M92.1838%2097.208L105.365%2081.4995C110.231%2075.7008%20118.876%2074.9444%20124.674%2079.8101C130.473%2084.6759%20131.23%2093.3211%20126.364%2099.1198L113.183%20114.828L92.1838%2097.208Z'%20fill='%2303469B'/%3e%3cpath%20d='M92.1838%2097.208L105.365%2081.4995C110.231%2075.7008%20118.876%2074.9444%20124.674%2079.8101C130.473%2084.6759%20131.23%2093.3211%20126.364%2099.1198L113.183%20114.828L92.1838%2097.208Z'%20fill='%2303469B'/%3e%3crect%20x='51'%20y='46'%20width='12'%20height='12'%20rx='2'%20fill='%233B8FE6'/%3e%3crect%20x='36'%20y='58'%20width='12'%20height='12'%20rx='2'%20fill='%2303469B'/%3e%3crect%20x='35'%20y='39'%20width='9'%20height='9'%20rx='2'%20fill='%2303469B'/%3e%3crect%20x='21'%20y='49'%20width='9'%20height='9'%20rx='2'%20fill='%2303469B'/%3e%3crect%20x='23'%20y='67'%20width='9'%20height='9'%20rx='2'%20fill='%2303469B'/%3e%3c/svg%3e" alt="Carregando...">
             </div>
 
             <div id="app-content-container"
@@ -117,7 +103,7 @@
             <div class="modal-body"
                 style="text-align: justify; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box; overflow-y: auto; flex-grow: 1;">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="src/assets/img/logo-fundo-branco.svg" alt="Logo e-Farma SUS"
+                    <img src="/medication-system-frontend/assets/logo-fundo-branco-BwBSQq7a.svg" alt="Logo e-Farma SUS"
                         style="max-width: 100%; max-height: 110px; margin-bottom: 10px; object-fit: contain;">
                     <h3 style="color: var(--color-primary); font-size: 18px; margin: 0; line-height: 1.4;">
                         Sistema de Gestão de Requisições e Estoque<br>
@@ -180,23 +166,6 @@
         });
     </script>
 
-    <script type="module" src="src/services/store.js"></script>
-    <script type="module" src="src/config/config.js?v=2"></script>
-    <script type="module" src="src/services/auth.js?v=2"></script>
-    <script type="module" src="src/services/api.js"></script>
-    <script type="module" src="src/utils/formatters.js"></script>
-    <script type="module" src="src/utils/exporter.js"></script>
-    <script type="module" src="src/components/components.js?v=2"></script>
-    <script type="module" src="src/pages/scripts/home.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/patient.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/dispensation.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/inventory.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/practitioner.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/request.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/total-inventory.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/audit.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/report.js?v=3"></script>
-    <script type="module" src="src/pages/scripts/womens-health.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];

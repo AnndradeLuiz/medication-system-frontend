@@ -1,230 +1,140 @@
-<div id="view-womens-health" class="view-section" style="overflow: hidden; height: 100%;">
+<!-- ================= VISTA: SAÚDE DA MULHER ================= -->
+<div id="view-womens-health" class="view-section wh-view">
     <div class="tabs-wrapper">
         <div class="tabs-container">
-            <div class="tab active" onclick="switchWomensHealthTab('tab-wh-monitoramento', this)">
-                <i class="fa-solid fa-venus"></i> Monitoramento Contraceptivo
+            <div class="tab active" onclick="switchTab('tab-womens-health', this)">
+                <i class="fa-solid fa-venus"></i> Saúde da Mulher / Planejamento Familiar
             </div>
         </div>
     </div>
 
-    <section class="form-content max-w-1200"
-        style="height: calc(100% - 60px); display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 20px;">
-
-        <div id="tab-wh-monitoramento" class="tab-section active-section"
-            style="display: flex; flex-direction: column;">
-
-            <!-- Cards de Métricas da Saúde da Mulher -->
-            <div class="wh-metrics-grid mb-20">
-                <div class="wh-metric-card" onclick="filterWomensHealth('all')">
-                    <div class="wh-metric-icon wh-pink-soft"><i class="fa-solid fa-venus"></i></div>
-                    <div class="wh-metric-info">
-                        <h3>Monitoradas Ativas</h3>
-                        <p id="whMetricTotal">-</p>
-                    </div>
-                </div>
-
-                <div class="wh-metric-card alert-warning-card" onclick="filterWomensHealth('expiring')">
-                    <div class="wh-metric-icon wh-orange-soft"><i class="fa-solid fa-clock"></i></div>
-                    <div class="wh-metric-info">
-                        <h3>A Vencer (Período de Alerta)</h3>
-                        <p id="whMetricExpiring">-</p>
-                    </div>
-                </div>
-
-                <div class="wh-metric-card alert-danger-card" onclick="filterWomensHealth('expired')">
-                    <div class="wh-metric-icon wh-red-soft"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                    <div class="wh-metric-info">
-                        <h3>Contraceptivo Vencido</h3>
-                        <p id="whMetricExpired">-</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Legenda das Regras de Alerta -->
-            <div class="card mb-20 wh-info-legend-box"
-                style="border-left: 4px solid var(--color-primary); background-color: rgba(233, 30, 99, 0.03); padding: 15px 20px;">
-                <h4
-                    style="margin: 0 0 8px 0; color: var(--color-primary); display: flex; align-items: center; gap: 8px; font-size: 15px;">
-                    <i class="fa-solid fa-circle-info"></i> Prazos de Alerta do Monitoramento
+    <section class="home-content wh-content">
+        <div id="tab-womens-health" class="tab-section active-section wh-tab-section">
+            <!-- Informativo de Métodos e Prazos -->
+            <div class="card mb-20 wh-alert-card">
+                <h4 class="wh-alert-title">
+                    <i class="fa-solid fa-circle-info"></i> Informativo do Programa de Saúde da Mulher
                 </h4>
-                <p style="margin: 0 0 12px 0; font-size: 14px; color: var(--color-text-muted);">
-                    As pacientes entram no estado <strong>"A Vencer"</strong> (destacadas em amarelo na tabela) de
-                    acordo com o tempo de eficácia restante do método:
+                <p class="wh-alert-desc">
+                    O acompanhamento é voltado para mulheres em uso de métodos contraceptivos fornecidos pelo SUS.
+                    As notificações ajudam no retorno para renovação ou verificação de eficácia:
                 </p>
-                <div
-                    style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: var(--color-text);">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span class="badge-wh badge-wh-expiring"
-                            style="padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">PÍLULA
-                            ORAL</span>
-                        <span>Alerta de renovação quando o ciclo acaba (faltando <strong>0 dias</strong>).</span>
+                <div class="wh-alert-methods">
+                    <div class="wh-alert-method-item">
+                        <span class="badge-wh badge-wh-regular wh-alert-badge">PÍLULA</span>
+                        <span>Retirada mensal na farmácia. Alertas são enviados quando a cartela atual está no fim.</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span class="badge-wh badge-wh-expiring"
-                            style="padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">INJETÁVEIS</span>
-                        <span>Alertas faltando <strong>30 dias</strong> (1 mês) e <strong>7 dias</strong> (1 semana)
-                            para nova aplicação.</span>
+                    <div class="wh-alert-method-item">
+                        <span class="badge-wh badge-wh-regular wh-alert-badge">INJETÁVEIS</span>
+                        <span>Aplicação trimestral (Medroxiprogesterona) ou mensal. Alertas enviados 1 semana antes do prazo.</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <span class="badge-wh badge-wh-expiring"
-                            style="padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">DIU
-                            / IMPLANTE</span>
-                        <span>Alertas faltando <strong>90 dias</strong> (3 meses) e <strong>30 dias</strong> (1 mês)
-                            para o fim da eficácia anual.</span>
+                    <div class="wh-alert-method-item">
+                        <span class="badge-wh badge-wh-regular wh-alert-badge">DIU</span>
+                        <span>Eficácia de longa duração (até 10 anos). Alertas de vencimento a partir de 3 meses antes do prazo final.</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Tabela de Pacientes -->
-            <div class="card" style="margin-bottom: 0;">
-                <div class="d-flex justify-between align-center mb-20">
-                    <h3 style="margin: 0;"><i class="fa-solid fa-clipboard-list"></i> Pacientes sob Acompanhamento</h3>
-                    <div class="d-flex gap-10">
-                        <select id="whStatusFilter" onchange="applyWomensHealthFilter()" class="form-select bg-white"
-                            style="width: 200px;">
-                            <option value="all">Todas as Monitoradas</option>
-                            <option value="expiring">Próximas ao Vencimento</option>
-                            <option value="expired">Método Vencido</option>
-                            <option value="regular">Método Regular</option>
+            <!-- Tabela de Pacientes sob Acompanhamento -->
+            <div class="card mb-0">
+                <div class="d-flex justify-between align-center mb-20 flex-wrap gap-10">
+                    <h3><i class="fa-solid fa-clipboard-list"></i> Pacientes sob Acompanhamento</h3>
+                    <div class="d-flex align-center gap-10">
+                        <select id="whStatusFilter" class="w-auto" onchange="filterWomensHealth()">
+                            <option value="all">Todos os Status</option>
+                            <option value="expired">Prazo Vencido</option>
+                            <option value="expiring">Vencendo em até 30 dias</option>
+                            <option value="regular" selected>Status Regular</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="table-responsive"
-                    style="border: 1px solid var(--color-border); border-radius: var(--radius-md);">
-                    <table class="table">
+                <div class="table-responsive wh-table-wrapper">
+                    <table class="table wh-table" id="womensHealthTable">
                         <thead>
                             <tr>
                                 <th>Paciente</th>
-                                <th>Método Utilizado</th>
-                                <th style="width: 180px; text-align: center;">Data Aplicação</th>
-                                <th style="width: 150px; text-align: center;">Status</th>
+                                <th>Método Contraceptivo</th>
+                                <th>Data Aplicação</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="womensHealthTableBody">
                             <tr>
-                                <td colspan="4" class="empty-msg">Nenhuma paciente monitorada carregada.</td>
+                                <td colspan="4" class="empty-msg">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Carregando lista de pacientes...
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Modal de Detalhes do Acompanhamento Contraceptivo -->
+    <!-- Modal de Detalhes do Acompanhamento -->
     <div id="whDetailsModal" class="modal-overlay">
-        <div class="modal-content"
-            style="max-width: 600px; margin: 30px auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); overflow: hidden;">
-            <div class="modal-header"
-                style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--color-border);">
-                <h3 style="margin: 0; font-size: 18px; color: var(--color-text-main); font-weight: 700;">
-                    <i class="fa-solid fa-venus"></i> Detalhes do Acompanhamento
-                </h3>
-                <button type="button" class="btn-close" onclick="closeWomensHealthDetailsModal()">
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-venus"></i> Detalhes do Acompanhamento</h3>
+                <button type="button" class="modal-close" onclick="closeWomensHealthDetailsModal()">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
 
-            <div style="padding: 24px;">
-                <h4
-                    style="margin: 0 0 15px 0; color: var(--color-text-main); font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px;">
-                    <i class="fa-solid fa-user" style="color: var(--color-primary); margin-right: 6px;"></i> Informações
-                    da Paciente
+            <div class="modal-body">
+                <h4 class="modal-section-title">
+                    <i class="fa-solid fa-user text-primary mr-6"></i> Informações da Paciente
                 </h4>
-                <div class="patient-info-grid"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border); grid-column: span 2;">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Nome Completo</p>
-                        <div id="wh-detail-patient-name" class="info-value"
-                            style="font-size: 15px; font-weight: 600; color: var(--color-text-main);">-</div>
+                <div class="wh-details-grid">
+                    <div class="info-box" style="grid-column: span 2;">
+                        <p>Nome Completo</p>
+                        <div id="wh-detail-patient-name">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            CPF</p>
-                        <div id="wh-detail-patient-cpf" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">
-                            -</div>
+                    <div class="info-box">
+                        <p>CPF</p>
+                        <div id="wh-detail-patient-cpf">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            CNS</p>
-                        <div id="wh-detail-patient-cns" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">
-                            -</div>
+                    <div class="info-box">
+                        <p>CNS</p>
+                        <div id="wh-detail-patient-cns">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Telefone</p>
-                        <div id="wh-detail-patient-phone" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                    <div class="info-box">
+                        <p>Telefone</p>
+                        <div id="wh-detail-patient-phone">-</div>
                     </div>
                 </div>
 
-                <h4
-                    style="margin: 0 0 15px 0; color: var(--color-text-main); font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px;">
-                    <i class="fa-solid fa-pills" style="color: var(--color-primary); margin-right: 6px;"></i> Detalhes
-                    do Contraceptivo
+                <h4 class="modal-section-title">
+                    <i class="fa-solid fa-pills text-primary mr-6"></i> Detalhes do Contraceptivo
                 </h4>
-                <div class="patient-info-grid"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border); grid-column: span 2;">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Método Utilizado</p>
-                        <div id="wh-detail-method" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                <div class="wh-details-grid">
+                    <div class="info-box" style="grid-column: span 2;">
+                        <p>Método Utilizado</p>
+                        <div id="wh-detail-method">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Data de Aplicação</p>
-                        <div id="wh-detail-applied-date" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                    <div class="info-box">
+                        <p>Data de Aplicação</p>
+                        <div id="wh-detail-applied-date">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Data de Vencimento</p>
-                        <div id="wh-detail-expiration-date" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                    <div class="info-box">
+                        <p>Data de Vencimento</p>
+                        <div id="wh-detail-expiration-date">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Tempo Restante</p>
-                        <div id="wh-detail-days-left" class="info-value"
-                            style="font-size: 14px; font-weight: 600; color: var(--color-text-main);">-</div>
+                    <div class="info-box">
+                        <p>Tempo Restante</p>
+                        <div id="wh-detail-days-left">-</div>
                     </div>
-                    <div class="info-box"
-                        style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-                        <p
-                            style="margin: 0 0 4px 0; font-size: 11px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">
-                            Status do Método</p>
-                        <div id="wh-detail-status" style="margin-top: 4px;">-</div>
+                    <div class="info-box">
+                        <p>Status do Método</p>
+                        <div id="wh-detail-status">-</div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal-footer"
-                style="text-align: right; padding: 16px 24px; border-top: 1px solid var(--color-border); background: var(--color-bg); display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
-                <button type="button" class="btn-danger-solid d-inline-flex align-center gap-8"
-                    onclick="closeWomensHealthDetailsModal()"
-                    style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+            <div class="modal-footer">
+                <button type="button" class="btn-danger-solid btn-sm d-inline-flex align-center gap-8"
+                    onclick="closeWomensHealthDetailsModal()">
                     <i class="fa-solid fa-circle-xmark"></i> Fechar
                 </button>
                 <div id="wh-modal-action-container" style="display: inline-flex;"></div>

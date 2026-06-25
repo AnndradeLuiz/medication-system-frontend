@@ -141,3 +141,101 @@
     transition: var(--transition);
     font-size: 14px;
 }
+
+/* ================= CLASSES DE ESTRUTURA E LAYOUT (PÓS-REFATORAÇÃO) ================= */
+.practitioner-view {
+    overflow: hidden;
+    height: 100%;
+}
+
+.practitioner-content {
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.practitioner-tab-list {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.practitioner-table-card {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.practitioner-table-wrapper {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.practitioner-table th {
+    text-align: center;
+}
+
+.practitioner-table th:nth-child(2) { width: 140px; }
+.practitioner-table th:nth-child(3) { width: 150px; }
+.practitioner-table th:nth-child(4) { width: 180px; }
+.practitioner-table th:nth-child(5) { width: 120px; }
+.practitioner-table th:nth-child(6) { width: 110px; }
+
+.practitioner-pagination {
+    border: 1px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+.practitioner-tab-create {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.practitioner-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group-span-2 {
+    grid-column: span 2;
+    margin-bottom: 0;
+}
+
+.form-group-no-margin {
+    margin-bottom: 0;
+}
+
+.required-asterisk {
+    color: red;
+}
+
+.practitioner-active-banner {
+    background-color: #f0fdf4;
+    border: 1.5px dashed #22c55e;
+    gap: 15px;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.practitioner-active-checkbox {
+    width: 24px;
+    height: 24px;
+}
+
+.practitioner-active-label {
+    color: #16a34a;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
