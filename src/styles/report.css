@@ -37,10 +37,23 @@
 
 /* Sub-abas de Relatório */
 .report-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
     background-color: white;
     color: #475569;
     border: 1.5px solid #cbd5e1;
     transition: var(--transition);
+}
+
+.report-tab-btn:hover {
+    background-color: #f8fafc;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 .report-tab-btn.active {
@@ -104,5 +117,457 @@
     font-size: 12px;
     color: var(--color-text-muted);
 }
+
+/* Grupo A — Layout de card e cabeçalhos */
+.report-card-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.report-card-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin: 0;
+}
+
+/* Grupo B — Contêiner de gráficos */
+.chart-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-box {
+    flex: 1;
+    min-width: 300px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.chart-box h4 {
+    margin-bottom: 15px;
+    color: #475569;
+}
+
+.chart-canvas-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.chart-canvas-wrapper--tall   { height: 300px; }
+.chart-canvas-wrapper--medium { height: 240px; }
+.chart-canvas-wrapper--short  { height: 230px; }
+.chart-canvas-wrapper--slim   { height: 200px; }
+
+/* Grupo C — Filtros e seletores */
+.report-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+
+.report-date-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+}
+
+.report-date-input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 13px;
+    color: #1e293b;
+    outline: none;
+}
+
+.report-toggle-btns {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-toggle-select {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-toggle-deselect {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Grupo D — Construtor de Planilhas (form e exportar) */
+.report-col-form {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.report-col-group {
+    flex: 1;
+    min-width: 250px;
+}
+
+.report-col-group h4 {
+    margin-bottom: 10px;
+    border-bottom: 2px solid;
+    padding-bottom: 5px;
+}
+
+.report-col-group--patient h4 { color: #2563eb; border-color: #bfdbfe; }
+.report-col-group--med     h4 { color: #059669; border-color: #a7f3d0; }
+.report-col-group--delivery h4 { color: #7c3aed; border-color: #ddd6fe; }
+
+.report-col-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.report-export-footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+}
+
+.btn-export-excel {
+    background-color: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+/* Grupo E — Cards Hiperdia e Produtividade */
+.analytics-stat-cards {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.analytics-stat-card {
+    flex: 1;
+    min-width: 180px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid;
+}
+
+.analytics-stat-card h5  { margin: 0; }
+.analytics-stat-card p   { font-size: 24px; font-weight: bold; margin: 5px 0 0 0; }
+
+/* Variantes de cor */
+.stat-card--blue   { background: #eff6ff; border-color: #bfdbfe; }
+.stat-card--blue h5 { color: #2563eb; }
+.stat-card--blue p  { color: #1e3a8a; }
+
+.stat-card--green  { background: #ecfdf5; border-color: #a7f3d0; }
+.stat-card--green h5 { color: #059669; }
+.stat-card--green p  { color: #064e3b; }
+
+.stat-card--amber  { background: #fffbeb; border-color: #fde68a; }
+.stat-card--amber h5 { color: #d97706; }
+.stat-card--amber p  { color: #78350f; }
+
+.stat-card--pink   { background: #fdf2f8; border-color: #fbcfe8; }
+.stat-card--pink h5 { color: #db2777; }
+.stat-card--pink p  { color: #831843; }
+
+.analytics-stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-top: 10px;
+}
+
+.productivity-avg-icon {
+    font-size: 48px;
+    font-weight: 700;
+    color: #06b6d4;
+    line-height: 1;
+}
+
+.productivity-avg-label {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.productivity-avg-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 240px;
+}
+
+/* Grupo F — Botões "Exportar Excel" dos painéis analíticos */
+.btn-analytics-excel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #10b981;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-analytics-excel:hover {
+    background-color: #059669;
+}
+
+/* Grupo G — Busca e tabelas */
+.report-search-bar {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.report-search-input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    outline: none;
+    width: 100%;
+    max-width: 380px;
+}
+
+.icon-color--danger  { color: #ef4444; }
+.icon-color--blue    { color: #3b82f6; }
+.icon-color--violet  { color: #7c3aed; }
+.icon-color--cyan    { color: #06b6d4; }
+
+/* Novas classes de layout e utilidades para report.html */
+.report-tabs-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.report-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+}
+
+.report-card-header h3 {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.report-card-filter-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-export-pdf {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 16px;
+    vertical-align: middle;
+}
+
+.report-help-text {
+    margin-bottom: 16px;
+    color: #64748b;
+}
+
+.report-icon-muted {
+    color: #64748b;
+}
+
+.report-text-span {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0;
+}
+
+.report-text-muted-sm {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.btn-export-csv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    color: #334155;
+    transition: all 0.2s;
+}
+
+.btn-export-csv:hover {
+    background-color: #f1f5f9;
+}
+
+.btn-export-excel-main {
+    background-color: #10b981;
+    border-color: #10b981;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+}
+
+.btn-export-excel-main:hover {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+.report-select-label {
+    font-weight: 600;
+    color: #475569;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.report-select-input {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    outline: none;
+    font-weight: 600;
+    color: #1e293b;
+    background: white;
+    cursor: pointer;
+    min-width: 320px;
+}
+
+.report-panel-sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.report-panel-desc {
+    color: #64748b;
+    margin: 0;
+}
+
+.report-panel-desc--spaced {
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.report-panel-body-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.report-table-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.report-table-collapsed {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table-collapsed th {
+    padding: 12px 8px;
+    vertical-align: middle;
+}
+
+.report-table-header-row {
+    background-color: #f1f5f9;
+    text-align: left;
+}
+
+.chart-box--slim {
+    flex: 0.8 !important;
+}
+
+.chart-box--wide {
+    flex: 1.2 !important;
+}
+
+/* Utilitários */
+.text-center {
+    text-align: center !important;
+}
+
+.w-10 { width: 10%; }
+.w-11 { width: 11%; }
+.w-12 { width: 12%; }
+.w-15 { width: 15%; }
+.w-20 { width: 20%; }
+.w-25 { width: 25%; }
+.w-30 { width: 30%; }
+
+
+
+
 
 

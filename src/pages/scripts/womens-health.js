@@ -226,16 +226,16 @@
         if (!expirationDate || !info) return 'regular';
         const daysLeft = calculateDaysLeft(expirationDate);
         if (daysLeft === null) return 'regular';
-        
+
         // Se já venceu (e passou da data limite)
         if (daysLeft < 0) return 'expired';
 
         const durationDays = info.durationDays || 0;
-        
+
         // Anual (DIU, Implante, etc >= 365 dias)
         if (durationDays >= 365) {
             if (daysLeft <= 90) return 'expiring';
-        } 
+        }
         // Trimestral (Injetável trimestral ~90 dias)
         else if (durationDays >= 80 && durationDays <= 100) {
             if (daysLeft <= 30) return 'expiring';
@@ -245,7 +245,7 @@
             // Se for de 21 dias, alerta "quando acabar", que é em zero dias (daysLeft <= 0)
             if (daysLeft <= 0) return 'expiring';
         }
-        
+
         return 'regular';
     }
 
@@ -265,28 +265,28 @@
 
         const daysLeft = calculateDaysLeft(new Date(expDate.split('/').reverse().join('-')));
         let message = '';
-        
+
         if (durationDays >= 365) {
             if (daysLeft <= 30) {
-                message = `Olá! Aqui é da UBS. Falta apenas 1 mês para o vencimento do seu método contraceptivo (${contraceptiveName}). Por favor, agende seu retorno com a enfermagem.`;
+                message = `Olá! Aqui é da UBS Santa Clara. Falta apenas 1 mês para o vencimento do seu método contraceptivo. Por favor, agende seu retorno com a enfermagem.`;
             } else if (daysLeft <= 90) {
-                message = `Olá! Aqui é da UBS. Faltam 3 meses para o vencimento do seu método contraceptivo (${contraceptiveName}). Comece a planejar seu retorno para avaliação.`;
+                message = `Olá! Aqui é da UBS Santa Clara. Faltam 3 meses para o vencimento do seu método contraceptivo. Comece a planejar seu retorno para avaliação.`;
             } else {
-                message = `Olá, ${patientName}! Lembramos que o período de eficácia do seu dispositivo contraceptivo (${contraceptiveName}) está se aproximando do fim, expira dia ${expDate}. Por favor, entre em contato com a UBS para agendar a consulta médica de renovação ou substituição.`;
+                message = `Olá, ${patientName}! Lembramos que o período de eficácia do seu método contraceptivo está se aproximando do fim, expira dia ${expDate}. Por favor, entre em contato com a UBS Santa Clara para agendar a consulta médica de renovação ou substituição.`;
             }
         } else if (durationDays >= 80 && durationDays <= 100) {
             if (daysLeft <= 7) {
-                message = `Olá! A data da sua injeção contraceptiva trimestral (${contraceptiveName}) é daqui a 1 semana. Não se esqueça de comparecer à UBS!`;
+                message = `Olá! A data da sua injeção contraceptiva trimestral é daqui a 1 semana. Não se esqueça de agendar sua aplicação!`;
             } else if (daysLeft <= 30) {
-                message = `Olá! Falta 1 mês para a sua próxima injeção contraceptiva trimestral (${contraceptiveName}). Programe-se para buscar na UBS.`;
+                message = `Olá! Falta 1 mês para a sua próxima injeção contraceptiva trimestral. Programe-se para agendar sua aplicação.`;
             } else {
-                message = `Olá, ${patientName}! Lembramos que a data da próxima aplicação do seu anticoncepcional injetável (${contraceptiveName}) está se aproximando, vence em ${expDate}. Por favor, compareça à UBS para realizar a nova aplicação dentro do prazo indicado.`;
+                message = `Olá, ${patientName}! Lembramos que a data da próxima aplicação do seu anticoncepcional injetável está se aproximando, vence em ${expDate}. Por favor, agende sua aplicação dentro do prazo indicado.`;
             }
         } else {
             if (daysLeft <= 0) {
-                message = `Olá! O ciclo da sua pílula contraceptiva (${contraceptiveName}) acabou. Lembre-se de fazer a pausa (se houver) e buscar a nova cartela na UBS!`;
+                message = `Olá! O ciclo da sua pílula contraceptiva acabou. Lembre-se de fazer a pausa (se houver) e buscar a nova cartela na UBS Santa Clara!`;
             } else {
-                message = `Olá, ${patientName}! Lembramos que a sua cartela de anticoncepcional (${contraceptiveName}) está chegando ao fim. Lembre-se de comparecer à UBS do seu bairro para retirar sua próxima cartela.`;
+                message = `Olá, ${patientName}! Lembramos que a sua cartela de anticoncepcional está chegando ao fim. Lembre-se de comparecer à UBS Santa Clara para retirar sua próxima cartela.`;
             }
         }
 
@@ -316,7 +316,7 @@
         } catch (error) {
             console.error("Erro ao enviar:", error.message);
             if (window.showToast) {
-                window.showToast("Falha no disparo automático. Abrindo WhatsApp Web...", "warning");
+                window.showToast("Falha no envio.", "warning");
             }
 
             const cleanPhone = phone.replace(/\D/g, '');
@@ -374,10 +374,10 @@
         document.getElementById('wh-detail-patient-name').textContent = patient.name || '-';
         document.getElementById('wh-detail-patient-cpf').textContent = patient.cpf ? window.formatCPF(patient.cpf) : '-';
         document.getElementById('wh-detail-patient-cns').textContent = patient.cns ? window.applyCnsMask(patient.cns) : '-';
-        
+
         const primaryPhone = patient.phones && patient.phones[0] ? patient.phones[0] : '';
         document.getElementById('wh-detail-patient-phone').textContent = primaryPhone ? window.formatPhoneString(primaryPhone) : '-';
-        
+
         document.getElementById('wh-detail-method').textContent = info.medicationName || 'Método não especificado';
         document.getElementById('wh-detail-applied-date').textContent = appliedDateFormatted;
         document.getElementById('wh-detail-expiration-date').textContent = expirationDateFormatted;

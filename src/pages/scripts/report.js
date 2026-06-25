@@ -7,6 +7,7 @@
     let weekdayChartInstance = null;
 
     let currentThirdPartyData = [];
+    let allInventoryAlerts = [];
     window.switchReportTab = function (tabId) {
         const tabs = ['dashboard', 'custom', 'analytics'];
         tabs.forEach(t => {
@@ -34,9 +35,32 @@
     };
 
     // ================= ABA 1: DASHBOARD GERENCIAL =================
+
+    // Gera as opções de período (últimos 12 meses) no select do dashboard
+    function populatePeriodSelect() {
+        const select = document.getElementById('dashboard-period');
+        if (!select || select.options.length > 1) return; // já populado
+
+        const now = new Date();
+        for (let i = 0; i < 12; i++) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            const label = d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+            const opt = document.createElement('option');
+            opt.value = value;
+            opt.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+            select.appendChild(opt);
+        }
+    }
+
     async function loadDashboardStats() {
+        populatePeriodSelect();
+        const period = document.getElementById('dashboard-period')?.value || '';
+        const url = period
+            ? `/reports/dashboard-stats?period=${period}`
+            : '/reports/dashboard-stats';
         try {
-            const { data: stats } = await window.apiClient.get('/reports/dashboard-stats');
+            const { data: stats } = await window.apiClient.get(url);
             renderProgramsPieChart(stats.programsDistribution || {});
             renderTopMedsBarChart(stats.topMedications || {});
         } catch (error) {
@@ -67,11 +91,11 @@
                 datasets: [{
                     data: data,
                     backgroundColor: [
-                        '#3b82f6', // Blue
                         '#10b981', // Green
-                        '#ef4444', // Red
+                        '#3b82f6', // Blue
                         '#f59e0b', // Amber
                         '#8b5cf6', // Violet
+                        '#ef4444', // Red
                         '#ec4899'  // Pink
                     ],
                     borderWidth: 2,
@@ -163,7 +187,7 @@
             a.click();
             a.remove();
         } catch (error) {
-            alert(error.message);
+            showToast(error.message || 'Falha ao gerar o PDF. Tente novamente.', 'error');
         } finally {
             hideGlobalLoader();
         }
@@ -176,26 +200,36 @@
         const selectedCols = Array.from(checkboxes).map(cb => cb.value);
 
         if (selectedCols.length === 0) {
-            alert("Selecione pelo menos uma coluna para exportar.");
+            showToast('Selecione pelo menos uma coluna para exportar.', 'warning');
             return null;
         }
 
+        const dateFrom = document.getElementById('export-date-from')?.value || '';
+        const dateTo = document.getElementById('export-date-to')?.value || '';
+        const payload = { columns: selectedCols, dateFrom, dateTo };
+
         try {
             showGlobalLoader();
-            const { data } = await window.apiClient.post('/reports/export/custom', selectedCols);
+            const { data } = await window.apiClient.post('/reports/export/custom', payload);
             return data;
         } catch (error) {
-            alert(error.message);
+            showToast(error.message || 'Erro ao buscar dados para exportação.', 'error');
             return null;
         } finally {
             hideGlobalLoader();
         }
     }
 
+    // Melhoria 6: Selecionar/desmarcar todos os checkboxes do construtor
+    window.toggleAllColumns = function (check) {
+        document.querySelectorAll('#dynamicReportForm input[name="columns"]')
+            .forEach(cb => cb.checked = check);
+    };
+
     window.exportDynamicCSV = async function () {
         const data = await getCheckedColumnsData();
         if (!data || data.length === 0) {
-            if (data) alert("Nenhum dado encontrado para exportação.");
+            if (data) showToast('Nenhum dado encontrado para exportação.', 'warning');
             return;
         }
 
@@ -205,7 +239,7 @@
     window.exportDynamicExcel = async function () {
         const data = await getCheckedColumnsData();
         if (!data || data.length === 0) {
-            if (data) alert("Nenhum dado encontrado para exportação.");
+            if (data) showToast('Nenhum dado encontrado para exportação.', 'warning');
             return;
         }
 
@@ -245,53 +279,74 @@
         }
     };
 
+    // Renderiza linhas da tabela de validade com base em um array de itens
+    function renderInventoryRows(alerts) {
+        const tbody = document.querySelector('#table-inventory-alerts tbody');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+        if (alerts.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="cell-center p-20">Nenhum item encontrado para o filtro selecionado.</td></tr>';
+            return;
+        }
+
+        alerts.forEach(item => {
+            const tr = document.createElement('tr');
+
+            let statusBadge = '';
+            if (item.status === 'VENCIDO') {
+                statusBadge = '<span class="status-badge badge-inactive">Vencido</span>';
+                tr.classList.add('report-row-expired');
+            } else if (item.status === 'CRITICO') {
+                statusBadge = '<span class="status-badge badge-warning-light">Crítico (<30d)</span>';
+                tr.classList.add('report-row-critical');
+            } else if (item.status === 'ALERTA') {
+                statusBadge = '<span class="status-badge badge-alert-light">Alerta (<90d)</span>';
+            } else if (item.status === 'ZERADO') {
+                statusBadge = '<span class="status-badge badge-zero-light">Zerado</span>';
+            } else {
+                statusBadge = '<span class="status-badge badge-active">Regular</span>';
+            }
+
+            const expDate = item.expirationDate ? new Date(item.expirationDate).toLocaleDateString('pt-BR') : '-';
+            const daysLeft = item.daysToExpiration !== 9999 ? item.daysToExpiration : '-';
+
+            tr.innerHTML = `
+                <td class="cell-bold">${item.activeIngredient}</td>
+                <td class="cell-center">${item.concentration}</td>
+                <td class="cell-center font-mono">${item.lotCode}</td>
+                <td class="cell-center cell-strong">${item.quantity}</td>
+                <td class="cell-center">${expDate}</td>
+                <td class="cell-center">${daysLeft}</td>
+                <td class="cell-center">${statusBadge}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Melhoria 5: Filtrar tabela de validade por status (client-side)
+    window.filterInventoryAlertsByStatus = function () {
+        const status = document.getElementById('filter-inventory-status')?.value || '';
+        const filtered = status
+            ? allInventoryAlerts.filter(item => item.status === status)
+            : allInventoryAlerts;
+        renderInventoryRows(filtered);
+    };
+
     // 1. Alerta de Validade de Lotes e Estoque Crítico
     async function loadInventoryAlerts() {
         const tbody = document.querySelector('#table-inventory-alerts tbody');
         if (!tbody) return;
         tbody.innerHTML = '<tr><td colspan="7" class="cell-center p-20"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</td></tr>';
 
+        // Resetar filtro de status ao recarregar
+        const statusFilter = document.getElementById('filter-inventory-status');
+        if (statusFilter) statusFilter.value = '';
+
         try {
             const { data: alerts } = await window.apiClient.get('/reports/inventory-alerts');
-
-            tbody.innerHTML = '';
-            if (alerts.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="cell-center p-20">Nenhum alerta de lote ou validade registrado.</td></tr>';
-                return;
-            }
-
-            alerts.forEach(item => {
-                const tr = document.createElement('tr');
-
-                let statusBadge = '';
-                if (item.status === 'VENCIDO') {
-                    statusBadge = '<span class="status-badge badge-inactive">Vencido</span>';
-                    tr.classList.add('report-row-expired');
-                } else if (item.status === 'CRITICO') {
-                    statusBadge = '<span class="status-badge badge-warning-light">Crítico (<30d)</span>';
-                    tr.classList.add('report-row-critical');
-                } else if (item.status === 'ALERTA') {
-                    statusBadge = '<span class="status-badge badge-alert-light">Alerta (<90d)</span>';
-                } else if (item.status === 'ZERADO') {
-                    statusBadge = '<span class="status-badge badge-zero-light">Zerado</span>';
-                } else {
-                    statusBadge = '<span class="status-badge badge-active">Regular</span>';
-                }
-
-                const expDate = item.expirationDate ? new Date(item.expirationDate).toLocaleDateString('pt-BR') : '-';
-                const daysLeft = item.daysToExpiration !== 9999 ? item.daysToExpiration : '-';
-
-                tr.innerHTML = `
-                    <td class="cell-bold">${item.activeIngredient}</td>
-                    <td class="cell-center">${item.concentration}</td>
-                    <td class="cell-center font-mono">${item.lotCode}</td>
-                    <td class="cell-center cell-strong">${item.quantity}</td>
-                    <td class="cell-center">${expDate}</td>
-                    <td class="cell-center">${daysLeft}</td>
-                    <td class="cell-center">${statusBadge}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+            allInventoryAlerts = alerts;
+            renderInventoryRows(allInventoryAlerts);
         } catch (error) {
             tbody.innerHTML = '<tr><td colspan="7" class="cell-center text-danger p-20">Falha ao carregar controle de validades.</td></tr>';
         }
@@ -476,11 +531,26 @@
         try {
             const { data } = await window.apiClient.get('/reports/productivity-stats');
 
-            // Computar tempo médio com base em um cálculo razoável ou mock, se necessário
             const totalDispensations = Object.values(data.PractitionerProductivity || {}).reduce((a, b) => a + b, 0);
-            const avgTime = totalDispensations > 0 ? "4.5 min" : "-- min";
+            const weekdayValues = Object.values(data.weekdayDistribution || {});
+            const busiestDay = weekdayValues.length > 0 ? Math.max(...weekdayValues) : 0;
+
+            const hourlyFlow = data.hourlyFlow || {};
+            const hourlyValues = Object.values(hourlyFlow);
+            const totalByHour = hourlyValues.reduce((a, b) => a + b, 0);
+            const activeHours = hourlyValues.filter(v => v > 0).length;
+
+            let avgTimeText = '-- min';
+            if (totalByHour > 0 && activeHours > 0) {
+                const avgMin = ((activeHours * 60) / totalByHour).toFixed(1);
+                avgTimeText = `~${avgMin} min`;
+            } else if (totalDispensations > 0) {
+                // Fallback para estimativa por dia se hourlyFlow vier vazio
+                avgTimeText = busiestDay > 0 ? `~${(480 / busiestDay).toFixed(1)} min` : 'N/D';
+            }
+
             const avgTimeEl = document.getElementById('avg-service-time');
-            if (avgTimeEl) avgTimeEl.innerText = avgTime;
+            if (avgTimeEl) avgTimeEl.innerText = avgTimeText;
 
             renderProductivityCharts(data.PractitionerProductivity || {}, data.weekdayDistribution || {});
         } catch (error) {
@@ -593,13 +663,13 @@
             }
 
             if (!exportData || exportData.length === 0) {
-                alert("Nenhum dado disponível para exportar.");
+                showToast('Nenhum dado disponível para exportar.', 'warning');
                 return;
             }
 
             window.ExporterUtils.toExcel(exportData, `relatorio_${reportType}.xlsx`, "Dados");
         } catch (error) {
-            alert(error.message);
+            showToast(error.message || 'Falha ao exportar o relatório.', 'error');
         } finally {
             hideGlobalLoader();
         }

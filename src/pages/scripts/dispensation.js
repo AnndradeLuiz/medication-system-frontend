@@ -834,7 +834,7 @@
             data.items.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                <td style="vertical-align: middle;">
+                <td>
                     <div class="summary-medication-container">
                         <div class="summary-medication-icon-wrapper">
                             <i class="fa-solid fa-pills"></i>
@@ -845,12 +845,12 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-center" style="font-family: var(--font-data); font-size: 13px; vertical-align: middle;">
+                <td class="text-center">
                     ${escapeHTML(item.lotCode || '-')}
                 </td>
-                <td class="text-center" style="vertical-align: middle;">
+                <td class="text-center">
                     <span class="summary-medication-qty-badge">
-                        ${item.quantity} unidades
+                        ${item.quantity} ${Number(item.quantity) === 1 ? 'unidade' : 'unidades'}
                     </span>
                 </td>
             `;

@@ -13,16 +13,15 @@
     <section class="form-content">
         <div id="tab-dispensation" class="tab-section active-section">
             <div class="card mb-25">
-                <h3 class="mb-20"><i class="fa-solid fa-hand-holding-medical"></i> Registrar Dispensação ao Paciente</h3>
+                <h3 class="mb-20"><i class="fa-solid fa-hand-holding-medical"></i> Registrar Dispensação ao Paciente
+                </h3>
                 <div class="form-row">
                     <div class="form-group flex-1 m-0 pos-relative">
-                        <label class="fs-xs fw-700 text-muted">Paciente (CPF ou Nome)</label>
-                        <input type="text" id="dispensePatientInput"
-                            placeholder="Ex: 000.000.000-00 ou Maria da Silva" autocomplete="off"
-                            class="mb-0">
+                        <label class="fs-xs fw-700 text-muted">Paciente</label>
+                        <input type="text" id="dispensePatientInput" placeholder="Ex: 000.000.000-00 ou Maria da Silva"
+                            autocomplete="off" class="mb-0">
                         <div id="selectedPatientCard" class="selected-entity-card">
-                            <div id="selectedPatientInfo"
-                                class="d-flex align-center justify-between w-full"></div>
+                            <div id="selectedPatientInfo" class="d-flex align-center justify-between w-full"></div>
                             <button type="button" onclick="clearPatientSelection()" class="btn-ghost-danger"
                                 title="Remover paciente">
                                 <i class="fa-solid fa-xmark"></i>
@@ -43,8 +42,8 @@
                 </div>
 
                 <div id="thirdPartySection" class="section-highlight d-none">
-                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i
-                            class="fa-solid fa-user-check mr-10"></i> Dados do Retirante Responsável
+                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i class="fa-solid fa-user-check mr-10"></i> Dados do
+                        Retirante Responsável
                     </h4>
                     <div class="form-row d-flex gap-15">
                         <div class="form-group flex-2 m-0">
@@ -64,8 +63,8 @@
 
                 <div id="prescriptionSection" class="section-highlight mt-20"
                     style="background-color: #f8fafc; border: 1px dashed #cbd5e1;">
-                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i
-                            class="fa-solid fa-user-doctor mr-10"></i> Dados da Prescrição Médica
+                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i class="fa-solid fa-user-doctor mr-10"></i> Dados da
+                        Prescrição Médica
                     </h4>
                     <div class="form-row d-flex gap-15 mb-15">
                         <div class="form-group flex-1 m-0">
@@ -138,8 +137,7 @@
                 <div class="d-flex align-center justify-between mb-15">
                     <h3 class="m-0"><i class="fa-solid fa-list-check"></i> Adicionar à Lista de Dispensação</h3>
                     <div id="autoFillProgramsContainer" style="display: none;">
-                        <button type="button" class="btn-success-outline btn-sm"
-                            onclick="autoFillPatientPrograms()">
+                        <button type="button" class="btn-success-outline btn-sm" onclick="autoFillPatientPrograms()">
                             <i class="fa-solid fa-magic"></i> Inserir Itens dos Programas (<span
                                 id="autoFillMedCount">0</span>)
                         </button>
@@ -147,10 +145,13 @@
                 </div>
 
                 <!-- Seção de Receitas Recorrentes -->
-                <div id="autoFillRecurrentContainer" class="form-row mb-15 p-15 radius-8" style="display: none; background-color: #fdf2f8; border: 1.5px dashed #ec4899; margin-bottom: 20px;">
+                <div id="autoFillRecurrentContainer" class="form-row mb-15 p-15 radius-8"
+                    style="display: none; background-color: #fdf2f8; border: 1.5px dashed #ec4899; margin-bottom: 20px;">
                     <div class="form-group w-full m-0">
-                        <label class="fs-xs fw-700" style="color: #be185d;"><i class="fa-solid fa-magic"></i> Paciente possui receitas recorrentes cadastradas. Deseja carregar?</label>
-                        <select id="selectRecurrentPrescription" class="form-select bg-white w-full mt-4" style="height: 42px;" onchange="autoFillRecurrentPrescription()">
+                        <label class="fs-xs fw-700" style="color: #be185d;"><i class="fa-solid fa-magic"></i> Paciente
+                            possui receitas recorrentes cadastradas. Deseja carregar?</label>
+                        <select id="selectRecurrentPrescription" class="form-select bg-white w-full mt-4"
+                            style="height: 42px;" onchange="autoFillRecurrentPrescription()">
                             <option value="">Selecione uma receita...</option>
                         </select>
                     </div>
@@ -158,8 +159,8 @@
                 <div class="form-row align-bottom mb-15">
                     <div class="form-group flex-3 pos-relative mb-0">
                         <label class="fs-xs fw-700 text-muted">Medicamento</label>
-                        <input type="text" id="dispenseMedInput"
-                            placeholder="Selecione um paciente primeiro..." autocomplete="off" disabled>
+                        <input type="text" id="dispenseMedInput" placeholder="Selecione um paciente primeiro..."
+                            autocomplete="off" disabled>
                         <input type="hidden" id="dispenseMedId">
                         <ul id="medSuggestions" class="suggestion-list"></ul>
                     </div>
@@ -180,8 +181,8 @@
                     </div>
                     <div class="form-group flex-1 mb-0">
                         <label class="fs-xs fw-700 text-muted">&nbsp;</label>
-                        <button type="button" class="btn-primary w-full" style="height: 48px;"
-                            id="btnAddItem" onclick="addItemDispensation()" disabled>
+                        <button type="button" class="btn-primary w-full" style="height: 48px;" id="btnAddItem"
+                            onclick="addItemDispensation()" disabled>
                             <i class="fa-solid fa-plus"></i> Adicionar
                         </button>
                     </div>
@@ -218,7 +219,8 @@
                 <h3><i class="fa-solid fa-search"></i> Pesquisar para Editar</h3>
                 <div class="form-row">
                     <div class="form-group flex-1 pos-relative">
-                        <label class="fs-xs fw-700 text-muted">Digite o Nome do Paciente, Funcionário ou Data (DD/MM/AAAA)</label>
+                        <label class="fs-xs fw-700 text-muted">Digite o Nome do Paciente, Funcionário ou Data
+                            (DD/MM/AAAA)</label>
                         <input type="text" id="searchEditDispensationInput"
                             placeholder="Ex: Maria da Silva, João Pedro, 15/05/2026..." autocomplete="off">
                         <ul id="editDispensationSuggestions" class="suggestion-list"></ul>
@@ -231,8 +233,7 @@
                     <h3 class="m-0"><i class="fa-solid fa-pen-to-square"></i> Editando Dispensação:
                         <span id="displayDispensationPatient" class="text-primary"></span>
                     </h3>
-                    <button type="button" onclick="closeEditDispensation()"
-                        class="btn-cancel">Cancelar</button>
+                    <button type="button" onclick="closeEditDispensation()" class="btn-cancel">Cancelar</button>
                 </div>
 
                 <input type="hidden" id="editDispensationId">
@@ -254,8 +255,8 @@
 
                 <div id="editPrescriptionSection" class="section-highlight mt-20 mb-20"
                     style="background-color: #f8fafc; border: 1px dashed #cbd5e1;">
-                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i
-                            class="fa-solid fa-user-doctor mr-10"></i> Dados da Prescrição Médica (Edição)
+                    <h4 class="mt-0 mb-15 text-main fs-sm fw-700"><i class="fa-solid fa-user-doctor mr-10"></i> Dados da
+                        Prescrição Médica (Edição)
                     </h4>
                     <div class="form-row d-flex gap-15 mb-15">
                         <div class="form-group flex-1 m-0">
@@ -287,15 +288,33 @@
                             <label class="fs-xs fw-700 text-muted">UF do Conselho</label>
                             <select id="editPrescriberCouncilUF" class="form-select">
                                 <option value="">UF</option>
-                                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
-                                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
-                                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
-                                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
-                                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
-                                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
-                                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
-                                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
-                                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
                             </select>
                         </div>
                         <div class="form-group flex-2 m-0">
@@ -310,8 +329,8 @@
                     <div class="form-row">
                         <div class="form-group flex-2 pos-relative">
                             <label class="fs-xs fw-700 text-muted">Buscar Medicamento</label>
-                            <input type="text" id="inputBuscaMedEdicao"
-                                placeholder="Digite o nome do medicamento..." autocomplete="off">
+                            <input type="text" id="inputBuscaMedEdicao" placeholder="Digite o nome do medicamento..."
+                                autocomplete="off">
                             <input type="hidden" id="inputOcultoMedIdEdicao">
                             <ul id="editDispAddMedSuggestions" class="suggestion-list"></ul>
                         </div>
@@ -350,8 +369,8 @@
                         </thead>
                         <tbody id="editDispensationItemsBody">
                             <tr>
-                                <td colspan="4" class="empty-msg text-center"
-                                    style="vertical-align: middle;">Nenhum medicamento adicionado à lista ainda.</td>
+                                <td colspan="4" class="empty-msg text-center" style="vertical-align: middle;">Nenhum
+                                    medicamento adicionado à lista ainda.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -376,26 +395,25 @@
 
     <!-- Modal de Resumo de Dispensação -->
     <div id="dispensationSummaryModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-content" style="max-width: 600px; padding: 24px; border-radius: 24px;">
             <div class="modal-header">
-                <h3 class="modal-title"><i class="fa-solid fa-clipboard-check"></i> Resumo da Dispensação</h3>
-                <button onclick="closeDispensationSummary()" class="btn-close" title="Fechar">
+                <h2>Resumo da Dispensação</h2>
+                <button class="summary-modal-close-btn" onclick="closeDispensationSummary()" title="Fechar">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
-            <div class="modal-body p-20" style="padding: 20px;">
-                <div class="info-box mb-15"
-                    style="background: #f8fafc; border-radius: 8px; padding: 15px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-                    <p style="margin: 0; color: var(--color-text-main); font-weight: 500;">A dispensação foi registrada com sucesso. Retire os seguintes itens do estoque (seguindo os respectivos lotes listados):</p>
+            <div class="modal-body p-0">
+                <div class="summary-info-box">
+                    <p style="margin: 0;">A dispensação foi registrada
+                        com sucesso. Retire os seguintes itens do estoque (seguindo os respectivos lotes listados):</p>
                 </div>
-                <div class="table-responsive"
-                    style="border: 1px solid var(--color-border); border-radius: var(--radius-md); max-height: 400px; overflow-y: auto;">
-                    <table class="table" style="width: 100%; table-layout: fixed; margin: 0;">
+                <div class="table-responsive" style="border-radius: var(--radius-md); max-height: 400px; overflow-y: auto;">
+                    <table class="summary-meds-table">
                         <thead>
                             <tr>
-                                <th style="width: 40%; text-align: center;">Medicamento</th>
-                                <th style="width: 30%; text-align: center;">Lote</th>
-                                <th style="width: 30%; text-align: center;">Quantidade a Retirar</th>
+                                <th style="width: 40%;">Medicamento</th>
+                                <th style="width: 30%;">Lote</th>
+                                <th style="width: 30%;">Quantidade</th>
                             </tr>
                         </thead>
                         <tbody id="dispensationSummaryBody">
@@ -403,12 +421,11 @@
                     </table>
                 </div>
             </div>
-            <div class="modal-footer"
-                style="text-align: right; padding: 16px 24px; border-top: 1px solid var(--color-border); background: var(--color-bg); display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
-                <button type="button" class="btn-secondary d-inline-flex align-center gap-8" onclick="printDispensationReceipt()" style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+            <div class="modal-footer">
+                <button type="button" class="summary-btn-print" onclick="printDispensationReceipt()">
                     <i class="fa-solid fa-print"></i> Imprimir Nota
                 </button>
-                <button type="button" class="btn-success d-inline-flex align-center gap-8" onclick="closeDispensationSummary()" style="padding: 10px 20px; margin: 0; font-size: 14px; display: inline-flex; align-items: center; justify-content: center;">
+                <button type="button" class="summary-btn-confirm" onclick="closeDispensationSummary()">
                     <i class="fa-solid fa-check-circle"></i> Concluir e Fechar
                 </button>
             </div>

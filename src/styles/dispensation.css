@@ -246,3 +246,157 @@
     display: inline-block;
 }
 
+/* =========================================
+   MODAL DE RESUMO DE DISPENSAÇÃO
+   ========================================= */
+
+#dispensationSummaryModal .modal-header {
+    background-color: var(--color-bg);
+    border-radius: 12px;
+    border-bottom: none;
+    margin-bottom: 20px;
+}
+
+#dispensationSummaryModal .modal-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin: 0;
+}
+
+.summary-modal-close-btn {
+    background: var(--color-bg);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1;
+    padding: 0;
+}
+
+.summary-modal-close-btn:hover {
+    background-color: #fee2e2;
+    color: var(--color-danger);
+    transform: rotate(90deg);
+}
+
+.summary-info-box {
+    background: var(--color-bg);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-main);
+}
+
+.summary-meds-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+.summary-meds-table th,
+.summary-meds-table td {
+    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    padding: 12px 16px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.summary-meds-table th:last-child,
+.summary-meds-table td:last-child {
+    border-right: none;
+}
+
+.summary-meds-table tr:last-child td {
+    border-bottom: none;
+}
+
+.summary-meds-table th {
+    background-color: var(--color-bg);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-meds-table td {
+    background-color: #ffffff;
+    font-size: 14px;
+    color: var(--color-text-main);
+}
+
+#dispensationSummaryModal .modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    background-color: var(--color-bg);
+    border-radius: 12px;
+    border-top: none;
+    padding: 20px 24px;
+    margin-top: 20px;
+}
+
+.summary-btn-print {
+    height: 40px;
+    min-width: 140px;
+    padding: 0 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #ffffff;
+    color: var(--color-text-main);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.summary-btn-print:hover {
+    background-color: var(--color-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.summary-btn-confirm {
+    height: 40px;
+    min-width: 160px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--color-success);
+    color: white;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.summary-btn-confirm:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(16, 185, 129, 0.35);
+}
